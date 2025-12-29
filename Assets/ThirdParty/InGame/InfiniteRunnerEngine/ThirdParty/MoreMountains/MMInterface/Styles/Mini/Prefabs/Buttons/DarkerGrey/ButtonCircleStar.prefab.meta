@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f13986c77d6bfd54e9c5248975f45fdc
+timeCreated: 1512704129
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/DarkerGrey/ButtonCircleStar.prefab
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bf6e65de4f70a4dcf99ceb68e999d287
+timeCreated: 1480162379
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Foundation/MMAchievements/Prefabs/AchievementDisplay.prefab
+  uploadId: 713751

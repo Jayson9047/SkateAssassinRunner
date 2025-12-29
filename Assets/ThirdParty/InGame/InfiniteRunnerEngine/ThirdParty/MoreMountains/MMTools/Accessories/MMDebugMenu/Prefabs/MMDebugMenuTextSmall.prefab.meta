@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6689802a48b01104ebd8e101f5cce555
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Accessories/MMDebugMenu/Prefabs/MMDebugMenuTextSmall.prefab
+  uploadId: 713751

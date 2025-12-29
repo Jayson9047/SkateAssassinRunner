@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 984c01536cac80248b44e00b9e392637
+timeCreated: 1460043447
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlightOfTheAlbatross/Models/Rocks/Rock4.mtl
+  uploadId: 713751

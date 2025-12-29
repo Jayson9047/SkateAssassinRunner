@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 2cd1479f3b3c79143b7399af5f64a15e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263985
+  packageName: Stylized Modular Characters Vol 1
+  packageVersion: 1.0
+  assetPath: Assets/Stylized Modular Characters Vol 1/Scripts/Character/CharacterCustomizationManager.cs
+  uploadId: 767805

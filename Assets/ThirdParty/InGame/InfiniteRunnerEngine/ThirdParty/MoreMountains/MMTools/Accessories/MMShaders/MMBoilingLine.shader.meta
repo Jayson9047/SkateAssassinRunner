@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f54b8ae4d72e16445b407e4ad5ad4264
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Accessories/MMShaders/MMBoilingLine.shader
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8b1d1328ec81f07408bd9ef50552cd0e
+timeCreated: 1440851106
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Prefabs/GUI/UICamera.prefab
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 55ce5ab9d5a329d4481ab3582e79ce81
+timeCreated: 1442166252
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/LaneRunner/Models/Materials/rock.mat
+  uploadId: 713751

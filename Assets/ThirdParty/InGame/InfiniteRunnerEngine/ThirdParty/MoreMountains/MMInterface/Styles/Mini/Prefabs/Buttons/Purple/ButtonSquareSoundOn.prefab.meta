@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f8937f3a0c24bb544a60ec9c0e3ce4df
+timeCreated: 1512704359
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/Purple/ButtonSquareSoundOn.prefab
+  uploadId: 713751

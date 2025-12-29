@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 10a07c80400c0ab45a2f60fcda5d5013
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/MMFeedbacksForThirdParty/UIToolkit/Feedbacks/MMF_UIToolkitOpacity.cs
+  uploadId: 713751

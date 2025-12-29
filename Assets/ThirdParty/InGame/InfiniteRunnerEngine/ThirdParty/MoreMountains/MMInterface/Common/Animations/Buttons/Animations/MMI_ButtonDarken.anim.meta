@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 934cc00f7026a084c85d92a2c7d1bc62
+timeCreated: 1506282167
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Common/Animations/Buttons/Animations/MMI_ButtonDarken.anim
+  uploadId: 713751

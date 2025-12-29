@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 09eab44a7dbc381478c7a89740008ea9
+timeCreated: 1512703880
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/LightGrey/ButtonSquareCross.prefab
+  uploadId: 713751

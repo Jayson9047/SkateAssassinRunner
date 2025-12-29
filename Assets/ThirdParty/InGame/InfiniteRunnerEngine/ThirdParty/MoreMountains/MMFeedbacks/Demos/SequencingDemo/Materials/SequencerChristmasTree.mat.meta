@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 42f6c546a723b3d4ab88b45506f17330
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/Demos/SequencingDemo/Materials/SequencerChristmasTree.mat
+  uploadId: 713751

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4a8a0c934ca68d7418c2a935f4d8f7c7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/MMFeedbacksForThirdParty/HDRP/Feedbacks/MMF_ChannelMixer_HDRP.cs
+  uploadId: 713751

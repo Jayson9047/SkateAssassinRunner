@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 38e47cf97eedbae49881988d957d99d3
+timeCreated: 1446995005
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/BackwardsDragon/Prefabs/DragonShadow.prefab
+  uploadId: 713751

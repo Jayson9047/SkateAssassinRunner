@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 76a71cc4385c7444f81abc3c660fcbd3
+timeCreated: 1505817338
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Common/Animations/Buttons/Animations/MMI_ButtonRubber.anim
+  uploadId: 713751

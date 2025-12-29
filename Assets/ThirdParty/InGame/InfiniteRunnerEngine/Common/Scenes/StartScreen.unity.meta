@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f85a334c9b92294469686a6e357e41c3
+timeCreated: 1449338909
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Scenes/StartScreen.unity
+  uploadId: 713751

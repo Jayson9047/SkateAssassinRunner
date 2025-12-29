@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9fd44d46fd24e394cafddfd5d970c7b7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 329655
+  packageName: Roller Bladers Animations
+  packageVersion: 1.0
+  assetPath: Assets/Wolff's Studio/RollerBladers/Demo/AnimatorController/Tricks/FishTail/Right/FishTailRight.controller
+  uploadId: 782569

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6ba165fd91edb434aa2f1cd6f6b05885
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/MMFeedbacks/Core/MMChannels/ChannelA.asset
+  uploadId: 713751

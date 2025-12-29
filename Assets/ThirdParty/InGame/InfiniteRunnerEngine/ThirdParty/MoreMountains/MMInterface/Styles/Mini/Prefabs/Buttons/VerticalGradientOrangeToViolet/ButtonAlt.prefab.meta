@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: ee323d6d37cd7be4a80da2e4cf8faf1c
+timeCreated: 1512703633
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/VerticalGradientOrangeToViolet/ButtonAlt.prefab
+  uploadId: 713751

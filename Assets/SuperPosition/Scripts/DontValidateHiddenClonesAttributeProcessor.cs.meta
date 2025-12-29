@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: f23c641b0a1006c4b94aba5e36b33837
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202164
+  packageName: SuperPosition - NonDestructive Object Editing
+  packageVersion: 1.6.0
+  assetPath: Assets/SuperPosition/Scripts/DontValidateHiddenClonesAttributeProcessor.cs
+  uploadId: 675882

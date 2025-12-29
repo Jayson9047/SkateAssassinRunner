@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 12d5bebb013353e4383880f83e754e09
+timeCreated: 1489333078
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Vertical/Prefabs/VerticalWallRed.prefab
+  uploadId: 713751

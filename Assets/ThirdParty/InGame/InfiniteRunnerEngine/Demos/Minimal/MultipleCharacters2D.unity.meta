@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 761f54a394e1e4e4da8a7454490ab64c
+timeCreated: 1442229189
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Minimal/MultipleCharacters2D.unity
+  uploadId: 713751

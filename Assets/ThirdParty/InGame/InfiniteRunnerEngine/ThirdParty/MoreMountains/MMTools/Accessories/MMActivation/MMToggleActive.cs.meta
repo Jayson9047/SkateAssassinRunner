@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3aad8b45814dc6f4cab32abed0a152b8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Accessories/MMActivation/MMToggleActive.cs
+  uploadId: 713751

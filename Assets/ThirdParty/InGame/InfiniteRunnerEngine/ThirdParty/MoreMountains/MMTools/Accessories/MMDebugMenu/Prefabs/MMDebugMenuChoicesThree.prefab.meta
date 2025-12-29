@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 804c003da46ec914e80badaf93e6d2da
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Accessories/MMDebugMenu/Prefabs/MMDebugMenuChoicesThree.prefab
+  uploadId: 713751

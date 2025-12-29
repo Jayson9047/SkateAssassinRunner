@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 99c68032bf892df4d80194d5b7c916f0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202164
+  packageName: SuperPosition - NonDestructive Object Editing
+  packageVersion: 1.6.0
+  assetPath: Assets/SuperPosition/Textures/Blue.mat
+  uploadId: 675882

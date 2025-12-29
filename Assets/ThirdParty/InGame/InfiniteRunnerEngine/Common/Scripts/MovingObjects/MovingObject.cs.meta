@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: f4a6617bb2a239047a2242ac9b1cc531
+timeCreated: 1456440164
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Scripts/MovingObjects/MovingObject.cs
+  uploadId: 713751

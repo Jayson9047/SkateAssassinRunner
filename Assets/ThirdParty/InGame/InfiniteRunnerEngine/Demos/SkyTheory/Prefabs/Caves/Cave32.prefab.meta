@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e6c3df4b497d71c4a9e463f4813592eb
+timeCreated: 1457907191
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/SkyTheory/Prefabs/Caves/Cave32.prefab
+  uploadId: 713751

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: e88b12c587d4dad4b9470c2b1168dcb9
+timeCreated: 1512703401
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/VerticalGradientBlueToCyan/ButtonSquareGear.prefab
+  uploadId: 713751

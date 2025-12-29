@@ -1,0 +1,505 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UpperBodyMask
+  m_Mask: 00000000000000000000000000000000000000000000000001000000000000000100000000000000000000000000000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 0
+  - m_Path: Armature/Hips
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Neck
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Neck/Head
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Neck/Head/HeadTop_End
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandIndex1.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandIndex1.L/HandIndex2.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandIndex1.L/HandIndex2.L/HandIndex3.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandIndex1.L/HandIndex2.L/HandIndex3.L/HandIndex4.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandMiddle1.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandMiddle1.L/HandMiddle2.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandMiddle1.L/HandMiddle2.L/HandMiddle3.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandMiddle1.L/HandMiddle2.L/HandMiddle3.L/HandMiddle4.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandPinky1.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandPinky1.L/HandPinky2.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandPinky1.L/HandPinky2.L/HandPinky3.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandPinky1.L/HandPinky2.L/HandPinky3.L/HandPinky4.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandRing1.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandRing1.L/HandRing2.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandRing1.L/HandRing2.L/HandRing3.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandRing1.L/HandRing2.L/HandRing3.L/HandRing4.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandThumb1.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandThumb1.L/HandThumb2.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandThumb1.L/HandThumb2.L/HandThumb3.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.L/Arm.L/ForeArm.L/Hand.L/HandThumb1.L/HandThumb2.L/HandThumb3.L/HandThumb4.L
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandIndex1.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandIndex1.R/HandIndex2.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandIndex1.R/HandIndex2.R/HandIndex3.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandIndex1.R/HandIndex2.R/HandIndex3.R/HandIndex4.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandMiddle1.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandMiddle1.R/HandMiddle2.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandMiddle1.R/HandMiddle2.R/HandMiddle3.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandMiddle1.R/HandMiddle2.R/HandMiddle3.R/HandMiddle4.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandPinky1.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandPinky1.R/HandPinky2.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandPinky1.R/HandPinky2.R/HandPinky3.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandPinky1.R/HandPinky2.R/HandPinky3.R/HandPinky4.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandRing1.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandRing1.R/HandRing2.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandRing1.R/HandRing2.R/HandRing3.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandRing1.R/HandRing2.R/HandRing3.R/HandRing4.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandThumb1.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandThumb1.R/HandThumb2.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandThumb1.R/HandThumb2.R/HandThumb3.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/Spine/Spine1/Spine2/Shoulder.R/Arm.R/ForeArm.R/Hand.R/HandThumb1.R/HandThumb2.R/HandThumb3.R/HandThumb4.R
+    m_Weight: 1
+  - m_Path: Armature/Hips/UpLeg.L
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.L/Leg.L
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.L/Leg.L/Foot.L
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.L/Leg.L/Foot.L/ToeBase.L
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.L/Leg.L/Foot.L/ToeBase.L/Toe_End.L
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.R
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.R/Leg.R
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.R/Leg.R/Foot.R
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.R/Leg.R/Foot.R/ToeBase.R
+    m_Weight: 0
+  - m_Path: Armature/Hips/UpLeg.R/Leg.R/Foot.R/ToeBase.R/Toe_End.R
+    m_Weight: 0
+  - m_Path: Nef_MALE_01_Beard_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_3_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_3_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_3_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_4_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_4_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_4_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_5_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_5_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_5_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_6_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_6_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_6_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_7_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_7_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_7_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_8_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_8_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_8_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_9_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_9_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Beard_9_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Body
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_3_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_3_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_3_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_4_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_4_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_4_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_5_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_5_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_5_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_6_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_6_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_6_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_7_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_7_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_7_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_8_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_8_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_8_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_9_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_9_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_9_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_10_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_10_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_10_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_11_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_11_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyebrows_11_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyelashes
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Eyes
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Feet
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Glasses_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Glasses_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Glasses_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Glasses_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Glasses_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Glasses_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_1_1_Left
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_1_1_Right
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_1_2_Left
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_1_2_Right
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_1_3_Left
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_1_3_Right
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_2_1_Left
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_2_1_Right
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_2_2_Left
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_2_2_Right
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_2_3_Left
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Gloves_2_3_Right
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_3_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_3_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_3_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_4_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_4_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hair_4_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hand_Left
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hand_Right
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_3_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_3_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_3_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_4_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_4_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_4_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_5_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_5_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_5_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_6_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_6_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_6_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_7_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_7_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Hat_7_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Head
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Headphones_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Headphones_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Headphones_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Legs
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Mask_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Mask_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Mask_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Mask_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Mask_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Mask_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Mouth_Bott
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Mouth_Upper
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_3_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_3_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_3_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_4_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_4_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_4_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_5_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_5_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Pants_5_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_3_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_3_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_3_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_4_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_4_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_4_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_5_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_5_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_5_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_6_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_6_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Shoes_6_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_1_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_1_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_1_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_2_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_2_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_2_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_3_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_3_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_3_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_4_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_4_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_4_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_5_1
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_5_2
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Torso_5_3
+    m_Weight: 1
+  - m_Path: Nef_MALE_01_Toungue
+    m_Weight: 1

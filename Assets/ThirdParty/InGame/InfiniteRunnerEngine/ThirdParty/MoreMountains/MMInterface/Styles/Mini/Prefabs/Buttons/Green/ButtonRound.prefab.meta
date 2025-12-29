@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: c39a89984ab0ac7428d6bead6b9c69fa
+timeCreated: 1512704275
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/Green/ButtonRound.prefab
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ca5d8e392a93279449eb88476092a631
+timeCreated: 1447370845
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/BackwardsDragon/Prefabs/Decoration/Rock9.prefab
+  uploadId: 713751

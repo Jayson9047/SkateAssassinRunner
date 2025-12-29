@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 16c0c550ce1cf42458dcb1fb760e038f
+timeCreated: 1442154096
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Minimal/Minimal2D OneWayPlatforms.unity
+  uploadId: 713751

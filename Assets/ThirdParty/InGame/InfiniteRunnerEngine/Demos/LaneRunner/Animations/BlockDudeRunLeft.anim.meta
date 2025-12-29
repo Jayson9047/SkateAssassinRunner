@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6f3c205eb2f14f94287d8213f1180857
+timeCreated: 1442146758
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/LaneRunner/Animations/BlockDudeRunLeft.anim
+  uploadId: 713751

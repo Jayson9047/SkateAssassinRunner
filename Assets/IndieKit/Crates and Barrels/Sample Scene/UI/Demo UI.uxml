@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1;" />
+    <ui:Label text="Click to Destroy" style="color: rgb(255, 255, 255); -unity-text-align: upper-center; font-size: 64px; -unity-font-style: bold;" />
+</ui:UXML>

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f8da5ff5a1c2d43d5b2f215cc341e5bc
+timeCreated: 1456861278
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/SkyTheory/SkyTheory.unity
+  uploadId: 713751

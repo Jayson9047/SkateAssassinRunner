@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ef050f77c442e7140911b5b1d0173525
+timeCreated: 1440602268
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Minimal/Prefabs/Minimal3D/3DPlayer.prefab
+  uploadId: 713751

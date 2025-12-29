@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a4d3317f30a7bc948bbe663ce05f0bbb
+timeCreated: 1490616961
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Vertical/Sprites/VerticalCharacterWallSliding.anim
+  uploadId: 713751

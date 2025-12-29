@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8b330a0240c58c24dbbfa380005e953d
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 235861
+  packageName: Colorize Pro (Texture Color Palette Modifier)
+  packageVersion: 4.3.0
+  assetPath: Assets/Smitesoft/Colorize Palette Modifier/Demo/BuiltInRP_Demo/BuiltInRP_DemoResources/DemoWeaponPrefab/ProDemoSwordModel_BiRP.prefab
+  uploadId: 710859

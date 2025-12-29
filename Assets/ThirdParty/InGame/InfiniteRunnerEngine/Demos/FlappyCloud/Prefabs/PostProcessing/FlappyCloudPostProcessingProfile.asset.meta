@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 17c1011a85390c54396e1ae5f676117c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlappyCloud/Prefabs/PostProcessing/FlappyCloudPostProcessingProfile.asset
+  uploadId: 713751

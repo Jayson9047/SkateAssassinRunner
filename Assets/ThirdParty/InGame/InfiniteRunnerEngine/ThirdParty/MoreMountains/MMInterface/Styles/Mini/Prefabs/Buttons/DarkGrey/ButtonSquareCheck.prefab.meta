@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: cec4374d725e641418169306a4b638fa
+timeCreated: 1512704082
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/DarkGrey/ButtonSquareCheck.prefab
+  uploadId: 713751

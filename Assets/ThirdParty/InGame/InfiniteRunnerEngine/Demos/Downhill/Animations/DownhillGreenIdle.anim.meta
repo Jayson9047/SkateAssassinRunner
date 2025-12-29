@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cd04e90e2802e5245a8517f822364330
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Downhill/Animations/DownhillGreenIdle.anim
+  uploadId: 713751

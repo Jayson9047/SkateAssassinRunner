@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0fc4ad99c0b7c524f914396c76b98348
+timeCreated: 1448715900
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlappyCloud/Sprites/CloudParticle.mat
+  uploadId: 713751

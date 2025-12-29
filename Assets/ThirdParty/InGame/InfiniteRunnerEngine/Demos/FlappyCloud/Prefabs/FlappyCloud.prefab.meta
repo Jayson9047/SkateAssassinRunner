@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bdb133644d8794ab4a54eb6415efdf4d
+timeCreated: 1446206453
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlappyCloud/Prefabs/FlappyCloud.prefab
+  uploadId: 713751

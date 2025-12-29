@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f92520bd73812ea449b263bd0140505c
+timeCreated: 1512703523
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/VerticalGradientBlueToPurple/ButtonCircleCross.prefab
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6bfc40afda9a4874a954ec17e4824c5d
+timeCreated: 1441448469
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/JellyForest/Sprites/Forest/Materials/background-forest-5.mat
+  uploadId: 713751

@@ -1,0 +1,984 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9adf44367f074e9f9f580ba3d6cd1119, type: 3}
+  m_Name: MeshExtractorSettings
+  m_EditorClassIdentifier: 
+  LogLevel: 1
+  DoNotCropTextureNames: []
+  ScrollWheelSensitivity: 1
+  ExtractedFilesLocation: ExtractedMeshes/
+  RelativeExtractedFilesLocation: 0
+  LogFilePaths: 0
+  DisableOnHierarchyChange: 1
+  TriggerSelectLinked: 115
+  MaxSelectLinkedDuration: 10
+  ShowSelectLinkedFailedPopup: 1
+  SelectionColorAlpha: 0.5
+  SelectionColor: {r: 0, g: 1, b: 0, a: 1}
+  HoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  DeselectColor: {r: 1, g: 0, b: 0, a: 1}
+  WarnAboutOldSelections: 1
+  ClearOldSelectionsAutomatically: 0
+  AskBeforeReplacingExistingSelectionSnapshot: 1
+  ShowSelectedObjectPositionWarning: 1
+  RedoKey: 121
+  UndoKey: 122
+  WindowPosition: {x: 462, y: 176}
+  SelectionSnapshots:
+  - Name: Quicksave
+    Timestamp: 1766961079
+    ObjectSnapshots:
+    - ObjectName: Barrier
+      VertexCount: 373
+      Triangles:
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 369, y: 372, z: 370}
+        VertexLocal0: {x: 2.793807, y: 0.9598602, z: 0.37995988}
+        VertexLocal1: {x: 2.5203166, y: 1.2333505, z: 0.37995988}
+        VertexLocal2: {x: 2.5203166, y: 0.9598602, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 372, y: 371, z: 370}
+        VertexLocal0: {x: 2.5203166, y: 1.2333505, z: 0.37995988}
+        VertexLocal1: {x: 2.2468264, y: 0.9598602, z: 0.37995988}
+        VertexLocal2: {x: 2.5203166, y: 0.9598602, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 371, y: 368, z: 370}
+        VertexLocal0: {x: 2.2468264, y: 0.9598602, z: 0.37995988}
+        VertexLocal1: {x: 2.5203166, y: 0.68636984, z: 0.37995988}
+        VertexLocal2: {x: 2.5203166, y: 0.9598602, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 368, y: 369, z: 370}
+        VertexLocal0: {x: 2.5203166, y: 0.68636984, z: 0.37995988}
+        VertexLocal1: {x: 2.793807, y: 0.9598602, z: 0.37995988}
+        VertexLocal2: {x: 2.5203166, y: 0.9598602, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 308, y: 310, z: 311}
+        VertexLocal0: {x: 2.5203166, y: 1.2333505, z: 0.16592164}
+        VertexLocal1: {x: 2.2468264, y: 0.9598602, z: 0.37995988}
+        VertexLocal2: {x: 2.5203166, y: 1.2333505, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 228, y: 230, z: 231}
+        VertexLocal0: {x: 2.1499062, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 2.291577, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 2.45775, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 308, y: 309, z: 310}
+        VertexLocal0: {x: 2.5203166, y: 1.2333505, z: 0.16592164}
+        VertexLocal1: {x: 2.2468264, y: 0.9598602, z: 0.16592164}
+        VertexLocal2: {x: 2.2468264, y: 0.9598602, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 304, y: 306, z: 307}
+        VertexLocal0: {x: 2.2468264, y: 0.9598602, z: 0.16592164}
+        VertexLocal1: {x: 2.5203166, y: 0.68636984, z: 0.37995988}
+        VertexLocal2: {x: 2.2468264, y: 0.9598602, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 304, y: 305, z: 306}
+        VertexLocal0: {x: 2.2468264, y: 0.9598602, z: 0.16592164}
+        VertexLocal1: {x: 2.5203166, y: 0.68636984, z: 0.16592164}
+        VertexLocal2: {x: 2.5203166, y: 0.68636984, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 300, y: 301, z: 302}
+        VertexLocal0: {x: 2.793807, y: 0.9598602, z: 0.16592164}
+        VertexLocal1: {x: 2.5203166, y: 1.2333505, z: 0.16592164}
+        VertexLocal2: {x: 2.5203166, y: 1.2333505, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 300, y: 302, z: 303}
+        VertexLocal0: {x: 2.793807, y: 0.9598602, z: 0.16592164}
+        VertexLocal1: {x: 2.5203166, y: 1.2333505, z: 0.37995988}
+        VertexLocal2: {x: 2.793807, y: 0.9598602, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 228, y: 229, z: 230}
+        VertexLocal0: {x: 2.1499062, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 1.9837326, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 2.291577, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 288, y: 289, z: 290}
+        VertexLocal0: {x: 1.842062, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 1.6758882, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.9837326, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 288, y: 290, z: 291}
+        VertexLocal0: {x: 1.842062, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 1.9837326, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 2.1499062, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 216, y: 217, z: 218}
+        VertexLocal0: {x: 1.842062, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 1.842062, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 2.1499062, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 216, y: 218, z: 219}
+        VertexLocal0: {x: 1.842062, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 2.1499062, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 2.1499062, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 232, y: 233, z: 234}
+        VertexLocal0: {x: 2.45775, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 2.45775, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 2.1499062, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 232, y: 234, z: 235}
+        VertexLocal0: {x: 2.45775, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 2.1499062, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 2.1499062, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 272, y: 274, z: 275}
+        VertexLocal0: {x: 1.5342178, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 1.6758882, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.842062, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 280, y: 281, z: 282}
+        VertexLocal0: {x: 1.5342178, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 1.5342178, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 1.842062, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 272, y: 273, z: 274}
+        VertexLocal0: {x: 1.5342178, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 1.3680443, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.6758882, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 280, y: 282, z: 283}
+        VertexLocal0: {x: 1.5342178, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 1.842062, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 1.842062, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 256, y: 258, z: 259}
+        VertexLocal0: {x: 1.2263734, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 1.3680443, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.5342178, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 264, y: 265, z: 266}
+        VertexLocal0: {x: 1.2263734, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 1.2263734, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 1.5342178, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 264, y: 266, z: 267}
+        VertexLocal0: {x: 1.2263734, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 1.5342178, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 1.5342178, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 256, y: 257, z: 258}
+        VertexLocal0: {x: 1.2263734, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 1.0602002, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.3680443, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 240, y: 241, z: 242}
+        VertexLocal0: {x: 0.91852945, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 0.75235593, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.0602002, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 240, y: 242, z: 243}
+        VertexLocal0: {x: 0.91852945, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 1.0602002, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.2263734, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 248, y: 250, z: 251}
+        VertexLocal0: {x: 0.91852945, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 1.2263734, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 1.2263734, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 248, y: 249, z: 250}
+        VertexLocal0: {x: 0.91852945, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 0.91852945, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 1.2263734, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 144, y: 145, z: 146}
+        VertexLocal0: {x: 0.61068517, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 0.61068517, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 0.91852945, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 160, y: 161, z: 162}
+        VertexLocal0: {x: 0.61068517, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 0.4445118, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 0.75235593, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 160, y: 162, z: 163}
+        VertexLocal0: {x: 0.61068517, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 0.75235593, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 0.91852945, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 200, y: 202, z: 203}
+        VertexLocal0: {x: 0.30284104, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 0.4445118, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 0.61068517, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 40, y: 41, z: 42}
+        VertexLocal0: {x: -2.7756004, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.9417741, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -2.63393, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 200, y: 201, z: 202}
+        VertexLocal0: {x: 0.30284104, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 0.13666753, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 0.4445118, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 184, y: 185, z: 186}
+        VertexLocal0: {x: -0.005003095, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -0.1711766, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 0.13666753, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 184, y: 186, z: 187}
+        VertexLocal0: {x: -0.005003095, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 0.13666753, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 0.30284104, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 168, y: 169, z: 170}
+        VertexLocal0: {x: -0.3128473, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -0.47902074, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -0.1711766, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 168, y: 170, z: 171}
+        VertexLocal0: {x: -0.3128473, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -0.1711766, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -0.005003095, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 96, y: 97, z: 98}
+        VertexLocal0: {x: -0.6206914, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -0.786865, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -0.47902074, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 96, y: 98, z: 99}
+        VertexLocal0: {x: -0.6206914, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -0.47902074, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -0.3128473, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 136, y: 138, z: 139}
+        VertexLocal0: {x: -0.92853564, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -0.786865, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -0.6206914, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 136, y: 137, z: 138}
+        VertexLocal0: {x: -0.92853564, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -1.0947092, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -0.786865, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 120, y: 121, z: 122}
+        VertexLocal0: {x: -1.2363797, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -1.4025532, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -1.0947092, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 120, y: 122, z: 123}
+        VertexLocal0: {x: -1.2363797, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -1.0947092, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -0.92853564, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 104, y: 105, z: 106}
+        VertexLocal0: {x: -1.544224, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -1.7103975, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -1.4025532, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 104, y: 106, z: 107}
+        VertexLocal0: {x: -1.544224, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -1.4025532, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -1.2363797, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 32, y: 33, z: 34}
+        VertexLocal0: {x: -1.8520683, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.0182416, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -1.7103975, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 32, y: 34, z: 35}
+        VertexLocal0: {x: -1.8520683, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -1.7103975, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -1.544224, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 72, y: 74, z: 75}
+        VertexLocal0: {x: -2.159912, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.0182416, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -1.8520683, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 72, y: 73, z: 74}
+        VertexLocal0: {x: -2.159912, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.3260858, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -2.0182416, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 56, y: 57, z: 58}
+        VertexLocal0: {x: -2.4677565, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.63393, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -2.3260858, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 56, y: 58, z: 59}
+        VertexLocal0: {x: -2.4677565, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.3260858, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -2.159912, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 40, y: 42, z: 43}
+        VertexLocal0: {x: -2.7756004, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.63393, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: -2.4677565, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 0, y: 1, z: 2}
+        VertexLocal0: {x: -2.9417741, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.7756004, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -2.941727, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 48, y: 49, z: 50}
+        VertexLocal0: {x: -2.7756004, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -2.7756004, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -2.4677565, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 208, y: 210, z: 211}
+        VertexLocal0: {x: -2.7756004, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.941727, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -2.941727, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 144, y: 146, z: 147}
+        VertexLocal0: {x: 0.61068517, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 0.91852945, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 0.91852945, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 152, y: 153, z: 154}
+        VertexLocal0: {x: 0.30284104, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 0.30284104, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 0.61068517, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 152, y: 154, z: 155}
+        VertexLocal0: {x: 0.30284104, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 0.61068517, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 0.61068517, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 192, y: 194, z: 195}
+        VertexLocal0: {x: -0.005003095, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 0.30284104, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 0.30284104, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 192, y: 193, z: 194}
+        VertexLocal0: {x: -0.005003095, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -0.005003095, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: 0.30284104, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 176, y: 178, z: 179}
+        VertexLocal0: {x: -0.3128473, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -0.005003095, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -0.005003095, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 176, y: 177, z: 178}
+        VertexLocal0: {x: -0.3128473, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -0.3128473, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -0.005003095, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 80, y: 81, z: 82}
+        VertexLocal0: {x: -0.6206914, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -0.6206914, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -0.3128473, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 80, y: 82, z: 83}
+        VertexLocal0: {x: -0.6206914, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -0.3128473, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -0.3128473, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 88, y: 90, z: 91}
+        VertexLocal0: {x: -0.92853564, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -0.6206914, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -0.6206914, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 88, y: 89, z: 90}
+        VertexLocal0: {x: -0.92853564, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -0.92853564, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -0.6206914, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 128, y: 129, z: 130}
+        VertexLocal0: {x: -1.2363797, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -1.2363797, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -0.92853564, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 128, y: 130, z: 131}
+        VertexLocal0: {x: -1.2363797, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -0.92853564, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -0.92853564, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 112, y: 114, z: 115}
+        VertexLocal0: {x: -1.544224, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -1.2363797, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -1.2363797, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 112, y: 113, z: 114}
+        VertexLocal0: {x: -1.544224, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -1.544224, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -1.2363797, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 16, y: 18, z: 19}
+        VertexLocal0: {x: -1.8520683, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -1.544224, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -1.544224, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 16, y: 17, z: 18}
+        VertexLocal0: {x: -1.8520683, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -1.8520683, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -1.544224, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 24, y: 26, z: 27}
+        VertexLocal0: {x: -2.159912, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -1.8520683, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -1.8520683, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 24, y: 25, z: 26}
+        VertexLocal0: {x: -2.159912, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -2.159912, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -1.8520683, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 64, y: 66, z: 67}
+        VertexLocal0: {x: -2.4677565, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -2.159912, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -2.159912, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 64, y: 65, z: 66}
+        VertexLocal0: {x: -2.4677565, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -2.4677565, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -2.159912, y: 1.0800008, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 48, y: 50, z: 51}
+        VertexLocal0: {x: -2.7756004, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -2.4677565, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -2.4677565, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 208, y: 209, z: 210}
+        VertexLocal0: {x: -2.7756004, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: -2.7756004, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -2.941727, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 224, y: 226, z: 227}
+        VertexLocal0: {x: 2.45775, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 1.9837326, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 2.1499062, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 224, y: 225, z: 226}
+        VertexLocal0: {x: 2.45775, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: 2.291577, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.9837326, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 284, y: 285, z: 286}
+        VertexLocal0: {x: 1.6758882, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 1.842062, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 2.1499062, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 284, y: 286, z: 287}
+        VertexLocal0: {x: 1.6758882, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 2.1499062, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 1.9837326, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 268, y: 269, z: 270}
+        VertexLocal0: {x: 1.3680443, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 1.5342178, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 1.842062, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 268, y: 270, z: 271}
+        VertexLocal0: {x: 1.3680443, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 1.842062, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 1.6758882, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 252, y: 254, z: 255}
+        VertexLocal0: {x: 1.0602002, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 1.5342178, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 1.3680443, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 252, y: 253, z: 254}
+        VertexLocal0: {x: 1.0602002, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 1.2263734, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 1.5342178, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 236, y: 237, z: 238}
+        VertexLocal0: {x: 0.75235593, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 0.91852945, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 1.2263734, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 236, y: 238, z: 239}
+        VertexLocal0: {x: 0.75235593, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 1.2263734, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 1.0602002, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 156, y: 157, z: 158}
+        VertexLocal0: {x: 0.4445118, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 0.61068517, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 0.91852945, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 156, y: 158, z: 159}
+        VertexLocal0: {x: 0.4445118, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 0.91852945, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 0.75235593, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 196, y: 198, z: 199}
+        VertexLocal0: {x: 0.13666753, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 0.61068517, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 0.4445118, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 196, y: 197, z: 198}
+        VertexLocal0: {x: 0.13666753, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 0.30284104, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 0.61068517, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 180, y: 181, z: 182}
+        VertexLocal0: {x: -0.1711766, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -0.005003095, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 0.30284104, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 180, y: 182, z: 183}
+        VertexLocal0: {x: -0.1711766, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 0.30284104, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: 0.13666753, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 164, y: 166, z: 167}
+        VertexLocal0: {x: -0.47902074, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -0.005003095, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -0.1711766, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 164, y: 165, z: 166}
+        VertexLocal0: {x: -0.47902074, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -0.3128473, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -0.005003095, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 92, y: 94, z: 95}
+        VertexLocal0: {x: -0.786865, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -0.3128473, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -0.47902074, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 92, y: 93, z: 94}
+        VertexLocal0: {x: -0.786865, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -0.6206914, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -0.3128473, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 132, y: 134, z: 135}
+        VertexLocal0: {x: -1.0947092, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -0.6206914, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -0.786865, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 116, y: 117, z: 118}
+        VertexLocal0: {x: -1.4025532, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -1.2363797, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -0.92853564, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 132, y: 133, z: 134}
+        VertexLocal0: {x: -1.0947092, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -0.92853564, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -0.6206914, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 116, y: 118, z: 119}
+        VertexLocal0: {x: -1.4025532, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -0.92853564, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -1.0947092, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 100, y: 102, z: 103}
+        VertexLocal0: {x: -1.7103975, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -1.2363797, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -1.4025532, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 100, y: 101, z: 102}
+        VertexLocal0: {x: -1.7103975, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -1.544224, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -1.2363797, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 28, y: 29, z: 30}
+        VertexLocal0: {x: -2.0182416, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -1.8520683, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -1.544224, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 28, y: 30, z: 31}
+        VertexLocal0: {x: -2.0182416, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -1.544224, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -1.7103975, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 68, y: 70, z: 71}
+        VertexLocal0: {x: -2.3260858, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -1.8520683, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -2.0182416, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 68, y: 69, z: 70}
+        VertexLocal0: {x: -2.3260858, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -2.159912, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -1.8520683, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 52, y: 54, z: 55}
+        VertexLocal0: {x: -2.63393, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -2.159912, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -2.3260858, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 52, y: 53, z: 54}
+        VertexLocal0: {x: -2.63393, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -2.4677565, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -2.159912, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 36, y: 37, z: 38}
+        VertexLocal0: {x: -2.9417741, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -2.7756004, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -2.4677565, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 36, y: 38, z: 39}
+        VertexLocal0: {x: -2.9417741, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: -2.4677565, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -2.63393, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 3, y: 4, z: 5}
+        VertexLocal0: {x: -2.7756004, y: 1.0800008, z: 0.24715082}
+        VertexLocal1: {x: -2.9417741, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -2.941727, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 204, y: 206, z: 207}
+        VertexLocal0: {x: -2.9417741, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.941727, y: 1.0800008, z: 0.24715082}
+        VertexLocal2: {x: -2.9417741, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 204, y: 205, z: 206}
+        VertexLocal0: {x: -2.9417741, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.941727, y: 1.0800008, z: 0.33306018}
+        VertexLocal2: {x: -2.941727, y: 1.0800008, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 220, y: 221, z: 222}
+        VertexLocal0: {x: 2.291577, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 2.291577, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.9837326, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 220, y: 222, z: 223}
+        VertexLocal0: {x: 2.291577, y: 0.83967286, z: 0.24715082}
+        VertexLocal1: {x: 1.9837326, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 1.9837326, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 212, y: 214, z: 215}
+        VertexLocal0: {x: 1.6758882, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 1.9837326, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.9837326, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 212, y: 213, z: 214}
+        VertexLocal0: {x: 1.6758882, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 1.6758882, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.9837326, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 276, y: 278, z: 279}
+        VertexLocal0: {x: 1.3680443, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 1.6758882, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.6758882, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 276, y: 277, z: 278}
+        VertexLocal0: {x: 1.3680443, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 1.3680443, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.6758882, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 260, y: 262, z: 263}
+        VertexLocal0: {x: 1.0602002, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 1.3680443, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.3680443, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 260, y: 261, z: 262}
+        VertexLocal0: {x: 1.0602002, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 1.0602002, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.3680443, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 244, y: 246, z: 247}
+        VertexLocal0: {x: 0.75235593, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 1.0602002, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.0602002, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 244, y: 245, z: 246}
+        VertexLocal0: {x: 0.75235593, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 0.75235593, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 1.0602002, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 140, y: 142, z: 143}
+        VertexLocal0: {x: 0.4445118, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 0.75235593, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 0.75235593, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 140, y: 141, z: 142}
+        VertexLocal0: {x: 0.4445118, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 0.4445118, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 0.75235593, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 148, y: 150, z: 151}
+        VertexLocal0: {x: 0.13666753, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 0.4445118, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 0.4445118, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 148, y: 149, z: 150}
+        VertexLocal0: {x: 0.13666753, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 0.13666753, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 0.4445118, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 188, y: 190, z: 191}
+        VertexLocal0: {x: -0.1711766, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 0.13666753, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 0.13666753, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 188, y: 189, z: 190}
+        VertexLocal0: {x: -0.1711766, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -0.1711766, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 0.13666753, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 172, y: 174, z: 175}
+        VertexLocal0: {x: -0.47902074, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -0.1711766, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -0.1711766, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 172, y: 173, z: 174}
+        VertexLocal0: {x: -0.47902074, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -0.47902074, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -0.1711766, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 76, y: 78, z: 79}
+        VertexLocal0: {x: -0.786865, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -0.47902074, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -0.47902074, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 76, y: 77, z: 78}
+        VertexLocal0: {x: -0.786865, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -0.786865, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -0.47902074, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 84, y: 86, z: 87}
+        VertexLocal0: {x: -1.0947092, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -0.786865, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -0.786865, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 84, y: 85, z: 86}
+        VertexLocal0: {x: -1.0947092, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -1.0947092, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -0.786865, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 124, y: 126, z: 127}
+        VertexLocal0: {x: -1.4025532, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -1.0947092, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -1.0947092, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 124, y: 125, z: 126}
+        VertexLocal0: {x: -1.4025532, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -1.4025532, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -1.0947092, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 108, y: 110, z: 111}
+        VertexLocal0: {x: -1.7103975, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -1.4025532, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -1.4025532, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 108, y: 109, z: 110}
+        VertexLocal0: {x: -1.7103975, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -1.7103975, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -1.4025532, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 12, y: 14, z: 15}
+        VertexLocal0: {x: -2.0182416, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -1.7103975, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -1.7103975, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 12, y: 13, z: 14}
+        VertexLocal0: {x: -2.0182416, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.0182416, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -1.7103975, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 20, y: 22, z: 23}
+        VertexLocal0: {x: -2.3260858, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.0182416, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -2.0182416, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 20, y: 21, z: 22}
+        VertexLocal0: {x: -2.3260858, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.3260858, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -2.0182416, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 60, y: 62, z: 63}
+        VertexLocal0: {x: -2.63393, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.3260858, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -2.3260858, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 60, y: 61, z: 62}
+        VertexLocal0: {x: -2.63393, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.63393, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -2.3260858, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 44, y: 46, z: 47}
+        VertexLocal0: {x: -2.9417741, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.63393, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -2.63393, y: 0.83967286, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 44, y: 45, z: 46}
+        VertexLocal0: {x: -2.9417741, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: -2.9417741, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: -2.63393, y: 0.83967286, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 292, y: 293, z: 294}
+        VertexLocal0: {x: 2.291577, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 2.291577, y: 0.83967286, z: 0.24715082}
+        VertexLocal2: {x: 2.4575326, y: 0.8396728, z: 0.24715082}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 292, y: 294, z: 295}
+        VertexLocal0: {x: 2.291577, y: 0.83967286, z: 0.33306018}
+        VertexLocal1: {x: 2.4575326, y: 0.8396728, z: 0.24715082}
+        VertexLocal2: {x: 2.4575326, y: 0.8396728, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 9, y: 10, z: 11}
+        VertexLocal0: {x: 2.45775, y: 1.0800008, z: 0.33306018}
+        VertexLocal1: {x: 2.291577, y: 0.83967286, z: 0.33306018}
+        VertexLocal2: {x: 2.4575326, y: 0.8396728, z: 0.33306018}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 296, y: 298, z: 299}
+        VertexLocal0: {x: 2.5203166, y: 0.68636984, z: 0.16592164}
+        VertexLocal1: {x: 2.793807, y: 0.9598602, z: 0.37995988}
+        VertexLocal2: {x: 2.5203166, y: 0.68636984, z: 0.37995988}
+      - ComponentType: 0
+        SubMeshIndex: 0
+        TriangleIndices: {x: 296, y: 297, z: 298}
+        VertexLocal0: {x: 2.5203166, y: 0.68636984, z: 0.16592164}
+        VertexLocal1: {x: 2.793807, y: 0.9598602, z: 0.16592164}
+        VertexLocal2: {x: 2.793807, y: 0.9598602, z: 0.37995988}

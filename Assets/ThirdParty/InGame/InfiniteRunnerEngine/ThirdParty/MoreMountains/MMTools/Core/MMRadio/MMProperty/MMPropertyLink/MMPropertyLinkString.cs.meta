@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ac8f4e19669836447b70ca22e908a10c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Core/MMRadio/MMProperty/MMPropertyLink/MMPropertyLinkString.cs
+  uploadId: 713751

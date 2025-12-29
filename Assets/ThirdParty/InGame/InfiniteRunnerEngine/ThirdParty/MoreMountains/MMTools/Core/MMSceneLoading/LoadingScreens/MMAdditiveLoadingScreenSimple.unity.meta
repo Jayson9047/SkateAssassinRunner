@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 945e5b97212e8e74ebcd35bddde3970c
+timeCreated: 1523970408
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Core/MMSceneLoading/LoadingScreens/MMAdditiveLoadingScreenSimple.unity
+  uploadId: 713751

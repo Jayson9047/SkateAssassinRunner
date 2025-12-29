@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9ab18e9c6a1a7804d9623b4e298e8253
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202164
+  packageName: SuperPosition - NonDestructive Object Editing
+  packageVersion: 1.6.0
+  assetPath: Assets/SuperPosition/Textures/Green.mat
+  uploadId: 675882

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 31b8f52d70379eb439f5a4ca78a1413b
+timeCreated: 1522594522
+licenseType: Store
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Accessories/MMShaders/MMZTestAlways.shader
+  uploadId: 713751

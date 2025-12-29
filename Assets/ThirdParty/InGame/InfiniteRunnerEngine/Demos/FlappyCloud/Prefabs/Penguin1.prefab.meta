@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 736d364c13b021547b2a1948c6685422
+timeCreated: 1448719423
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlappyCloud/Prefabs/Penguin1.prefab
+  uploadId: 713751

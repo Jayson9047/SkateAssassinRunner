@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 00d615655cb003b4bbe769a21145f3db
+timeCreated: 1512704402
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/Pink/ButtonSquareGear.prefab
+  uploadId: 713751

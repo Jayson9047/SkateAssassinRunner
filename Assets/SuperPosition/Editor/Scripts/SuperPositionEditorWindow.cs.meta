@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1e4181d8cee8ccb42bf4e5f9b132606f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202164
+  packageName: SuperPosition - NonDestructive Object Editing
+  packageVersion: 1.6.0
+  assetPath: Assets/SuperPosition/Editor/Scripts/SuperPositionEditorWindow.cs
+  uploadId: 675882

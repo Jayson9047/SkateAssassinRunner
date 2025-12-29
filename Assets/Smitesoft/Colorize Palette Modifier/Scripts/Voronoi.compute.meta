@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6df7ca8a04494744489d418749d36441
+ComputeShaderImporter:
+  externalObjects: {}
+  currentAPIMask: 4
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 235861
+  packageName: Colorize Pro (Texture Color Palette Modifier)
+  packageVersion: 4.3.0
+  assetPath: Assets/Smitesoft/Colorize Palette Modifier/Scripts/Voronoi.compute
+  uploadId: 710859

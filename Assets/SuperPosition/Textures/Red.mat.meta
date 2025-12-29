@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cb72682a2ac0d4249838ea3f81c4f591
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202164
+  packageName: SuperPosition - NonDestructive Object Editing
+  packageVersion: 1.6.0
+  assetPath: Assets/SuperPosition/Textures/Red.mat
+  uploadId: 675882

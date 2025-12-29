@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d368fc5ff09d44b52a92ffb07e1f99d3
+timeCreated: 1456491600
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Minimal/Prefabs/Minimal2D/Minimal2DSquare.prefab
+  uploadId: 713751

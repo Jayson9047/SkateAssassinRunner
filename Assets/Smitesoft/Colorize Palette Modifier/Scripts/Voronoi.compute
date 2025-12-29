@@ -1,0 +1,34 @@
+#pragma kernel Voronoi
+
+RWStructuredBuffer<int> Result;
+float2 Points[1024]; // this should be the >= to voronoiCoagulationStrength, currently set to 1000
+uint Width;
+uint Height;
+uint PointCount; 
+
+int IndexFromXY(int x, int y)
+{
+    return y * Width + x;
+}
+
+[numthreads(8,8,1)]
+void Voronoi (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= Width || id.y >= Height) return;
+
+    float2 pixelPos = float2(id.x, id.y);
+    float minDist = 1e6;
+    int closestPoint = 0;
+
+    for (uint i = 0; i < PointCount; i++)
+    { 
+        float dist = distance(pixelPos, Points[i]);
+        if (dist < minDist)
+        {
+            minDist = dist;
+            closestPoint = i;
+        }
+    }
+
+    Result[IndexFromXY(id.x, id.y)] = closestPoint;
+}

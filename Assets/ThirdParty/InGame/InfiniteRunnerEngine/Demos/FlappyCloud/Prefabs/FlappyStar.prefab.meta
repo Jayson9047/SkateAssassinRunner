@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 74367b6e6983814469e192b69e020094
+timeCreated: 1448749347
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlappyCloud/Prefabs/FlappyStar.prefab
+  uploadId: 713751

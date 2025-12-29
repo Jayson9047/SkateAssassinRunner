@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c4a8f7587070c0e41b072a25c07671ba
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202164
+  packageName: SuperPosition - NonDestructive Object Editing
+  packageVersion: 1.6.0
+  assetPath: Assets/SuperPosition/Demo/demo tutorials.unity
+  uploadId: 675882

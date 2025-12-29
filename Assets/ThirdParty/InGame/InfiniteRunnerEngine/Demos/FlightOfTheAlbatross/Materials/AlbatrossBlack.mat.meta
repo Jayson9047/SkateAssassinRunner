@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bc8bb7408c683b24094ced297a9fcda5
+timeCreated: 1468176591
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlightOfTheAlbatross/Materials/AlbatrossBlack.mat
+  uploadId: 713751

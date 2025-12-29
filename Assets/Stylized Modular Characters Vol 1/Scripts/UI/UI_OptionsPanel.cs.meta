@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c6ca6f1abc43fe246bc013e36483d10f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263985
+  packageName: Stylized Modular Characters Vol 1
+  packageVersion: 1.0
+  assetPath: Assets/Stylized Modular Characters Vol 1/Scripts/UI/UI_OptionsPanel.cs
+  uploadId: 767805

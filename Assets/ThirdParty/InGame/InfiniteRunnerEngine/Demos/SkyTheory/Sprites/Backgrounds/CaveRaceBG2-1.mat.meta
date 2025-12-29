@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 67898cd0e166cde4e8a8ecafbf6ca813
+timeCreated: 1457873924
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/SkyTheory/Sprites/Backgrounds/CaveRaceBG2-1.mat
+  uploadId: 713751

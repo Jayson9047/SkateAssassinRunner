@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 26c0ff2923f1e254e9199225d41235d8
+timeCreated: 1490611057
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Vertical/Sprites/VerticalCharacterJump.anim
+  uploadId: 713751

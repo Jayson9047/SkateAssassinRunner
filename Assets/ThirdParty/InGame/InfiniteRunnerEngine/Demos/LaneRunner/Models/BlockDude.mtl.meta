@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 153cb6055951f9f44888df14e36d7884
+timeCreated: 1442143999
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/LaneRunner/Models/BlockDude.mtl
+  uploadId: 713751

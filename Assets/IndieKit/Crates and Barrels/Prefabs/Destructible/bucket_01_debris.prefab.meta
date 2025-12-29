@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9eb853b64e54dcd498ab62e373c0a1a6
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 320364
+  packageName: Crates & Barrels - Stylized Destructible Props
+  packageVersion: 1.1.0
+  assetPath: Assets/IndieKit/Crates and Barrels/Prefabs/Destructible/bucket_01_debris.prefab
+  uploadId: 780958

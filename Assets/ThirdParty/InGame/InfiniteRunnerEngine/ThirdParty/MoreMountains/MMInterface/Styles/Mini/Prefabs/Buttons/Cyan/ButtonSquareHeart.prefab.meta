@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: ef1e6a94834068e408b09f2c3d75a15e
+timeCreated: 1512704231
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/Cyan/ButtonSquareHeart.prefab
+  uploadId: 713751

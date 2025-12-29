@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4396d43be51a49b49bb260d27a9869a4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 329655
+  packageName: Roller Bladers Animations
+  packageVersion: 1.0
+  assetPath: Assets/Wolff's Studio/RollerBladers/Demo/AnimatorController/Tricks/Dancer/Right/DancerRight.controller
+  uploadId: 782569

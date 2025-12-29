@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b88e0fc7e45705447a8ba6969dba4d99
+timeCreated: 1460800942
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlightOfTheAlbatross/Models/Rocks/Materials/YellowDark.mat
+  uploadId: 713751

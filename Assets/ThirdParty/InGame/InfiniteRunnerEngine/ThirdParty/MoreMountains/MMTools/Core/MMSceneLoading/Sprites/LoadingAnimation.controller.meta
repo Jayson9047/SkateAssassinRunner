@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b10fa324c4770c94487f925443368d5c
+timeCreated: 1457787477
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Core/MMSceneLoading/Sprites/LoadingAnimation.controller
+  uploadId: 713751

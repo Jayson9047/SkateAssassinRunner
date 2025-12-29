@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5a631804eadc2824482e94fd86fd7254
+timeCreated: 1457899253
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/SkyTheory/Prefabs/Caves/Cave6.prefab
+  uploadId: 713751

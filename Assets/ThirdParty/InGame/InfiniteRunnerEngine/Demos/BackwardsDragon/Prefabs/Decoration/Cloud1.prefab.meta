@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f41cbad7df58f2649bfa5d195071bfc1
+timeCreated: 1447370693
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/BackwardsDragon/Prefabs/Decoration/Cloud1.prefab
+  uploadId: 713751

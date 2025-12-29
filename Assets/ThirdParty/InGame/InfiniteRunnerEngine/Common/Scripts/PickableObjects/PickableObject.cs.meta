@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: ccb95a609a59b4040a7ffb6a32d5994d
+timeCreated: 1446216138
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Scripts/PickableObjects/PickableObject.cs
+  uploadId: 713751

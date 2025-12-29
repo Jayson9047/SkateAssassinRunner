@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d64fe140aed8ada4daee2929348a7e6b
+timeCreated: 1440766908
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/JellyForest/JellyForest.unity
+  uploadId: 713751

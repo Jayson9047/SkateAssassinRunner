@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 530b65db175c9b4499b962b3649de3d1
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Downhill/DownhillCharacterSelection.unity
+  uploadId: 713751

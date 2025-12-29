@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: ee20f3aee2e43814ba9d03037d9f1a85
+timeCreated: 1445079785
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Scripts/GUI/ButtonNavigation.cs
+  uploadId: 713751

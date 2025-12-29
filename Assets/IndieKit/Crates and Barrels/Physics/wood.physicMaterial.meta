@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3b6aa81479db5a54488b769d1ed2a277
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 320364
+  packageName: Crates & Barrels - Stylized Destructible Props
+  packageVersion: 1.1.0
+  assetPath: Assets/IndieKit/Crates and Barrels/Physics/wood.physicMaterial
+  uploadId: 780958

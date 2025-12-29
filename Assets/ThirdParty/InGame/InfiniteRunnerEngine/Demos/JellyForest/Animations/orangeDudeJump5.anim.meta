@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 50a489a0c524b114ea0613e3ed702750
+timeCreated: 1442139140
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/JellyForest/Animations/orangeDudeJump5.anim
+  uploadId: 713751

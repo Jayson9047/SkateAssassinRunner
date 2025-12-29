@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 626dd50992a171c449db18afc8d135f8
+timeCreated: 1442166509
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/LaneRunner/Models/Materials/spike.mat
+  uploadId: 713751

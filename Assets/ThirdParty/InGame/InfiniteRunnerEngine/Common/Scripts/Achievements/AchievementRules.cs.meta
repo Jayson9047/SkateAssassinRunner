@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 77e8e969038563a4c951c04551c7d7c0
+timeCreated: 1480194676
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Scripts/Achievements/AchievementRules.cs
+  uploadId: 713751

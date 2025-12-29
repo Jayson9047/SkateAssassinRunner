@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7c70618f699de44458a7f6997f4e0b8a
+timeCreated: 1442154096
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Minimal/Minimal2D.unity
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d69790f1cd782974e9b75ee563ee73c6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlightOfTheAlbatross/Prefabs/PostProcessing/FlightOfTheAlbatrossPostProcessingProfile.asset
+  uploadId: 713751

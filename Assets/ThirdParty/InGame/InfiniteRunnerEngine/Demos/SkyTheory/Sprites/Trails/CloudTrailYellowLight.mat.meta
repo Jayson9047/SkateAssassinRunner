@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d38cc2c3981b24408acd10a79ca7b76b
+timeCreated: 1457698948
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/SkyTheory/Sprites/Trails/CloudTrailYellowLight.mat
+  uploadId: 713751

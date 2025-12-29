@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d4be3c64786ff4a9a879d5ce4cef955d
+timeCreated: 1467905128
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/FlightOfTheAlbatross/Prefabs/Rocks/WaterRock1.prefab
+  uploadId: 713751

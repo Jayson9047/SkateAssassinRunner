@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 3b353d915cd92fb478a6a91953d4cf03
+timeCreated: 1442157120
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Scripts/Editor/CameraBehavioreditor.cs
+  uploadId: 713751

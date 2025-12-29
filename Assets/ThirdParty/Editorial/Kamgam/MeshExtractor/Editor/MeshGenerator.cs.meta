@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1bfa91b85b3e49d085be9c8e8f3e15d3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 281521
+  packageName: Mesh Extractor 2 - Separate meshes, materials and textures
+  packageVersion: 2.0.14
+  assetPath: Assets/Kamgam/MeshExtractor/Editor/MeshGenerator.cs
+  uploadId: 802670

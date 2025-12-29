@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c1f3d28a80b675c4faa3cdde117e77b0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Downhill/Prefabs/LinkedHill1.prefab
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2072c6b2c84f6c7479573f7086d070ef
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 320364
+  packageName: Crates & Barrels - Stylized Destructible Props
+  packageVersion: 1.1.0
+  assetPath: Assets/IndieKit/Crates and Barrels/Sample Scene/UI/Demo Panel.asset
+  uploadId: 780958

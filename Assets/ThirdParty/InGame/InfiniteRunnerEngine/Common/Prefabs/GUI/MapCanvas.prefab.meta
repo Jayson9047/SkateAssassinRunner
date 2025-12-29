@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e2b9184a9ccfd441498e2d8266353fd6
+timeCreated: 1449231060
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Prefabs/GUI/MapCanvas.prefab
+  uploadId: 713751

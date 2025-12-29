@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 589c5f022c2da8b49a3e3d1d526a4b3c
+timeCreated: 1447012568
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/BackwardsDragon/Animations/explosion-animator.controller
+  uploadId: 713751

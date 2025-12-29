@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1ef63144136e5584b9e6cff1ebb421d9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202164
+  packageName: SuperPosition - NonDestructive Object Editing
+  packageVersion: 1.6.0
+  assetPath: Assets/SuperPosition/Resources/SuperPosition.prefab
+  uploadId: 675882

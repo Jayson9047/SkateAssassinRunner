@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9e722b539a8189f49beac54304f7ff99
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 329655
+  packageName: Roller Bladers Animations
+  packageVersion: 1.0
+  assetPath: Assets/Wolff's Studio/RollerBladers/Demo/AnimatorController/Tricks/Duck/Right/DuckRight.controller
+  uploadId: 782569

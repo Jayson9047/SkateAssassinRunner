@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4b276b4f1f6de57489a0466ec772c2df
+timeCreated: 1440956138
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Minimal/Sprites/blue-bg/Materials/background.mat
+  uploadId: 713751

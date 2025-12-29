@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a74495672d9d4e54b946ed1244a2a222
+timeCreated: 1506413398
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Fonts/Lato/OFL.txt
+  uploadId: 713751

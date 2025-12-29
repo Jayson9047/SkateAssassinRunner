@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 6d465fb8915e5e34091f9d0924f13c70
+timeCreated: 1512704442
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/Orange/ButtonCircleDoubleChevron.prefab
+  uploadId: 713751

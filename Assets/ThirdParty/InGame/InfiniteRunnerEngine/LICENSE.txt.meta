@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 96803b7716eab434cb62791e864e7847
+timeCreated: 1497386147
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/LICENSE.txt
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1fb99286e41b50a48b39c7f6863a0cea
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/Downhill/Animations/DownhillGreen_0.controller
+  uploadId: 713751

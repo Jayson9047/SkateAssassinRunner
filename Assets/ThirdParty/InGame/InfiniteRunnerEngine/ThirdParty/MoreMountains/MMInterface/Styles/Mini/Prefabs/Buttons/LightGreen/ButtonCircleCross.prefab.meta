@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 0cf2c1dcb48d38a48be58db1a1275229
+timeCreated: 1512704324
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/LightGreen/ButtonCircleCross.prefab
+  uploadId: 713751

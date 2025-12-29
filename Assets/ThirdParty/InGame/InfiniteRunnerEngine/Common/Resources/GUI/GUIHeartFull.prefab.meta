@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e6b899af25e359d4ca581cbec0446d47
+timeCreated: 1442339236
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Common/Resources/GUI/GUIHeartFull.prefab
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 05fa953830786f34fa5fd7523273f72c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/Demos/MMFeedbacksDemo/Materials/FeedbacksDemoGroundDust.mat
+  uploadId: 713751

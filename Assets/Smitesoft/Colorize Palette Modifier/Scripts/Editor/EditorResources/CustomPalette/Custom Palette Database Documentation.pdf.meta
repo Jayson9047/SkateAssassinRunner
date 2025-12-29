@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ada5b3897255a444ea819cdef09f5bcb
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 235861
+  packageName: Colorize Pro (Texture Color Palette Modifier)
+  packageVersion: 4.3.0
+  assetPath: Assets/Smitesoft/Colorize Palette Modifier/Scripts/Editor/EditorResources/CustomPalette/Custom
+    Palette Database Documentation.pdf
+  uploadId: 710859

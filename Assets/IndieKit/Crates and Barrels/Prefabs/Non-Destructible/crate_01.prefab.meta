@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 474b836f8361a7843a7a9a3707baf5ba
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 320364
+  packageName: Crates & Barrels - Stylized Destructible Props
+  packageVersion: 1.1.0
+  assetPath: Assets/IndieKit/Crates and Barrels/Prefabs/Non-Destructible/crate_01.prefab
+  uploadId: 780958

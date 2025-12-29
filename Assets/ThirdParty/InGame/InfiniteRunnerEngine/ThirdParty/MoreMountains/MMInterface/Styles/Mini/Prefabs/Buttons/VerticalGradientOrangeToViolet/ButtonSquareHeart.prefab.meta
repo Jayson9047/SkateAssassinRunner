@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b8b96e4ccf1565e4b81bd414482ebd8a
+timeCreated: 1512701796
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Styles/Mini/Prefabs/Buttons/VerticalGradientOrangeToViolet/ButtonSquareHeart.prefab
+  uploadId: 713751

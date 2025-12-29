@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0ba8b0b32b8721048bd7e610207b4ee6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Demos/MMTween/Fonts/Lato/SDF/Lato-Italic
+    SDF.asset
+  uploadId: 713751

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c3e9950597025ff45a3329e86fbb3b7b
+timeCreated: 1505825388
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 22100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Common/Animations/Buttons/Animators/ButtonAnimatorOneTimePushDownSimple.overrideController
+  uploadId: 713751

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5e7c056fd3430ff40bc59045fc1255b8
+timeCreated: 1447370787
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/BackwardsDragon/Prefabs/Decoration/Tree17.prefab
+  uploadId: 713751

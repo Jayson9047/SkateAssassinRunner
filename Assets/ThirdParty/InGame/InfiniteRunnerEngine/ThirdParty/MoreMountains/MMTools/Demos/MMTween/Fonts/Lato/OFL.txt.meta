@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d6822e89519d32f4898fafd42f78e8fe
+timeCreated: 1506413398
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Demos/MMTween/Fonts/Lato/OFL.txt
+  uploadId: 713751

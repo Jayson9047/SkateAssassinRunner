@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2ad7bc051ddcfd648bfa91aaceb81c6f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 235861
+  packageName: Colorize Pro (Texture Color Palette Modifier)
+  packageVersion: 4.3.0
+  assetPath: Assets/Smitesoft/Colorize Palette Modifier/Demo/URP_Demo/URP_DemoResources/DemoWeaponPrefab/ProDemoSwordModel_URP.prefab
+  uploadId: 710859

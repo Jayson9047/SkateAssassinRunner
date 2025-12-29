@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: bbf5e7decc40e8d4e9a6ad8c5046c26d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMTools/Core/Editor/MMRadio/MMPropertyEmitterDrawer.cs
+  uploadId: 713751

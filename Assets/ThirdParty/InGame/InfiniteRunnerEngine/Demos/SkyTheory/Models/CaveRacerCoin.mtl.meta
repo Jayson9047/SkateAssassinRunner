@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fa8f571587cfe6643a09d9e47999c7d1
+timeCreated: 1457277268
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51328
+  packageName: 2D+3D Infinite Runner Engine
+  packageVersion: 2.1
+  assetPath: Assets/InfiniteRunnerEngine/Demos/SkyTheory/Models/CaveRacerCoin.mtl
+  uploadId: 713751
