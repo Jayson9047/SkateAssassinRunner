@@ -18,11 +18,14 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [Tooltip("Animator layer name that holds the katana overlay.")]
     [SerializeField] private string katanaLayerName = "KatanaLayer";
 
+    [SerializeField] private Transform startingPosition;
+    private SwipeDownDetector swipeDownDetector;
     [Header("Dash (X Axis)")]
     public float dashDistanceX = 1.0f;
     public float dashDuration = 0.08f;
     public float returnDuration = 0.12f;
     public bool useLocalX = false;
+    public bool IsAttacking => isInAttackDash || isReturning;
 
     private Vector2 startPos;
     private float startTime;
@@ -39,6 +42,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void Awake()
     {
+        swipeDownDetector = GetComponent<SwipeDownDetector>();
+        if (swipeDownDetector == null)
+        {
+            Debug.LogWarning("SwipeRightAttackDetector: SwipeDownDetector not found.");
+        }
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();
@@ -104,8 +112,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void OnSwipeRight()
     {
-        // Block only during the dash phase. Returning can be interrupted.
-        if (isInAttackDash) return;
+        // Block during dash AND during return AND if down attack is active.
+        if (isInAttackDash || isReturning ||
+            (swipeDownDetector != null && swipeDownDetector.IsDownAttacking))
+            return;
+
 
         // If we were returning, cancel it so we can attack again immediately.
         if (isReturning && dashRoutine != null)
@@ -136,8 +147,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private IEnumerator DashRoutine()
     {
         isInAttackDash = true;
-
         Vector3 start = transform.position;
+        
 
         Vector3 dashDir = useLocalX ? transform.right : Vector3.right;
         Vector3 dashTarget = start + dashDir * dashDistanceX;
@@ -145,16 +156,17 @@ public class SwipeRightAttackDetector : MonoBehaviour
         // Dash out (this does affect Y during dash by lerping full position — that’s fine if you like the “locked” feel)
         yield return MoveOverTime(start, dashTarget, dashDuration);
 
-        isInAttackDash = false;
-
         // Wait until grounded before returning
         yield return WaitUntilGrounded();
+
+        // considering attacking till grounded
+        isInAttackDash = false;
 
         // Return is now interruptible
         isReturning = true;
 
         // Return X only (Y free)
-        yield return MoveXOverTime(start.x, returnDuration);
+        yield return MoveXOverTime(returnDuration);
 
         isReturning = false;
         dashRoutine = null;
@@ -188,10 +200,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
         transform.position = to;
     }
 
-    private IEnumerator MoveXOverTime(float targetX, float duration)
+    private IEnumerator MoveXOverTime(float duration)
     {
         float fromX = transform.position.x;
-
+        float targetX = startingPosition.position.x;
         float t = 0f;
         while (t < duration)
         {

@@ -6,21 +6,25 @@ using UnityEngine.SceneManagement;
 public class SwipeDownDetector : MonoBehaviour
 {
     [Header("Swipe Settings")]
-    public float minSwipeDistance = 100f; // pixels
+    public float minSwipeDistance = 100f;
     public float maxSwipeTime = 0.5f;
 
     [Header("Keyboard Debug")]
-    public KeyCode swipeDownKey = KeyCode.S; // or DownArrow
+    public KeyCode swipeDownKey = KeyCode.S;
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
 
-    [Tooltip("Animator layer name that holds the katana overlay.")]
     [SerializeField] private string katanaLayerName = "KatanaLayer";
-
-    [Tooltip("Must match your slide animation duration.")]
     [SerializeField] private float slideDuration = 1.2f;
-
+    [SerializeField] private float downAttackDuration = 1.05f;
+    private SwipeRightAttackDetector swipeRightAttackDetector;
+    [Header("Slide X Nudge")]
+    public Transform startingPosition;
+    public float slideForwardX = 0.5f;
+    public float slideReturnDuration = 0.12f;
+    public float slideForwardDuration = 0.06f;
+    public bool IsDownAttacking => isDownAttacking;
     private int katanaLayerIndex = -1;
 
     private Vector2 startPos;
@@ -28,94 +32,56 @@ public class SwipeDownDetector : MonoBehaviour
     private bool tracking;
 
     private bool isSliding;
-
-    // Instead of caching a GameObject by name (which can point to an inactive/old instance),
-    // cache the actual TouchZone that is currently active in the hierarchy.
+    private bool isDownAttacking;
+    private bool isSlideReturning;
+    private Jumper jumper;
     private TapOnlyMainActionZone mainActionTouchZone;
 
     private void Awake()
     {
-        // Animator first (your original code tried to read layer index before null-check)
-        if (animator == null)
+        swipeRightAttackDetector = GetComponent<SwipeRightAttackDetector>();
+        if (swipeRightAttackDetector == null)
         {
-            animator = GetComponentInChildren<Animator>();
+            Debug.LogWarning("SwipeDownDetector: SwipeRightAttackDetector not found.");
         }
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        jumper = GetComponent<Jumper>();
+        if (jumper == null)
+            Debug.LogError("SwipeDownDetector: Jumper missing.");
 
         if (animator != null)
-        {
             katanaLayerIndex = animator.GetLayerIndex(katanaLayerName);
-            if (katanaLayerIndex < 0)
-            {
-                Debug.LogWarning($"SwipeDownDetector: Animator layer '{katanaLayerName}' not found.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("SwipeDownDetector: Animator reference is missing.");
-        }
     }
 
     private void OnEnable()
     {
-
-        // Start trying to locate the correct Main Action TouchZone.
-        StartCoroutine(FindMainActionTouchZoneWhenReady());
-    }
-
-
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // Restart / loading screen swaps UI -> references become invalid.
-        mainActionTouchZone = null;
-
-        StopAllCoroutines();
         StartCoroutine(FindMainActionTouchZoneWhenReady());
     }
 
     private IEnumerator FindMainActionTouchZoneWhenReady()
     {
-        // Retry for ~5 seconds @ 60fps (same as your current approach)
         for (int i = 0; i < 300 && mainActionTouchZone == null; i++)
         {
-            TryFindMainActionTouchZoneActive();
+            var zones = Resources.FindObjectsOfTypeAll<TapOnlyMainActionZone>();
+            foreach (var z in zones)
+            {
+                if (z != null && z.gameObject.activeInHierarchy)
+                {
+                    mainActionTouchZone = z;
+                    yield break;
+                }
+            }
             yield return null;
-        }
-
-        // Optional debug
-        // if (mainActionTouchZone == null) Debug.LogWarning("SwipeDownDetector: Could not find an ACTIVE MainAction TouchZone.");
-    }
-
-    private void TryFindMainActionTouchZoneActive()
-    {
-        if (mainActionTouchZone != null && mainActionTouchZone.gameObject != null)
-        {
-            // If it somehow became inactive (restart), clear it.
-            if (mainActionTouchZone.gameObject.activeInHierarchy) return;
-            mainActionTouchZone = null;
-        }
-
-        // Resources.FindObjectsOfTypeAll finds inactive objects too — we filter for activeInHierarchy
-        var zones = Resources.FindObjectsOfTypeAll<TapOnlyMainActionZone>();
-        foreach (var z in zones)
-        {
-            if (z == null) continue;
-            if (!z.gameObject.activeInHierarchy) continue;
-
-            mainActionTouchZone = z;
-            return;
         }
     }
 
     private void Update()
     {
-        // Keyboard test
         if (Input.GetKeyDown(swipeDownKey))
-        {
             OnSwipeDown();
-        }
 
-        // Touch
         if (Input.touchCount == 0) return;
 
         Touch touch = Input.GetTouch(0);
@@ -147,51 +113,111 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void OnSwipeDown()
     {
-        Debug.Log("PHONE: SWIPE DOWN Entered");
-        if (isSliding) return;
-        isSliding = true;
+        // HARD LOCK: DownAttack owns all input
+        if (isDownAttacking || (swipeRightAttackDetector != null && swipeRightAttackDetector.IsAttacking) || isSlideReturning)
+            return;
 
-        // --- Keep your animation layer logic exactly ---
+        bool isGrounded = jumper != null && jumper.IsGrounded;
+
+        // Katana layer off for both slide and down attack
         if (animator != null && katanaLayerIndex >= 0)
-        {
             animator.SetLayerWeight(katanaLayerIndex, 0f);
+
+        if (!isGrounded)
+        {
+            StartCoroutine(DownAttackRoutine());
+            return;
         }
 
-        // Disable jump input during slide: disable the ACTIVE MainAction TouchZone
-        TryFindMainActionTouchZoneActive();
-        if (mainActionTouchZone != null)
-        {
-            // Disabling the component is safer than toggling GO active state across UI rebuilds
-            mainActionTouchZone.enabled = false;
-        }
+        // Slide logic (soft lock)
+        if (isSliding)
+            return;
 
-        if (animator != null)
+        // Nudge forward immediately when slide starts
+        if (startingPosition != null)
         {
-            animator.SetTrigger("Slide");
-            Debug.Log("PHONE: SWIPE DOWN");
+            StartCoroutine(MoveXOverTime(startingPosition.position.x + slideForwardX, slideForwardDuration));
         }
 
         StartCoroutine(SlideRoutine());
+
+    }
+
+    private IEnumerator DownAttackRoutine()
+    {
+        isDownAttacking = true;
+
+        if (animator != null)
+            animator.SetTrigger("DownAttack");
+
+        yield return new WaitForSeconds(downAttackDuration);
+
+        // Restore layer
+        if (animator != null && katanaLayerIndex >= 0)
+            animator.SetLayerWeight(katanaLayerIndex, 1f);
+
+        isDownAttacking = false;
     }
 
     private IEnumerator SlideRoutine()
     {
+        isSliding = true;
+
+        // Disable jump input during slide
+        if (mainActionTouchZone != null)
+            mainActionTouchZone.enabled = false;
+
+        if (animator != null)
+            animator.SetTrigger("Slide");
+
         yield return new WaitForSeconds(slideDuration);
 
-        // --- Keep your animation layer logic exactly ---
+        // Restore layer
         if (animator != null && katanaLayerIndex >= 0)
-        {
             animator.SetLayerWeight(katanaLayerIndex, 1f);
-        }
 
-        // Re-enable jump input after slide
-        // Re-acquire in case restart swapped canvases mid-slide
-        TryFindMainActionTouchZoneActive();
         if (mainActionTouchZone != null)
-        {
             mainActionTouchZone.enabled = true;
-        }
 
         isSliding = false;
+        isSlideReturning = true;
+        // Return AFTER slide ends (your requirement)
+        if (startingPosition != null)
+        {
+            StartCoroutine(MoveXOverTime(startingPosition.position.x, slideReturnDuration));
+        }
+
     }
+
+    private IEnumerator MoveXOverTime(float targetX, float duration)
+{
+    float startX = transform.position.x;
+    if (duration <= 0f)
+    {
+        var p = transform.position;
+        p.x = targetX;
+        transform.position = p;
+        yield break;
+    }
+
+    float t = 0f;
+    while (t < duration)
+    {
+        t += Time.deltaTime;
+        float a = Mathf.Clamp01(t / duration);
+        a = a * a * (3f - 2f * a); // smoothstep
+
+        var p = transform.position;
+        p.x = Mathf.Lerp(startX, targetX, a);
+        transform.position = p;
+
+        yield return null;
+    }
+
+    var pEnd = transform.position;
+    pEnd.x = targetX;
+    transform.position = pEnd;
+    isSlideReturning = false;
+}
+
 }
