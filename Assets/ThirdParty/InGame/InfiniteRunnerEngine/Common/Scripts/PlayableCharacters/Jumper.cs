@@ -41,11 +41,11 @@ namespace MoreMountains.InfiniteRunnerEngine
         public int _numberOfJumpsLeft;
 		protected bool _jumping = false;
 		protected float _lastJumpTime;
-
-		/// <summary>
-		/// On Start() we initialize the last jump time
-		/// </summary>
-		protected override void Start()
+		public bool IsGrounded => _grounded;
+        /// <summary>
+        /// On Start() we initialize the last jump time
+        /// </summary>
+        protected override void Start()
 		{
 			_lastJumpTime = Time.time;
 			_numberOfJumpsLeft = NumberOfJumpsAllowed;
