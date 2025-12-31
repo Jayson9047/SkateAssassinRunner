@@ -101,10 +101,10 @@ public class SwipeDownDetector : MonoBehaviour
         // If we buffered a down attack during air dash, trigger it the moment dash movement is done
         if (pendingDownAttack)
         {
-            bool dashBusy = swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashingOrReturning;
+            bool dashMoveBusy = swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashMovementInProgress;
             bool airborne = jumper != null && !jumper.IsGrounded;
 
-            if (!dashBusy && airborne && !isDownAttacking)
+            if (!dashMoveBusy && airborne && !isDownAttacking)
             {
                 pendingDownAttack = false;
                 TriggerDownAttackFromBuffer();
@@ -160,14 +160,14 @@ public class SwipeDownDetector : MonoBehaviour
         bool isGrounded = jumper != null && jumper.IsGrounded;
 
         // If we are airborne and currently dash-moving/returning, buffer the down attack
-        if (!isGrounded && swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashingOrReturning)
+        if (!isGrounded && swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashMovementInProgress)
         {
             pendingDownAttack = true;
             return;
         }
 
         // Block grounded slide during dash movement, but we allow buffered air-downattack above
-        if (swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashingOrReturning)
+        if (swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashMovementInProgress)
             return;
 
         // Airborne: start DownAttack (only if not already doing it)
