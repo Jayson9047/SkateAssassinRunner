@@ -20,11 +20,13 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     [SerializeField] private Transform startingPosition;
     private SwipeDownDetector swipeDownDetector;
+
     [Header("Dash (X Axis)")]
     public float dashDistanceX = 1.0f;
     public float dashDuration = 0.08f;
     public float returnDuration = 0.12f;
     public bool useLocalX = false;
+
     public bool IsAttacking => isInAttackDash || isReturning;
 
     private Vector2 startPos;
@@ -37,15 +39,22 @@ public class SwipeRightAttackDetector : MonoBehaviour
     // State split
     private bool isInAttackDash;   // dash phase (hard lock)
     private bool isReturning;      // returning phase (interruptible)
-
     private Coroutine dashRoutine;
 
-    [Header("Attack Freeze / Dash Timing")]
+    [Header("Attack Timing Gate")]
     [SerializeField] private string attackStateName = "DashAttack"; // animator state name in Base Layer
-    private float attackMoveStartNormalizedTime = 1f; // <-- set this to Frame 19 normalized
-    [SerializeField] private int AttackStartFrame = 15;
-    [SerializeField] private float dashStartExtraDelay = 0f; // optional extra delay AFTER reaching frame 19
+    [SerializeField] private int AttackStartFrame = 15;             // frame to start movement
+    [SerializeField] private float dashStartExtraDelay = 0f;         // optional delay after frame gate
+    private float attackMoveStartNormalizedTime = 1f;                // computed
 
+    // ---- Gravity suspend support (3D rigidbody) ----
+    [Header("Air Dash Gravity Control")]
+    [SerializeField] private bool suspendGravityDuringAirDash = true;
+
+    private Rigidbody rb3D;
+    private bool gravitySuspended;
+    private bool savedUseGravity;
+    private float savedYVelocity;
 
     private void Awake()
     {
@@ -54,6 +63,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
         {
             Debug.LogWarning("SwipeRightAttackDetector: SwipeDownDetector not found.");
         }
+
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();
@@ -77,11 +87,15 @@ public class SwipeRightAttackDetector : MonoBehaviour
         {
             Debug.LogError("SwipeRightAttackDetector: Jumper component not found on player.");
         }
+
+        rb3D = GetComponent<Rigidbody>(); // if your player uses Rigidbody for gravity
     }
 
     private void Update()
     {
-        attackMoveStartNormalizedTime = AttackStartFrame / 36f; // assuming 30 FPS animation
+        // Your original normalized time calc (kept)
+        attackMoveStartNormalizedTime = AttackStartFrame / 36f; // assuming 36 frames (your current assumption)
+
         // Keyboard test
         if (Input.GetKeyDown(swipeRightKey))
         {
@@ -125,20 +139,22 @@ public class SwipeRightAttackDetector : MonoBehaviour
             (swipeDownDetector != null && swipeDownDetector.IsDownAttacking))
             return;
 
-
         // If we were returning, cancel it so we can attack again immediately.
+        // (Note: your original code never reaches this because of the early return above,
+        // but I'm leaving your intention intact by keeping the block as-is.)
         if (isReturning && dashRoutine != null)
         {
             StopCoroutine(dashRoutine);
             isReturning = false;
-            // Keep katana layer OFF since we’re chaining into another attack.
+
+            // Keep katana layer OFF since weï¿½re chaining into another attack.
             if (animator != null && katanaLayerIndex >= 0)
             {
                 animator.SetLayerWeight(katanaLayerIndex, 0f);
             }
         }
 
-        // Katana layer OFF at attack start (your logic)
+        // Katana layer OFF at attack start
         if (animator != null && katanaLayerIndex >= 0)
         {
             animator.SetLayerWeight(katanaLayerIndex, 0f);
@@ -156,47 +172,104 @@ public class SwipeRightAttackDetector : MonoBehaviour
     {
         isInAttackDash = true;
 
-        // Wait until the Attack state reaches the "move start" frame (frame 19)
-        while (true)
+        // If we started in-air, suspend gravity so phone FPS doesn't drop us during the strike displacement
+        bool startedInAir = jumper != null && !jumper.IsGrounded;
+        if (suspendGravityDuringAirDash && startedInAir)
         {
-            if (animator == null)
-                break;
-
-            var state = animator.GetCurrentAnimatorStateInfo(0);
-
-            // Make sure we're actually in the attack state before reading normalized time
-            if (state.IsName(attackStateName) && state.normalizedTime >= attackMoveStartNormalizedTime)
-                break;
-
-            yield return null;
+            SuspendGravity();
         }
 
-        if (dashStartExtraDelay > 0f)
-            yield return new WaitForSeconds(dashStartExtraDelay);
+        try
+        {
+            // Wait until the Attack state reaches the move-start frame
+            while (true)
+            {
+                if (animator == null)
+                    break;
 
-        Vector3 start = transform.position;
-        Vector3 dashDir = useLocalX ? transform.right : Vector3.right;
-        Vector3 dashTarget = start + dashDir * dashDistanceX;
+                var state = animator.GetCurrentAnimatorStateInfo(0);
 
-        // Dash out (your existing move)
-        yield return MoveOverTime(start, dashTarget, dashDuration);
+                if (state.IsName(attackStateName) && state.normalizedTime >= attackMoveStartNormalizedTime)
+                    break;
 
-        isReturning = true;
-        yield return MoveXOverTime(returnDuration);
-        isReturning = false;
-        
-        // Wait until grounded before returning
-        yield return WaitUntilGrounded();
+                yield return null;
+            }
 
-        isInAttackDash = false;
+            if (dashStartExtraDelay > 0f)
+                yield return new WaitForSeconds(dashStartExtraDelay);
 
-        dashRoutine = null;
+            Vector3 start = transform.position;
+            Vector3 dashDir = useLocalX ? transform.right : Vector3.right;
+            Vector3 dashTarget = start + dashDir * dashDistanceX;
 
-        if (animator != null && katanaLayerIndex >= 0)
-            animator.SetLayerWeight(katanaLayerIndex, 1f);
+            // Dash out
+            yield return MoveOverTime(start, dashTarget, dashDuration);
+
+            // Return to starting X (this is the "unrealistic but hits" snap you like)
+            isReturning = true;
+            yield return MoveXOverTime(returnDuration);
+            isReturning = false;
+
+            // IMPORTANT: Restore gravity AFTER weï¿½re back into lane (back into position)
+            if (gravitySuspended)
+            {
+                RestoreGravity();
+            }
+
+            // Your original grounding wait (kept)
+            yield return WaitUntilGrounded();
+
+            isInAttackDash = false;
+            dashRoutine = null;
+
+            if (animator != null && katanaLayerIndex >= 0)
+                animator.SetLayerWeight(katanaLayerIndex, 1f);
+        }
+        finally
+        {
+            // Safety: never leave gravity disabled if coroutine gets interrupted
+            if (gravitySuspended)
+                RestoreGravity();
+
+            isInAttackDash = false;
+            isReturning = false;
+            dashRoutine = null;
+        }
     }
 
+    // ---- Gravity suspend helpers ----
+    private void SuspendGravity()
+    {
+        if (rb3D == null) return;
 
+        gravitySuspended = true;
+        savedUseGravity = rb3D.useGravity;
+        savedYVelocity = rb3D.linearVelocity.y;
+
+        rb3D.useGravity = false;
+
+        // Also pin vertical velocity so we don't keep falling from existing momentum
+        Vector3 v = rb3D.linearVelocity;
+        v.y = 0f;
+        rb3D.linearVelocity = v;
+    }
+
+    private void RestoreGravity()
+    {
+        if (rb3D == null) { gravitySuspended = false; return; }
+
+        rb3D.useGravity = savedUseGravity;
+
+        // Optional: restore prior Y velocity if you want continuity.
+        // For your case (you explicitly don't want falling during the attack),
+        // restoring velocity can reintroduce drop, so we keep Y at whatever it is now.
+        // If you DO want to restore, uncomment:
+        // var v = rb3D.velocity;
+        // v.y = savedYVelocity;
+        // rb3D.velocity = v;
+
+        gravitySuspended = false;
+    }
 
     private IEnumerator MoveOverTime(Vector3 from, Vector3 to, float duration)
     {
@@ -209,15 +282,32 @@ public class SwipeRightAttackDetector : MonoBehaviour
         float t = 0f;
         while (t < duration)
         {
+            // If gravity is suspended, keep Y pinned (prevents drift from other systems)
+            float pinnedY = transform.position.y;
+
             t += Time.deltaTime;
             float a = Mathf.Clamp01(t / duration);
             a = a * a * (3f - 2f * a);
 
-            transform.position = Vector3.Lerp(from, to, a);
+            Vector3 p = Vector3.Lerp(from, to, a);
+
+            if (gravitySuspended)
+                p.y = pinnedY;
+
+            transform.position = p;
             yield return null;
         }
 
-        transform.position = to;
+        if (gravitySuspended)
+        {
+            Vector3 final = to;
+            final.y = transform.position.y;
+            transform.position = final;
+        }
+        else
+        {
+            transform.position = to;
+        }
     }
 
     private IEnumerator MoveXOverTime(float duration)
@@ -225,16 +315,27 @@ public class SwipeRightAttackDetector : MonoBehaviour
         float fromX = transform.position.x;
         float targetX = startingPosition.position.x;
         float t = 0f;
+
         while (t < duration)
         {
+            float currentY = transform.position.y;
+            float currentZ = transform.position.z;
+
             t += Time.deltaTime;
             float a = Mathf.Clamp01(t / duration);
             a = a * a * (3f - 2f * a);
 
             Vector3 p = transform.position;
             p.x = Mathf.Lerp(fromX, targetX, a);
-            transform.position = p;
 
+            // Keep Y pinned during return if gravity suspended
+            if (gravitySuspended)
+            {
+                p.y = currentY;
+                p.z = currentZ;
+            }
+
+            transform.position = p;
             yield return null;
         }
 
@@ -267,7 +368,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void OnDisable()
     {
+        // Safety: never leave animator frozen or gravity disabled
         if (animator != null)
             animator.speed = 1f;
+
+        if (gravitySuspended)
+            RestoreGravity();
     }
 }

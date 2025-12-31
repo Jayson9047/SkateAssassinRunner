@@ -17,14 +17,15 @@ public class SwipeDownDetector : MonoBehaviour
     [SerializeField] private Animator animator;
 
     [SerializeField] private string katanaLayerName = "KatanaLayer";
-    [SerializeField] private float slideDuration = 1.2f;
-    [SerializeField] private float downAttackDuration = 1.05f;
+    [SerializeField] private float slideDuration = 0.8f;
+
     private SwipeRightAttackDetector swipeRightAttackDetector;
+
     [Header("Slide X Nudge")]
     public Transform startingPosition;
-    public float slideForwardX = 0.5f;
-    public float slideReturnDuration = 0.12f;
+    public float slideForwardX = 0f;          // keep the system, set to 0 for now
     public float slideForwardDuration = 0.06f;
+
     public bool IsDownAttacking => isDownAttacking;
 
     [Header("DownAttack Freeze")]
@@ -40,13 +41,19 @@ public class SwipeDownDetector : MonoBehaviour
 
     private bool isSliding;
     private bool isDownAttacking;
-    private bool isSlideReturning;
     private Jumper jumper;
     private TapOnlyMainActionZone mainActionTouchZone;
 
     [Header("DownAttack Slam")]
     public float downAttackFallSpeed = -25f; // tune this
     private MMRigidbodyInterface rbInterface;
+
+    [Header("Slide Speed Boost")]
+    [SerializeField] private float slideSpeedFactor = 1.25f;   // tweak in inspector
+    [SerializeField] private float slideSpeedDuration = 1.05f; // requirement
+
+    // Cancel flag used when slide interrupts downattack
+    private bool downAttackCancelledIntoSlide;
 
     private void Awake()
     {
@@ -55,6 +62,7 @@ public class SwipeDownDetector : MonoBehaviour
         {
             Debug.LogWarning("SwipeDownDetector: SwipeRightAttackDetector not found.");
         }
+
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
@@ -68,7 +76,6 @@ public class SwipeDownDetector : MonoBehaviour
         rbInterface = GetComponent<MMRigidbodyInterface>();
         if (rbInterface == null)
             Debug.LogError("SwipeDownDetector: MMRigidbodyInterface missing.");
-
     }
 
     private void OnEnable()
@@ -95,6 +102,13 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void Update()
     {
+        // Watchdog: if something ever leaves animator frozen unexpectedly, unfreeze.
+        // This is cheap and prevents "stuck forever" even if a coroutine got interrupted.
+        if (animator != null && animator.speed == 0f && !isDownAttacking)
+        {
+            animator.speed = 1f;
+        }
+
         if (Input.GetKeyDown(swipeDownKey))
             OnSwipeDown();
 
@@ -129,18 +143,19 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void OnSwipeDown()
     {
-        // HARD LOCK: DownAttack owns all input
-        if (isDownAttacking || (swipeRightAttackDetector != null && swipeRightAttackDetector.IsAttacking) || isSlideReturning)
+        // Still block if right-swipe attack is happening
+        if (swipeRightAttackDetector != null && swipeRightAttackDetector.IsAttacking)
             return;
 
         bool isGrounded = jumper != null && jumper.IsGrounded;
 
-        // Katana layer off for both slide and down attack
-        if (animator != null && katanaLayerIndex >= 0)
-            animator.SetLayerWeight(katanaLayerIndex, 0f);
-
-        if (!isGrounded)
+        // Airborne: start DownAttack (only if not already doing it)
+        if (!isGrounded && !isDownAttacking)
         {
+            // Katana layer off for down attack start
+            if (animator != null && katanaLayerIndex >= 0)
+                animator.SetLayerWeight(katanaLayerIndex, 0f);
+
             StartCoroutine(DownAttackRoutine());
             return;
         }
@@ -149,72 +164,121 @@ public class SwipeDownDetector : MonoBehaviour
         if (isSliding)
             return;
 
-        // Nudge forward immediately when slide starts
-        if (startingPosition != null)
+        // Grounded slide:
+        // - allowed normally
+        // - also allowed during downattack (including bounce touches) and cancels it
+        if (!isDownAttacking || (isDownAttacking && isGrounded))
         {
-            StartCoroutine(MoveXOverTime(startingPosition.position.x + slideForwardX, slideForwardDuration));
+            if (isDownAttacking)
+            {
+                // Cancel DownAttack into slide (hard cut)
+                downAttackCancelledIntoSlide = true;
+
+                // HARD SAFETY: if we froze at frame 13, unfreeze right now
+                if (animator != null && animator.speed == 0f)
+                    animator.speed = 1f;
+
+                // Release input lock immediately for responsiveness
+                isDownAttacking = false;
+            }
+
+            // Katana layer off for slide
+            if (animator != null && katanaLayerIndex >= 0)
+                animator.SetLayerWeight(katanaLayerIndex, 0f);
+
+            // Nudge forward immediately when slide starts (kept, but set slideForwardX=0 for now)
+            if (startingPosition != null && Mathf.Abs(slideForwardX) > 0.0001f)
+            {
+                StartCoroutine(MoveXOverTime(startingPosition.position.x + slideForwardX, slideForwardDuration));
+            }
+
+            StartCoroutine(SlideRoutine());
         }
-
-        StartCoroutine(SlideRoutine());
-
     }
-
-
 
     private IEnumerator DownAttackRoutine()
     {
         isDownAttacking = true;
         downAttackFrozen = false;
+        downAttackCancelledIntoSlide = false;
 
-        if (animator != null)
-            animator.SetTrigger("DownAttack");
-
-        // Let the animation advance to the hold frame
-        while (!downAttackFrozen)
+        try
         {
-            var state = animator.GetCurrentAnimatorStateInfo(0);
+            if (animator != null)
+                animator.SetTrigger("DownAttack");
 
-            if (state.IsName(downAttackStateName) &&
-                state.normalizedTime >= downAttackHoldNormalizedTime)
+            // Let the animation advance to the hold frame
+            while (!downAttackFrozen)
             {
-                animator.speed = 0f;        // FREEZE at frame 13
-                downAttackFrozen = true;
+                // If we got cancelled before we even froze, bail
+                if (downAttackCancelledIntoSlide)
+                    yield break;
+
+                var state = animator.GetCurrentAnimatorStateInfo(0);
+
+                if (state.IsName(downAttackStateName) &&
+                    state.normalizedTime >= downAttackHoldNormalizedTime)
+                {
+                    animator.speed = 0f;        // FREEZE at frame 13
+                    downAttackFrozen = true;
+                }
+
+                yield return null;
             }
 
-            yield return null;
-        }
-
-        // WAIT HERE until grounded (first impact) — FORCE SLAM SPEED
-        while (jumper != null && !jumper.IsGrounded)
-        {
-            if (rbInterface != null)
+            // WAIT HERE until grounded (first impact) — FORCE SLAM SPEED
+            while (jumper != null && !jumper.IsGrounded)
             {
-                Vector3 v = rbInterface.Velocity;
-                v.y = downAttackFallSpeed; // force fast downward slam
-                rbInterface.Velocity = v;
+                if (downAttackCancelledIntoSlide)
+                    yield break;
+
+                if (rbInterface != null)
+                {
+                    Vector3 v = rbInterface.Velocity;
+                    v.y = downAttackFallSpeed; // force fast downward slam
+                    rbInterface.Velocity = v;
+                }
+
+                yield return null;
             }
 
-            yield return null;
+            // If we slide-cancel as soon as we touch ground, stop this coroutine
+            if (downAttackCancelledIntoSlide)
+                yield break;
+
+            // RELEASE animation (impact + bounce plays)
+            if (animator != null)
+                animator.speed = 1f;
+
+            // Wait until animation finishes naturally
+            while (true)
+            {
+                // Allow slide-cancel during bounce too
+                if (downAttackCancelledIntoSlide)
+                    yield break;
+
+                var state = animator.GetCurrentAnimatorStateInfo(0);
+                if (!state.IsName(downAttackStateName) || state.normalizedTime >= 0.98f)
+                    break;
+
+                yield return null;
+            }
+
+            // Restore layer (only if we completed normally)
+            if (animator != null && katanaLayerIndex >= 0)
+                animator.SetLayerWeight(katanaLayerIndex, 1f);
         }
-
-        // RELEASE animation (impact + bounce plays)
-        animator.speed = 1f;
-
-        // Wait until animation finishes naturally
-        while (true)
+        finally
         {
-            var state = animator.GetCurrentAnimatorStateInfo(0);
-            if (!state.IsName(downAttackStateName) || state.normalizedTime >= 0.98f)
-                break;
+            // HARD SAFETY: never leave animator frozen
+            if (animator != null && animator.speed == 0f)
+                animator.speed = 1f;
 
-            yield return null;
+            // Ensure flags are sane no matter how we exit
+            isDownAttacking = false;
+            downAttackFrozen = false;
+            downAttackCancelledIntoSlide = false;
         }
-
-        // Restore layer
-        if (animator != null && katanaLayerIndex >= 0)
-            animator.SetLayerWeight(katanaLayerIndex, 1f);
-
-        isDownAttacking = false;
     }
 
     private void OnDisable()
@@ -234,6 +298,12 @@ public class SwipeDownDetector : MonoBehaviour
         if (animator != null)
             animator.SetTrigger("Slide");
 
+        // TEMP SPEED BOOST (restores automatically after duration)
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.TemporarilyMultiplySpeed(slideSpeedFactor, slideSpeedDuration);
+        }
+
         yield return new WaitForSeconds(slideDuration);
 
         // Restore layer
@@ -244,44 +314,37 @@ public class SwipeDownDetector : MonoBehaviour
             mainActionTouchZone.enabled = true;
 
         isSliding = false;
-        isSlideReturning = true;
-        // Return AFTER slide ends (your requirement)
-        if (startingPosition != null)
-        {
-            StartCoroutine(MoveXOverTime(startingPosition.position.x, slideReturnDuration));
-        }
 
+        // NO RETURN LOGIC ANYMORE
     }
 
     private IEnumerator MoveXOverTime(float targetX, float duration)
-{
-    float startX = transform.position.x;
-    if (duration <= 0f)
     {
-        var p = transform.position;
-        p.x = targetX;
-        transform.position = p;
-        yield break;
+        float startX = transform.position.x;
+        if (duration <= 0f)
+        {
+            var p = transform.position;
+            p.x = targetX;
+            transform.position = p;
+            yield break;
+        }
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float a = Mathf.Clamp01(t / duration);
+            a = a * a * (3f - 2f * a); // smoothstep
+
+            var p = transform.position;
+            p.x = Mathf.Lerp(startX, targetX, a);
+            transform.position = p;
+
+            yield return null;
+        }
+
+        var pEnd = transform.position;
+        pEnd.x = targetX;
+        transform.position = pEnd;
     }
-
-    float t = 0f;
-    while (t < duration)
-    {
-        t += Time.deltaTime;
-        float a = Mathf.Clamp01(t / duration);
-        a = a * a * (3f - 2f * a); // smoothstep
-
-        var p = transform.position;
-        p.x = Mathf.Lerp(startX, targetX, a);
-        transform.position = p;
-
-        yield return null;
-    }
-
-    var pEnd = transform.position;
-    pEnd.x = targetX;
-    transform.position = pEnd;
-    isSlideReturning = false;
-}
-
 }
