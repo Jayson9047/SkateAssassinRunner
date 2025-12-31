@@ -2,7 +2,6 @@ using MoreMountains.InfiniteRunnerEngine;
 using MoreMountains.Tools;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SwipeDownDetector : MonoBehaviour
 {
@@ -23,14 +22,14 @@ public class SwipeDownDetector : MonoBehaviour
 
     [Header("Slide X Nudge")]
     public Transform startingPosition;
-    public float slideForwardX = 0f;          // keep the system, set to 0 for now
+    public float slideForwardX = 0f;
     public float slideForwardDuration = 0.06f;
 
     public bool IsDownAttacking => isDownAttacking;
 
     [Header("DownAttack Freeze")]
     [SerializeField] private string downAttackStateName = "DownAttack";
-    [SerializeField] private float downAttackHoldNormalizedTime = 0.36f; // Frame 13
+    [SerializeField] private float downAttackHoldNormalizedTime = 0.36f;
     private bool downAttackFrozen;
 
     private int katanaLayerIndex = -1;
@@ -45,37 +44,30 @@ public class SwipeDownDetector : MonoBehaviour
     private TapOnlyMainActionZone mainActionTouchZone;
 
     [Header("DownAttack Slam")]
-    public float downAttackFallSpeed = -25f; // tune this
+    public float downAttackFallSpeed = -25f;
     private MMRigidbodyInterface rbInterface;
 
     [Header("Slide Speed Boost")]
-    [SerializeField] private float slideSpeedFactor = 1.25f;   // tweak in inspector
-    [SerializeField] private float slideSpeedDuration = 1.05f; // requirement
+    [SerializeField] private float slideSpeedFactor = 1.25f;
+    [SerializeField] private float slideSpeedDuration = 1.05f;
 
-    // Cancel flag used when slide interrupts downattack
+    private bool pendingDownAttack;
+
     private bool downAttackCancelledIntoSlide;
 
     private void Awake()
     {
         swipeRightAttackDetector = GetComponent<SwipeRightAttackDetector>();
-        if (swipeRightAttackDetector == null)
-        {
-            Debug.LogWarning("SwipeDownDetector: SwipeRightAttackDetector not found.");
-        }
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
         jumper = GetComponent<Jumper>();
-        if (jumper == null)
-            Debug.LogError("SwipeDownDetector: Jumper missing.");
 
         if (animator != null)
             katanaLayerIndex = animator.GetLayerIndex(katanaLayerName);
 
         rbInterface = GetComponent<MMRigidbodyInterface>();
-        if (rbInterface == null)
-            Debug.LogError("SwipeDownDetector: MMRigidbodyInterface missing.");
     }
 
     private void OnEnable()
@@ -102,13 +94,22 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void Update()
     {
-        // Watchdog: if something ever leaves animator frozen unexpectedly, unfreeze.
-        // This is cheap and prevents "stuck forever" even if a coroutine got interrupted.
         if (animator != null && animator.speed == 0f && !isDownAttacking)
         {
             animator.speed = 1f;
         }
+        // If we buffered a down attack during air dash, trigger it the moment dash movement is done
+        if (pendingDownAttack)
+        {
+            bool dashBusy = swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashingOrReturning;
+            bool airborne = jumper != null && !jumper.IsGrounded;
 
+            if (!dashBusy && airborne && !isDownAttacking)
+            {
+                pendingDownAttack = false;
+                TriggerDownAttackFromBuffer();
+            }
+        }
         if (Input.GetKeyDown(swipeDownKey))
             OnSwipeDown();
 
@@ -141,18 +142,37 @@ public class SwipeDownDetector : MonoBehaviour
         }
     }
 
+    public void TriggerDownAttackFromBuffer()
+    {
+        if (isDownAttacking) return;
+
+        if (animator != null && animator.speed == 0f)
+            animator.speed = 1f;
+
+        if (animator != null && katanaLayerIndex >= 0)
+            animator.SetLayerWeight(katanaLayerIndex, 0f);
+
+        StartCoroutine(DownAttackRoutine());
+    }
+
     private void OnSwipeDown()
     {
-        // Still block if right-swipe attack is happening
-        if (swipeRightAttackDetector != null && swipeRightAttackDetector.IsAttacking)
-            return;
-
         bool isGrounded = jumper != null && jumper.IsGrounded;
+
+        // If we are airborne and currently dash-moving/returning, buffer the down attack
+        if (!isGrounded && swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashingOrReturning)
+        {
+            pendingDownAttack = true;
+            return;
+        }
+
+        // Block grounded slide during dash movement, but we allow buffered air-downattack above
+        if (swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashingOrReturning)
+            return;
 
         // Airborne: start DownAttack (only if not already doing it)
         if (!isGrounded && !isDownAttacking)
         {
-            // Katana layer off for down attack start
             if (animator != null && katanaLayerIndex >= 0)
                 animator.SetLayerWeight(katanaLayerIndex, 0f);
 
@@ -160,33 +180,25 @@ public class SwipeDownDetector : MonoBehaviour
             return;
         }
 
-        // Slide logic (soft lock)
         if (isSliding)
             return;
 
-        // Grounded slide:
-        // - allowed normally
-        // - also allowed during downattack (including bounce touches) and cancels it
+        // Grounded slide, including cancel from downattack
         if (!isDownAttacking || (isDownAttacking && isGrounded))
         {
             if (isDownAttacking)
             {
-                // Cancel DownAttack into slide (hard cut)
                 downAttackCancelledIntoSlide = true;
 
-                // HARD SAFETY: if we froze at frame 13, unfreeze right now
                 if (animator != null && animator.speed == 0f)
                     animator.speed = 1f;
 
-                // Release input lock immediately for responsiveness
                 isDownAttacking = false;
             }
 
-            // Katana layer off for slide
             if (animator != null && katanaLayerIndex >= 0)
                 animator.SetLayerWeight(katanaLayerIndex, 0f);
 
-            // Nudge forward immediately when slide starts (kept, but set slideForwardX=0 for now)
             if (startingPosition != null && Mathf.Abs(slideForwardX) > 0.0001f)
             {
                 StartCoroutine(MoveXOverTime(startingPosition.position.x + slideForwardX, slideForwardDuration));
@@ -202,15 +214,17 @@ public class SwipeDownDetector : MonoBehaviour
         downAttackFrozen = false;
         downAttackCancelledIntoSlide = false;
 
+        // Block jump during downattack completely
+        if (mainActionTouchZone != null)
+            mainActionTouchZone.enabled = false;
+
         try
         {
             if (animator != null)
                 animator.SetTrigger("DownAttack");
 
-            // Let the animation advance to the hold frame
             while (!downAttackFrozen)
             {
-                // If we got cancelled before we even froze, bail
                 if (downAttackCancelledIntoSlide)
                     yield break;
 
@@ -219,14 +233,13 @@ public class SwipeDownDetector : MonoBehaviour
                 if (state.IsName(downAttackStateName) &&
                     state.normalizedTime >= downAttackHoldNormalizedTime)
                 {
-                    animator.speed = 0f;        // FREEZE at frame 13
+                    animator.speed = 0f;
                     downAttackFrozen = true;
                 }
 
                 yield return null;
             }
 
-            // WAIT HERE until grounded (first impact) — FORCE SLAM SPEED
             while (jumper != null && !jumper.IsGrounded)
             {
                 if (downAttackCancelledIntoSlide)
@@ -235,25 +248,21 @@ public class SwipeDownDetector : MonoBehaviour
                 if (rbInterface != null)
                 {
                     Vector3 v = rbInterface.Velocity;
-                    v.y = downAttackFallSpeed; // force fast downward slam
+                    v.y = downAttackFallSpeed;
                     rbInterface.Velocity = v;
                 }
 
                 yield return null;
             }
 
-            // If we slide-cancel as soon as we touch ground, stop this coroutine
             if (downAttackCancelledIntoSlide)
                 yield break;
 
-            // RELEASE animation (impact + bounce plays)
             if (animator != null)
                 animator.speed = 1f;
 
-            // Wait until animation finishes naturally
             while (true)
             {
-                // Allow slide-cancel during bounce too
                 if (downAttackCancelledIntoSlide)
                     yield break;
 
@@ -264,41 +273,34 @@ public class SwipeDownDetector : MonoBehaviour
                 yield return null;
             }
 
-            // Restore layer (only if we completed normally)
             if (animator != null && katanaLayerIndex >= 0)
                 animator.SetLayerWeight(katanaLayerIndex, 1f);
         }
         finally
         {
-            // HARD SAFETY: never leave animator frozen
             if (animator != null && animator.speed == 0f)
                 animator.speed = 1f;
 
-            // Ensure flags are sane no matter how we exit
+            // Only re-enable jump if we didn't slide-cancel (slide routine manages its own lock)
+            if (!downAttackCancelledIntoSlide && mainActionTouchZone != null)
+                mainActionTouchZone.enabled = true;
+
             isDownAttacking = false;
             downAttackFrozen = false;
             downAttackCancelledIntoSlide = false;
         }
     }
 
-    private void OnDisable()
-    {
-        if (animator != null)
-            animator.speed = 1f;
-    }
-
     private IEnumerator SlideRoutine()
     {
         isSliding = true;
 
-        // Disable jump input during slide
         if (mainActionTouchZone != null)
             mainActionTouchZone.enabled = false;
 
         if (animator != null)
             animator.SetTrigger("Slide");
 
-        // TEMP SPEED BOOST (restores automatically after duration)
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.TemporarilyMultiplySpeed(slideSpeedFactor, slideSpeedDuration);
@@ -306,7 +308,6 @@ public class SwipeDownDetector : MonoBehaviour
 
         yield return new WaitForSeconds(slideDuration);
 
-        // Restore layer
         if (animator != null && katanaLayerIndex >= 0)
             animator.SetLayerWeight(katanaLayerIndex, 1f);
 
@@ -314,8 +315,6 @@ public class SwipeDownDetector : MonoBehaviour
             mainActionTouchZone.enabled = true;
 
         isSliding = false;
-
-        // NO RETURN LOGIC ANYMORE
     }
 
     private IEnumerator MoveXOverTime(float targetX, float duration)
@@ -334,7 +333,7 @@ public class SwipeDownDetector : MonoBehaviour
         {
             t += Time.deltaTime;
             float a = Mathf.Clamp01(t / duration);
-            a = a * a * (3f - 2f * a); // smoothstep
+            a = a * a * (3f - 2f * a);
 
             var p = transform.position;
             p.x = Mathf.Lerp(startX, targetX, a);
@@ -346,5 +345,15 @@ public class SwipeDownDetector : MonoBehaviour
         var pEnd = transform.position;
         pEnd.x = targetX;
         transform.position = pEnd;
+    }
+
+    private void OnDisable()
+    {
+        if (animator != null)
+            animator.speed = 1f;
+
+        // Safety: don't leave jump disabled if object is disabled mid-downattack
+        if (mainActionTouchZone != null)
+            mainActionTouchZone.enabled = true;
     }
 }
