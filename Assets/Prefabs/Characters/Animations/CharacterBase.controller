@@ -576,7 +576,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: JAttack_AirDrop_All
+  m_Name: DownAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -657,8 +657,8 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.53653127
-  m_TransitionOffset: 0.0029982685
+  m_TransitionDuration: 0.13376522
+  m_TransitionOffset: 0.0029982636
   m_ExitTime: 0.5258305
   m_HasExitTime: 1
   m_HasFixedDuration: 1
@@ -822,7 +822,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dash_Attack_ver_A
+  m_Name: DashAttack
   m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:

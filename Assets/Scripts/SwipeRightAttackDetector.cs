@@ -40,6 +40,13 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private Coroutine dashRoutine;
 
+    [Header("Attack Freeze / Dash Timing")]
+    [SerializeField] private string attackStateName = "DashAttack"; // animator state name in Base Layer
+    private float attackMoveStartNormalizedTime = 1f; // <-- set this to Frame 19 normalized
+    [SerializeField] private int AttackStartFrame = 15;
+    [SerializeField] private float dashStartExtraDelay = 0f; // optional extra delay AFTER reaching frame 19
+
+
     private void Awake()
     {
         swipeDownDetector = GetComponent<SwipeDownDetector>();
@@ -74,6 +81,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void Update()
     {
+        attackMoveStartNormalizedTime = AttackStartFrame / 36f; // assuming 30 FPS animation
         // Keyboard test
         if (Input.GetKeyDown(swipeRightKey))
         {
@@ -147,36 +155,48 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private IEnumerator DashRoutine()
     {
         isInAttackDash = true;
-        Vector3 start = transform.position;
-        
 
+        // Wait until the Attack state reaches the "move start" frame (frame 19)
+        while (true)
+        {
+            if (animator == null)
+                break;
+
+            var state = animator.GetCurrentAnimatorStateInfo(0);
+
+            // Make sure we're actually in the attack state before reading normalized time
+            if (state.IsName(attackStateName) && state.normalizedTime >= attackMoveStartNormalizedTime)
+                break;
+
+            yield return null;
+        }
+
+        if (dashStartExtraDelay > 0f)
+            yield return new WaitForSeconds(dashStartExtraDelay);
+
+        Vector3 start = transform.position;
         Vector3 dashDir = useLocalX ? transform.right : Vector3.right;
         Vector3 dashTarget = start + dashDir * dashDistanceX;
 
-        // Dash out (this does affect Y during dash by lerping full position — that’s fine if you like the “locked” feel)
+        // Dash out (your existing move)
         yield return MoveOverTime(start, dashTarget, dashDuration);
 
+        isReturning = true;
+        yield return MoveXOverTime(returnDuration);
+        isReturning = false;
+        
         // Wait until grounded before returning
         yield return WaitUntilGrounded();
 
-        // considering attacking till grounded
         isInAttackDash = false;
 
-        // Return is now interruptible
-        isReturning = true;
-
-        // Return X only (Y free)
-        yield return MoveXOverTime(returnDuration);
-
-        isReturning = false;
         dashRoutine = null;
 
-        // Katana layer ON after fully finishing return (your logic)
         if (animator != null && katanaLayerIndex >= 0)
-        {
             animator.SetLayerWeight(katanaLayerIndex, 1f);
-        }
     }
+
+
 
     private IEnumerator MoveOverTime(Vector3 from, Vector3 to, float duration)
     {
@@ -243,5 +263,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void OnDisable()
+    {
+        if (animator != null)
+            animator.speed = 1f;
     }
 }

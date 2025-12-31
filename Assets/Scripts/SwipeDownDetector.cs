@@ -1,4 +1,5 @@
 using MoreMountains.InfiniteRunnerEngine;
+using MoreMountains.Tools;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,12 @@ public class SwipeDownDetector : MonoBehaviour
     public float slideReturnDuration = 0.12f;
     public float slideForwardDuration = 0.06f;
     public bool IsDownAttacking => isDownAttacking;
+
+    [Header("DownAttack Freeze")]
+    [SerializeField] private string downAttackStateName = "DownAttack";
+    [SerializeField] private float downAttackHoldNormalizedTime = 0.36f; // Frame 13
+    private bool downAttackFrozen;
+
     private int katanaLayerIndex = -1;
 
     private Vector2 startPos;
@@ -36,6 +43,10 @@ public class SwipeDownDetector : MonoBehaviour
     private bool isSlideReturning;
     private Jumper jumper;
     private TapOnlyMainActionZone mainActionTouchZone;
+
+    [Header("DownAttack Slam")]
+    public float downAttackFallSpeed = -25f; // tune this
+    private MMRigidbodyInterface rbInterface;
 
     private void Awake()
     {
@@ -53,6 +64,11 @@ public class SwipeDownDetector : MonoBehaviour
 
         if (animator != null)
             katanaLayerIndex = animator.GetLayerIndex(katanaLayerName);
+
+        rbInterface = GetComponent<MMRigidbodyInterface>();
+        if (rbInterface == null)
+            Debug.LogError("SwipeDownDetector: MMRigidbodyInterface missing.");
+
     }
 
     private void OnEnable()
@@ -143,20 +159,68 @@ public class SwipeDownDetector : MonoBehaviour
 
     }
 
+
+
     private IEnumerator DownAttackRoutine()
     {
         isDownAttacking = true;
+        downAttackFrozen = false;
 
         if (animator != null)
             animator.SetTrigger("DownAttack");
 
-        yield return new WaitForSeconds(downAttackDuration);
+        // Let the animation advance to the hold frame
+        while (!downAttackFrozen)
+        {
+            var state = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (state.IsName(downAttackStateName) &&
+                state.normalizedTime >= downAttackHoldNormalizedTime)
+            {
+                animator.speed = 0f;        // FREEZE at frame 13
+                downAttackFrozen = true;
+            }
+
+            yield return null;
+        }
+
+        // WAIT HERE until grounded (first impact) — FORCE SLAM SPEED
+        while (jumper != null && !jumper.IsGrounded)
+        {
+            if (rbInterface != null)
+            {
+                Vector3 v = rbInterface.Velocity;
+                v.y = downAttackFallSpeed; // force fast downward slam
+                rbInterface.Velocity = v;
+            }
+
+            yield return null;
+        }
+
+        // RELEASE animation (impact + bounce plays)
+        animator.speed = 1f;
+
+        // Wait until animation finishes naturally
+        while (true)
+        {
+            var state = animator.GetCurrentAnimatorStateInfo(0);
+            if (!state.IsName(downAttackStateName) || state.normalizedTime >= 0.98f)
+                break;
+
+            yield return null;
+        }
 
         // Restore layer
         if (animator != null && katanaLayerIndex >= 0)
             animator.SetLayerWeight(katanaLayerIndex, 1f);
 
         isDownAttacking = false;
+    }
+
+    private void OnDisable()
+    {
+        if (animator != null)
+            animator.speed = 1f;
     }
 
     private IEnumerator SlideRoutine()
