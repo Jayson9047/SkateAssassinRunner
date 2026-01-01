@@ -1,5 +1,7 @@
+using IndieKit;
 using MoreMountains.InfiniteRunnerEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SwipeRightAttackDetector : MonoBehaviour
@@ -40,6 +42,33 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [Header("Air Dash Gravity Control")]
     [SerializeField] private bool suspendGravityDuringAirDash = true;
 
+    // -------------------------------
+    // NEW: Barrel hit plumbing
+    // -------------------------------
+    [Header("Attack Hit (Pass-to-Destroy)")]
+    [Tooltip("Only colliders on these layers will be considered damageable targets (barrels).")]
+    [SerializeField] private LayerMask damageableMask = ~0;
+
+    [Tooltip("Search radius around player while dashing to find nearby barrels.")]
+    [SerializeField] private float damageableSearchRadius = 1.5f;
+
+    [Tooltip("How close in the runner axis a barrel must be to count as 'in range'. (Use your forward axis; if your runner axis is Y, this is Y distance.)")]
+    [SerializeField] private float forwardAxisWindow = 2.0f;
+
+    [Tooltip("Extra buffer so we damage when we've just passed the barrel, not exactly at the same X.")]
+    [SerializeField] private float passBufferX = 0.05f;
+
+    [Tooltip("Damage applied to barrels (IndieKit destructible health can be 1).")]
+    [SerializeField] private float attackDamage = 999f;
+
+    [Tooltip("Optional: assign your player's main collider. If null, we auto-pick the first non-trigger collider on this GameObject.")]
+    [SerializeField] private Collider playerBodyCollider;
+
+    // Track what we've already damaged in this one attack so we don't double-hit.
+    private readonly HashSet<Component> damagedThisAttack = new HashSet<Component>();
+    private readonly HashSet<Collider> ignoredCollidersThisAttack = new HashSet<Collider>();
+    // -------------------------------
+
     private Vector2 startPos;
     private float startTime;
     private bool tracking;
@@ -74,6 +103,21 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
         jumper = GetComponent<Jumper>();
         rb3D = GetComponent<Rigidbody>();
+
+        // Auto-pick a body collider if not assigned (we only use it to ignore blocking collisions during attack)
+        if (playerBodyCollider == null)
+        {
+            // Prefer a non-trigger collider on the same GameObject
+            var cols = GetComponents<Collider>();
+            for (int i = 0; i < cols.Length; i++)
+            {
+                if (cols[i] != null && !cols[i].isTrigger)
+                {
+                    playerBodyCollider = cols[i];
+                    break;
+                }
+            }
+        }
     }
 
     private void Update()
@@ -136,6 +180,9 @@ public class SwipeRightAttackDetector : MonoBehaviour
         attackInProgress = false;
         dashRoutine = null;
 
+        RestoreIgnoredCollisions();
+        damagedThisAttack.Clear();
+
         if (gravitySuspended)
             RestoreGravity();
     }
@@ -143,6 +190,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private IEnumerator DashRoutine()
     {
         attackInProgress = true;
+
+        // NEW: reset per-attack state
+        damagedThisAttack.Clear();
+        RestoreIgnoredCollisions();
 
         try
         {
@@ -159,7 +210,6 @@ public class SwipeRightAttackDetector : MonoBehaviour
             IEnumerator freshStart = WaitForFreshAttackStateStart();
             while (freshStart.MoveNext())
             {
-                // If down attack steals control while arming, abort NOW (and restore gravity)
                 if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking)
                 {
                     AbortDashRoutine();
@@ -224,7 +274,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
             // movement phase begins
             isDashMovementInProgress = true;
 
-            yield return MoveOverTime(start, dashTarget, dashDuration);
+            // NEW: outward dash does "pass-to-destroy" checks while moving
+            yield return MoveOverTime_WithPassToDestroy(start, dashTarget, dashDuration, dashDir);
+
+            // return as before (no damage on return)
             yield return MoveXOverTime(returnDuration);
 
             // movement phase ends (we're back at starting X now)
@@ -248,6 +301,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
             isDashMovementInProgress = false;
             attackInProgress = false;
             dashRoutine = null;
+
+            // NEW: restore collision ignores after attack
+            RestoreIgnoredCollisions();
+            damagedThisAttack.Clear();
         }
     }
 
@@ -349,7 +406,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
         gravitySuspended = false;
     }
 
-    private IEnumerator MoveOverTime(Vector3 from, Vector3 to, float duration)
+    // -------------------------------
+    // NEW: Outward dash movement with "pass-to-destroy"
+    // -------------------------------
+    private IEnumerator MoveOverTime_WithPassToDestroy(Vector3 from, Vector3 to, float duration, Vector3 dashDir)
     {
         if (duration <= 0f)
         {
@@ -370,6 +430,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
             if (gravitySuspended) p.y = pinnedY;
 
             transform.position = p;
+
+            // Check barrels while moving outward
+            TryDamageBarrelsWhenPassed(dashDir);
+
             yield return null;
         }
 
@@ -383,6 +447,88 @@ public class SwipeRightAttackDetector : MonoBehaviour
         {
             transform.position = to;
         }
+
+        // One last check at the end of the dash
+        TryDamageBarrelsWhenPassed(dashDir);
+    }
+
+    private void TryDamageBarrelsWhenPassed(Vector3 dashDir)
+    {
+        if (!attackInProgress) return;
+
+        // Find nearby colliders on damageable layers
+        Collider[] hits = Physics.OverlapSphere(transform.position, damageableSearchRadius, damageableMask, QueryTriggerInteraction.Collide);
+        if (hits == null || hits.Length == 0) return;
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            var col = hits[i];
+            if (col == null) continue;
+
+            // Must be damageable
+            var damageable = col.GetComponentInParent<IDamageable>();
+            if (damageable == null)
+                continue;
+
+            // If we're attacking, don't let target colliders block our sideways movement
+            if (playerBodyCollider != null && !col.isTrigger)
+            {
+                if (!ignoredCollidersThisAttack.Contains(col))
+                {
+                    Physics.IgnoreCollision(playerBodyCollider, col, true);
+                    ignoredCollidersThisAttack.Add(col);
+                }
+            }
+
+            // Only consider objects close enough in the runner axis.
+            // Your runner axis might be Y (common in side-runners). If yours is Z instead, change this line accordingly.
+            float forwardDelta = Mathf.Abs(col.bounds.center.y - transform.position.y);
+            if (forwardDelta > forwardAxisWindow)
+                continue;
+
+
+
+            // Make sure we only damage once per attack.
+            // We store the component implementing IDamageable if possible, otherwise the collider's transform component.
+            Component key = damageable as Component;
+            if (key == null) key = col.transform;
+
+            if (damagedThisAttack.Contains(key))
+                continue;
+
+            float targetX = col.bounds.center.x;
+
+            // "Destroy the moment the player passes the enemy"
+            if (dashDir.x >= 0f)
+            {
+                if (transform.position.x >= targetX + passBufferX)
+                {
+                    damageable.ApplyDamage(attackDamage, col.bounds.center);
+                    damagedThisAttack.Add(key);
+                }
+            }
+            else
+            {
+                if (transform.position.x <= targetX - passBufferX)
+                {
+                    damageable.ApplyDamage(attackDamage, col.bounds.center);
+                    damagedThisAttack.Add(key);
+                }
+            }
+        }
+    }
+
+    private void RestoreIgnoredCollisions()
+    {
+        if (playerBodyCollider == null) { ignoredCollidersThisAttack.Clear(); return; }
+
+        foreach (var col in ignoredCollidersThisAttack)
+        {
+            if (col == null) continue;
+            Physics.IgnoreCollision(playerBodyCollider, col, false);
+        }
+
+        ignoredCollidersThisAttack.Clear();
     }
 
     private IEnumerator MoveXOverTime(float duration)
@@ -432,5 +578,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
         attackInProgress = false;
         isDashMovementInProgress = false;
         dashRoutine = null;
+
+        RestoreIgnoredCollisions();
+        damagedThisAttack.Clear();
     }
 }
