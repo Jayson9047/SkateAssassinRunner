@@ -13,7 +13,23 @@ MonoBehaviour:
   m_Name: vFavorites Data
   m_EditorClassIdentifier: 
   pages:
+  - items: []
+    name: Animations
+    _id: 1064126688
+  - items: []
+    name: objects
+    _id: 1058169227
   - items:
+    - globalId:
+        globalObjectIdString: GlobalObjectId_V1-1-cd63160ecd2600a4dbaf40df0edbe8e1-8313252055105968873-0
+      _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      _obj: {fileID: 8313252055105968873, guid: cd63160ecd2600a4dbaf40df0edbe8e1,
+        type: 3}
+      isSceneGameObject: 0
+      isFolder: 0
+      isAsset: 1
+      _id: 1040361353
     - globalId:
         globalObjectIdString: GlobalObjectId_V1-1-2dbe577afcde8694e8c9699cfccf55bc-102900000-0
       _typeString: UnityEditor.DefaultAsset, UnityEditor.CoreModule, Version=0.0.0.0,
@@ -22,104 +38,44 @@ MonoBehaviour:
       isSceneGameObject: 0
       isFolder: 1
       isAsset: 0
-      _id: 1058005887
+      _id: 1062885980
     - globalId:
-        globalObjectIdString: GlobalObjectId_V1-1-073b589b6db13854fb263e9b4a24e59e-919132149155446097-0
-      _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 919132149155446097, guid: 073b589b6db13854fb263e9b4a24e59e, type: 3}
-      isSceneGameObject: 0
-      isFolder: 0
-      isAsset: 1
-      _id: 1028554946
-    - globalId:
-        globalObjectIdString: GlobalObjectId_V1-1-f616a2e271f109447b49d45d058a4084-100238-0
-      _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 100238, guid: f616a2e271f109447b49d45d058a4084, type: 3}
-      isSceneGameObject: 0
-      isFolder: 0
-      isAsset: 1
-      _id: 1035279377
-    - globalId:
-        globalObjectIdString: GlobalObjectId_V1-1-c646ddb3af437014da0c8ebbc5bf0669-102900000-0
+        globalObjectIdString: GlobalObjectId_V1-1-2b7827cbd6cd85d43b1893734a297874-102900000-0
       _typeString: UnityEditor.DefaultAsset, UnityEditor.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 102900000, guid: c646ddb3af437014da0c8ebbc5bf0669, type: 3}
+      _obj: {fileID: 102900000, guid: 2b7827cbd6cd85d43b1893734a297874, type: 3}
       isSceneGameObject: 0
       isFolder: 1
       isAsset: 0
-      _id: 1059532287
+      _id: 1063909666
     - globalId:
-        globalObjectIdString: GlobalObjectId_V1-3-b038f001f1b41254e8e6cdb37c9fab85-31900000-0
-      _typeString: UnityEngine.AvatarMask, UnityEngine.AnimationModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 31900000, guid: b038f001f1b41254e8e6cdb37c9fab85, type: 2}
-      isSceneGameObject: 0
-      isFolder: 0
-      isAsset: 1
-      _id: 1056950582
-    - globalId:
-        globalObjectIdString: GlobalObjectId_V1-1-0653d9a40d48fae42b27f139277afeaa-102900000-0
+        globalObjectIdString: GlobalObjectId_V1-1-7d529eef710e82448b2964fb3fbd259d-102900000-0
       _typeString: UnityEditor.DefaultAsset, UnityEditor.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 102900000, guid: 0653d9a40d48fae42b27f139277afeaa, type: 3}
+      _obj: {fileID: 102900000, guid: 7d529eef710e82448b2964fb3fbd259d, type: 3}
       isSceneGameObject: 0
       isFolder: 1
       isAsset: 0
-      _id: 1062452498
-    name: Animations
-    _id: 1064126688
-  - items:
+      _id: 1052484729
     - globalId:
-        globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-330585543-0
-      _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+        globalObjectIdString: GlobalObjectId_V1-1-c99cbddb0e4bac44493c9f3dca312e35-102900000-0
+      _typeString: UnityEditor.DefaultAsset, UnityEditor.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 0}
-      isSceneGameObject: 1
-      isFolder: 0
+      _obj: {fileID: 102900000, guid: c99cbddb0e4bac44493c9f3dca312e35, type: 3}
+      isSceneGameObject: 0
+      isFolder: 1
       isAsset: 0
-      _id: 1063544852
+      _id: 1057981441
     - globalId:
-        globalObjectIdString: GlobalObjectId_V1-3-3d4ca9abcda074147a6ded7e6428c38a-7400000-0
-      _typeString: UnityEngine.AnimationClip, UnityEngine.AnimationModule, Version=0.0.0.0,
+        globalObjectIdString: GlobalObjectId_V1-1-caedf41f32cd0454c89e8444945ab248-102900000-0
+      _typeString: UnityEditor.DefaultAsset, UnityEditor.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 7400000, guid: 3d4ca9abcda074147a6ded7e6428c38a, type: 2}
+      _obj: {fileID: 102900000, guid: caedf41f32cd0454c89e8444945ab248, type: 3}
       isSceneGameObject: 0
-      isFolder: 0
-      isAsset: 1
-      _id: 1062985874
-    name: objects
-    _id: 1058169227
-  - items:
-    - globalId:
-        globalObjectIdString: GlobalObjectId_V1-1-7f712df51c8a1ce47b092e4665658f4a-147952-0
-      _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 147952, guid: 7f712df51c8a1ce47b092e4665658f4a, type: 3}
-      isSceneGameObject: 0
-      isFolder: 0
-      isAsset: 1
-      _id: 1062278258
-    - globalId:
-        globalObjectIdString: GlobalObjectId_V1-1-8eb57d8dd195e4146b417f5681e96ca9-147952-0
-      _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 147952, guid: 8eb57d8dd195e4146b417f5681e96ca9, type: 3}
-      isSceneGameObject: 0
-      isFolder: 0
-      isAsset: 1
-      _id: 1041777769
-    - globalId:
-        globalObjectIdString: GlobalObjectId_V1-1-ef050f77c442e7140911b5b1d0173525-166624-0
-      _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 166624, guid: ef050f77c442e7140911b5b1d0173525, type: 3}
-      isSceneGameObject: 0
-      isFolder: 0
-      isAsset: 1
-      _id: 1056693090
-    name: prefabs
+      isFolder: 1
+      isAsset: 0
+      _id: 1055269186
+    name: folders
     _id: 1053228734
   - items: []
     name: Page 4

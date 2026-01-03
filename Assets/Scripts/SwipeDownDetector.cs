@@ -1,6 +1,8 @@
+using IndieKit;
 using MoreMountains.InfiniteRunnerEngine;
 using MoreMountains.Tools;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SwipeDownDetector : MonoBehaviour
@@ -54,6 +56,26 @@ public class SwipeDownDetector : MonoBehaviour
     private bool pendingDownAttack;
 
     private bool downAttackCancelledIntoSlide;
+
+    [Header("DownAttack Ground Impact")]
+    [Tooltip("World-space impact zone center (place this on the ground where the slam should affect).")]
+    [SerializeField] private Transform groundImpactZoneCenter;
+
+    [Tooltip("Impact radius in world units (circle on the ground).")]
+    [SerializeField] private float groundImpactRadius = 2.0f;
+
+    [Tooltip("Only colliders on these layers will be damaged by the slam (barrels/enemies).")]
+    [SerializeField] private LayerMask damageableMask = ~0;
+
+    [Tooltip("Damage applied by slam. Set high to guarantee barrel destruction.")]
+    [SerializeField] private float slamDamage = 999f;
+
+    [Tooltip("If true, slam impact only triggers once per down attack.")]
+    [SerializeField] private bool triggerImpactOncePerDownAttack = true;
+
+    private bool impactTriggeredThisDownAttack = false;
+
+    private readonly HashSet<Component> damagedThisImpact = new HashSet<Component>();
 
     private void Awake()
     {
@@ -214,6 +236,9 @@ public class SwipeDownDetector : MonoBehaviour
         downAttackFrozen = false;
         downAttackCancelledIntoSlide = false;
 
+        impactTriggeredThisDownAttack = false;
+        damagedThisImpact.Clear();
+
         // Block jump during downattack completely
         if (mainActionTouchZone != null)
             mainActionTouchZone.enabled = false;
@@ -288,6 +313,80 @@ public class SwipeDownDetector : MonoBehaviour
             isDownAttacking = false;
             downAttackFrozen = false;
             downAttackCancelledIntoSlide = false;
+
+            impactTriggeredThisDownAttack = false;
+            damagedThisImpact.Clear();
+        }
+    }
+
+    // Trigger slam impact when we collide with a damageable during downattack
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!isDownAttacking) return;
+
+        // If you use triggers instead of collisions on barrels, OnTriggerEnter below will handle it.
+        TryTriggerGroundImpactFromCollider(collision.collider);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!isDownAttacking) return;
+        TryTriggerGroundImpactFromCollider(other);
+    }
+
+    private void TryTriggerGroundImpactFromCollider(Collider hitCollider)
+    {
+        if (hitCollider == null) return;
+
+        // Only trigger impact if what we hit is damageable (barrel/enemy)
+        var damageable = hitCollider.GetComponentInParent<IDamageable>();
+        if (damageable == null)
+            return;
+
+        if (triggerImpactOncePerDownAttack && impactTriggeredThisDownAttack)
+            return;
+
+        // Run the actual AOE damage using the ground zone
+        DoGroundImpactAOE(hitCollider.bounds.center);
+
+        impactTriggeredThisDownAttack = true;
+    }
+
+    private void DoGroundImpactAOE(Vector3 hitPoint)
+    {
+        if (groundImpactZoneCenter == null)
+        {
+            Debug.LogWarning("[SwipeDownDetector] Ground Impact Zone Center is not assigned.");
+            return;
+        }
+
+        damagedThisImpact.Clear();
+
+        Vector3 center = groundImpactZoneCenter.position;
+
+        // Damage all damageables inside the radius
+        Collider[] hits = Physics.OverlapSphere(center, groundImpactRadius, damageableMask, QueryTriggerInteraction.Collide);
+        if (hits == null || hits.Length == 0)
+            return;
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            Collider col = hits[i];
+            if (col == null) continue;
+
+            var dmg = col.GetComponentInParent<IDamageable>();
+            if (dmg == null) continue;
+
+            // Prevent double-damaging the same object within this impact
+            Component key = dmg as Component;
+            if (key == null) key = col.transform;
+
+            if (damagedThisImpact.Contains(key))
+                continue;
+
+            damagedThisImpact.Add(key);
+
+            dmg.ApplyDamage(slamDamage, hitPoint);
         }
     }
 
