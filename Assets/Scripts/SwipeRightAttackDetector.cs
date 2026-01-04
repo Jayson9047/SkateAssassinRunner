@@ -23,6 +23,12 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [SerializeField] private Transform startingPosition;
     [SerializeField] private Transform dashDistanceLimit;
 
+    [Header("Hit Tightening (prevents 'air hits')")]
+    [SerializeField] private float verticalWindow = 0.35f;   // max allowed Y diff (height)
+    [SerializeField] private float depthWindow = 0.60f;      // max allowed Z diff (depth)
+    [SerializeField] private float hitRadius = 0.45f;        // must be this close to actually count as a hit
+
+
     private SwipeDownDetector swipeDownDetector;
 
     [Header("Dash (X Axis)")]
@@ -90,6 +96,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private bool isDashMovementInProgress;
     public bool IsDashMovementInProgress => isDashMovementInProgress;
+
+    public bool IsAttacking => attackInProgress;
+
+    private int attackId = 0;
+    public int AttackId => attackId;
 
     private void Awake()
     {
@@ -190,7 +201,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private IEnumerator DashRoutine()
     {
         attackInProgress = true;
-
+        attackId++;
         // NEW: reset per-attack state
         damagedThisAttack.Clear();
         RestoreIgnoredCollisions();
@@ -457,18 +468,25 @@ public class SwipeRightAttackDetector : MonoBehaviour
         if (!attackInProgress) return;
 
         // Find nearby colliders on damageable layers
-        Collider[] hits = Physics.OverlapSphere(transform.position, damageableSearchRadius, damageableMask, QueryTriggerInteraction.Collide);
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position,
+            damageableSearchRadius,
+            damageableMask,
+            QueryTriggerInteraction.Collide
+        );
+
         if (hits == null || hits.Length == 0) return;
+
+        Vector3 playerPos = transform.position;
 
         for (int i = 0; i < hits.Length; i++)
         {
-            var col = hits[i];
+            Collider col = hits[i];
             if (col == null) continue;
 
             // Must be damageable
             var damageable = col.GetComponentInParent<IDamageable>();
-            if (damageable == null)
-                continue;
+            if (damageable == null) continue;
 
             // If we're attacking, don't let target colliders block our sideways movement
             if (playerBodyCollider != null && !col.isTrigger)
@@ -480,43 +498,54 @@ public class SwipeRightAttackDetector : MonoBehaviour
                 }
             }
 
-            // Only consider objects close enough in the runner axis.
-            // Your runner axis might be Y (common in side-runners). If yours is Z instead, change this line accordingly.
-            float forwardDelta = Mathf.Abs(col.bounds.center.y - transform.position.y);
-            if (forwardDelta > forwardAxisWindow)
+            // --- NEW: Tight "real hit" check using ClosestPoint ---
+            Vector3 closest = col.ClosestPoint(playerPos);
+
+            // 1) Must be close enough overall (prevents big OverlapSphere "AOE" hits)
+            float sqrDist = (closest - playerPos).sqrMagnitude;
+            if (sqrDist > hitRadius * hitRadius)
                 continue;
 
+            // 2) Must be roughly same height (prevents jump-over hits)
+            float yDelta = Mathf.Abs(closest.y - playerPos.y);
+            if (yDelta > verticalWindow)
+                continue;
 
+            // 3) Must be roughly same depth (keeps 2.5D consistent)
+            float zDelta = Mathf.Abs(closest.z - playerPos.z);
+            if (zDelta > depthWindow)
+                continue;
 
             // Make sure we only damage once per attack.
-            // We store the component implementing IDamageable if possible, otherwise the collider's transform component.
             Component key = damageable as Component;
             if (key == null) key = col.transform;
 
             if (damagedThisAttack.Contains(key))
                 continue;
 
-            float targetX = col.bounds.center.x;
+            // Use closest point's X for "passed" check (more accurate than bounds center)
+            float targetX = closest.x;
 
-            // "Destroy the moment the player passes the enemy"
+            // "Destroy the moment the player passes the target"
             if (dashDir.x >= 0f)
             {
-                if (transform.position.x >= targetX + passBufferX)
+                if (playerPos.x >= targetX + passBufferX)
                 {
-                    damageable.ApplyDamage(attackDamage, col.bounds.center);
+                    damageable.ApplyDamage(attackDamage, closest);
                     damagedThisAttack.Add(key);
                 }
             }
             else
             {
-                if (transform.position.x <= targetX - passBufferX)
+                if (playerPos.x <= targetX - passBufferX)
                 {
-                    damageable.ApplyDamage(attackDamage, col.bounds.center);
+                    damageable.ApplyDamage(attackDamage, closest);
                     damagedThisAttack.Add(key);
                 }
             }
         }
     }
+
 
     private void RestoreIgnoredCollisions()
     {
