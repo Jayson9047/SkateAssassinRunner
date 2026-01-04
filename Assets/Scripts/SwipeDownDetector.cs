@@ -22,6 +22,9 @@ public class SwipeDownDetector : MonoBehaviour
 
     private SwipeRightAttackDetector swipeRightAttackDetector;
 
+    [Header("DownAttack Gate")]
+    [SerializeField] private bool requireDoubleJumpForDownAttack = true;
+
     [Header("Slide X Nudge")]
     public Transform startingPosition;
     public float slideForwardX = 0f;
@@ -192,15 +195,20 @@ public class SwipeDownDetector : MonoBehaviour
         if (swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashMovementInProgress)
             return;
 
-        // Airborne: start DownAttack (only if not already doing it)
+        // Airborne: start DownAttack (only after double jump, if enabled)
         if (!isGrounded && !isDownAttacking)
         {
+            // Require double jump to be used
+            if (requireDoubleJumpForDownAttack && jumper._numberOfJumpsLeft > 0)
+                return;
+
             if (animator != null && katanaLayerIndex >= 0)
                 animator.SetLayerWeight(katanaLayerIndex, 0f);
 
             StartCoroutine(DownAttackRoutine());
             return;
         }
+
 
         if (isSliding)
             return;
@@ -229,6 +237,8 @@ public class SwipeDownDetector : MonoBehaviour
             StartCoroutine(SlideRoutine());
         }
     }
+
+
 
     private IEnumerator DownAttackRoutine()
     {

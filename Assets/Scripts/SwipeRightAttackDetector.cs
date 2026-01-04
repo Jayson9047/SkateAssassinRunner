@@ -23,13 +23,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [SerializeField] private Transform startingPosition;
     [SerializeField] private Transform dashDistanceLimit;
 
-    [Header("Hit Tightening (prevents 'air hits')")]
-    [SerializeField] private float verticalWindow = 0.35f;   // max allowed Y diff (height)
-    [SerializeField] private float depthWindow = 0.60f;      // max allowed Z diff (depth)
-    [SerializeField] private float hitRadius = 0.45f;        // must be this close to actually count as a hit
-
-
     private SwipeDownDetector swipeDownDetector;
+
+    [SerializeField] private float sweepRadius = 0.35f; // use ~player body width or katana reach
+    private Vector3 _prevDashPos;
+
 
     [Header("Dash (X Axis)")]
     public float dashDistanceX = 1.0f;          // fallback if dashDistanceLimit is missing
@@ -49,22 +47,28 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [SerializeField] private bool suspendGravityDuringAirDash = true;
 
     // -------------------------------
-    // NEW: Barrel hit plumbing
+    // Pass-to-destroy damage logic
     // -------------------------------
     [Header("Attack Hit (Pass-to-Destroy)")]
-    [Tooltip("Only colliders on these layers will be considered damageable targets (barrels).")]
+    [Tooltip("Only colliders on these layers are hittable targets (hurtboxes / barrels). IMPORTANT: exclude detection-trigger layers.")]
     [SerializeField] private LayerMask damageableMask = ~0;
 
-    [Tooltip("Search radius around player while dashing to find nearby barrels.")]
+    [Tooltip("Search radius around player while dashing to find nearby targets.")]
     [SerializeField] private float damageableSearchRadius = 1.5f;
 
-    [Tooltip("How close in the runner axis a barrel must be to count as 'in range'. (Use your forward axis; if your runner axis is Y, this is Y distance.)")]
-    [SerializeField] private float forwardAxisWindow = 2.0f;
+    [Tooltip("Must be within this distance (from ClosestPoint) to count as an actual hit.")]
+    [SerializeField] private float hitRadius = 0.55f;
 
-    [Tooltip("Extra buffer so we damage when we've just passed the barrel, not exactly at the same X.")]
+    [Tooltip("Max allowed Z separation (2.5D). Tighten if you ever hit things behind/in front.")]
+    [SerializeField] private float depthWindow = 0.60f;
+
+    [Tooltip("If player is ABOVE target's top by this amount, we treat it as jumping over and do NOT hit.")]
+    [SerializeField] private float overheadClearanceY = 0.05f;
+
+    [Tooltip("Extra buffer so we damage after we've passed the target, not exactly at the same X.")]
     [SerializeField] private float passBufferX = 0.05f;
 
-    [Tooltip("Damage applied to barrels (IndieKit destructible health can be 1).")]
+    [Tooltip("Damage applied to damageables (IndieKit destructibles often use 1 HP).")]
     [SerializeField] private float attackDamage = 999f;
 
     [Tooltip("Optional: assign your player's main collider. If null, we auto-pick the first non-trigger collider on this GameObject.")]
@@ -82,7 +86,6 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private Jumper jumper;
     private int katanaLayerIndex = -1;
 
-    // Single “busy” lock for the whole attack pipeline.
     private bool attackInProgress;
     private Coroutine dashRoutine;
 
@@ -90,13 +93,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private Rigidbody rb3D;
     private bool gravitySuspended;
     private bool savedUseGravity;
-    private float savedYVelocity;
 
-    public bool IsDashingOrReturning => attackInProgress; // keep compatibility with your other logic
-
+    public bool IsDashingOrReturning => attackInProgress;
     private bool isDashMovementInProgress;
     public bool IsDashMovementInProgress => isDashMovementInProgress;
-
     public bool IsAttacking => attackInProgress;
 
     private int attackId = 0;
@@ -115,10 +115,9 @@ public class SwipeRightAttackDetector : MonoBehaviour
         jumper = GetComponent<Jumper>();
         rb3D = GetComponent<Rigidbody>();
 
-        // Auto-pick a body collider if not assigned (we only use it to ignore blocking collisions during attack)
+        // Auto-pick a body collider if not assigned (used only to ignore blocking collisions during dash)
         if (playerBodyCollider == null)
         {
-            // Prefer a non-trigger collider on the same GameObject
             var cols = GetComponents<Collider>();
             for (int i = 0; i < cols.Length; i++)
             {
@@ -177,14 +176,14 @@ public class SwipeRightAttackDetector : MonoBehaviour
             animator.SetLayerWeight(katanaLayerIndex, 0f);
 
         if (animator != null)
+        {
             animator.ResetTrigger(attackTriggerName);
-        if (animator != null)
             animator.SetTrigger(attackTriggerName);
+        }
 
         dashRoutine = StartCoroutine(DashRoutine());
     }
 
-    // ✅ helper: abort safely without leaving gravity off or locks stuck
     private void AbortDashRoutine()
     {
         isDashMovementInProgress = false;
@@ -202,22 +201,19 @@ public class SwipeRightAttackDetector : MonoBehaviour
     {
         attackInProgress = true;
         attackId++;
-        // NEW: reset per-attack state
+
         damagedThisAttack.Clear();
         RestoreIgnoredCollisions();
 
         try
         {
-            // YOUR REQUIREMENT: if airborne, disable gravity for the ENTIRE attack (arming + dash + return + anim tail)
             bool startedInAir = jumper != null && !jumper.IsGrounded;
             if (suspendGravityDuringAirDash && startedInAir)
                 SuspendGravity();
 
-            // ---- ARMING PHASE (gravity may already be off) ----
             float gateWaitStartTime = Time.time;
-            const float maxGateWaitSeconds = 1.0f; // safety: never lock forever
+            const float maxGateWaitSeconds = 1.0f;
 
-            // Wait for fresh DashAttack start, but allow abort
             IEnumerator freshStart = WaitForFreshAttackStateStart();
             while (freshStart.MoveNext())
             {
@@ -236,7 +232,6 @@ public class SwipeRightAttackDetector : MonoBehaviour
                 yield return freshStart.Current;
             }
 
-            // Wait for frame gate, but allow abort
             IEnumerator gateFrame = WaitForAttackGateFrame();
             while (gateFrame.MoveNext())
             {
@@ -282,22 +277,17 @@ public class SwipeRightAttackDetector : MonoBehaviour
                 }
             }
 
-            // movement phase begins
             isDashMovementInProgress = true;
 
-            // NEW: outward dash does "pass-to-destroy" checks while moving
             yield return MoveOverTime_WithPassToDestroy(start, dashTarget, dashDuration, dashDir);
 
-            // return as before (no damage on return)
             yield return MoveXOverTime(returnDuration);
 
-            // movement phase ends (we're back at starting X now)
             isDashMovementInProgress = false;
 
             if (gravitySuspended)
                 RestoreGravity();
 
-            // keep gravity OFF until the whole attack animation finishes (per your requirement)
             yield return WaitForAttackAnimationToFinish();
 
             if (animator != null && katanaLayerIndex >= 0)
@@ -305,7 +295,6 @@ public class SwipeRightAttackDetector : MonoBehaviour
         }
         finally
         {
-            // Safety: always restore gravity and unlock, even if something stops the coroutine
             if (gravitySuspended)
                 RestoreGravity();
 
@@ -313,7 +302,6 @@ public class SwipeRightAttackDetector : MonoBehaviour
             attackInProgress = false;
             dashRoutine = null;
 
-            // NEW: restore collision ignores after attack
             RestoreIgnoredCollisions();
             damagedThisAttack.Clear();
         }
@@ -394,17 +382,15 @@ public class SwipeRightAttackDetector : MonoBehaviour
         }
     }
 
-    // Gravity suspend helpers
     private void SuspendGravity()
     {
         if (rb3D == null) return;
 
         gravitySuspended = true;
         savedUseGravity = rb3D.useGravity;
-        savedYVelocity = rb3D.linearVelocity.y;
-
         rb3D.useGravity = false;
 
+        // Zero out vertical motion while gravity is suspended
         Vector3 v = rb3D.linearVelocity;
         v.y = 0f;
         rb3D.linearVelocity = v;
@@ -416,10 +402,6 @@ public class SwipeRightAttackDetector : MonoBehaviour
         rb3D.useGravity = savedUseGravity;
         gravitySuspended = false;
     }
-
-    // -------------------------------
-    // NEW: Outward dash movement with "pass-to-destroy"
-    // -------------------------------
     private IEnumerator MoveOverTime_WithPassToDestroy(Vector3 from, Vector3 to, float duration, Vector3 dashDir)
     {
         if (duration <= 0f)
@@ -427,6 +409,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
             transform.position = to;
             yield break;
         }
+
+        _prevDashPos = transform.position;
 
         float t = 0f;
         while (t < duration)
@@ -442,32 +426,102 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
             transform.position = p;
 
-            // Check barrels while moving outward
-            TryDamageBarrelsWhenPassed(dashDir);
+            // ✅ sweep from previous -> current (no misses)
+            TryDamageBySweep(_prevDashPos, p);
+
+            _prevDashPos = p;
 
             yield return null;
         }
 
-        if (gravitySuspended)
-        {
-            Vector3 final = to;
-            final.y = transform.position.y;
-            transform.position = final;
-        }
-        else
-        {
-            transform.position = to;
-        }
+        // final snap
+        Vector3 finalPos = gravitySuspended ? new Vector3(to.x, transform.position.y, to.z) : to;
+        transform.position = finalPos;
 
-        // One last check at the end of the dash
-        TryDamageBarrelsWhenPassed(dashDir);
+        TryDamageBySweep(_prevDashPos, finalPos);
+        _prevDashPos = finalPos;
     }
+    private void TryDamageBySweep(Vector3 fromPos, Vector3 toPos)
+    {
+        if (!attackInProgress) return;
+
+        // A capsule volume from last frame to this frame
+        Collider[] cols = Physics.OverlapCapsule(
+            fromPos,
+            toPos,
+            sweepRadius,
+            damageableMask,
+            QueryTriggerInteraction.Collide
+        );
+
+        if (cols == null || cols.Length == 0) return;
+
+        Vector3 playerPos = toPos;
+
+        for (int i = 0; i < cols.Length; i++)
+        {
+            Collider col = cols[i];
+            if (col == null) continue;
+
+            // Ignore triggers (detection volumes, etc.)
+            if (col.isTrigger) continue;
+
+            var damageable = col.GetComponentInParent<IndieKit.IDamageable>();
+            if (damageable == null) continue;
+
+            // Optional: prevent dash from getting blocked by the target collider
+            if (playerBodyCollider != null)
+                Physics.IgnoreCollision(playerBodyCollider, col, true);
+
+            // Overhead rule (prevents "jump-over kills")
+            // IMPORTANT tweak: use the player's Y, but allow a little leeway
+            if (playerPos.y > col.bounds.max.y + overheadClearanceY)
+                continue;
+
+            // 2.5D depth gating (if you want it)
+            Vector3 closest = col.ClosestPoint(playerPos);
+            float zDelta = Mathf.Abs(closest.z - playerPos.z);
+            if (zDelta > depthWindow)
+                continue;
+
+            // Apply damage at the closest point
+            damageable.ApplyDamage(attackDamage, closest);
+        }
+    }
+
+    private void TryDamageAtPoint(Vector3 playerPos)
+    {
+        Collider[] cols = Physics.OverlapSphere(
+            playerPos,
+            sweepRadius,
+            damageableMask,
+            QueryTriggerInteraction.Collide
+        );
+
+        if (cols == null || cols.Length == 0) return;
+
+        for (int i = 0; i < cols.Length; i++)
+        {
+            Collider col = cols[i];
+            if (col == null) continue;
+            if (col.isTrigger) continue;
+
+            var damageable = col.GetComponentInParent<IDamageable>();
+            if (damageable == null) continue;
+
+            if (playerPos.y > col.bounds.max.y + overheadClearanceY)
+                continue;
+
+            Vector3 hitPoint = col.ClosestPoint(playerPos);
+            damageable.ApplyDamage(attackDamage, hitPoint);
+        }
+    }
+
 
     private void TryDamageBarrelsWhenPassed(Vector3 dashDir)
     {
         if (!attackInProgress) return;
 
-        // Find nearby colliders on damageable layers
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
             damageableSearchRadius,
@@ -484,49 +538,47 @@ public class SwipeRightAttackDetector : MonoBehaviour
             Collider col = hits[i];
             if (col == null) continue;
 
-            // Must be damageable
+            // IMPORTANT: ignore triggers (detection colliders, reach triggers, etc.)
+            if (col.isTrigger) continue;
+
             var damageable = col.GetComponentInParent<IDamageable>();
             if (damageable == null) continue;
 
-            // If we're attacking, don't let target colliders block our sideways movement
-            if (playerBodyCollider != null && !col.isTrigger)
-            {
-                if (!ignoredCollidersThisAttack.Contains(col))
-                {
-                    Physics.IgnoreCollision(playerBodyCollider, col, true);
-                    ignoredCollidersThisAttack.Add(col);
-                }
-            }
-
-            // --- NEW: Tight "real hit" check using ClosestPoint ---
-            Vector3 closest = col.ClosestPoint(playerPos);
-
-            // 1) Must be close enough overall (prevents big OverlapSphere "AOE" hits)
-            float sqrDist = (closest - playerPos).sqrMagnitude;
-            if (sqrDist > hitRadius * hitRadius)
-                continue;
-
-            // 2) Must be roughly same height (prevents jump-over hits)
-            float yDelta = Mathf.Abs(closest.y - playerPos.y);
-            if (yDelta > verticalWindow)
-                continue;
-
-            // 3) Must be roughly same depth (keeps 2.5D consistent)
-            float zDelta = Mathf.Abs(closest.z - playerPos.z);
-            if (zDelta > depthWindow)
-                continue;
-
-            // Make sure we only damage once per attack.
+            // One target can only be damaged once per attack, even with multiple colliders
             Component key = damageable as Component;
             if (key == null) key = col.transform;
 
             if (damagedThisAttack.Contains(key))
                 continue;
 
-            // Use closest point's X for "passed" check (more accurate than bounds center)
+            // Prevent blocking during dash (only for non-trigger colliders)
+            if (playerBodyCollider != null && !ignoredCollidersThisAttack.Contains(col))
+            {
+                Physics.IgnoreCollision(playerBodyCollider, col, true);
+                ignoredCollidersThisAttack.Add(col);
+            }
+
+            // Closest point for stable distance + pass-through detection
+            Vector3 closest = col.ClosestPoint(playerPos);
+
+            // Must be close enough overall
+            float sqrDist = (closest - playerPos).sqrMagnitude;
+            if (sqrDist > hitRadius * hitRadius)
+                continue;
+
+            // 2.5D depth gating
+            float zDelta = Mathf.Abs(closest.z - playerPos.z);
+            if (zDelta > depthWindow)
+                continue;
+
+            // Asymmetric vertical rule:
+            // If player is clearly ABOVE the target's TOP, treat it as "jumped over" (no hit).
+            if (playerPos.y > col.bounds.max.y + overheadClearanceY)
+                continue;
+
+            // X "passed" check → slice moment
             float targetX = closest.x;
 
-            // "Destroy the moment the player passes the target"
             if (dashDir.x >= 0f)
             {
                 if (playerPos.x >= targetX + passBufferX)
@@ -545,7 +597,6 @@ public class SwipeRightAttackDetector : MonoBehaviour
             }
         }
     }
-
 
     private void RestoreIgnoredCollisions()
     {
