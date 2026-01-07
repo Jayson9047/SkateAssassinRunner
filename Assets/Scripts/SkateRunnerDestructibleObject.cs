@@ -1,13 +1,20 @@
+using System;
 using UnityEngine;
 
 namespace IndieKit
 {
     public class SkateRunnerDestructibleObjects : MonoBehaviour, IDamageable
     {
+        public static event Action<SkateRunnerDestructibleObjects> OnDestroyed; // global signal
+
         [SerializeField] private float health = 1f;
         [SerializeField] private GameObject DebrisPrefab;
 
+        [Header("Gameplay")]
+        [SerializeField] private bool countsAsEnemyKill = true;
+
         private float _initialHealth;
+        private bool _isDead;
 
         private void Awake()
         {
@@ -16,16 +23,18 @@ namespace IndieKit
 
         private void OnEnable()
         {
-            // IMPORTANT: pooled objects come back enabled, so reset health
             health = _initialHealth;
+            _isDead = false;
         }
 
         public void ApplyDamage(float damage, Vector3 hitPoint)
         {
-            health -= damage;
+            if (_isDead) return;
 
-            if (health > 0f)
-                return;
+            health -= damage;
+            if (health > 0f) return;
+
+            _isDead = true;
 
             // spawn debris (NOT pooled)
             if (DebrisPrefab != null)
@@ -43,7 +52,11 @@ namespace IndieKit
                 }
             }
 
-            // DO NOT destroy pooled objects. Return to pool by disabling.
+            if (countsAsEnemyKill)
+            {
+                OnDestroyed?.Invoke(this);
+            }
+
             gameObject.SetActive(false);
         }
     }

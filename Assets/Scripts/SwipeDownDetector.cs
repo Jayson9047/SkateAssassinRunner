@@ -76,6 +76,10 @@ public class SwipeDownDetector : MonoBehaviour
     [Tooltip("If true, slam impact only triggers once per down attack.")]
     [SerializeField] private bool triggerImpactOncePerDownAttack = true;
 
+    [Header("DownAttack Slam Radius")]
+    [SerializeField] private float normalImpactRadius = 2f;
+    [SerializeField] private float poweredImpactRadius = 5f;
+
     private bool impactTriggeredThisDownAttack = false;
 
     private readonly HashSet<Component> damagedThisImpact = new HashSet<Component>();
@@ -329,38 +333,46 @@ public class SwipeDownDetector : MonoBehaviour
         }
     }
 
-    // Trigger slam impact when we collide with a damageable during downattack
+    // Trigger slam impact when we collide with anything during downattack
     private void OnCollisionEnter(Collision collision)
     {
         if (!isDownAttacking) return;
 
-        // If you use triggers instead of collisions on barrels, OnTriggerEnter below will handle it.
-        TryTriggerGroundImpactFromCollider(collision.collider);
+        Vector3 hitPoint = collision.contactCount > 0
+            ? collision.GetContact(0).point
+            : collision.collider.bounds.center;
+
+        TryTriggerGroundImpactFromCollider(collision.collider, hitPoint);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!isDownAttacking) return;
-        TryTriggerGroundImpactFromCollider(other);
+
+        // ClosestPoint gives a decent “impact point” even for triggers
+        Vector3 hitPoint = other.ClosestPoint(transform.position);
+
+        TryTriggerGroundImpactFromCollider(other, hitPoint);
     }
 
-    private void TryTriggerGroundImpactFromCollider(Collider hitCollider)
+
+    private void TryTriggerGroundImpactFromCollider(Collider hitCollider, Vector3 hitPoint)
     {
         if (hitCollider == null) return;
 
-        // Only trigger impact if what we hit is damageable (barrel/enemy)
-        var damageable = hitCollider.GetComponentInParent<IDamageable>();
-        if (damageable == null)
-            return;
+        // Ignore collisions with our own player hierarchy
+        if (hitCollider.transform.IsChildOf(transform)) return;
 
+        // If configured, only allow one slam impact per down attack
         if (triggerImpactOncePerDownAttack && impactTriggeredThisDownAttack)
             return;
 
-        // Run the actual AOE damage using the ground zone
-        DoGroundImpactAOE(hitCollider.bounds.center);
+        // Trigger slam on ANY collision (ground, wall, enemy, obstacle, etc.)
+        DoGroundImpactAOE(hitPoint);
 
         impactTriggeredThisDownAttack = true;
     }
+
 
     private void DoGroundImpactAOE(Vector3 hitPoint)
     {
@@ -373,11 +385,21 @@ public class SwipeDownDetector : MonoBehaviour
         damagedThisImpact.Clear();
 
         Vector3 center = groundImpactZoneCenter.position;
+        center.x = hitPoint.x;
 
-        // Damage all damageables inside the radius
-        Collider[] hits = Physics.OverlapSphere(center, groundImpactRadius, damageableMask, QueryTriggerInteraction.Collide);
+        // Decide radius from the REAL source of truth (slam charge number)
+        bool slamReady = SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
+                         && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady();
+
+        float effectiveRadius = slamReady ? poweredImpactRadius : normalImpactRadius;
+
+        Collider[] hits = Physics.OverlapSphere(center, effectiveRadius, damageableMask, QueryTriggerInteraction.Collide);
         if (hits == null || hits.Length == 0)
+        {
+            // still consume slam if you want the slam to "spend" even if it hits nothing
+            // (I’d personally NOT consume it if it hits nothing.)
             return;
+        }
 
         for (int i = 0; i < hits.Length; i++)
         {
@@ -387,7 +409,6 @@ public class SwipeDownDetector : MonoBehaviour
             var dmg = col.GetComponentInParent<IDamageable>();
             if (dmg == null) continue;
 
-            // Prevent double-damaging the same object within this impact
             Component key = dmg as Component;
             if (key == null) key = col.transform;
 
@@ -398,7 +419,16 @@ public class SwipeDownDetector : MonoBehaviour
 
             dmg.ApplyDamage(slamDamage, hitPoint);
         }
+
+        // If we used the big slam (radius 5), consume it and reset UI back to empty
+        if (slamReady && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
+        {
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.ConsumeSlamIfReady();
+            // After this, shards become empty + button becomes disabled via RefreshSlamShards()
+        }
     }
+
+
 
     private IEnumerator SlideRoutine()
     {
@@ -465,4 +495,19 @@ public class SwipeDownDetector : MonoBehaviour
         if (mainActionTouchZone != null)
             mainActionTouchZone.enabled = true;
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if (groundImpactZoneCenter == null)
+            return;
+
+        Gizmos.color = Color.red;
+
+        Vector3 center = groundImpactZoneCenter.position;
+        center.x = transform.position.x; // match runtime logic
+
+        Gizmos.DrawWireSphere(center, groundImpactRadius);
+    }
+#endif
 }

@@ -46,6 +46,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [Header("Air Dash Gravity Control")]
     [SerializeField] private bool suspendGravityDuringAirDash = true;
 
+    private bool dashAbortRequested;
+
     // -------------------------------
     // Pass-to-destroy damage logic
     // -------------------------------
@@ -201,6 +203,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
     {
         attackInProgress = true;
         attackId++;
+        dashAbortRequested = false;
 
         damagedThisAttack.Clear();
         RestoreIgnoredCollisions();
@@ -279,8 +282,17 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
             isDashMovementInProgress = true;
 
+            if (dashAbortRequested)
+            {
+                AbortDashRoutine();
+                yield break; // IMPORTANT: do NOT return to start, do NOT wait for anim
+            }
             yield return MoveOverTime_WithPassToDestroy(start, dashTarget, dashDuration, dashDir);
-
+            if (dashAbortRequested)
+            {
+                AbortDashRoutine();
+                yield break; // IMPORTANT: do NOT return to start, do NOT wait for anim
+            }
             yield return MoveXOverTime(returnDuration);
 
             isDashMovementInProgress = false;
@@ -415,6 +427,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
         float t = 0f;
         while (t < duration)
         {
+            if (dashAbortRequested)
+            {
+                // Stop movement NOW. Keep current position. Do not snap to target.
+                yield break;
+            }
             float pinnedY = transform.position.y;
 
             t += Time.deltaTime;
@@ -426,13 +443,17 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
             transform.position = p;
 
-            // ✅ sweep from previous -> current (no misses)
+            // sweep from previous -> current (no misses)
             TryDamageBySweep(_prevDashPos, p);
 
             _prevDashPos = p;
 
             yield return null;
         }
+
+        // If we aborted, do not snap to target.
+        if (dashAbortRequested)
+            yield break;
 
         // final snap
         Vector3 finalPos = gravitySuspended ? new Vector3(to.x, transform.position.y, to.z) : to;
@@ -489,113 +510,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
         }
     }
 
-    private void TryDamageAtPoint(Vector3 playerPos)
+    public void AbortDashDueToShield()
     {
-        Collider[] cols = Physics.OverlapSphere(
-            playerPos,
-            sweepRadius,
-            damageableMask,
-            QueryTriggerInteraction.Collide
-        );
-
-        if (cols == null || cols.Length == 0) return;
-
-        for (int i = 0; i < cols.Length; i++)
-        {
-            Collider col = cols[i];
-            if (col == null) continue;
-            if (col.isTrigger) continue;
-
-            var damageable = col.GetComponentInParent<IDamageable>();
-            if (damageable == null) continue;
-
-            if (playerPos.y > col.bounds.max.y + overheadClearanceY)
-                continue;
-
-            Vector3 hitPoint = col.ClosestPoint(playerPos);
-            damageable.ApplyDamage(attackDamage, hitPoint);
-        }
-    }
-
-
-    private void TryDamageBarrelsWhenPassed(Vector3 dashDir)
-    {
-        if (!attackInProgress) return;
-
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            damageableSearchRadius,
-            damageableMask,
-            QueryTriggerInteraction.Collide
-        );
-
-        if (hits == null || hits.Length == 0) return;
-
-        Vector3 playerPos = transform.position;
-
-        for (int i = 0; i < hits.Length; i++)
-        {
-            Collider col = hits[i];
-            if (col == null) continue;
-
-            // IMPORTANT: ignore triggers (detection colliders, reach triggers, etc.)
-            if (col.isTrigger) continue;
-
-            var damageable = col.GetComponentInParent<IDamageable>();
-            if (damageable == null) continue;
-
-            // One target can only be damaged once per attack, even with multiple colliders
-            Component key = damageable as Component;
-            if (key == null) key = col.transform;
-
-            if (damagedThisAttack.Contains(key))
-                continue;
-
-            // Prevent blocking during dash (only for non-trigger colliders)
-            if (playerBodyCollider != null && !ignoredCollidersThisAttack.Contains(col))
-            {
-                Physics.IgnoreCollision(playerBodyCollider, col, true);
-                ignoredCollidersThisAttack.Add(col);
-            }
-
-            // Closest point for stable distance + pass-through detection
-            Vector3 closest = col.ClosestPoint(playerPos);
-
-            // Must be close enough overall
-            float sqrDist = (closest - playerPos).sqrMagnitude;
-            if (sqrDist > hitRadius * hitRadius)
-                continue;
-
-            // 2.5D depth gating
-            float zDelta = Mathf.Abs(closest.z - playerPos.z);
-            if (zDelta > depthWindow)
-                continue;
-
-            // Asymmetric vertical rule:
-            // If player is clearly ABOVE the target's TOP, treat it as "jumped over" (no hit).
-            if (playerPos.y > col.bounds.max.y + overheadClearanceY)
-                continue;
-
-            // X "passed" check → slice moment
-            float targetX = closest.x;
-
-            if (dashDir.x >= 0f)
-            {
-                if (playerPos.x >= targetX + passBufferX)
-                {
-                    damageable.ApplyDamage(attackDamage, closest);
-                    damagedThisAttack.Add(key);
-                }
-            }
-            else
-            {
-                if (playerPos.x <= targetX - passBufferX)
-                {
-                    damageable.ApplyDamage(attackDamage, closest);
-                    damagedThisAttack.Add(key);
-                }
-            }
-        }
+        // This flag is checked inside the movement loop and the DashRoutine flow.
+        dashAbortRequested = true;
     }
 
     private void RestoreIgnoredCollisions()
