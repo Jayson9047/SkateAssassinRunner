@@ -12,7 +12,7 @@ public class EnemyType2 : EnemyBase
 {
     [Header("Shield")]
     [Tooltip("A trigger collider on a child object (e.g. 'ShieldTrigger') representing the shield volume.")]
-    [SerializeField] private Collider shieldTrigger;
+    [SerializeField] private Collider shieldTriggerCollider;
 
     [Tooltip("Tag used to detect player collider (defaults to EnemyBase playerTag).")]
     [SerializeField] private string shieldPlayerTagOverride = ""; // optional, leave empty to use base
@@ -73,6 +73,48 @@ public class EnemyType2 : EnemyBase
     [SerializeField] private float rotationSpeedDegPerSec = 360f; // tune: 180–720 feels good
     [SerializeField] private Transform rotateRoot; // optional: assign mesh root if needed
 
+
+    [Header("Shield Visual & Break")]
+    [Tooltip("Assign the *intact* shield GameObject (the one parented under the hand in Armature).")]
+    [SerializeField] private GameObject intactShieldObject;
+
+    [Tooltip("Prefab of the broken shield pieces (with rigidbodies/colliders).")]
+    [SerializeField] private GameObject brokenShieldPrefab;
+
+    [Tooltip("Explosion force applied to broken shield pieces.")]
+    [SerializeField] private float shieldExplosionForce = 250f;
+
+    [Tooltip("Explosion radius applied to broken shield pieces.")]
+    [SerializeField] private float shieldExplosionRadius = 2f;
+
+    [Tooltip("Optional upward bias so pieces pop a bit.")]
+    [SerializeField] private float shieldExplosionUpward = 0.25f;
+
+    [Tooltip("If true, shield trigger collider gets disabled once shattered.")]
+    [SerializeField] private bool disableShieldTriggerOnShatter = true;
+
+    [Header("Shield Shatter Effects")]
+    [SerializeField] private string damageableLayerName = "Damageable";
+
+    [Tooltip("How far enemy slides back on X when shield shatters.")]
+    [SerializeField] private float shatterPushbackX = 5f;
+
+    [Tooltip("How long the enemy shatter pushback takes.")]
+    [SerializeField] private float shatterPushbackDuration = 0.25f;
+
+    [Tooltip("Animator trigger to fire when shield shatters (enemy reacts / staggers).")]
+    [SerializeField] private string enemyShieldShatterTrigger = "ShieldShatter";
+
+    [Tooltip("If true, uses unscaled time for the shatter pushback.")]
+    [SerializeField] private bool shatterPushbackUseUnscaledTime = true;
+
+    private Coroutine _shatterPushbackRoutine;
+    private int _damageableLayer = -1;
+
+
+    private bool _shieldIntact = true;
+
+
     private int LowerBodyLayerIndex = -1;
 
     private Coroutine _executionRoutine;
@@ -88,28 +130,33 @@ public class EnemyType2 : EnemyBase
     protected override void Awake()
     {
         base.Awake();
+
+        _damageableLayer = LayerMask.NameToLayer(damageableLayerName);
+        if (_damageableLayer < 0)
+            Debug.LogWarning($"{name}: Layer '{damageableLayerName}' not found. Layer swap won't work.");
+
         if (animator == null)
             animator = GetComponentInChildren<Animator>(true);
 
         if (animator != null)
             LowerBodyLayerIndex = animator.GetLayerIndex(LowerBodyLayerName);
         // Auto-find a child named "ShieldTrigger" if not assigned
-        if (shieldTrigger == null)
+        if (shieldTriggerCollider == null)
         {
             Transform t = transform.Find("ShieldTrigger");
             if (t != null)
-                shieldTrigger = t.GetComponent<Collider>();
+                shieldTriggerCollider = t.GetComponent<Collider>();
         }
 
         // Attach relay to shield trigger
-        if (shieldTrigger != null)
+        if (shieldTriggerCollider != null)
         {
-            if (!shieldTrigger.isTrigger)
+            if (!shieldTriggerCollider.isTrigger)
                 Debug.LogWarning($"{name}: ShieldTrigger collider must have IsTrigger enabled.");
 
-            var relay = shieldTrigger.GetComponent<ShieldHitRelay>();
+            var relay = shieldTriggerCollider.GetComponent<ShieldHitRelay>();
             if (relay == null)
-                relay = shieldTrigger.gameObject.AddComponent<ShieldHitRelay>();
+                relay = shieldTriggerCollider.gameObject.AddComponent<ShieldHitRelay>();
 
             string tagToUse = string.IsNullOrEmpty(shieldPlayerTagOverride) ? playerTag : shieldPlayerTagOverride;
             relay.Init(this, tagToUse);
@@ -124,7 +171,142 @@ public class EnemyType2 : EnemyBase
     {
         base.OnEnable();
         _shieldTriggered = false;
+
+        _shieldIntact = true;
+
+        if (shieldTriggerCollider != null)
+            shieldTriggerCollider.enabled = true;
+
+        if (intactShieldObject != null)
+            intactShieldObject.SetActive(true);
     }
+
+    public void ShatterShield(Vector3 hitPoint, float slamCenterX, bool applyPushbackAndAnim)
+    {
+        if (!_shieldIntact) return;
+        _shieldIntact = false;
+
+        if (disableShieldTriggerOnShatter && shieldTriggerCollider != null)
+            shieldTriggerCollider.enabled = false;
+
+        if (_damageableLayer >= 0)
+            ApplyLayerRecursive(transform, _damageableLayer);
+
+        if (applyPushbackAndAnim)
+        {
+            if (animator != null && !string.IsNullOrEmpty(enemyShieldShatterTrigger))
+            {
+                animator.ResetTrigger(enemyShieldShatterTrigger);
+                animator.SetTrigger(enemyShieldShatterTrigger);
+            }
+
+            if (_shatterPushbackRoutine != null)
+                StopCoroutine(_shatterPushbackRoutine);
+
+            float dir = (transform.position.x >= slamCenterX) ? 1f : -1f;
+            float targetX = transform.position.x + (dir * Mathf.Abs(shatterPushbackX));
+
+            _shatterPushbackRoutine = StartCoroutine(
+                MoveEnemyXOverTime(targetX, shatterPushbackDuration, shatterPushbackUseUnscaledTime)
+            );
+        }
+
+        // Spawn broken pieces at intact shield location
+        if (brokenShieldPrefab != null && intactShieldObject != null)
+        {
+            Transform t = intactShieldObject.transform;
+
+            GameObject broken = Instantiate(
+                brokenShieldPrefab,
+                t.position,
+                t.rotation
+            );
+
+            // Optional: don't parent to enemy (we want physics to fly freely)
+            broken.transform.SetParent(null);
+
+            // Apply explosion force to all rigidbodies in the broken prefab
+            Rigidbody[] rbs = broken.GetComponentsInChildren<Rigidbody>(true);
+            for (int i = 0; i < rbs.Length; i++)
+            {
+                if (rbs[i] == null) continue;
+                rbs[i].AddExplosionForce(
+                    shieldExplosionForce,
+                    hitPoint,
+                    shieldExplosionRadius,
+                    shieldExplosionUpward,
+                    ForceMode.Impulse
+                );
+            }
+        }
+
+        // Hide intact shield mesh last
+        if (intactShieldObject != null)
+            intactShieldObject.SetActive(false);
+    }
+
+    private static void ApplyLayerRecursive(Transform root, int layer)
+    {
+        if (root == null) return;
+
+        foreach (Transform t in root.GetComponentsInChildren<Transform>(true))
+            t.gameObject.layer = layer;
+    }
+
+    public void PowerSlamKill(Vector3 hitPoint, float slamCenterX)
+    {
+        // We want the VISUAL: shield shatters
+        // And the RESULT: enemy dies no matter what.
+
+        // If shield is still intact, shatter it first (this switches to Damageable too)
+        if (_shieldIntact)
+        {
+            ShatterShield(hitPoint, slamCenterX, false);
+        }
+
+        // Kill the enemy using destructible system (preferred)
+        var destructible = GetComponent<IndieKit.SkateRunnerDestructibleObjects>();
+        if (destructible != null)
+        {
+            destructible.ApplyDamage(999999f, hitPoint);
+            return;
+        }
+
+        // Fallback
+        gameObject.SetActive(false);
+    }
+
+
+    private IEnumerator MoveEnemyXOverTime(float targetX, float duration, bool useUnscaledTime)
+    {
+        duration = Mathf.Max(0.01f, duration);
+
+        float startX = transform.position.x;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            float dt = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            t += dt;
+
+            float u = Mathf.Clamp01(t / duration);
+            // Same smoothstep easing style you used elsewhere (feels less robotic)
+            u = u * u * (3f - 2f * u);
+
+            Vector3 p = transform.position;
+            p.x = Mathf.Lerp(startX, targetX, u);
+            transform.position = p;
+
+            yield return null;
+        }
+
+        Vector3 finalPos = transform.position;
+        finalPos.x = targetX;
+        transform.position = finalPos;
+
+        _shatterPushbackRoutine = null;
+    }
+
 
     /// <summary>
     /// EnemyBase reach behavior (we can keep it empty for now if you ONLY want shield to cause the attack).
@@ -141,6 +323,13 @@ public class EnemyType2 : EnemyBase
     /// </summary>
     public void NotifyPlayerTouchedShield(Collider playerCollider)
     {
+        if (!_shieldIntact) return;
+
+        // Down attack is invincible: ignore shield touch during downslam.
+        var down = playerCollider.GetComponentInParent<SwipeDownDetector>();
+        if (down != null && down.IsDownAttacking)
+            return;
+
         if (_shieldTriggered)
             return;
 

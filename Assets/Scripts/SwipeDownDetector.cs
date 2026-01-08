@@ -80,6 +80,10 @@ public class SwipeDownDetector : MonoBehaviour
     [SerializeField] private float normalImpactRadius = 2f;
     [SerializeField] private float poweredImpactRadius = 5f;
 
+#if UNITY_EDITOR
+    [SerializeField] private bool debug_StartWithPowerSlam = false;
+#endif
+
     private bool impactTriggeredThisDownAttack = false;
 
     private readonly HashSet<Component> damagedThisImpact = new HashSet<Component>();
@@ -381,43 +385,79 @@ public class SwipeDownDetector : MonoBehaviour
             Debug.LogWarning("[SwipeDownDetector] Ground Impact Zone Center is not assigned.");
             return;
         }
-
+        HashSet<EnemyType2> hitType2 = new HashSet<EnemyType2>();
         damagedThisImpact.Clear();
 
         Vector3 center = groundImpactZoneCenter.position;
         center.x = hitPoint.x;
 
         // Decide radius from the REAL source of truth (slam charge number)
-        bool slamReady = SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
-                         && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady();
+        bool slamReady =
+            debug_StartWithPowerSlam ||
+            (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
+             && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
+
 
         float effectiveRadius = slamReady ? poweredImpactRadius : normalImpactRadius;
 
         Collider[] hits = Physics.OverlapSphere(center, effectiveRadius, damageableMask, QueryTriggerInteraction.Collide);
-        if (hits == null || hits.Length == 0)
+        if (hits != null && hits.Length > 0)
         {
+            for (int i = 0; i < hits.Length; i++)
+            {
+                Collider col = hits[i];
+                if (col == null) continue;
+
+                var dmg = col.GetComponentInParent<IDamageable>();
+                if (dmg == null) continue;
+
+                Component key = dmg as Component;
+                if (key == null) key = col.transform;
+
+                if (damagedThisImpact.Contains(key))
+                    continue;
+
+                damagedThisImpact.Add(key);
+
+                dmg.ApplyDamage(slamDamage, hitPoint);
+            }
             // still consume slam if you want the slam to "spend" even if it hits nothing
             // (I’d personally NOT consume it if it hits nothing.)
-            return;
         }
 
-        for (int i = 0; i < hits.Length; i++)
+        // ---- NEW: Shatter EnemyType2 shields even though they're NOT on damageable layer ----
+        // ---- EnemyType2 handling (works even though Type2 is Default layer) ----
+        Collider[] allHits = Physics.OverlapSphere(center, effectiveRadius, ~0, QueryTriggerInteraction.Collide);
+
+        if (allHits != null && allHits.Length > 0)
         {
-            Collider col = hits[i];
-            if (col == null) continue;
+            for (int i = 0; i < allHits.Length; i++)
+            {
+                Collider col = allHits[i];
+                if (col == null) continue;
 
-            var dmg = col.GetComponentInParent<IDamageable>();
-            if (dmg == null) continue;
+                EnemyType2 type2 = col.GetComponentInParent<EnemyType2>();
+                if (type2 == null) continue;
 
-            Component key = dmg as Component;
-            if (key == null) key = col.transform;
+                if (!hitType2.Add(type2))
+                    continue; // already processed this enemy
+                // prevent double-processing same enemy (multiple colliders)
+                if (damagedThisImpact.Contains(type2)) continue;
+                damagedThisImpact.Add(type2);
 
-            if (damagedThisImpact.Contains(key))
-                continue;
-
-            damagedThisImpact.Add(key);
-
-            dmg.ApplyDamage(slamDamage, hitPoint);
+                if (slamReady)
+                {
+                    type2.PowerSlamKill(hitPoint, center.x);
+                }
+                else
+                {
+                    type2.ShatterShield(hitPoint, center.x, true);
+                }
+            }
+        }
+        else
+        {
+            return; // no hits at all, skip the powered slam logic
         }
 
         // If we used the big slam (radius 5), consume it and reset UI back to empty
@@ -427,8 +467,6 @@ public class SwipeDownDetector : MonoBehaviour
             // After this, shards become empty + button becomes disabled via RefreshSlamShards()
         }
     }
-
-
 
     private IEnumerator SlideRoutine()
     {
