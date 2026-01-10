@@ -42,7 +42,7 @@ public class SwipeDownDetector : MonoBehaviour
     private Vector2 startPos;
     private float startTime;
     private bool tracking;
-
+    private bool downAttackArmed;
     private bool isSliding;
     private bool isDownAttacking;
     private Jumper jumper;
@@ -127,6 +127,9 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void Update()
     {
+        if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
+            return;
+
         if (animator != null && animator.speed == 0f && !isDownAttacking)
         {
             animator.speed = 1f;
@@ -190,6 +193,9 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void OnSwipeDown()
     {
+        if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
+            return;
+
         bool isGrounded = jumper != null && jumper.IsGrounded;
 
         // If we are airborne and currently dash-moving/returning, buffer the down attack
@@ -251,6 +257,7 @@ public class SwipeDownDetector : MonoBehaviour
     private IEnumerator DownAttackRoutine()
     {
         isDownAttacking = true;
+        downAttackArmed = false;
         downAttackFrozen = false;
         downAttackCancelledIntoSlide = false;
 
@@ -278,6 +285,7 @@ public class SwipeDownDetector : MonoBehaviour
                 {
                     animator.speed = 0f;
                     downAttackFrozen = true;
+                    downAttackArmed = true; // only now can slam damage ever happen
                 }
 
                 yield return null;
@@ -334,6 +342,7 @@ public class SwipeDownDetector : MonoBehaviour
 
             impactTriggeredThisDownAttack = false;
             damagedThisImpact.Clear();
+            downAttackArmed = false;
         }
     }
 
@@ -341,6 +350,7 @@ public class SwipeDownDetector : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!isDownAttacking) return;
+        if (!downAttackArmed) return;
 
         Vector3 hitPoint = collision.contactCount > 0
             ? collision.GetContact(0).point
@@ -352,7 +362,7 @@ public class SwipeDownDetector : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!isDownAttacking) return;
-
+        if (!downAttackArmed) return;
         // ClosestPoint gives a decent “impact point” even for triggers
         Vector3 hitPoint = other.ClosestPoint(transform.position);
 
@@ -451,8 +461,12 @@ public class SwipeDownDetector : MonoBehaviour
                 }
                 else
                 {
-                    type2.ShatterShield(hitPoint, center.x, true);
+                    if (type2.IsShieldIntact)
+                        type2.ShatterShield(hitPoint, center.x, true);
+                    else
+                        type2.NormalSlamKill(hitPoint);
                 }
+
             }
         }
         else

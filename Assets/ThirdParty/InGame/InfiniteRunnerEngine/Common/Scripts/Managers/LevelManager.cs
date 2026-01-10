@@ -25,9 +25,14 @@ namespace MoreMountains.InfiniteRunnerEngine
 
 		/// The distance traveled since the start of the level
 		public float DistanceTraveled { get; protected set; }
+        // --- Freeze/Resume speed (for cinematic deaths, executions, etc.) ---
+        private bool _speedFrozen;
+        private float _savedSpeedBeforeFreeze;
+        private float _savedAccelerationBeforeFreeze;
 
-		/// the prefab you want for your player
-		[Header("Prefabs")] 
+
+        /// the prefab you want for your player
+        [Header("Prefabs")] 
 		[Tooltip("the prefab you want for your player")]
 		public GameObject StartingPosition;
 
@@ -106,8 +111,13 @@ namespace MoreMountains.InfiniteRunnerEngine
 		[Tooltip("the effect we instantiate when a life is lost")]
 		public GameObject LifeLostExplosion;
 
-		// protected stuff
-		protected DateTime _started;
+        public bool GameplayInputsLocked { get; private set; }
+
+        public void LockGameplayInputs() => GameplayInputsLocked = true;
+        public void UnlockGameplayInputs() => GameplayInputsLocked = false;
+
+        // protected stuff
+        protected DateTime _started;
 		protected float _savedPoints;
 		protected float _recycleX;
 		protected Bounds _tmpRecycleBounds;
@@ -265,10 +275,39 @@ namespace MoreMountains.InfiniteRunnerEngine
 			PrepareStart();
 		}
 
-		/// <summary>
-		/// Turns buttons on or off depending on the chosen mobile control scheme
-		/// </summary>
-		protected virtual void ManageControlScheme()
+        public void FreezeSpeedAndCancelBoost()
+        {
+            if (!_speedFrozen)
+            {
+                _savedSpeedBeforeFreeze = InitialSpeed;
+                _savedAccelerationBeforeFreeze = SpeedAcceleration;
+                _speedFrozen = true;
+            }
+
+            // Cancel any temporary speed factor so it can't resurrect speed later
+            _temporarySpeedFactorActive = false;
+            _temporarySpeedFactorRemainingTime = 0f;
+
+            // Hard stop
+            Speed = 0f;
+            SpeedAcceleration = 0f;
+        }
+
+        public void ResumeSpeedAfterFreeze()
+        {
+            if (!_speedFrozen)
+                return;
+
+            Speed = _savedSpeedBeforeFreeze;
+            SpeedAcceleration = 1;
+            _speedFrozen = false;
+        }
+
+
+        /// <summary>
+        /// Turns buttons on or off depending on the chosen mobile control scheme
+        /// </summary>
+        protected virtual void ManageControlScheme()
 		{
 			String buttonPath = "";
 			switch (ControlScheme)

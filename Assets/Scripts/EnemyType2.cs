@@ -108,10 +108,16 @@ public class EnemyType2 : EnemyBase
     [Tooltip("If true, uses unscaled time for the shatter pushback.")]
     [SerializeField] private bool shatterPushbackUseUnscaledTime = true;
 
+    [Header("Shield Reliability")]
+    [SerializeField] private bool enableShieldFailsafe = true;
+
+    // Optional: set in inspector to limit checks to the player layer.
+    // If you don't set it, we'll fall back to tag checking.
+    [SerializeField] private LayerMask playerMask = 0;
+
     private Coroutine _shatterPushbackRoutine;
     private int _damageableLayer = -1;
-
-
+    public bool IsShieldIntact => _shieldIntact;
     private bool _shieldIntact = true;
 
 
@@ -121,6 +127,7 @@ public class EnemyType2 : EnemyBase
     private Transform _playerRoot;
     private Transform _playerExecutionPoint;
     private Jumper _playerJumper;
+    private Collider _playerMainCollider;
 
 
     private Coroutine _pushbackRoutine;
@@ -130,6 +137,16 @@ public class EnemyType2 : EnemyBase
     protected override void Awake()
     {
         base.Awake();
+
+        var playerGo = GameObject.FindGameObjectWithTag("Player");
+        if (playerGo != null)
+        {
+            // Prefer a CapsuleCollider/CharacterController if you use one
+            _playerMainCollider =
+                playerGo.GetComponentInChildren<CapsuleCollider>(true) ??
+                playerGo.GetComponentInChildren<CharacterController>(true) as Collider ??
+                playerGo.GetComponentInChildren<Collider>(true);
+        }
 
         _damageableLayer = LayerMask.NameToLayer(damageableLayerName);
         if (_damageableLayer < 0)
@@ -165,6 +182,43 @@ public class EnemyType2 : EnemyBase
         {
             Debug.LogWarning($"{name}: No ShieldTrigger assigned/found. EnemyType2 shield won't work.");
         }
+    }
+
+    private void Update()
+    {
+        if (!enableShieldFailsafe) return;
+        if (!_shieldIntact) return;
+        if (_shieldTriggered) return;
+        if (shieldTriggerCollider == null) return;
+        if (_playerMainCollider == null) return;
+
+        bool overlapped = Physics.ComputePenetration(
+            _playerMainCollider, _playerMainCollider.transform.position, _playerMainCollider.transform.rotation,
+            shieldTriggerCollider, shieldTriggerCollider.transform.position, shieldTriggerCollider.transform.rotation,
+            out _, out _
+        );
+
+        if (!overlapped) return;
+
+        NotifyPlayerTouchedShield(_playerMainCollider);
+    }
+    private void LateUpdate()
+    {
+        if (!enableShieldFailsafe) return;
+        if (!_shieldIntact) return;
+        if (_shieldTriggered) return;
+        if (shieldTriggerCollider == null) return;
+        if (_playerMainCollider == null) return;
+
+        bool overlapped = Physics.ComputePenetration(
+            _playerMainCollider, _playerMainCollider.transform.position, _playerMainCollider.transform.rotation,
+            shieldTriggerCollider, shieldTriggerCollider.transform.position, shieldTriggerCollider.transform.rotation,
+            out _, out _
+        );
+
+        if (!overlapped) return;
+
+        NotifyPlayerTouchedShield(_playerMainCollider);
     }
 
     protected override void OnEnable()
@@ -324,6 +378,11 @@ public class EnemyType2 : EnemyBase
     public void NotifyPlayerTouchedShield(Collider playerCollider)
     {
         if (!_shieldIntact) return;
+        _playerRoot = playerCollider.transform.root;
+        _playerJumper = _playerRoot.GetComponentInChildren<Jumper>(true);
+        // If player is invincible, ignore shield collision completely
+        if (_playerJumper != null && _playerJumper.Invincible) // or whatever your flag/property is
+            return;
 
         // Down attack is invincible: ignore shield touch during downslam.
         var down = playerCollider.GetComponentInParent<SwipeDownDetector>();
@@ -334,6 +393,10 @@ public class EnemyType2 : EnemyBase
             return;
 
         _shieldTriggered = true;
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.LockGameplayInputs();
+        }
 
         // If player is currently doing a right-swipe dash, stop it immediately.
         var dash = playerCollider.GetComponentInParent<SwipeRightAttackDetector>();
@@ -348,10 +411,9 @@ public class EnemyType2 : EnemyBase
         // 2) Stop level speed
         if (LevelManager.Instance != null)
         {
-            LevelManager.Instance.SetSpeed(0f);
-            LevelManager.Instance.SpeedAcceleration = 0f;
+            LevelManager.Instance.FreezeSpeedAndCancelBoost();
         }
-           
+
 
         // 3) Trigger player hit/fall animation
         TriggerPlayerHitFall(playerCollider);
@@ -529,6 +591,16 @@ public class EnemyType2 : EnemyBase
         KillPlayerNow(_playerRoot);
     }
 
+    public void NormalSlamKill(Vector3 hitPoint)
+    {
+        if (_shieldIntact) return; // only kill if already unshielded
+
+        var destructible = GetComponent<IndieKit.SkateRunnerDestructibleObjects>();
+        if (destructible != null)
+        {
+            destructible.ApplyDamage(999999f, hitPoint);
+        }
+    }
 
     private IEnumerator WaitUntilPlayerGrounded_JumperOrTimeout()
     {
@@ -679,5 +751,16 @@ public class EnemyType2 : EnemyBase
 
             owner.NotifyPlayerTouchedShield(other);
         }
+        //private void OnTriggerStay(Collider other)
+        //{
+        //    if (owner == null) return;
+
+        //    string playerTag = string.IsNullOrEmpty(playerTagOverride) ? owner.playerTag : playerTagOverride;
+        //    if (!string.IsNullOrEmpty(playerTag) && !other.CompareTag(playerTag))
+        //        return;
+
+        //    owner.NotifyPlayerTouchedShield(other);
+        //}
+
     }
 }

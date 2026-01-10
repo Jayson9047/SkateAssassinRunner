@@ -47,6 +47,9 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
         float moved = Vector2.Distance(_downPos, eventData.position);
         if (moved > tapMaxMovePixels) return;
 
+        if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
+            return;
+
         // Fire MM Main Action as a "tap"
         if (InputManager.Instance != null)
         {

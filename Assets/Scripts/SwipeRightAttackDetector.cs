@@ -134,6 +134,9 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void Update()
     {
+        if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
+            return;
+
         if (Input.GetKeyDown(swipeRightKey))
             OnSwipeRight();
 
@@ -168,6 +171,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void OnSwipeRight()
     {
+        if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
+            return;
         if (attackInProgress)
             return;
 
@@ -490,9 +495,20 @@ public class SwipeRightAttackDetector : MonoBehaviour
             var damageable = col.GetComponentInParent<IndieKit.IDamageable>();
             if (damageable == null) continue;
 
+            var enemyType2 = col.GetComponentInParent<EnemyType2>();
+            if (enemyType2 != null && enemyType2.IsShieldIntact)
+            {
+                // Shielded EnemyType2 should NEVER die to dash
+                continue;
+            }
+
             // Optional: prevent dash from getting blocked by the target collider
             if (playerBodyCollider != null)
+            {
+
                 Physics.IgnoreCollision(playerBodyCollider, col, true);
+                ignoredCollidersThisAttack.Add(col);
+            }
 
             // Overhead rule (prevents "jump-over kills")
             // IMPORTANT tweak: use the player's Y, but allow a little leeway

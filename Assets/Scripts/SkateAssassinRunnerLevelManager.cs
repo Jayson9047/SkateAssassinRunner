@@ -56,6 +56,10 @@ namespace MoreMountains.InfiniteRunnerEngine
                 GameManager.Instance.SetStatus(GameManager.GameStatus.GameOver);
                 MMGameEvent.Trigger("GameOver");
             }
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.UnlockGameplayInputs();
+            }
         }
 
         /// <summary>
@@ -143,6 +147,18 @@ namespace MoreMountains.InfiniteRunnerEngine
             {
                 AllCharactersAreDead();
             }
+        }
+
+        public override void LifeLostAction()
+        {
+            // Restore whatever speed/accel we had before the cinematic stop
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.ResumeSpeedAfterFreeze();
+            }
+
+            // Continue the normal respawn flow
+            base.LifeLostAction();
         }
 
 
