@@ -120,7 +120,6 @@ public class EnemyType2 : EnemyBase
     public bool IsShieldIntact => _shieldIntact;
     private bool _shieldIntact = true;
 
-
     private int LowerBodyLayerIndex = -1;
 
     private Coroutine _executionRoutine;
@@ -567,7 +566,28 @@ public class EnemyType2 : EnemyBase
 
             // Let shoot animation keep playing
             if (st.normalizedTime >= 1f)
+            {
+                // After shooting, move sideways away so respawn doesn't collide instantly.
+                // Use existing pushback values (no new tuning vars).
+                float dir = 1f;
+                if (animator != null)
+                    animator.SetLayerWeight(LowerBodyLayerIndex,0.8f);
+                //turn Back on x axis
+                while (!RotateYawToward(270, rotationSpeedDegPerSec))
+                    yield return null;
+                if (_playerRoot != null)
+                {
+                    // Move away from player’s side on X (if enemy is left of player, go further left, etc.)
+                    dir = Mathf.Sign(transform.position.x - _playerRoot.position.x);
+                    if (Mathf.Approximately(dir, 0f)) dir = 1f;
+                }
+
+                float targetX = transform.position.x + dir * shatterPushbackX;
+
+                yield return MoveEnemyXOverTime(targetX, 2f, shatterPushbackUseUnscaledTime);
+
                 yield break;
+            }
 
             yield return null;
         }
