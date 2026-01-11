@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MoreMountains.Tools;
 using IndieKit;
+using TMPro;
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -13,6 +14,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Header("Bounties")]
         [Tooltip("the bounties counter")]
         public Text BountiesText;
+
+        [Header("Phase Timer")]
+        [Tooltip("Top-of-screen phase timer text (0..60).")]
+        public TextMeshProUGUI PhaseTimerText;
 
         public static SkateRunnerGUIManager SkateRunnerGUIManagerAccessor { get; private set; }
 
@@ -91,6 +96,21 @@ namespace MoreMountains.InfiniteRunnerEngine
             _currentSlamCharges = Mathf.Clamp(newChargeCount, 0, MaxSlamCharges);
             RefreshSlamShards();
         }
+
+        public void RefreshPhaseTimer(int elapsedSeconds, int phase1DurationSeconds, bool phase2Active)
+        {
+            if (PhaseTimerText == null) return;
+
+            if (phase2Active)
+            {
+                PhaseTimerText.text = "PHASE 2";
+                return;
+            }
+
+            elapsedSeconds = Mathf.Clamp(elapsedSeconds, 0, phase1DurationSeconds);
+            PhaseTimerText.text = $"{phase1DurationSeconds - elapsedSeconds:00}";
+        }
+
 
         private void RefreshSlamShards()
         {

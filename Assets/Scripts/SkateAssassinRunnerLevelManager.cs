@@ -21,6 +21,44 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         private const int SlamMax = 5;
         private int _slamKills;
+
+        [Header("Phase 1 / Phase 2 Timing")]
+        [SerializeField] private int Phase1DurationSeconds = 60;
+
+        [Tooltip("At this time (seconds), we disable obstacle spawning so we hit a clean road by Phase 2.")]
+        [SerializeField] private int DisableObstacleSpawningAtSeconds = 55;
+
+        [Header("References")]
+        [Tooltip("Assign the ObstacleSpawner's MMMultipleObjectPooler here. If left null, we'll try to find GameObject named 'ObstacleSpawner'.")]
+        [SerializeField] private MMMultipleObjectPooler ObstacleSpawnerPooler;
+
+        [Header("Phase 2 Car Spawn (Enemy Type 3)")]
+        [SerializeField] private GameObject Phase2CarSpawner;   // DO NOT find by name
+        [SerializeField] private float Phase2CarSpawnDelaySeconds = 0.75f;
+
+
+        [Tooltip("Only objects with this tag are treated as enemies for Phase 2 gating.")]
+        [SerializeField] private string EnemyTag = "Enemy";
+
+        [Tooltip("Enemy counts as 'ahead' only if enemy.x > StartingPosition.x + this value.")]
+        [SerializeField] private float EnemyAheadMinXOffset = 0.5f;
+
+        [Tooltip("How often we re-check while waiting.")]
+        [SerializeField] private float EnemyAheadCheckInterval = 0.1f;
+
+        [Tooltip("Safety timeout so we never soft-lock Phase 2 if an enemy gets stuck.")]
+        [SerializeField] private float EnemyClearMaxWaitSeconds = 2.0f;
+
+        private bool _phase2CarSpawnerActivated;
+        private Coroutine _phase2CarSpawnerRoutine;
+
+
+        // runtime state
+        private float _phaseElapsedSeconds;
+        private bool _phase2Started;
+        private bool _spawningDisabled;
+
+
         /// <summary>
         /// What happens when all characters are dead (or when the character is dead if you only have one)
         /// </summary>
@@ -89,9 +127,48 @@ namespace MoreMountains.InfiniteRunnerEngine
                 GUIManager.Instance.FaderOn(false, IntroFadeDuration);
             }
 
+            // Phase timer state (new game / restart only)
+            _phaseElapsedSeconds = 0f;
+            _phase2Started = false;
+            _spawningDisabled = false;
+
+            _phase2CarSpawnerActivated = false;
+
+            if (_phase2CarSpawnerRoutine != null)
+            {
+                StopCoroutine(_phase2CarSpawnerRoutine);
+                _phase2CarSpawnerRoutine = null;
+            }
+
+
+            // Auto-find obstacle pooler if not assigned
+            if (ObstacleSpawnerPooler == null)
+            {
+                var spawnerGo = GameObject.Find("ObstacleSpawner");
+                if (spawnerGo != null)
+                {
+                    ObstacleSpawnerPooler = spawnerGo.GetComponent<MMMultipleObjectPooler>();
+                }
+            }
+
             PrepareStart();
             ResetSlam();
         }
+
+        private void DisableObstacleSpawning()
+        {
+            if (_spawningDisabled) return;
+            _spawningDisabled = true;
+
+            if (ObstacleSpawnerPooler == null || ObstacleSpawnerPooler.Pool == null) return;
+
+            for (int i = 0; i < ObstacleSpawnerPooler.Pool.Count; i++)
+            {
+                ObstacleSpawnerPooler.Pool[i].Enabled = false;
+            }
+        }
+
+
         protected override void OnDisable()
         {
             SkateRunnerDestructibleObjects.OnDestroyed -= HandleDestroyed;
@@ -207,6 +284,184 @@ namespace MoreMountains.InfiniteRunnerEngine
             HandleSpeedFactor();
 
             RunningTime += Time.deltaTime;
+
+            // -----------------------------
+            // PHASE TIMER LOGIC (NEW)
+            // -----------------------------
+            if (!_phase2Started && GameManager.Instance.Status == GameManager.GameStatus.GameInProgress)
+            {
+                _phaseElapsedSeconds += Time.deltaTime;
+
+                int elapsedInt = Mathf.FloorToInt(_phaseElapsedSeconds);
+
+                // UI refresh (top timer)
+                if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
+                {
+                    SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.RefreshPhaseTimer(
+                        elapsedInt,
+                        Phase1DurationSeconds,
+                        _phase2Started
+                    );
+                }
+
+                // Stop obstacle spawning early so the road clears by 60
+                if (!_spawningDisabled && elapsedInt >= DisableObstacleSpawningAtSeconds)
+                {
+                    DisableObstacleSpawning();
+                }
+
+                // Phase 2 start
+                if (elapsedInt >= Phase1DurationSeconds)
+                {
+                    _phase2Started = true;
+
+                    // Update UI one last time
+                    if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
+                    {
+                        SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.RefreshPhaseTimer(
+                            Phase1DurationSeconds,
+                            Phase1DurationSeconds,
+                            _phase2Started
+                        );
+                    }
+
+                    // Hook for your upcoming phase 2 sequence (Jeep/sniper/etc.)
+                    MMGameEvent.Trigger("Phase2Start");
+                    if (!_phase2CarSpawnerActivated && _phase2CarSpawnerRoutine == null)
+                    {
+                        _phase2CarSpawnerRoutine = StartCoroutine(ActivatePhase2CarSpawnerAfterDelayCo());
+                    }
+                }
+            }
+            else
+            {
+                // If we're not in gameplay (LifeLost, BeforeGameStart, Paused, GameOver),
+                // keep UI in sync but do NOT advance the timer.
+                if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
+                {
+                    SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.RefreshPhaseTimer(
+                        Mathf.FloorToInt(_phaseElapsedSeconds),
+                        Phase1DurationSeconds,
+                        _phase2Started
+                    );
+                }
+            }
         }
+
+        private IEnumerator ActivatePhase2CarSpawnerAfterDelayCo()
+        {
+            // 1) Delay after Phase 1 ends (pauses when not in gameplay)
+            float remaining = Mathf.Max(0f, Phase2CarSpawnDelaySeconds);
+            while (remaining > 0f)
+            {
+                if (GameManager.Instance.Status == GameManager.GameStatus.GameInProgress)
+                {
+                    remaining -= Time.deltaTime;
+                }
+                yield return null;
+            }
+
+            // 2) Wait until no enemies ahead (TAG-based)
+            float maxWaitRemaining = Mathf.Max(0f, EnemyClearMaxWaitSeconds);
+            float checkTimer = 0f;
+
+            while (true)
+            {
+                // pause waiting if not in active gameplay (respawn etc.)
+                if (GameManager.Instance.Status != GameManager.GameStatus.GameInProgress)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                // timeout safety (prevents soft-lock if something gets stuck)
+                if (EnemyClearMaxWaitSeconds > 0f)
+                {
+                    maxWaitRemaining -= Time.deltaTime;
+                    if (maxWaitRemaining <= 0f)
+                    {
+                        break;
+                    }
+                }
+
+                checkTimer -= Time.deltaTime;
+                if (checkTimer > 0f)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                checkTimer = EnemyAheadCheckInterval;
+
+                if (!AnyEnemiesAhead_Tag())
+                {
+                    break;
+                }
+
+                yield return null;
+            }
+
+            ActivatePhase2CarSpawnerNow();
+            _phase2CarSpawnerRoutine = null;
+        }
+
+
+
+        private bool AnyEnemiesAhead_Tag()
+        {
+            if (StartingPosition == null)
+            {
+                Debug.LogWarning("[Phase2] StartingPosition not assigned - cannot check enemies ahead.");
+                return false; // fail open (don't block forever)
+            }
+
+            float minX = StartingPosition.transform.position.x + EnemyAheadMinXOffset;
+
+            // NOTE: FindGameObjectsWithTag allocates and can be expensive,
+            // but we're calling it only during Phase 2 entry for a short time window.
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag(EnemyTag);
+
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                GameObject e = enemies[i];
+                if (e == null) continue;
+
+                if (e.transform.position.x > minX)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        private void ActivatePhase2CarSpawnerNow()
+        {
+            if (_phase2CarSpawnerActivated) return;
+            _phase2CarSpawnerActivated = true;
+
+            if (Phase2CarSpawner == null)
+            {
+                Debug.LogWarning("[Phase2] Phase2CarSpawner is not assigned in the inspector.");
+                return;
+            }
+
+            // 1) Enable all poolable objects in the spawner's MMMultipleObjectPooler
+            MMMultipleObjectPooler pooler = Phase2CarSpawner.GetComponent<MMMultipleObjectPooler>();
+            if (pooler == null)
+            {
+                Debug.LogWarning("[Phase2] Phase2CarSpawner has no MMMultipleObjectPooler component.");
+            }
+            else if (pooler.Pool != null)
+            {
+                for (int i = 0; i < pooler.Pool.Count; i++)
+                {
+                    pooler.Pool[i].Enabled = true;
+                }
+            }
+        }
+
+
     }
 }
