@@ -35,6 +35,7 @@ public class SwipeDownDetector : MonoBehaviour
     [Header("DownAttack Freeze")]
     [SerializeField] private string downAttackStateName = "DownAttack";
     [SerializeField] private float downAttackHoldNormalizedTime = 0.36f;
+
     private bool downAttackFrozen;
 
     private int katanaLayerIndex = -1;
@@ -390,6 +391,17 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void DoGroundImpactAOE(Vector3 hitPoint)
     {
+        // Decide radius from the REAL source of truth (slam charge number)
+
+        if (LevelManager.Instance != null)
+        {
+            var skateLM = LevelManager.Instance as SkateAssassinRunnerLevelManager;
+            if (skateLM != null && skateLM.IsPhase2BossActive)
+            {
+                DoPhase2CinematicImpact(hitPoint);
+                return;
+            }
+        }
         if (groundImpactZoneCenter == null)
         {
             Debug.LogWarning("[SwipeDownDetector] Ground Impact Zone Center is not assigned.");
@@ -397,16 +409,13 @@ public class SwipeDownDetector : MonoBehaviour
         }
         HashSet<EnemyType2> hitType2 = new HashSet<EnemyType2>();
         damagedThisImpact.Clear();
+        bool slamReady =
+        debug_StartWithPowerSlam ||
+        (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
+         && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
 
         Vector3 center = groundImpactZoneCenter.position;
         center.x = hitPoint.x;
-
-        // Decide radius from the REAL source of truth (slam charge number)
-        bool slamReady =
-            debug_StartWithPowerSlam ||
-            (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
-             && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
-
 
         float effectiveRadius = slamReady ? poweredImpactRadius : normalImpactRadius;
 
@@ -479,6 +488,16 @@ public class SwipeDownDetector : MonoBehaviour
         {
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.ConsumeSlamIfReady();
             // After this, shards become empty + button becomes disabled via RefreshSlamShards()
+        }
+    }
+
+
+    private void DoPhase2CinematicImpact(Vector3 hitPoint)
+    {
+        var skateLM = LevelManager.Instance as SkateAssassinRunnerLevelManager;
+        if (skateLM != null)
+        {
+            skateLM.OnPhase2SlamImpact();
         }
     }
 

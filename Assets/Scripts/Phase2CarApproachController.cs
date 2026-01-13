@@ -126,6 +126,7 @@ public class Phase2CarApproachController : MonoBehaviour
                 var lm = MoreMountains.InfiniteRunnerEngine.LevelManager.Instance as MoreMountains.InfiniteRunnerEngine.SkateAssassinRunnerLevelManager;
                 if (lm != null)
                 {
+                    lm.RegisterPhase2Car(transform);
                     lm.OnEnemyType3LockedInPosition();
                 }
                 else

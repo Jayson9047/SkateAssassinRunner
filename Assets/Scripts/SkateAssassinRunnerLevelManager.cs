@@ -52,18 +52,20 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Header("Phase 2 Boss QTE")]
         [SerializeField] private float Phase2BossQTEDurationSeconds = 30f;
 
+        private CarImpulseTest _phase2CarImpulse;
+
         private Coroutine _phase2BossQTERoutine;
         private bool _phase2BossQTEActive;
 
         private bool _phase2CarSpawnerActivated;
         private Coroutine _phase2CarSpawnerRoutine;
+        public bool IsPhase2BossActive => _phase2BossQTEActive;
 
 
         // runtime state
         private float _phaseElapsedSeconds;
         private bool _phase2Started;
         private bool _spawningDisabled;
-
 
         /// <summary>
         /// What happens when all characters are dead (or when the character is dead if you only have one)
@@ -206,6 +208,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             OnSlamChanged?.Invoke(_slamKills, _slamKills >= SlamMax);
         }
 
+
         public bool IsSlamReady() => _slamKills >= SlamMax;
 
         public void ConsumeSlam()
@@ -239,6 +242,34 @@ namespace MoreMountains.InfiniteRunnerEngine
                 AllCharactersAreDead();
             }
         }
+        public void OnPhase2SlamImpact()
+        {
+            if (_phase2CarImpulse == null)
+            {
+                Debug.LogError("[Phase2] phase2CarImpulse is not assigned (drag carBody with CarImpulseTest).");
+                return;
+            }
+
+            _phase2CarImpulse.BlowRearUp();
+        }
+
+        public void RegisterPhase2Car(Transform pickupRoot)
+        {
+            _phase2CarImpulse =
+                pickupRoot.GetComponentInChildren<CarImpulseTest>(true);
+
+            if (_phase2CarImpulse == null)
+            {
+                Debug.LogError(
+                    "[Phase2] CarImpulseTest not found under pickup -> carBody"
+                );
+            }
+            else
+            {
+                Debug.Log($"[Phase2] Registered Phase2 carBody: {_phase2CarImpulse.name}");
+            }
+        }
+
 
         public override void LifeLostAction()
         {
