@@ -49,6 +49,12 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Tooltip("Safety timeout so we never soft-lock Phase 2 if an enemy gets stuck.")]
         [SerializeField] private float EnemyClearMaxWaitSeconds = 2.0f;
 
+        [Header("Phase 2 Boss QTE")]
+        [SerializeField] private float Phase2BossQTEDurationSeconds = 30f;
+
+        private Coroutine _phase2BossQTERoutine;
+        private bool _phase2BossQTEActive;
+
         private bool _phase2CarSpawnerActivated;
         private Coroutine _phase2CarSpawnerRoutine;
 
@@ -134,6 +140,13 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             _phase2CarSpawnerActivated = false;
 
+            _phase2BossQTEActive = false;
+            if (_phase2BossQTERoutine != null)
+            {
+                StopCoroutine(_phase2BossQTERoutine);
+                _phase2BossQTERoutine = null;
+            }
+
             if (_phase2CarSpawnerRoutine != null)
             {
                 StopCoroutine(_phase2CarSpawnerRoutine);
@@ -179,6 +192,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             base.OnEnable();
             SkateRunnerDestructibleObjects.OnDestroyed += HandleDestroyed;
         }
+
         private void HandleDestroyed(SkateRunnerDestructibleObjects obj)
         {
             AddSlamKill();
@@ -233,9 +247,94 @@ namespace MoreMountains.InfiniteRunnerEngine
             {
                 LevelManager.Instance.ResumeSpeedAfterFreeze();
             }
-
             // Continue the normal respawn flow
             base.LifeLostAction();
+            // We are still in Phase 2, just retrying the QTE
+            if (_phase2BossQTEActive)
+            {
+                RestartPhase2BossQTE();
+            }
+        }
+
+        // ------------------------------------------------------
+        // NEW: Called by Phase2CarApproachController when the Jeep is fully in position (Speed = 0)
+        // ------------------------------------------------------
+        public void OnEnemyType3LockedInPosition()
+        {
+            if (_phase2BossQTEActive)
+                return;
+
+            _phase2BossQTEActive = true;
+
+            // 1) Stop all gameplay controls (swipes/tap zone, etc.)
+            // Your detectors already early-return when GameplayInputsLocked is true.
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.LockGameplayInputs();
+            }
+
+            // 2) Tell GUI to transition: Slam button only, platform + shards fade out
+            if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
+            {
+                SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.EnterPhase2BossHUD();
+            }
+
+            // 3) Start 30s timer
+            if (_phase2BossQTERoutine != null)
+            {
+                StopCoroutine(_phase2BossQTERoutine);
+            }
+            _phase2BossQTERoutine = StartCoroutine(Phase2BossQTECountdownCo());
+        }
+        private IEnumerator Phase2BossQTECountdownCo()
+        {
+            float remaining = Mathf.Max(0f, Phase2BossQTEDurationSeconds);
+
+            while (remaining > 0f)
+            {
+                // Only count down while actually playing (no countdown during LifeLost/GameOver/etc.)
+                if (GameManager.Instance.Status == GameManager.GameStatus.GameInProgress)
+                {
+                    remaining -= Time.deltaTime;
+
+                    // Optional: show countdown on the top timer text
+                    if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
+                    {
+                        SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.RefreshPhase2Countdown(
+                            Mathf.CeilToInt(remaining)
+                        );
+                    }
+                }
+
+                yield return null;
+            }
+
+            // Time’s up — you said: “if they fail, player gets shot immediately”
+            // We just fire an event hook for now (you can hook sniper shot / instant fail to this)
+            MMGameEvent.Trigger("Phase2BossQTETimeout");
+
+            _phase2BossQTERoutine = null;
+        }
+
+
+        public void RestartPhase2BossQTE()
+        {
+            // Lock inputs again (Phase 2 rule)
+            LockGameplayInputs();
+
+            // Reset and restart timer
+            if (_phase2BossQTERoutine != null)
+            {
+                StopCoroutine(_phase2BossQTERoutine);
+            }
+
+            _phase2BossQTERoutine = StartCoroutine(Phase2BossQTECountdownCo());
+
+            // Restart PowerMeter
+            if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
+            {
+                SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.RestartPhase2PowerMeter();
+            }
         }
 
 

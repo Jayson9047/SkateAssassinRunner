@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492de3a7096d2b146994a84be152f8a0, type: 3}
+  m_Name: PowerMeterConfig
+  m_EditorClassIdentifier: 
+  speed: 0.2
+  randomizeStartPosition: 1
+  smoothMotion: 1
+  red:
+    min: 0
+    max: 1
+  yellow:
+    min: 0.3
+    max: 0.75
+  green:
+    min: 0.425
+    max: 0.625
+  cyan:
+    min: 0.5
+    max: 0.55

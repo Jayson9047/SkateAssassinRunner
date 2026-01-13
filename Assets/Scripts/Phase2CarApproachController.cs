@@ -120,6 +120,20 @@ public class Phase2CarApproachController : MonoBehaviour
 
                 _locked = true;
 
+                // --------------------
+                // NEW: tell LevelManager Phase 2 "lock moment" happened
+                // --------------------
+                var lm = MoreMountains.InfiniteRunnerEngine.LevelManager.Instance as MoreMountains.InfiniteRunnerEngine.SkateAssassinRunnerLevelManager;
+                if (lm != null)
+                {
+                    lm.OnEnemyType3LockedInPosition();
+                }
+                else
+                {
+                    // If you ever swap level manager class, you'll see this once in console and know why.
+                    if (DebugLogs) Debug.LogWarning("[Phase2CarApproachController] LevelManager is not SkateAssassinRunnerLevelManager.");
+                }
+
                 if (DebugLogs) Debug.Log($"[Phase2CarApproachController] Locked (cross/close). signedDelta={signedDelta:F3}, pos={transform.position}");
             }
             else
