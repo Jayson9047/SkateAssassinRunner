@@ -52,6 +52,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Header("Phase 2 Boss QTE")]
         [SerializeField] private float Phase2BossQTEDurationSeconds = 30f;
 
+        private EnemyType3LaunchController _enemyLaunch;
         private CarImpulseTest _phase2CarImpulse;
 
         private Coroutine _phase2BossQTERoutine;
@@ -251,13 +252,14 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
 
             _phase2CarImpulse.BlowRearUp();
+            _enemyLaunch?.Launch();
         }
 
         public void RegisterPhase2Car(Transform pickupRoot)
         {
             _phase2CarImpulse =
                 pickupRoot.GetComponentInChildren<CarImpulseTest>(true);
-
+            _enemyLaunch = pickupRoot.GetComponentInChildren<EnemyType3LaunchController>(true);
             if (_phase2CarImpulse == null)
             {
                 Debug.LogError(

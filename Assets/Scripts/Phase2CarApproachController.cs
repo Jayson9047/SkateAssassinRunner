@@ -2,149 +2,176 @@ using MoreMountains.InfiniteRunnerEngine;
 using UnityEngine;
 
 /// <summary>
-/// Phase 2 car entrance behavior:
-/// - Car moves along X using MovingObject (already configured on prefab).
-/// - When car is (FrontOffsetX / 2) units ahead of StartingPosition on X, begin diagonal drift by setting Direction.z.
-/// - When car reaches StartingPosition.z (within tolerance), stop drift (Direction.z=0) and stop car (Speed=0).
+/// Phase 2 car entrance behavior (deterministic + old-style trigger steering):
+/// - Car moves normally using MovingObject (we do NOT interfere at first).
+/// - Once we pass a trigger point (aheadX >= diagonalTriggerX), we start steering toward TargetSlot.
+/// - Steering ONLY adjusts Z (sideways drift). We never override X forward direction.
+/// - When within tolerance (or crosses target), snaps exactly to slot (X/Z only) and stops.
+/// - Triggers ShooterEnemyType3.StartAiming() once when steering begins.
 /// </summary>
 public class Phase2CarApproachController : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private Transform TargetSlot;
+
+    [Tooltip("Reference point used to decide when to START steering (matches your old behavior).")]
     [SerializeField] private Transform StartingPosition;
 
-    [Header("Tuning")]
-    [Tooltip("How far ahead on X the car should Start diagonal drift")]
+    [Header("Steering Trigger")]
+    [Tooltip("We start steering only when (transform.position.x - StartingPosition.position.x) >= diagonalTriggerX.")]
     [SerializeField] private float diagonalTriggerX = 0.5f;
 
-    [Tooltip("Z direction to set while drifting diagonally. Example: 0.5.")]
-    [SerializeField] private float DiagonalZDirection = 0.5f;
+    [Header("Tuning")]
+    [Tooltip("How close we must be (per-axis) to snap to TargetSlot.")]
+    [SerializeField] private float positionTolerance = 0.05f;
 
-    [Tooltip("How close in Z we must be to StartingPosition.z to consider aligned.")]
-    [SerializeField] private float ZAlignTolerance = 0.05f;
+    [Tooltip("Sideways drift amount while steering (Z only).")]
+    [SerializeField] private float zDriftMagnitude = 0.6f;
 
     [Header("Enemy Type 3 (Shooter)")]
     [SerializeField] private EnemyType3 ShooterEnemyType3;
-
-    private float _previousSignedZDelta;
-    private bool _hasPreviousZDelta;
 
     [Header("Debug")]
     [SerializeField] private bool DebugLogs = false;
 
     private MovingObject _movingObject;
-    private bool _diagonalStarted;
     private bool _locked;
+
+    private bool _slotApproachStarted;
+
+    private float _prevDeltaX;
+    private float _prevDeltaZ;
+    private bool _hasPrev;
 
     private void Awake()
     {
         _movingObject = GetComponent<MovingObject>();
-        if (ShooterEnemyType3 == null)
+        if (_movingObject == null)
         {
-            ShooterEnemyType3 = GetComponentInChildren<EnemyType3>(true);
+            // Some prefabs put MovingObject on root/pickup; if so, adjust this to GetComponentInParent.
+            _movingObject = GetComponentInParent<MovingObject>();
         }
     }
 
     private void OnEnable()
     {
-        // Reset state for pooled reuse
-        _diagonalStarted = false;
         _locked = false;
-        _hasPreviousZDelta = false;
-        _previousSignedZDelta = 0f;
+        _hasPrev = false;
+        _slotApproachStarted = false;
+
+        if (_movingObject == null)
+        {
+            if (DebugLogs) Debug.LogWarning("[Phase2CarApproachController] MovingObject not found.");
+            return;
+        }
+
+        // Ensure direction isn't zero so it starts moving
+        if (_movingObject.Direction == Vector3.zero)
+            _movingObject.Direction = Vector3.right;
     }
 
     private void Update()
     {
         if (_locked) return;
+        if (TargetSlot == null || _movingObject == null) return;
 
-        if (StartingPosition == null)
+        Vector3 pos = transform.position;
+        Vector3 target = TargetSlot.position;
+
+        // 1) Trigger steering only after we are "ahead" enough (old behavior)
+        if (!_slotApproachStarted)
         {
-            if (DebugLogs) Debug.LogWarning("[Phase2CarApproachController] StartingPosition not assigned.");
-            return;
-        }
-
-        if (_movingObject == null)
-        {
-            if (DebugLogs) Debug.LogWarning("[Phase2CarApproachController] MovingObject not found on car prefab.");
-            return;
-        }
-
-        // How far ahead of StartingPosition are we on X?
-        float aheadX = transform.position.x - StartingPosition.position.x;
-
-
-
-        if (!_diagonalStarted && aheadX >= diagonalTriggerX)
-        {
-            Vector3 dir = _movingObject.Direction;
-            dir.z = DiagonalZDirection;
-            _movingObject.Direction = dir;
-            _diagonalStarted = true;
-            ShooterEnemyType3?.StartAiming();
-            if (DebugLogs) Debug.Log($"[Phase2CarApproachController] Diagonal started at aheadX={aheadX:F2}. dir={_movingObject.Direction}");
-        }
-
-        // 2) Lock when we match StartingPosition.z
-        if (_diagonalStarted)
-        {
-            float targetZ = StartingPosition.position.z;
-            float signedDelta = transform.position.z - targetZ;
-
-            // first frame after diagonal starts: initialize previous delta
-            if (!_hasPreviousZDelta)
+            if (StartingPosition == null)
             {
-                _previousSignedZDelta = signedDelta;
-                _hasPreviousZDelta = true;
-                return;
-            }
-
-            // Condition A: we got close enough (still useful)
-            // Condition B: we crossed the target between frames (sign flip)
-            bool closeEnough = Mathf.Abs(signedDelta) <= ZAlignTolerance;
-            bool crossedTarget = (_previousSignedZDelta > 0f && signedDelta < 0f) || (_previousSignedZDelta < 0f && signedDelta > 0f) || signedDelta == 0f;
-
-            if (closeEnough || crossedTarget)
-            {
-                // Clamp exactly to target Z so we never drift off-screen
-                Vector3 p = transform.position;
-                p.z = targetZ;
-                transform.position = p;
-
-                // Stop Z drift
-                Vector3 dir = _movingObject.Direction;
-                dir.z = 0f;
-                _movingObject.Direction = dir;
-
-                // Stop movement
-                _movingObject.Speed = 0f;
-
-                _locked = true;
-
-                // --------------------
-                // NEW: tell LevelManager Phase 2 "lock moment" happened
-                // --------------------
-                var lm = MoreMountains.InfiniteRunnerEngine.LevelManager.Instance as MoreMountains.InfiniteRunnerEngine.SkateAssassinRunnerLevelManager;
-                if (lm != null)
-                {
-                    lm.RegisterPhase2Car(transform);
-                    lm.OnEnemyType3LockedInPosition();
-                }
-                else
-                {
-                    // If you ever swap level manager class, you'll see this once in console and know why.
-                    if (DebugLogs) Debug.LogWarning("[Phase2CarApproachController] LevelManager is not SkateAssassinRunnerLevelManager.");
-                }
-
-                if (DebugLogs) Debug.Log($"[Phase2CarApproachController] Locked (cross/close). signedDelta={signedDelta:F3}, pos={transform.position}");
+                // Fallback: if StartingPosition isn't assigned, use TargetSlot as reference.
+                // But you SHOULD assign StartingPosition for consistent behavior.
+                float fallbackAhead = pos.x - target.x;
+                if (fallbackAhead < diagonalTriggerX) return;
             }
             else
             {
-                _previousSignedZDelta = signedDelta;
+                float aheadX = pos.x - StartingPosition.position.x;
+                if (aheadX < diagonalTriggerX) return;
             }
 
+            _slotApproachStarted = true;
+            ShooterEnemyType3?.StartAiming();
+
+            if (DebugLogs) Debug.Log("[Phase2CarApproachController] Steering started (slot approach).");
         }
+
+        // 2) We only care about X and Z for lane/slot alignment
+        float dx = target.x - pos.x;
+        float dz = target.z - pos.z;
+
+        bool closeX = Mathf.Abs(dx) <= positionTolerance;
+        bool closeZ = Mathf.Abs(dz) <= positionTolerance;
+
+        bool crossedX = false;
+        bool crossedZ = false;
+
+        if (_hasPrev)
+        {
+            crossedX = (_prevDeltaX > 0f && dx < 0f) || (_prevDeltaX < 0f && dx > 0f) || dx == 0f;
+            crossedZ = (_prevDeltaZ > 0f && dz < 0f) || (_prevDeltaZ < 0f && dz > 0f) || dz == 0f;
+        }
+
+        // 3) Steering (Z ONLY). Never override X forward motion.
+        // This prevents the car from flipping direction or changing forward speed behavior.
+        if (!closeZ) // if already aligned, stop drifting
+        {
+            float steerSign = Mathf.Sign(dz);
+            steerSign *= -1f;
+
+            Vector3 dir = _movingObject.Direction;
+            dir.z = steerSign * Mathf.Abs(zDriftMagnitude);
+            _movingObject.Direction = dir;
+        }
+        else
+        {
+            Vector3 dir = _movingObject.Direction;
+            dir.z = 0f;
+            _movingObject.Direction = dir;
+        }
+
+        // 4) Lock condition: close enough on both axes OR we crossed target on both axes.
+        if ((closeX && closeZ) || (crossedX && crossedZ))
+        {
+            // Snap to exact slot position (keep Y as-is)
+            pos.x = target.x;
+            pos.z = target.z;
+            transform.position = pos;
+
+            // Stop movement
+            _movingObject.Speed = 0f;
+            _movingObject.Direction = Vector3.zero;
+
+            _locked = true;
+
+            // Notify LevelManager exactly like before
+            var lm = MoreMountains.InfiniteRunnerEngine.LevelManager.Instance
+                as MoreMountains.InfiniteRunnerEngine.SkateAssassinRunnerLevelManager;
+
+            if (lm != null)
+            {
+                lm.RegisterPhase2Car(transform);
+                lm.OnEnemyType3LockedInPosition();
+            }
+            else
+            {
+                if (DebugLogs) Debug.LogWarning("[Phase2CarApproachController] LevelManager is not SkateAssassinRunnerLevelManager.");
+            }
+
+            if (DebugLogs)
+                Debug.Log($"[Phase2CarApproachController] LOCKED at slot. pos={transform.position}");
+
+            return;
+        }
+
+        _prevDeltaX = dx;
+        _prevDeltaZ = dz;
+        _hasPrev = true;
     }
 
-    // Optional helper if you want to set this at runtime later
-    public void SetStartingPosition(Transform start) => StartingPosition = start;
+    public void SetTargetSlot(Transform slot) => TargetSlot = slot;
 }

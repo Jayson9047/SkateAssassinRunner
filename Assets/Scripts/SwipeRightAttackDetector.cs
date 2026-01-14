@@ -55,20 +55,12 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [Tooltip("Only colliders on these layers are hittable targets (hurtboxes / barrels). IMPORTANT: exclude detection-trigger layers.")]
     [SerializeField] private LayerMask damageableMask = ~0;
 
-    [Tooltip("Search radius around player while dashing to find nearby targets.")]
-    [SerializeField] private float damageableSearchRadius = 1.5f;
-
-    [Tooltip("Must be within this distance (from ClosestPoint) to count as an actual hit.")]
-    [SerializeField] private float hitRadius = 0.55f;
-
     [Tooltip("Max allowed Z separation (2.5D). Tighten if you ever hit things behind/in front.")]
     [SerializeField] private float depthWindow = 0.60f;
 
     [Tooltip("If player is ABOVE target's top by this amount, we treat it as jumping over and do NOT hit.")]
     [SerializeField] private float overheadClearanceY = 0.05f;
 
-    [Tooltip("Extra buffer so we damage after we've passed the target, not exactly at the same X.")]
-    [SerializeField] private float passBufferX = 0.05f;
 
     [Tooltip("Damage applied to damageables (IndieKit destructibles often use 1 HP).")]
     [SerializeField] private float attackDamage = 999f;

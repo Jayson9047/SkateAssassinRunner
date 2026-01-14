@@ -488,14 +488,16 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
         }
 
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
             SkateRunnerDestructibleObjects.OnDestroyed += HandleDestructibleDestroyed;
+            base.OnEnable();
         }
 
-        protected virtual void OnDisable()
+        protected override void OnDisable()
         {
             SkateRunnerDestructibleObjects.OnDestroyed -= HandleDestructibleDestroyed;
+            base.OnDisable();
         }
 
         private void HandleDestructibleDestroyed(SkateRunnerDestructibleObjects obj)

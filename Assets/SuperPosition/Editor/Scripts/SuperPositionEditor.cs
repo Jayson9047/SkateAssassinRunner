@@ -48,7 +48,7 @@ namespace SuperPosition
             SP = GameObject.Find("SuperPosition");
             if (SP == null)
             {
-                foreach (GameObject go in GameObject.FindObjectsOfType(typeof(GameObject)))
+                foreach (GameObject go in GameObject.FindObjectsByType(typeof(GameObject), FindObjectsSortMode.None))
                 {
                     if (go.name.Contains("SuperPosition"))
                         DestroyImmediate(go);

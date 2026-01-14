@@ -55,8 +55,6 @@ public class EnemyType2 : EnemyBase
     [Tooltip("Animator trigger for shooting execution animation (or leave empty to skip).")]
     [SerializeField] private string enemyShootTrigger = "Shoot";
 
-    [Tooltip("If you don’t use Animation Events, we kill player after this delay once shoot anim starts.")]
-    [SerializeField] private float shootKillDelay = 0.25f;
     [SerializeField] private float groundedWaitTimeout = 3.0f; // optional
 
     [Tooltip("Animator layer name that holds the katana overlay.")]
