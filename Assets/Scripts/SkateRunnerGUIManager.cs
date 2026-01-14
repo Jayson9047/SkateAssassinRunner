@@ -65,6 +65,9 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private float phase2WaitForAirTimeout = 0.35f; // fail-safe
         [SerializeField] private PowerMeter powerMeter;
 
+
+        [SerializeField] private Phase2PowerSlamFrameEvents phase2PowerSlamFrameEvents; // drag Body here
+
         private bool _phase2SimInProgress;
         private SwipeDownDetector _swipeDownDetectorCached;
         private Jumper _jumperCached;
@@ -95,6 +98,14 @@ namespace MoreMountains.InfiniteRunnerEngine
                     powerMeter.OnResult.AddListener(OnPowerMeterResult);
                 }
             }
+        }
+
+        private void Start()
+        {
+            // however you access the player in InfiniteRunnerEngine:
+            // Usually LevelManager has a Player reference, or use GameObject.FindWithTag("Player") as fallback.
+            var player = GameObject.FindGameObjectWithTag("Player");
+            phase2PowerSlamFrameEvents = player.GetComponentInChildren<Phase2PowerSlamFrameEvents>(true);
         }
 
         /// <summary>
@@ -296,6 +307,7 @@ namespace MoreMountains.InfiniteRunnerEngine
                 case PowerMeter.ZoneResult.Green:
                 case PowerMeter.ZoneResult.Cyan:
                 {
+                    phase2PowerSlamFrameEvents.ArmPhase2LaunchForNextSlam();
                     StartCoroutine(SimulateDoubleJumpThenDownAttack());
                     // success path (already working / later work)
                     break;
