@@ -3,30 +3,92 @@ using DG.Tweening;
 
 public class Phase2PowerSlamFrameEvents : MonoBehaviour
 {
-    [Header("Target")]
-    [SerializeField] private Transform playerMeetPoint;
-
     [Header("Tween")]
     [SerializeField] private float launchDuration = 0.45f;
-    [SerializeField] private float apexHeight = 2.0f;
     [SerializeField] private Ease ease = Ease.OutCubic;
 
     [Header("Debug")]
     [SerializeField] private bool debugLogs = false;
 
+    [Header("Execution Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string strikeTakeoffTrigger = "StrikeTakeoff"; // you create this in Animator
+    [SerializeField] private string upperBodyLayerName = "KatanaLayer";
+
+    [Header("Execution Rotation")]
+    [SerializeField] private Vector3 executionEuler = new Vector3(-55f, 95f, -25f);
+    [SerializeField] private float rotationTweenDuration = 0.01f;
+
+
+    [Header("StrikeTakeoff Clip (needed for frame sync)")]
+    [SerializeField] private AnimationClip strikeTakeoffClip;
+    [SerializeField] private int arriveAtMeetPointByFrame = 6;   // configurable (frame N)
+
+    [Header("Positions")]
+    [SerializeField] private Transform playerMeetPoint;
+    [SerializeField] private Transform playerStrikeEndPoint;     // dash end point
+
+    [Header("Move-to-Line")]
+    [SerializeField] private Ease meetMoveEase = Ease.OutQuad;
+
+    [Header("Dash (XY)")]
+    [SerializeField] private float dashSpeed = 10f;              // units/sec
+    [SerializeField] private Ease dashEase = Ease.OutCubic;
+    [SerializeField] private bool keepZ = true;                  // usually yes in your runner
+
+    [SerializeField] private float lockedKatanaWeight = 0f;
+
+    private bool _lockKatanaLayerWeight;
+    private int _upperBodyLayerIndex = -1;
+
     private bool _armedForThisSlam;
     private bool _launchedThisSlam;
     private Tween _tween;
+    private Tween _meetTween;
+    private Tween _dashTween;
 
+    private Transform _root;
+    private Rigidbody _rootRb;
+
+    private Vector3 _cachedBodyLocalPos;
+    private Quaternion _cachedBodyLocalRot;
     private void OnEnable()
     {
         // Pool-safe reset
-        _armedForThisSlam = false;
         _launchedThisSlam = false;
 
         _tween?.Kill();
         _tween = null;
+
+        _dashTween?.Kill();
+        _meetTween?.Kill();
+
+        _dashTween = null;
+        _meetTween = null;
+
+        _root = transform.root;
+        _rootRb = _root.GetComponent<Rigidbody>();
+
+        _cachedBodyLocalPos = transform.localPosition;
+        _cachedBodyLocalRot = transform.localRotation;
     }
+
+    public void ResetExecutionAttempt()
+    {
+        _armedForThisSlam = false;
+        _launchedThisSlam = false;
+
+        _tween?.Kill(); _tween = null;
+        _meetTween?.Kill(); _meetTween = null;
+        _dashTween?.Kill(); _dashTween = null;
+
+        _lockKatanaLayerWeight = false;
+
+        // Optional: restore layer to normal gameplay weight (if you want)
+        if (animator != null && _upperBodyLayerIndex >= 0)
+            animator.SetLayerWeight(_upperBodyLayerIndex, 1f);
+    }
+
 
     /// <summary>
     /// Call this ONLY when the PHASE2 down-attack button starts the special slam.
@@ -38,6 +100,17 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         _launchedThisSlam = false; // reset per arm
 
         if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] ARMED");
+    }
+
+    public void Awake()
+    {
+        if (animator == null) animator = GetComponent<Animator>();
+        _upperBodyLayerIndex = animator != null ? animator.GetLayerIndex(upperBodyLayerName) : -1;
+    }
+    private void LateUpdate()
+    {
+        if (_lockKatanaLayerWeight)
+            ForceKatanaLayerWeight();
     }
 
     /// <summary>
@@ -67,7 +140,31 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             return;
         }
 
-        StartLaunchToMeetPoint(playerMeetPoint.position);
+        // 1) switch pose/state
+        if (animator != null && !string.IsNullOrEmpty(strikeTakeoffTrigger))
+        {
+            animator.ResetTrigger(strikeTakeoffTrigger);
+            animator.SetTrigger(strikeTakeoffTrigger);
+        }
+
+        // optional: kill upper body aiming layer during execution
+        if (_upperBodyLayerIndex >= 0 && animator != null)
+        {
+            _lockKatanaLayerWeight = true;
+            ForceKatanaLayerWeight();
+        }
+
+        // Aggressive execution pose rotation (very fast, not snapped)
+        transform.DOLocalRotate(
+            executionEuler,
+            rotationTweenDuration,
+            RotateMode.Fast
+        ).SetEase(Ease.OutQuad);
+
+        _cachedBodyLocalPos = transform.localPosition;
+        _cachedBodyLocalRot = transform.localRotation;
+        StartMoveToMeetPointSynced();
+
 
         //Transform playerRoot = transform.root;
 
@@ -87,27 +184,109 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         //if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] LAUNCH started via Frame18");
     }
 
-    private void StartLaunchToMeetPoint(Vector3 end)
+    private void StartMoveToMeetPointSynced()
     {
-        _tween?.Kill();
+        if (playerMeetPoint == null)
+        {
+            Debug.LogError("[Phase2] playerMeetPoint is NULL.");
+            return;
+        }
+        if (strikeTakeoffClip == null)
+        {
+            Debug.LogError("[Phase2] strikeTakeoffClip not assigned (need it to compute frame duration).");
+            return;
+        }
 
-        Vector3 adjustedEnd = end + Vector3.up * 0.1f;
+        _meetTween?.Kill();
 
-        _tween = transform
-            .DOMove(adjustedEnd, launchDuration)
-            .SetEase(ease);
+        // How long until we must arrive at meet point:
+        // duration = (arriveFrame / clipFrameRate) seconds
+        float fps = strikeTakeoffClip.frameRate;
+        float duration = Mathf.Max(0.001f, arriveAtMeetPointByFrame / fps);
+
+        // Move BODY (visual) to meet line
+        _meetTween = transform
+            .DOMove(playerMeetPoint.position, duration)
+            .SetEase(meetMoveEase);
+    }
+
+    private void ResyncRootToBodyAndRestoreHierarchy()
+    {
+        if (_root == null) return;
+
+        // We want: body world position stays where it is right now,
+        // but we move the ROOT under it so local offset returns to normal.
+
+        Vector3 bodyWorld = transform.position;
+
+        // Convert cached local offset into world space using root rotation
+        Vector3 worldOffset = _root.TransformVector(_cachedBodyLocalPos);
+
+        Vector3 newRootPos = bodyWorld - worldOffset;
+
+        // Move root (Rigidbody-safe)
+        if (_rootRb != null && !_rootRb.isKinematic)
+        {
+            _rootRb.position = newRootPos;
+            _rootRb.linearVelocity = Vector3.zero; // optional
+        }
+        else
+        {
+            _root.position = newRootPos;
+        }
+
+        // Restore body to its normal local placement under root
+        transform.localPosition = _cachedBodyLocalPos;
+        transform.localRotation = _cachedBodyLocalRot;
+    }
+
+    public void OnPhase2StrikeDashStart()
+    {
+        // DO NOT _meetTween.Complete() — that creates the hard stop.
+        StartDashToStrikeEnd(fromCurrentPosition: true);
     }
 
 
-    public void EndExecutionAndReturnToGameplay()
+    private void StartDashToStrikeEnd(bool fromCurrentPosition = false)
     {
-        // 1) stop any tweens on the body
-        _tween?.Kill();
+        if (playerStrikeEndPoint == null)
+        {
+            Debug.LogError("[Phase2] playerStrikeEndPoint is NULL.");
+            return;
+        }
 
-        // 2) snap body back to its normal local position under the player root
-        //transform.localPosition = _originalLocalPos;
-        //transform.localRotation = _originalLocalRot;
+        _dashTween?.Kill();
 
-        // 3) re-enable your normal movement / gravity systems (whatever you disabled)
+        Vector3 start = transform.position; // always current
+        Vector3 end = playerStrikeEndPoint.position;
+
+        if (keepZ) end.z = start.z;
+
+        float dist = Vector3.Distance(start, end);
+        float duration = Mathf.Max(0.001f, dist / Mathf.Max(0.01f, dashSpeed));
+
+        // IMPORTANT: if meet tween is still running, don't complete it; just kill it so we continue smoothly
+        if (_meetTween != null && _meetTween.IsActive() && _meetTween.IsPlaying())
+            _meetTween.Kill(false); // false = do NOT complete; keep current position
+
+        _dashTween = transform
+            .DOMove(end, duration)
+            .SetEase(dashEase)
+            .OnComplete(() =>
+            {
+                ResyncRootToBodyAndRestoreHierarchy();
+            });
+
     }
+
+    private void ForceKatanaLayerWeight()
+    {
+        if (animator == null || _upperBodyLayerIndex < 0) return;
+
+        float current = animator.GetLayerWeight(_upperBodyLayerIndex);
+        if (!Mathf.Approximately(current, lockedKatanaWeight))
+            animator.SetLayerWeight(_upperBodyLayerIndex, lockedKatanaWeight);
+    }
+
+
 }

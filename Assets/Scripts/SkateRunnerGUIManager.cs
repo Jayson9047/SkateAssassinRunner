@@ -307,6 +307,7 @@ namespace MoreMountains.InfiniteRunnerEngine
                 case PowerMeter.ZoneResult.Green:
                 case PowerMeter.ZoneResult.Cyan:
                 {
+                    phase2PowerSlamFrameEvents.ResetExecutionAttempt();
                     phase2PowerSlamFrameEvents.ArmPhase2LaunchForNextSlam();
                     StartCoroutine(SimulateDoubleJumpThenDownAttack());
                     // success path (already working / later work)
