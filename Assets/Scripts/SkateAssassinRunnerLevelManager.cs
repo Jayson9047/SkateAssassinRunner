@@ -171,6 +171,27 @@ namespace MoreMountains.InfiniteRunnerEngine
             ResetSlam();
         }
 
+
+        protected override void InstantiateCharacters()
+        {
+            base.InstantiateCharacters();
+            TryBindCinemachineToFirstPlayer();
+        }
+
+        protected virtual void TryBindCinemachineToFirstPlayer()
+        {
+            if (CurrentPlayableCharacters == null || CurrentPlayableCharacters.Count == 0) return;
+
+            var player = CurrentPlayableCharacters[0];
+            if (player == null) return;
+
+            var binder = FindFirstObjectByType<CameraPlayerBinder>();
+            if (binder == null) return;
+
+            binder.BindTo(player.transform);
+        }
+
+
         private void DisableObstacleSpawning()
         {
             if (_spawningDisabled) return;

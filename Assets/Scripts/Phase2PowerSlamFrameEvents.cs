@@ -38,6 +38,26 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     [SerializeField] private float lockedKatanaWeight = 0f;
 
+    [Header("Frame 18 Failsafe (Generous)")]
+    [SerializeField] private string downAttackStateName = "DownAttack";   // base layer state name
+    [SerializeField] private AnimationClip downAttackClip;                 // clip that has frame 18 event
+    [SerializeField] private int triggerAtFrame = 18;                      // default 18
+    [SerializeField] private int graceFramesEarly = 2;                     // allow 16+
+    [SerializeField] private float armedFailsafeSeconds = 0.20f;           // if state name mismatch, still fire
+
+    [Header("Frame 18 Failsafe (Never Early)")]
+    [SerializeField] private int frame18 = 18;
+    [SerializeField] private float extraGraceSeconds = 0.03f;   // small cushion for frame timing / hiccups
+
+    [SerializeField] private bool debugAlignCamera = false;
+
+    private float _armedAtTime;
+    private bool _frame18FailsafeArmed;
+
+    private bool _frame18FailsafeFired;
+    private float _triggerNormEarly = 0.6f; // computed
+
+
     private bool _lockKatanaLayerWeight;
     private int _upperBodyLayerIndex = -1;
 
@@ -56,7 +76,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     {
         // Pool-safe reset
         _launchedThisSlam = false;
-
+        _frame18FailsafeFired = false;
         _tween?.Kill();
         _tween = null;
 
@@ -97,15 +117,28 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     public void ArmPhase2LaunchForNextSlam()
     {
         _armedForThisSlam = true;
-        _launchedThisSlam = false; // reset per arm
+        _launchedThisSlam = false;
+
+        _armedAtTime = Time.time;
+        _frame18FailsafeArmed = true;
 
         if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] ARMED");
     }
+
+
 
     public void Awake()
     {
         if (animator == null) animator = GetComponent<Animator>();
         _upperBodyLayerIndex = animator != null ? animator.GetLayerIndex(upperBodyLayerName) : -1;
+
+        if (downAttackClip != null && downAttackClip.frameRate > 0f)
+        {
+            float totalFrames = downAttackClip.length * downAttackClip.frameRate;
+            float targetFrame = Mathf.Clamp(triggerAtFrame - graceFramesEarly, 0, totalFrames);
+            _triggerNormEarly = Mathf.Clamp01(targetFrame / Mathf.Max(1f, totalFrames));
+        }
+
     }
     private void LateUpdate()
     {
@@ -113,11 +146,15 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             ForceKatanaLayerWeight();
     }
 
+
+
     /// <summary>
     /// Animation Event on frame 18 of the slam clip.
     /// </summary>
     public void OnPhase2PowerSlamFrame18()
     {
+        _frame18FailsafeArmed = false;
+
         if (!_armedForThisSlam)
         {
             if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] Frame18 fired but NOT armed (ignored)");
@@ -164,25 +201,32 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         _cachedBodyLocalPos = transform.localPosition;
         _cachedBodyLocalRot = transform.localRotation;
         StartMoveToMeetPointSynced();
-
-
-        //Transform playerRoot = transform.root;
-
-        //Vector3 start = playerRoot.position;
-        //Vector3 end = playerMeetPoint.position;
-
-        //Vector3 mid = (start + end) * 0.5f;
-        //mid.y += apexHeight;
-
-        //Vector3[] path = new[] { start, mid, end };
-
-        //_tween?.Kill();
-        //_tween = playerRoot
-        //    .DOPath(path, launchDuration, PathType.CatmullRom, PathMode.Full3D)
-        //    .SetEase(ease);
-
-        //if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] LAUNCH started via Frame18");
     }
+
+    private void Update()
+    {
+        // If event already happened or we're not armed, do nothing
+        if (!_frame18FailsafeArmed || !_armedForThisSlam || _launchedThisSlam)
+            return;
+
+        if (downAttackClip == null || downAttackClip.frameRate <= 0f)
+            return; // can't compute frame 18 time safely; assign the clip
+
+        // Compute the earliest allowed moment to behave like frame 18:
+        float frame18Time = (frame18 / downAttackClip.frameRate) + extraGraceSeconds;
+
+        // IMPORTANT: This can NEVER fire early because it's time-based from the moment you armed the slam.
+        if (Time.time - _armedAtTime >= frame18Time)
+        {
+            _frame18FailsafeArmed = false;
+
+            if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] Frame18 FAILSAFE fired (time-based, never early)");
+
+            // Reuse your proven pathway
+            OnPhase2PowerSlamFrame18();
+        }
+    }
+
 
     private void StartMoveToMeetPointSynced()
     {
@@ -242,8 +286,12 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     public void OnPhase2StrikeDashStart()
     {
-        // DO NOT _meetTween.Complete() — that creates the hard stop.
-        StartDashToStrikeEnd(fromCurrentPosition: true);
+        FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToCollision();
+        if(!debugAlignCamera)
+        {
+            // DO NOT _meetTween.Complete() — that creates the hard stop.
+            StartDashToStrikeEnd(fromCurrentPosition: true);
+        }
     }
 
 
