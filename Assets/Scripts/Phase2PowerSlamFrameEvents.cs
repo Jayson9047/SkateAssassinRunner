@@ -1,5 +1,6 @@
-using UnityEngine;
 using DG.Tweening;
+using MoreMountains.InfiniteRunnerEngine;
+using UnityEngine;
 
 public class Phase2PowerSlamFrameEvents : MonoBehaviour
 {
@@ -51,6 +52,15 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     [SerializeField] private bool debugAlignCamera = false;
 
+    [Header("Slow Motion")]
+    [SerializeField] private float slowMoScale = 0.25f;
+    [SerializeField] private float slowMoDurationRealtime = 0.20f;
+    [SerializeField] private bool slowMoAffectsPhysics = true;
+
+    private float _defaultFixedDeltaTime;
+    private bool _slowMoActive;
+
+
     private float _armedAtTime;
     private bool _frame18FailsafeArmed;
 
@@ -77,6 +87,8 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         // Pool-safe reset
         _launchedThisSlam = false;
         _frame18FailsafeFired = false;
+        _defaultFixedDeltaTime = Time.fixedDeltaTime;
+
         _tween?.Kill();
         _tween = null;
 
@@ -183,7 +195,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             animator.ResetTrigger(strikeTakeoffTrigger);
             animator.SetTrigger(strikeTakeoffTrigger);
         }
-
+        TriggerSlowMo();
         // optional: kill upper body aiming layer during execution
         if (_upperBodyLayerIndex >= 0 && animator != null)
         {
@@ -202,6 +214,32 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         _cachedBodyLocalRot = transform.localRotation;
         StartMoveToMeetPointSynced();
     }
+
+    private void TriggerSlowMo()
+    {
+        if (_slowMoActive) return;
+        _slowMoActive = true;
+
+        Time.timeScale = slowMoScale;
+
+        if (slowMoAffectsPhysics)
+            Time.fixedDeltaTime = _defaultFixedDeltaTime * Time.timeScale;
+
+        StartCoroutine(RestoreSlowMoAfterRealtime(slowMoDurationRealtime));
+    }
+
+    private System.Collections.IEnumerator RestoreSlowMoAfterRealtime(float seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+
+        Time.timeScale = 1f;
+
+        if (slowMoAffectsPhysics)
+            Time.fixedDeltaTime = _defaultFixedDeltaTime;
+
+        _slowMoActive = false;
+    }
+
 
     private void Update()
     {
@@ -286,12 +324,16 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     public void OnPhase2StrikeDashStart()
     {
+        //TriggerSlowMo();
         FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToCollision();
-        if(!debugAlignCamera)
+        LevelManager.Instance?.EnterRuthlessTapMode();
+        RuthlessTapModeController.Instance.Begin(slowMoDurationRealtime - 3f, taps =>
         {
-            // DO NOT _meetTween.Complete() — that creates the hard stop.
+            LevelManager.Instance?.ExitRuthlessTapMode();
+            Debug.Log("Final combo taps: " + taps);
             StartDashToStrikeEnd(fromCurrentPosition: true);
-        }
+            FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToFollow();
+        });
     }
 
 

@@ -110,6 +110,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 		/// the effect we instantiate when a life is lost
 		[Tooltip("the effect we instantiate when a life is lost")]
 		public GameObject LifeLostExplosion;
+        public bool RuthlessTapModeEntered { get; private set; }
+        public int RuthlessTapCount { get; set; }
 
         public bool GameplayInputsLocked { get; private set; }
 
@@ -216,10 +218,21 @@ namespace MoreMountains.InfiniteRunnerEngine
 			MMGameEvent.Trigger("GameStart");
 		}
 
-		/// <summary>
-		/// Instantiates all the playable characters and feeds them to the gameManager
-		/// </summary>
-		protected virtual void InstantiateCharacters()
+        public void EnterRuthlessTapMode()
+        {
+            RuthlessTapModeEntered = true;
+            RuthlessTapCount = 0;
+        }
+
+        public void ExitRuthlessTapMode()
+        {
+            RuthlessTapModeEntered = false;
+        }
+
+        /// <summary>
+        /// Instantiates all the playable characters and feeds them to the gameManager
+        /// </summary>
+        protected virtual void InstantiateCharacters()
 		{
 			CurrentPlayableCharacters = new List<PlayableCharacter>();
 			/// we go through the list of playable characters and instantiate them while adding them to the list we'll use from any class to access the

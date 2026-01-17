@@ -1040,7 +1040,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.18936877
+      - time: 0.15618221
         functionName: OnPhase2StrikeDashStart
         data: 
         objectReferenceParameter: {instanceID: 0}
