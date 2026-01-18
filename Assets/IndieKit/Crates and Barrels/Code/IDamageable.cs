@@ -4,6 +4,6 @@ namespace IndieKit
 {
     public interface IDamageable
     {
-        void ApplyDamage(float damage, Vector3 hitPoint);
+        void ApplyDamage(float damage, Vector3 hitPoint, bool triggerSlowMo = false);
     }
 }

@@ -10,7 +10,7 @@ namespace IndieKit
         [SerializeField]
         private GameObject DebrisPrefab;
 
-        public void ApplyDamage(float damage, Vector3 hitPoint)
+        public void ApplyDamage(float damage, Vector3 hitPoint, bool triggerSlowMo = false)
         {
             health -= damage;
 

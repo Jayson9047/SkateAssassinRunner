@@ -495,7 +495,7 @@ public class SwipeDownDetector : MonoBehaviour
     private void DoPhase2CinematicImpact(Vector3 hitPoint)
     {
         var skateLM = LevelManager.Instance as SkateAssassinRunnerLevelManager;
-        if (skateLM != null)
+        if (skateLM != null && skateLM.Phase2CarImpulse.FlipArmed)
         {
             skateLM.OnPhase2SlamImpact();
         }

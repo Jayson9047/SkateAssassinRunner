@@ -19,6 +19,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         private Vector3 _lastDeathPosition;
         public static event Action<int, bool> OnSlamChanged;
 
+        public static SkateAssassinRunnerLevelManager SkateRunnerLevelManagerAccessor { get; private set; }
+
         private const int SlamMax = 5;
         private int _slamKills;
 
@@ -61,52 +63,17 @@ namespace MoreMountains.InfiniteRunnerEngine
         private bool _phase2CarSpawnerActivated;
         private Coroutine _phase2CarSpawnerRoutine;
         public bool IsPhase2BossActive => _phase2BossQTEActive;
-
+        public CarImpulseTest Phase2CarImpulse => _phase2CarImpulse;
 
         // runtime state
         private float _phaseElapsedSeconds;
         private bool _phase2Started;
         private bool _spawningDisabled;
 
-        /// <summary>
-        /// What happens when all characters are dead (or when the character is dead if you only have one)
-        /// </summary>
-        protected override void AllCharactersAreDead()
+        protected override void Awake()
         {
-            // if we've specified an effect for when a life is lost, we instantiate it at the camera's position
-            if (LifeLostExplosion != null)
-            {
-                GameObject explosion = Instantiate(LifeLostExplosion);
-
-                if (_hasLastDeathPosition)
-                {
-                    explosion.transform.position = _lastDeathPosition;
-                    _hasLastDeathPosition = false; // clear after use
-                }
-                else
-                {
-                    explosion.transform.position = StartingPosition.transform.position; // fallback
-                }
-            }
-
-            // we've just lost a life
-            GameManager.Instance.SetStatus(GameManager.GameStatus.LifeLost);
-            MMGameEvent.Trigger("LifeLost");
-            _started = DateTime.UtcNow;
-            GameManager.Instance.SetPoints(_savedPoints);
-            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.SetBounties(_savedBounties);
-            GameManager.Instance.LoseLives(1);
-
-            if (GameManager.Instance.CurrentLives <= 0)
-            {
-                GUIManager.Instance.SetGameOverScreen(true);
-                GameManager.Instance.SetStatus(GameManager.GameStatus.GameOver);
-                MMGameEvent.Trigger("GameOver");
-            }
-            if (LevelManager.Instance != null)
-            {
-                LevelManager.Instance.UnlockGameplayInputs();
-            }
+            base.Awake();
+            SkateRunnerLevelManagerAccessor = this;
         }
 
         /// <summary>
@@ -204,7 +171,46 @@ namespace MoreMountains.InfiniteRunnerEngine
                 ObstacleSpawnerPooler.Pool[i].Enabled = false;
             }
         }
+        /// <summary>
+        /// What happens when all characters are dead (or when the character is dead if you only have one)
+        /// </summary>
+        protected override void AllCharactersAreDead()
+        {
+            // if we've specified an effect for when a life is lost, we instantiate it at the camera's position
+            if (LifeLostExplosion != null)
+            {
+                GameObject explosion = Instantiate(LifeLostExplosion);
 
+                if (_hasLastDeathPosition)
+                {
+                    explosion.transform.position = _lastDeathPosition;
+                    _hasLastDeathPosition = false; // clear after use
+                }
+                else
+                {
+                    explosion.transform.position = StartingPosition.transform.position; // fallback
+                }
+            }
+
+            // we've just lost a life
+            GameManager.Instance.SetStatus(GameManager.GameStatus.LifeLost);
+            MMGameEvent.Trigger("LifeLost");
+            _started = DateTime.UtcNow;
+            GameManager.Instance.SetPoints(_savedPoints);
+            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.SetBounties(_savedBounties);
+            GameManager.Instance.LoseLives(1);
+
+            if (GameManager.Instance.CurrentLives <= 0)
+            {
+                GUIManager.Instance.SetGameOverScreen(true);
+                GameManager.Instance.SetStatus(GameManager.GameStatus.GameOver);
+                MMGameEvent.Trigger("GameOver");
+            }
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.UnlockGameplayInputs();
+            }
+        }
 
         protected override void OnDisable()
         {
@@ -326,7 +332,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             {
                 LevelManager.Instance.LockGameplayInputs();
             }
-
+            _enemyLaunch.SetEnemyDisarmed(true);
             // 2) Tell GUI to transition: Slam button only, platform + shards fade out
             if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
             {

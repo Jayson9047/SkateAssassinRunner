@@ -106,6 +106,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             // Usually LevelManager has a Player reference, or use GameObject.FindWithTag("Player") as fallback.
             var player = GameObject.FindGameObjectWithTag("Player");
             phase2PowerSlamFrameEvents = player.GetComponentInChildren<Phase2PowerSlamFrameEvents>(true);
+            BindPhase2FrameEvents();
         }
 
         /// <summary>
@@ -307,6 +308,12 @@ namespace MoreMountains.InfiniteRunnerEngine
                 case PowerMeter.ZoneResult.Green:
                 case PowerMeter.ZoneResult.Cyan:
                 {
+                    //Sanity check
+                    if (phase2PowerSlamFrameEvents == null) BindPhase2FrameEvents();
+                    if (phase2PowerSlamFrameEvents == null) { Debug.LogError("Phase2PowerSlamFrameEvents missing"); return; }
+
+                    // Trigger the arm flip + launch sequence
+                    SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor.Phase2CarImpulse.ArmFlipOnce();
                     phase2PowerSlamFrameEvents.ResetExecutionAttempt();
                     phase2PowerSlamFrameEvents.ArmPhase2LaunchForNextSlam();
                     StartCoroutine(SimulateDoubleJumpThenDownAttack());
@@ -316,6 +323,29 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
         }
 
+        public override void OnMMEvent(MMGameEvent gameEvent)
+        {
+            base.OnMMEvent(gameEvent);
+            switch (gameEvent.EventName)
+            {
+                case "PlayableCharactersInstantiated":
+                case "GameStart":
+                case "LifeLost":
+                    BindPhase2FrameEvents();
+                    break;
+            }
+        }
+
+        private void BindPhase2FrameEvents()
+        {
+            var player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null) return;
+
+            phase2PowerSlamFrameEvents = player.GetComponentInChildren<Phase2PowerSlamFrameEvents>(true);
+
+            if (phase2PowerSlamFrameEvents == null)
+                Debug.LogWarning("[SkateRunnerGUIManager] Phase2PowerSlamFrameEvents not found under Player.");
+        }
 
         public void RefreshPhase2Countdown(int secondsRemaining)
         {

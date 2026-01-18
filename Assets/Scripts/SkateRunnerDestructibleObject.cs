@@ -13,6 +13,11 @@ namespace IndieKit
         [Header("Gameplay")]
         [SerializeField] private bool countsAsEnemyKill = true;
 
+        [Header("Optional SlowMo On Destroy")]
+        [SerializeField] private float destroySlowMoScale = 0.12f;
+        [SerializeField] private float destroySlowMoDurationRealtime = 2f;
+        [SerializeField] private bool destroySlowMoAffectsPhysics = true;
+
         private float _initialHealth;
         private bool _isDead;
 
@@ -27,10 +32,14 @@ namespace IndieKit
             _isDead = false;
         }
 
-        public void ApplyDamage(float damage, Vector3 hitPoint)
+        public void ApplyDamage(float damage, Vector3 hitPoint, bool triggerSlowMo = false)
         {
             if (_isDead) return;
-
+            if (triggerSlowMo)
+            {
+                // Use your global defaults (or add fields on this component)
+                SkateRunnerGameFeel.TriggerSlowMoStatic(destroySlowMoScale, destroySlowMoDurationRealtime, destroySlowMoAffectsPhysics);
+            }
             health -= damage;
             if (health > 0f) return;
 
@@ -59,5 +68,10 @@ namespace IndieKit
 
             gameObject.SetActive(false);
         }
+        public void ResetDestructible()
+        {
+            _isDead = false;
+        }
     }
+
 }

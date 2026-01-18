@@ -1,3 +1,4 @@
+using IndieKit;
 using UnityEngine;
 
 public class EnemyType3 : MonoBehaviour

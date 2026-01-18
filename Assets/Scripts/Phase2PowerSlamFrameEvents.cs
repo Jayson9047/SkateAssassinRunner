@@ -57,6 +57,10 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     [SerializeField] private float slowMoDurationRealtime = 0.20f;
     [SerializeField] private bool slowMoAffectsPhysics = true;
 
+    private GameObject _enemyInstance;
+
+
+
     private float _defaultFixedDeltaTime;
     private bool _slowMoActive;
 
@@ -119,6 +123,10 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         // Optional: restore layer to normal gameplay weight (if you want)
         if (animator != null && _upperBodyLayerIndex >= 0)
             animator.SetLayerWeight(_upperBodyLayerIndex, 1f);
+    }
+    public void SetEnemyInstance(GameObject enemyInstance)
+    {
+        _enemyInstance = enemyInstance;
     }
 
 
@@ -195,7 +203,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             animator.ResetTrigger(strikeTakeoffTrigger);
             animator.SetTrigger(strikeTakeoffTrigger);
         }
-        TriggerSlowMo();
+        SkateRunnerGameFeel.TriggerSlowMoStatic(slowMoScale, slowMoDurationRealtime, slowMoAffectsPhysics);
         // optional: kill upper body aiming layer during execution
         if (_upperBodyLayerIndex >= 0 && animator != null)
         {
@@ -213,31 +221,6 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         _cachedBodyLocalPos = transform.localPosition;
         _cachedBodyLocalRot = transform.localRotation;
         StartMoveToMeetPointSynced();
-    }
-
-    private void TriggerSlowMo()
-    {
-        if (_slowMoActive) return;
-        _slowMoActive = true;
-
-        Time.timeScale = slowMoScale;
-
-        if (slowMoAffectsPhysics)
-            Time.fixedDeltaTime = _defaultFixedDeltaTime * Time.timeScale;
-
-        StartCoroutine(RestoreSlowMoAfterRealtime(slowMoDurationRealtime));
-    }
-
-    private System.Collections.IEnumerator RestoreSlowMoAfterRealtime(float seconds)
-    {
-        yield return new WaitForSecondsRealtime(seconds);
-
-        Time.timeScale = 1f;
-
-        if (slowMoAffectsPhysics)
-            Time.fixedDeltaTime = _defaultFixedDeltaTime;
-
-        _slowMoActive = false;
     }
 
 
@@ -324,20 +307,50 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     public void OnPhase2StrikeDashStart()
     {
-        //TriggerSlowMo();
         FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToCollision();
         LevelManager.Instance?.EnterRuthlessTapMode();
+
         RuthlessTapModeController.Instance.Begin(slowMoDurationRealtime - 3f, taps =>
         {
             LevelManager.Instance?.ExitRuthlessTapMode();
             Debug.Log("Final combo taps: " + taps);
-            StartDashToStrikeEnd(fromCurrentPosition: true);
+
+            StartDashToStrikeEnd(fromCurrentPosition: true, onArrive: () =>
+            {
+                var enemyGo = _enemyInstance;
+                if (enemyGo == null)
+                {
+                    Debug.LogError("[Phase2PowerSlamFrameEvents] Enemy instance is NULL. SetEnemyInstance() was never called.");
+                    return;
+                }
+
+                var dmg = enemyGo.GetComponentInParent<IndieKit.IDamageable>();
+                if (dmg != null)
+                {
+                    // optional: use strike end point as hit point if you want it to feel like contact
+                    Vector3 hitPoint = enemyGo.transform.position;
+                    dmg.ApplyDamage(999f, hitPoint, true);
+                }
+                else
+                {
+                    Debug.LogError("[Phase2PowerSlamFrameEvents] No IDamageable found in parent chain of enemy instance.");
+                }
+
+                if (LevelManager.Instance != null)
+                    LevelManager.Instance.FreezeSpeedAndCancelBoost();
+            });
             FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToFollow();
+
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.FreezeSpeedAndCancelBoost();
+            }
         });
     }
 
 
-    private void StartDashToStrikeEnd(bool fromCurrentPosition = false)
+
+    private void StartDashToStrikeEnd(bool fromCurrentPosition = false, System.Action onArrive = null)
     {
         if (playerStrikeEndPoint == null)
         {
@@ -355,9 +368,8 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         float dist = Vector3.Distance(start, end);
         float duration = Mathf.Max(0.001f, dist / Mathf.Max(0.01f, dashSpeed));
 
-        // IMPORTANT: if meet tween is still running, don't complete it; just kill it so we continue smoothly
         if (_meetTween != null && _meetTween.IsActive() && _meetTween.IsPlaying())
-            _meetTween.Kill(false); // false = do NOT complete; keep current position
+            _meetTween.Kill(false);
 
         _dashTween = transform
             .DOMove(end, duration)
@@ -365,9 +377,10 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             .OnComplete(() =>
             {
                 ResyncRootToBodyAndRestoreHierarchy();
+                onArrive?.Invoke();
             });
-
     }
+
 
     private void ForceKatanaLayerWeight()
     {

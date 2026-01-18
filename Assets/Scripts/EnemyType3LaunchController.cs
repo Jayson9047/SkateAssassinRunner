@@ -21,6 +21,16 @@ public class EnemyType3LaunchController : MonoBehaviour
     [SerializeField] private float nearTargetDistance = 0.35f;
 
     [SerializeField] private string upperBodyLayerName = "UpperBody";
+
+    [Header("Phase 2 Vulnerability Gating")]
+    [SerializeField] private string disarmedTag = "Enemy";
+    [SerializeField] private int disarmedLayer;   // set to Default (or a custom NotDamageable layer)
+
+    [SerializeField] private string armedTag = "Untagged";
+    [SerializeField] private int armedLayer;   // set to Default (or a custom NotDamageable layer)
+
+    [SerializeField] private GameObject enemyRoot; // drag the Enemy3 root here (the child under car)
+
     private int _upperBodyLayerIndex = -1;
     private Transform _originalParent;
     private Vector3 _originalLocalPos;
@@ -32,7 +42,6 @@ public class EnemyType3LaunchController : MonoBehaviour
 
     public System.Action OnNearTarget;
     public System.Action OnArrived;
-
 
 
     private void Awake()
@@ -51,6 +60,7 @@ public class EnemyType3LaunchController : MonoBehaviour
         {
             _upperBodyLayerIndex = animator.GetLayerIndex(upperBodyLayerName);
         }
+        SetEnemyDisarmed(false);
     }
 
     private void OnEnable()
@@ -86,6 +96,11 @@ public class EnemyType3LaunchController : MonoBehaviour
 
         // Detach from car
         transform.SetParent(null, true);
+
+        // after you detach enemy from car
+        var frameEvents = FindFirstObjectByType<Phase2PowerSlamFrameEvents>();
+        if (frameEvents != null)
+            frameEvents.SetEnemyInstance(gameObject); // or enemyRoot.gameObject
 
         // Disable physics influence
         if (_rb != null)
@@ -140,6 +155,24 @@ public class EnemyType3LaunchController : MonoBehaviour
             _rb.isKinematic = true;
 
         SetCollidersEnabled(true);
+    }
+    public void SetEnemyDisarmed(bool disarmed)
+    {
+        if (enemyRoot == null) return;
+
+        string tag = disarmed ? disarmedTag: armedTag;
+        int layer = disarmed ?  disarmedLayer : armedLayer;
+
+        SetTagAndLayerRecursively(enemyRoot.transform, tag, layer);
+    }
+
+    private void SetTagAndLayerRecursively(Transform root, string tag, int layer)
+    {
+        root.gameObject.tag = tag;
+        root.gameObject.layer = layer;
+
+        for (int i = 0; i < root.childCount; i++)
+            SetTagAndLayerRecursively(root.GetChild(i), tag, layer);
     }
 
     private void SetCollidersEnabled(bool enabled)

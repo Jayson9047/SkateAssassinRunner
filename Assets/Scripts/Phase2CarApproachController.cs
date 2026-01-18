@@ -31,6 +31,9 @@ public class Phase2CarApproachController : MonoBehaviour
     [Header("Enemy Type 3 (Shooter)")]
     [SerializeField] private EnemyType3 ShooterEnemyType3;
 
+    [Header("Steering Start Marker (World)")]
+    [SerializeField] private Transform StartDriftMarker;
+
     [Header("Debug")]
     [SerializeField] private bool DebugLogs = false;
 
@@ -78,66 +81,71 @@ public class Phase2CarApproachController : MonoBehaviour
         Vector3 pos = transform.position;
         Vector3 target = TargetSlot.position;
 
-        // 1) Trigger steering only after we are "ahead" enough (old behavior)
+        // -----------------------------
+        // 1) Start steering deterministically
+        // -----------------------------
         if (!_slotApproachStarted)
         {
-            if (StartingPosition == null)
+            // RECOMMENDED: use a world marker to start the Z drift.
+            // Add: [SerializeField] private Transform StartDriftMarker;
+            // Place it in the scene where you want the car to begin drifting toward TargetSlot.
+            if (StartDriftMarker == null)
             {
-                // Fallback: if StartingPosition isn't assigned, use TargetSlot as reference.
-                // But you SHOULD assign StartingPosition for consistent behavior.
-                float fallbackAhead = pos.x - target.x;
-                if (fallbackAhead < diagonalTriggerX) return;
+                // Fallback to old behavior if you haven't assigned the marker yet
+                // (but this is the part that can be inconsistent).
+                if (StartingPosition == null) return;
+
+                float aheadX = pos.x - StartingPosition.position.x;
+                if (aheadX < diagonalTriggerX) return;
             }
             else
             {
-                float aheadX = pos.x - StartingPosition.position.x;
-                if (aheadX < diagonalTriggerX) return;
+                // Deterministic trigger: start steering once car crosses marker's X
+                // (assumes car moves in +X direction)
+                if (pos.x < StartDriftMarker.position.x) return;
             }
 
             _slotApproachStarted = true;
             ShooterEnemyType3?.StartAiming();
 
-            if (DebugLogs) Debug.Log("[Phase2CarApproachController] Steering started (slot approach).");
+            if (DebugLogs) Debug.Log("[Phase2CarApproachController] Steering started.");
         }
 
-        // 2) We only care about X and Z for lane/slot alignment
-        float dx = target.x - pos.x;
+        // -----------------------------
+        // 2) Z steering ONLY (never override X forward motion)
+        // -----------------------------
         float dz = target.z - pos.z;
-
-        bool closeX = Mathf.Abs(dx) <= positionTolerance;
         bool closeZ = Mathf.Abs(dz) <= positionTolerance;
 
-        bool crossedX = false;
-        bool crossedZ = false;
+        Vector3 dir = _movingObject.Direction;
 
-        if (_hasPrev)
+        if (!closeZ)
         {
-            crossedX = (_prevDeltaX > 0f && dx < 0f) || (_prevDeltaX < 0f && dx > 0f) || dx == 0f;
-            crossedZ = (_prevDeltaZ > 0f && dz < 0f) || (_prevDeltaZ < 0f && dz > 0f) || dz == 0f;
-        }
-
-        // 3) Steering (Z ONLY). Never override X forward motion.
-        // This prevents the car from flipping direction or changing forward speed behavior.
-        if (!closeZ) // if already aligned, stop drifting
-        {
-            float steerSign = Mathf.Sign(dz);
-            steerSign *= -1f;
-
-            Vector3 dir = _movingObject.Direction;
-            dir.z = steerSign * Mathf.Abs(zDriftMagnitude);
-            _movingObject.Direction = dir;
+            // We want to move toward target.z
+            // If dz > 0 => target is "positive z" relative to us => we need +z drift.
+            // If dz < 0 => we need -z drift.
+            dir.z = -Mathf.Sign(dz) * Mathf.Abs(zDriftMagnitude);
         }
         else
         {
-            Vector3 dir = _movingObject.Direction;
             dir.z = 0f;
-            _movingObject.Direction = dir;
         }
 
-        // 4) Lock condition: close enough on both axes OR we crossed target on both axes.
-        if ((closeX && closeZ) || (crossedX && crossedZ))
+        _movingObject.Direction = dir;
+
+        // -----------------------------
+        // 3) Deterministic lock condition
+        // -----------------------------
+        // We lock when:
+        // - We have reached/passed the target X (since X is driven by MovingObject speed)
+        // - AND we are aligned on Z within tolerance
+        //
+        // This removes "sometimes" caused by per-frame overshoot and crossed-delta logic.
+        bool reachedOrPassedX = pos.x >= target.x; // assumes car moves +X
+
+        if (reachedOrPassedX && closeZ)
         {
-            // Snap to exact slot position (keep Y as-is)
+            // Snap exactly to target slot (keep current Y)
             pos.x = target.x;
             pos.z = target.z;
             transform.position = pos;
@@ -167,10 +175,6 @@ public class Phase2CarApproachController : MonoBehaviour
 
             return;
         }
-
-        _prevDeltaX = dx;
-        _prevDeltaZ = dz;
-        _hasPrev = true;
     }
 
     public void SetTargetSlot(Transform slot) => TargetSlot = slot;
