@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ArcadeFont_Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: bc67a80e4ee9d4b49807755b47d7bb4c, type: 2}
+    - {fileID: -855298285791758126, guid: 4e687af106511de449b8460dd7dda4ff, type: 3}
+    - {fileID: 3191122964850554743, guid: 26baadb9070fa1340b300b69093f8a05, type: 3}
+    - {fileID: -6470460504253458178, guid: 95171a2df8242334b9cfb804de2618c7, type: 3}
+    - {fileID: -4178046375966092550, guid: 3ea62027cd4bcaf498051d41107b8d59, type: 3}
+    - {fileID: 4130640169021434097, guid: 0fdde058fb6e5364a856b1e26f928603, type: 3}
+    - {fileID: 3465286685962602723, guid: 51d1e72497b1f6147a096c4a6f3431e2, type: 3}
+    - {fileID: 7028616704906629411, guid: b3d0d2811caf7a94bbd1b4f6264a9a7f, type: 3}
+    - {fileID: 8288426215254106694, guid: 43115a24b1bebd941a049575d8962fc1, type: 3}
+    - {fileID: -215640629934891304, guid: e8a8ee951f646fe4db3dff1a409a9f4a, type: 3}
+    - {fileID: -8680797543115379092, guid: 031ee3a650eab3f4ba83a4909a9a0d0d, type: 3}
+    - {fileID: 7425438597007568885, guid: 805b0385a89ea8f4abecabe1df05471b, type: 3}
+    - {fileID: -606033477821260893, guid: 2781250ae309f52408c9bcf717338575, type: 3}
+    - {fileID: -962488092458481032, guid: 22e8659600bd9c14a9666046bb9ee454, type: 3}
+    - {fileID: -2224474878120320963, guid: 339929c4e9f4e044da4860db5689d6c8, type: 3}
+    - {fileID: -3687348052613884379, guid: 5dc0f111860b46543a350b911dadb158, type: 3}
+    - {fileID: 9202060142997513903, guid: 6483d89636ff59844bcd4e5f4b7f0cb0, type: 3}
+    - {fileID: 2825150710382137115, guid: c01a0d90b366df542af106f85a8c3aa0, type: 3}
+    - {fileID: 4045738515501477185, guid: 07f128a92dd820a4b94d8183de0cb37a, type: 3}
+    - {fileID: -581286770295223724, guid: df9019abb3f98a54b9fc41f4ae3ca05f, type: 3}
+    - {fileID: 1646720447909147354, guid: 7c49a3dab41a68449ae9b67d826b1add, type: 3}
+    - {fileID: 3685002520340290964, guid: 27f38717c0471e442a7e6baac14349b7, type: 3}
+    - {fileID: 2811246782448359015, guid: 852722e43adb78045981726bd503f050, type: 3}
+    - {fileID: 6059799596907309901, guid: 75ae65b9baf9c2b45b33f7e546798850, type: 3}
+    - {fileID: -1937887712669590171, guid: bd55fddafcdc5d344bd7e4e517309f89, type: 3}
+    - {fileID: 450080780327903475, guid: 483d593c36985ed46b025827a35f3b78, type: 3}
+    - {fileID: -3859272008004827343, guid: 01dd94e30b950434b80950116c411376, type: 3}
+    - {fileID: 8526818388472559999, guid: d11028c41f3bf0c428838d28a5cbb6d2, type: 3}
+    - {fileID: -1182827721247122346, guid: 826ea3b93b5b8c7428ffbd3271e2736d, type: 3}
+    - {fileID: -1785357414251982577, guid: 1503fb169c72bbd468124edf88b77f97, type: 3}
+    - {fileID: 128889091407729587, guid: 9ec9d9ca4d6ff044193c82e85755a675, type: 3}
+    - {fileID: 5871036504220654801, guid: 82cb475a73bc1af4ea06d4c7bb1105d4, type: 3}
+    - {fileID: -243099114694839562, guid: 669f08e2772f47644a1bcb2f9a44f4f8, type: 3}
+    - {fileID: 3959922740387019359, guid: 70f8d3e8e4a164f48a3ff417c96f6fe4, type: 3}
+    - {fileID: -7057060395142453220, guid: c1698ee2933d81140a3e96f9a3443bc9, type: 3}
+    - {fileID: 4969131362173423726, guid: 523b07e3da480f64f80315d7d045dd14, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys: []
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites: []
+  m_PackedSpriteNamesToIndex: []
+  m_RenderDataMap: {}
+  m_Tag: ArcadeFont_Atlas
+  m_IsVariant: 0

@@ -377,6 +377,24 @@ public class SwipeRightAttackDetector : MonoBehaviour
         // Arm the one-shot return trigger
         _returnHomeTrigger?.Arm(this);
     }
+    private static float EaseInOutExpo(float t)
+    {
+        t = Mathf.Clamp01(t);
+
+        if (t <= 0f) return 0f;
+        if (t >= 1f) return 1f;
+
+        if (t < 0.5f)
+        {
+            // ramps hard after initial slow
+            return 0.5f * Mathf.Pow(2f, (20f * t) - 10f);
+        }
+        else
+        {
+            // decelerates hard into the end
+            return 1f - 0.5f * Mathf.Pow(2f, (-20f * t) + 10f);
+        }
+    }
 
 
     private IEnumerator WaitUntilReturnComplete()
@@ -518,8 +536,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
             float pinnedY = transform.position.y;
 
             t += Time.deltaTime;
-            float a = Mathf.Clamp01(t / duration);
-            a = a * a * (3f - 2f * a);
+            float a = EaseInOutExpo(t / duration);
 
             Vector3 p = Vector3.Lerp(from, to, a);
             if (gravitySuspended) p.y = pinnedY;
