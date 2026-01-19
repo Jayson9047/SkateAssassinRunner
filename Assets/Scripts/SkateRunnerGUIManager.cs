@@ -65,8 +65,15 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private float phase2WaitForAirTimeout = 0.35f; // fail-safe
         [SerializeField] private PowerMeter powerMeter;
 
-
         [SerializeField] private Phase2PowerSlamFrameEvents phase2PowerSlamFrameEvents; // drag Body here
+
+        [Header("Phase 2 Power Meter Fade Out")]
+        [SerializeField] private float powerMeterFadeDuration = 0.20f;
+        [SerializeField] private bool disablePowerMeterAfterFade = true;
+
+        private CanvasGroup _powerMeterGroup;
+        private Coroutine _fadePowerMeterRoutine;
+
 
         private bool _phase2SimInProgress;
         private SwipeDownDetector _swipeDownDetectorCached;
@@ -276,6 +283,53 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
         }
 
+        public void FadeOutPowerMeterWhenPlayerGrounded()
+        {
+            if (_fadePowerMeterRoutine != null)
+                StopCoroutine(_fadePowerMeterRoutine);
+
+            _fadePowerMeterRoutine = StartCoroutine(FadeOutPowerMeterWhenGroundedCo());
+        }
+
+        private IEnumerator FadeOutPowerMeterWhenGroundedCo()
+        {
+            CachePowerMeterGroupIfNeeded();
+
+            if (powerMeter == null || _powerMeterGroup == null)
+                yield break;
+
+            // make sure it doesn't block touch while we wait
+            _powerMeterGroup.interactable = false;
+            _powerMeterGroup.blocksRaycasts = false;
+
+            // Wait until grounded
+            if (_jumperCached == null)
+                _jumperCached = FindFirstObjectByType<Jumper>();
+
+            while (_jumperCached != null && !_jumperCached.IsGrounded)
+                yield return null;
+
+            // Fade out
+            float start = _powerMeterGroup.alpha;
+            float dur = Mathf.Max(0.01f, powerMeterFadeDuration);
+            float t = 0f;
+
+            while (t < dur)
+            {
+                t += Time.deltaTime;
+                _powerMeterGroup.alpha = Mathf.Lerp(start, 0f, t / dur);
+                yield return null;
+            }
+
+            _powerMeterGroup.alpha = 0f;
+
+            if (disablePowerMeterAfterFade)
+                powerMeter.gameObject.SetActive(false);
+
+            _fadePowerMeterRoutine = null;
+        }
+
+
         public void RestartPhase2PowerMeter()
         {
             if (powerMeter == null)
@@ -318,10 +372,56 @@ namespace MoreMountains.InfiniteRunnerEngine
                     phase2PowerSlamFrameEvents.ArmPhase2LaunchForNextSlam();
                     StartCoroutine(SimulateDoubleJumpThenDownAttack());
                     // success path (already working / later work)
+                    FadeOutSlamHUD();
                     break;
                 }
             }
         }
+
+        private void FadeOutSlamHUD(float duration = 0.15f)
+        {
+            CacheSlamHUDReferencesIfNeeded();
+
+            // Button
+            if (SlamButtonGroup != null)
+            {
+                SlamButtonGroup.interactable = false;
+                SlamButtonGroup.blocksRaycasts = false;
+                StartCoroutine(FadeCanvasGroup(SlamButtonGroup, duration));
+            }
+            SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.StopPhase2BossQTECountdown();
+        }
+
+        private IEnumerator FadeCanvasGroup(CanvasGroup cg, float duration)
+        {
+            if (cg == null) yield break;
+
+            float startAlpha = cg.alpha;
+            float t = 0f;
+
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                cg.alpha = Mathf.Lerp(startAlpha, 0f, t / duration);
+                yield return null;
+            }
+
+            cg.alpha = 0f;
+            cg.gameObject.SetActive(false);
+        }
+
+        private void CachePowerMeterGroupIfNeeded()
+        {
+            if (powerMeter == null) return;
+
+            if (_powerMeterGroup == null)
+            {
+                _powerMeterGroup = powerMeter.GetComponent<CanvasGroup>();
+                if (_powerMeterGroup == null)
+                    _powerMeterGroup = powerMeter.gameObject.AddComponent<CanvasGroup>();
+            }
+        }
+
 
         public override void OnMMEvent(MMGameEvent gameEvent)
         {
@@ -437,7 +537,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             if (phase2Active)
             {
-                PhaseTimerText.text = "PHASE 2";
+                PhaseTimerText.text = "";
                 return;
             }
 

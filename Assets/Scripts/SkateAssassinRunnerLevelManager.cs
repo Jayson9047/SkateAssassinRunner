@@ -181,6 +181,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             {
                 GameObject explosion = Instantiate(LifeLostExplosion);
 
+                LevelManager.Instance.FreezeSpeedAndCancelBoost();
                 if (_hasLastDeathPosition)
                 {
                     explosion.transform.position = _lastDeathPosition;
@@ -299,7 +300,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
         }
 
-
+        
         public override void LifeLostAction()
         {
             // Restore whatever speed/accel we had before the cinematic stop
@@ -374,6 +375,15 @@ namespace MoreMountains.InfiniteRunnerEngine
             MMGameEvent.Trigger("Phase2BossQTETimeout");
 
             _phase2BossQTERoutine = null;
+        }
+
+        public void StopPhase2BossQTECountdown()
+        {
+            if (_phase2BossQTERoutine != null)
+            {
+                StopCoroutine(_phase2BossQTERoutine);
+                _phase2BossQTERoutine = null;
+            }
         }
 
 

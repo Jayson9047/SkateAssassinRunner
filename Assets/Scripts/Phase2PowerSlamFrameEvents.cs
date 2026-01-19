@@ -340,6 +340,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
                     LevelManager.Instance.FreezeSpeedAndCancelBoost();
             });
             FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToFollow();
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.FadeOutPowerMeterWhenPlayerGrounded();
 
             if (LevelManager.Instance != null)
             {
