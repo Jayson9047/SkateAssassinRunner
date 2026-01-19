@@ -40,7 +40,15 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [SerializeField] private int AttackStartFrame = 15;     // gate frame
     [SerializeField] private float dashStartExtraDelay = 0f;
 
+    [SerializeField] private float returnSpeed = 5f;
+
+    private ReturnHomeTrigger _returnHomeTrigger;
+    private float _startX;
+
+    private MovingObject _playerMovingObject;
+    private bool _isReturningFromDash;
     // Assumption you already made: 36 frames total in the clip.
+
     private float attackMoveStartNormalizedTime => AttackStartFrame / 36f;
 
     [Header("Air Dash Gravity Control")]
@@ -123,6 +131,29 @@ public class SwipeRightAttackDetector : MonoBehaviour
             }
         }
     }
+    private void OnEnable()
+    {
+        _playerMovingObject = GetComponent<MovingObject>() ?? GetComponentInParent<MovingObject>();
+
+        _isReturningFromDash = false;
+
+        // Cache start transform from LevelManager (More Mountains uses StartingPosition GO)
+        if (LevelManager.Instance != null && LevelManager.Instance.StartingPosition != null)
+        {
+            _startX = LevelManager.Instance.StartingPosition.transform.position.x;
+
+            // Grab the ReturnHomeTrigger on StartingPosition (once per enable)
+            _returnHomeTrigger = LevelManager.Instance.StartingPosition.GetComponent<ReturnHomeTrigger>();
+            if (_returnHomeTrigger == null)
+            {
+                Debug.LogWarning("[SwipeRightAttackDetector] ReturnHomeTrigger missing on StartingPosition.");
+            }
+        }
+
+        if (_playerMovingObject != null)
+            _playerMovingObject.Speed = 0f;
+    }
+
 
     private void Update()
     {
@@ -288,9 +319,23 @@ public class SwipeRightAttackDetector : MonoBehaviour
             if (dashAbortRequested)
             {
                 AbortDashRoutine();
-                yield break; // IMPORTANT: do NOT return to start, do NOT wait for anim
+                yield break;
             }
-            yield return MoveXOverTime(returnDuration);
+
+            //  Decide return strategy based on grounded state
+            bool isGroundedNow = jumper != null && jumper.IsGrounded;
+
+            if (isGroundedNow)
+            {
+                // Grounded -> world-driven return
+                ReturnPlayerWithSpeed();
+                yield return WaitUntilReturnComplete();
+            }
+            else
+            {
+                // In-air -> classic tween return (looks better in air)
+                yield return MoveXOverTime(returnDuration);
+            }
 
             isDashMovementInProgress = false;
 
@@ -315,6 +360,47 @@ public class SwipeRightAttackDetector : MonoBehaviour
             damagedThisAttack.Clear();
         }
     }
+
+    private void ReturnPlayerWithSpeed()
+    {
+        if (_playerMovingObject == null)
+        {
+            _isReturningFromDash = false;
+            return;
+        }
+
+        _isReturningFromDash = true;
+
+        _playerMovingObject.Direction = Vector3.left;
+        _playerMovingObject.Speed = returnSpeed;
+
+        // Arm the one-shot return trigger
+        _returnHomeTrigger?.Arm(this);
+    }
+
+
+    private IEnumerator WaitUntilReturnComplete()
+    {
+        // If return never started, don’t deadlock.
+        if (!_isReturningFromDash)
+            yield break;
+
+        yield return new WaitUntil(() => !_isReturningFromDash);
+    }
+    public void OnReturnHomeReached(float homeX)
+    {
+        // Snap perfectly
+        var p = transform.position;
+        p.x = homeX;
+        transform.position = p;
+
+        // Stop movement
+        if (_playerMovingObject != null)
+            _playerMovingObject.Speed = 0f;
+
+        _isReturningFromDash = false;
+    }
+
 
     private IEnumerator WaitForFreshAttackStateStart()
     {
