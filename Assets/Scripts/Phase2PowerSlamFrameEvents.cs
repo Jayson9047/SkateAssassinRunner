@@ -360,9 +360,11 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);
     }
 
+    
     private IEnumerator ShowLevelEndAfterDelayCo()
     {
-        yield return new WaitForSecondsRealtime(3.5f);
+        //delay to allow for pose to finish
+        yield return new WaitForSecondsRealtime(6f);
         SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);
     }
 

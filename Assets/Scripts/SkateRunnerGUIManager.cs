@@ -75,6 +75,11 @@ namespace MoreMountains.InfiniteRunnerEngine
         public GameObject LevelEndScreen;
         [SerializeField] private TextMeshProUGUI LevelEndTitleText;
 
+        [SerializeField] private Image reviveFillImage;   // assign ReviveFill
+        [SerializeField] private RectTransform revivePulseTarget; // assign ReviveButton (or ReviveLogo)
+        private Coroutine _reviveAnimCo;
+
+
         private bool _levelEndShown;
 
         private CanvasGroup _powerMeterGroup;
@@ -643,12 +648,73 @@ namespace MoreMountains.InfiniteRunnerEngine
         public override void SetGameOverScreen(bool state)
         {
             GameOverScreen.SetActive(state);
+            if(state)
+            {
+                StartReviveUrgencyVisuals();
+            }
+            else
+            {
+                if (_reviveAnimCo != null) { StopCoroutine(_reviveAnimCo); _reviveAnimCo = null; }
+                if (revivePulseTarget != null) revivePulseTarget.localScale = Vector3.one;
+                if (reviveFillImage != null) reviveFillImage.fillAmount = 1f;
+            }
+            var anim = GameOverScreen.GetComponent<Animator>();
+            if (anim != null) anim.Play(0, 0, 0f);
             TextMeshProUGUI gameOverScreenTextObject = GameOverScreen.transform.Find("GameOverScreenText").GetComponent<TextMeshProUGUI>();
             if (gameOverScreenTextObject != null)
             {
                 gameOverScreenTextObject.text = "YOU DIED!";
             }
         }
+
+        private void StartReviveUrgencyVisuals()
+        {
+            if (_reviveAnimCo != null) StopCoroutine(_reviveAnimCo);
+            _reviveAnimCo = StartCoroutine(ReviveUrgencyCo());
+        }
+
+        private IEnumerator ReviveUrgencyCo()
+        {
+            const float duration = 10f;
+
+            // reset
+            if (reviveFillImage != null)
+                reviveFillImage.fillAmount = 1f;
+
+            if (revivePulseTarget != null)
+                revivePulseTarget.localScale = Vector3.one;
+
+            float t = 0f;
+
+            while (t < duration)
+            {
+                t += Time.unscaledDeltaTime; // IMPORTANT: unaffected by slow-mo
+                float n = Mathf.Clamp01(t / duration);
+
+                // drain top->bottom
+                if (reviveFillImage != null)
+                    reviveFillImage.fillAmount = 1f - n;
+
+                // pulse (subtle)
+                if (revivePulseTarget != null)
+                {
+                    // 2 pulses per second-ish
+                    float pulse = 1f + 0.06f * Mathf.Sin(Time.unscaledTime * 12f);
+                    revivePulseTarget.localScale = new Vector3(pulse, pulse, 1f);
+                }
+
+                yield return null;
+            }
+
+            // After timer ends: stop pulsing, keep button clickable forever
+            if (revivePulseTarget != null)
+                revivePulseTarget.localScale = Vector3.one;
+
+            // Optional: keep fill at 0 to show time "ended"
+            if (reviveFillImage != null)
+                reviveFillImage.fillAmount = 0f;
+        }
+
 
         protected override void OnEnable()
         {
