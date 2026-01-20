@@ -1,5 +1,6 @@
 using DG.Tweening;
 using MoreMountains.InfiniteRunnerEngine;
+using System.Collections;
 using UnityEngine;
 
 public class Phase2PowerSlamFrameEvents : MonoBehaviour
@@ -346,9 +347,24 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             {
                 LevelManager.Instance.FreezeSpeedAndCancelBoost();
             }
+            StartCoroutine(ShowLevelEndAfterDelayCo());
         });
     }
 
+    private IEnumerator ShowLevelEndWhenGroundedCo()
+    {
+        var jumper = FindFirstObjectByType<Jumper>();
+        while (jumper != null && !jumper.IsGrounded)
+            yield return null;
+
+        SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);
+    }
+
+    private IEnumerator ShowLevelEndAfterDelayCo()
+    {
+        yield return new WaitForSecondsRealtime(3.5f);
+        SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);
+    }
 
 
     private void StartDashToStrikeEnd(bool fromCurrentPosition = false, System.Action onArrive = null)

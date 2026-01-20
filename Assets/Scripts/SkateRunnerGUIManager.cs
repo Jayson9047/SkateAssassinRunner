@@ -71,6 +71,12 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private float powerMeterFadeDuration = 0.20f;
         [SerializeField] private bool disablePowerMeterAfterFade = true;
 
+        [Header("Level End Screen")]
+        public GameObject LevelEndScreen;
+        [SerializeField] private TextMeshProUGUI LevelEndTitleText;
+
+        private bool _levelEndShown;
+
         private CanvasGroup _powerMeterGroup;
         private Coroutine _fadePowerMeterRoutine;
 
@@ -111,9 +117,24 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             // however you access the player in InfiniteRunnerEngine:
             // Usually LevelManager has a Player reference, or use GameObject.FindWithTag("Player") as fallback.
-            var player = GameObject.FindGameObjectWithTag("Player");
-            phase2PowerSlamFrameEvents = player.GetComponentInChildren<Phase2PowerSlamFrameEvents>(true);
+            CachePhase2EventsWhenReadyCo();
             BindPhase2FrameEvents();
+        }
+
+        private IEnumerator CachePhase2EventsWhenReadyCo()
+        {
+            // Wait until LevelManager + player exist (restart timing)
+            while (LevelManager.Instance == null || LevelManager.Instance.PlayableCharacters == null || LevelManager.Instance.PlayableCharacters.Count <=0)
+                yield return null;
+
+            var player = LevelManager.Instance.PlayableCharacters[0].gameObject;
+
+            phase2PowerSlamFrameEvents =
+                player.GetComponentInChildren<Phase2PowerSlamFrameEvents>(true);
+
+            // Optional: log if still missing (helps debugging prefab issues)
+            if (phase2PowerSlamFrameEvents == null)
+                Debug.LogWarning("Phase2PowerSlamFrameEvents not found under PlayerCharacter.");
         }
 
         /// <summary>
@@ -622,12 +643,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         public override void SetGameOverScreen(bool state)
         {
             GameOverScreen.SetActive(state);
-            Text gameOverScreenTextObject = GameOverScreen.transform.Find("GameOverScreenText").GetComponent<Text>();
+            TextMeshProUGUI gameOverScreenTextObject = GameOverScreen.transform.Find("GameOverScreenText").GetComponent<TextMeshProUGUI>();
             if (gameOverScreenTextObject != null)
             {
-                gameOverScreenTextObject.text =
-                    "GAME OVER\nYOUR SCORE : " + Mathf.Round(GameManager.Instance.Points) +
-                    "\nBOUNTIES EARNED : " + Mathf.Round(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Bounties);
+                gameOverScreenTextObject.text = "YOU DIED!";
             }
         }
 
@@ -649,6 +668,38 @@ namespace MoreMountains.InfiniteRunnerEngine
             // This is the missing call you asked about:
             AddSlamCharge(1);
         }
+
+        public void ShowLevelEndScreen(bool success)
+        {
+            if (_levelEndShown) return;
+            _levelEndShown = true;
+
+            // Lock gameplay input so player can't keep tapping
+            LevelManager.Instance?.LockGameplayInputs();
+
+            // Hide revive popup if it's still up
+            if (GameOverScreen != null) GameOverScreen.SetActive(false);
+
+            if (LevelEndScreen != null) LevelEndScreen.SetActive(true);
+
+            if (LevelEndTitleText != null)
+                LevelEndTitleText.text = success ? "LEVEL COMPLETED" : "LEVEL FAILED";
+        }
+
+        public void ResetLevelEndUIState()
+        {
+            _levelEndShown = false;
+
+            if (LevelEndScreen != null) LevelEndScreen.SetActive(false);
+            if (GameOverScreen != null) GameOverScreen.SetActive(false);
+        }
+
+        public void OnNoThanksPressed()
+        {
+            // Player declined revive -> show end screen as failure
+            ShowLevelEndScreen(false);
+        }
+
 
     }
 }

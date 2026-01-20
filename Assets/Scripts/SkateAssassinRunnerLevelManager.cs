@@ -317,6 +317,31 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
         }
 
+        public override void ResetLevel()
+        {
+            UnlockGameplayInputs();
+            ResumeSpeedAfterFreeze();
+
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ResetLevelEndUIState();
+
+            base.ResetLevel();
+        }
+        public override void GameOverAction()
+        {
+            // We're using the "GameOverScreen" as a Revive popup now.
+            // The base engine restarts the level on ANY click during GameOver.
+            // So while the popup is up, we must ignore global restart input.
+            if (GUIManager.Instance != null &&
+                GUIManager.Instance.GameOverScreen != null &&
+                GUIManager.Instance.GameOverScreen.activeInHierarchy)
+            {
+                return;
+            }
+
+            base.GameOverAction();
+        }
+
+
         // ------------------------------------------------------
         // NEW: Called by Phase2CarApproachController when the Jeep is fully in position (Speed = 0)
         // ------------------------------------------------------
