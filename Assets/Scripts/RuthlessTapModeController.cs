@@ -1,5 +1,6 @@
-using UnityEngine;
+using MoreMountains.InfiniteRunnerEngine;
 using TMPro;
+using UnityEngine;
 
 public class RuthlessTapModeController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class RuthlessTapModeController : MonoBehaviour
     [Header("Combo Display")]
     [SerializeField] private string comboFormat = "COMBO x{0}";
     [SerializeField] private string idleText = "";
+
 
     public bool IsActive => _active;
     public int TapCount => _tapCount;
@@ -57,7 +59,9 @@ public class RuthlessTapModeController : MonoBehaviour
         _endAtUnscaledTime = Time.unscaledTime + dur;
 
         SetComboText(string.Format(comboFormat, _tapCount));
+
     }
+
 
     public void RegisterTap()
     {
@@ -66,6 +70,7 @@ public class RuthlessTapModeController : MonoBehaviour
         _tapCount++;
         SetComboText(string.Format(comboFormat, _tapCount));
     }
+
 
     public void End()
     {

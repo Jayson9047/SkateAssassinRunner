@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace IndieKit
 {
-    public class SkateRunnerDestructibleObjects : MonoBehaviour, IDamageable
+    public class SkateRunnerDestructibleObject : MonoBehaviour, IDamageable
     {
-        public static event Action<SkateRunnerDestructibleObjects> OnDestroyed; // global signal
+        public static event Action<SkateRunnerDestructibleObject> OnDestroyed;     // fires for ALL destroyed
+        public static event Action<SkateRunnerDestructibleObject> OnEnemyKilled;   // fires only for enemies
 
         [SerializeField] private float health = 1f;
         [SerializeField] private GameObject DebrisPrefab;
@@ -61,9 +62,13 @@ namespace IndieKit
                 }
             }
 
+            // Always broadcast destroyed (barrels included)
+            OnDestroyed?.Invoke(this);
+
+            // Only enemies count for enemy-kill systems (slam meter, missions, etc.)
             if (countsAsEnemyKill)
             {
-                OnDestroyed?.Invoke(this);
+                OnEnemyKilled?.Invoke(this);
             }
 
             gameObject.SetActive(false);

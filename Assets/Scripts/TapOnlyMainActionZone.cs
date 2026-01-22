@@ -10,6 +10,11 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     [SerializeField] private string comboFormat = "COMBO x{0}";
     [SerializeField] private float comboFadeOutSeconds = 0.25f;
 
+    [Header("Ruthless Tap Cash")]
+    [SerializeField] private bool awardCashOnRuthlessTap = true;
+    [SerializeField] private int minCashPerTap = 1;
+    [SerializeField] private int maxCashPerTap = 7;
+
     private Coroutine _fadeCo;
     private bool _lastRuthlessState;
 
@@ -146,8 +151,19 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
             {
                 lm.RuthlessTapCount++;
                 ShowCombo(lm.RuthlessTapCount);
+
+                if (awardCashOnRuthlessTap)
+                {
+                    if (maxCashPerTap < minCashPerTap) maxCashPerTap = minCashPerTap;
+
+                    int cash = Random.Range(minCashPerTap, maxCashPerTap + 1); // 1–7 inclusive
+                    SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.AddBounties(cash);
+                    SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshBounties();
+                }
+
                 return;
             }
+
 
             // If inputs are locked and NOT ruthless -> ignore tap (original behavior)
             if (lm.GameplayInputsLocked && !lm.RuthlessTapModeEntered)

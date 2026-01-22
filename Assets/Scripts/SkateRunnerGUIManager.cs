@@ -718,21 +718,54 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         protected override void OnEnable()
         {
-            SkateRunnerDestructibleObjects.OnDestroyed += HandleDestructibleDestroyed;
+            SkateRunnerDestructibleObject.OnDestroyed += HandleDestroyedForCash;
+            SkateRunnerDestructibleObject.OnEnemyKilled += HandleEnemyKilledForSlam;
             base.OnEnable();
         }
 
         protected override void OnDisable()
         {
-            SkateRunnerDestructibleObjects.OnDestroyed -= HandleDestructibleDestroyed;
+            SkateRunnerDestructibleObject.OnDestroyed -= HandleDestroyedForCash;
+            SkateRunnerDestructibleObject.OnEnemyKilled -= HandleEnemyKilledForSlam;
             base.OnDisable();
         }
 
-        private void HandleDestructibleDestroyed(SkateRunnerDestructibleObjects obj)
+        private void HandleDestroyedForCash(SkateRunnerDestructibleObject obj)
         {
-            Debug.Log($"Destroyed counted: {obj.name}");
-            // This is the missing call you asked about:
+            var reward = obj.GetComponent<CashRewardOnDestroyed>();
+            if (reward == null || !reward.EnabledReward) return;
+
+            int amount = reward.GetRandomCash();
+            if (amount <= 0) return;
+
+            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddBounties(amount);
+            RefreshBounties();
+        }
+
+        private void HandleEnemyKilledForSlam(SkateRunnerDestructibleObject obj)
+        {
             AddSlamCharge(1);
+        }
+
+        private void HandleDestructibleDestroyed(SkateRunnerDestructibleObject obj)
+        {
+            if (obj == null) return;
+
+            // Existing behavior (keep as-is)
+            AddSlamCharge(1);
+
+            // CASH REWARD (generic)
+            var cashReward = obj.GetComponent<CashRewardOnDestroyed>();
+            if (cashReward == null || !cashReward.EnabledReward) return;
+
+            int amount = cashReward.GetRandomCash();
+            if (amount <= 0) return;
+
+            var gm = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
+            if (gm == null) return;
+
+            gm.AddBounties(amount);
+            RefreshBounties();
         }
 
         public void ShowLevelEndScreen(bool success)

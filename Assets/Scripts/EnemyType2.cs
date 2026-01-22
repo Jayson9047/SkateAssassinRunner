@@ -316,7 +316,7 @@ public class EnemyType2 : EnemyBase
         }
 
         // Kill the enemy using destructible system (preferred)
-        var destructible = GetComponent<IndieKit.SkateRunnerDestructibleObjects>();
+        var destructible = GetComponent<IndieKit.SkateRunnerDestructibleObject>();
         if (destructible != null)
         {
             destructible.ApplyDamage(999999f, hitPoint);
@@ -613,7 +613,7 @@ public class EnemyType2 : EnemyBase
     {
         if (_shieldIntact) return; // only kill if already unshielded
 
-        var destructible = GetComponent<IndieKit.SkateRunnerDestructibleObjects>();
+        var destructible = GetComponent<IndieKit.SkateRunnerDestructibleObject>();
         if (destructible != null)
         {
             destructible.ApplyDamage(999999f, hitPoint);

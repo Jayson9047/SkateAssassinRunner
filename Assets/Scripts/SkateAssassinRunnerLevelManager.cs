@@ -215,16 +215,16 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         protected override void OnDisable()
         {
-            SkateRunnerDestructibleObjects.OnDestroyed -= HandleDestroyed;
+            SkateRunnerDestructibleObject.OnDestroyed -= HandleDestroyed;
             base.OnDisable();
         }
         protected override void OnEnable()
         {
             base.OnEnable();
-            SkateRunnerDestructibleObjects.OnDestroyed += HandleDestroyed;
+            SkateRunnerDestructibleObject.OnDestroyed += HandleDestroyed;
         }
 
-        private void HandleDestroyed(SkateRunnerDestructibleObjects obj)
+        private void HandleDestroyed(SkateRunnerDestructibleObject obj)
         {
             AddSlamKill();
         }
