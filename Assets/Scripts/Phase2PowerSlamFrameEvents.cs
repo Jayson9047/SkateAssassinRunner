@@ -309,6 +309,11 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     public void OnPhase2StrikeDashStart()
     {
         FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToCollision();
+        // Set target for ruthless tap cash popups
+        if (_enemyInstance != null)
+        {
+            LevelManager.Instance?.SetRuthlessTapTarget(_enemyInstance.transform);
+        }
         LevelManager.Instance?.EnterRuthlessTapMode();
 
         RuthlessTapModeController.Instance.Begin(slowMoDurationRealtime - 3f, taps =>

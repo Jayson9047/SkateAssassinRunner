@@ -110,6 +110,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 		/// the effect we instantiate when a life is lost
 		[Tooltip("the effect we instantiate when a life is lost")]
 		public GameObject LifeLostExplosion;
+
+        public Transform RuthlessTapTarget { get; private set; }
         public bool RuthlessTapModeEntered { get; private set; }
         public int RuthlessTapCount { get; set; }
 
@@ -227,6 +229,12 @@ namespace MoreMountains.InfiniteRunnerEngine
         public void ExitRuthlessTapMode()
         {
             RuthlessTapModeEntered = false;
+            RuthlessTapTarget = null;
+        }
+
+        public void SetRuthlessTapTarget(Transform target)
+        {
+            RuthlessTapTarget = target;
         }
 
         /// <summary>

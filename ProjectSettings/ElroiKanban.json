@@ -1,0 +1,222 @@
+{
+    "schemaVersion": 5,
+    "selectedMilestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+    "selectedFeatureId": "1bfa635877514cdab5059478464030ee",
+    "columnNames": [
+        "Backlog",
+        "In Progress",
+        "Review",
+        "Done"
+    ],
+    "milestones": [
+        {
+            "id": "d6812a1b0c8f418f9f14aed3502c0d4d",
+            "name": "Core Gameplay Logic And Level Progression",
+            "features": [
+                {
+                    "id": "1bfa635877514cdab5059478464030ee",
+                    "name": "Player increases speed on tap and hold, decreases on letting go",
+                    "description": "Default feature bucket.",
+                    "createdUtcTicks": 639047330652243947,
+                    "updatedUtcTicks": 639047353455884834
+                },
+                {
+                    "id": "8cd120be2adc48b086feae97dad032df",
+                    "name": "Feature 2",
+                    "description": "",
+                    "createdUtcTicks": 639047330874404271,
+                    "updatedUtcTicks": 639047330874404271
+                }
+            ],
+            "tasks": [
+                {
+                    "id": "75685643a5c44511845191e240e571c0",
+                    "featureId": "1bfa635877514cdab5059478464030ee",
+                    "title": "Implement Player increase speed on tap and hold",
+                    "description": "Gradually increase speed. But don't make it completely physics speed",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 1,
+                    "createdUtcTicks": 639047353853125042,
+                    "updatedUtcTicks": 639047353853125042,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "f24e9643b7d14281848038cf7173bdf9",
+                    "featureId": "1bfa635877514cdab5059478464030ee",
+                    "title": "Implement level Speed going down on letting go",
+                    "description": "The level speed shouldn't go down instantly. It should take time. ",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 1,
+                    "createdUtcTicks": 639047354062539429,
+                    "updatedUtcTicks": 639047354062539429,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                }
+            ]
+        },
+        {
+            "id": "1e6d669e7ef047df87358885e23798ed",
+            "name": "Level Design",
+            "features": [
+                {
+                    "id": "36b4e8977d494fd5b8071940cf73c53f",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047444986128680,
+                    "updatedUtcTicks": 639047444986128680
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "31328393dc894f3ab0f20dbe718bffe4",
+            "name": "Animation",
+            "features": [
+                {
+                    "id": "0a0788a7c6694706b9a1249eaf598a3e",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047444991490019,
+                    "updatedUtcTicks": 639047444991490019
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "63fc04ba2a0d4fbfb0223576f3c72b83",
+            "name": "GUI",
+            "features": [
+                {
+                    "id": "f5ee0b766eb7460a8bf1642c33f3d408",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047444995650562,
+                    "updatedUtcTicks": 639047444995650562
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "a893521066a14ceb883ceb72cb86947f",
+            "name": "Shop",
+            "features": [
+                {
+                    "id": "2ee4dee5b4db4533b25d78f736e09573",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047444999730667,
+                    "updatedUtcTicks": 639047444999730667
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "29c13d296a3440958180c5dafcb979fb",
+            "name": "SFX",
+            "features": [
+                {
+                    "id": "6e8d88aa97254f8cb0bc5aac15827c29",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047445041407963,
+                    "updatedUtcTicks": 639047445041407963
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "8d5c6b8900fc461e88bd59fae1b81eba",
+            "name": "Ad hooks and Monetization V2 Features",
+            "features": [
+                {
+                    "id": "4b791b3cb5484fadbb930600da42533c",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047445044612644,
+                    "updatedUtcTicks": 639047445044612644
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "b39199e313ba4643943da1ad6f8a7937",
+            "name": "IAP",
+            "features": [
+                {
+                    "id": "30279aa80c4a470f86edf4407477c2fe",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047445048366117,
+                    "updatedUtcTicks": 639047445048366117
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "e24d97903d214dd3b036d6a7abd26568",
+            "name": "FEEL",
+            "features": [
+                {
+                    "id": "0e2df6221605476997ce4006c691813c",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047445052293936,
+                    "updatedUtcTicks": 639047445052293936
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "0bf14ee7b38d461bbb4831d878acd002",
+            "name": "VFX",
+            "features": [
+                {
+                    "id": "371b1f5135e54e8db67f82bac3427d25",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047447142898879,
+                    "updatedUtcTicks": 639047447142898879
+                }
+            ],
+            "tasks": []
+        },
+        {
+            "id": "58f8732127854a56b91fddae7e264b4b",
+            "name": "Bug Fixes Test and Polish Animation",
+            "features": [
+                {
+                    "id": "27826c5d83a646278e81e336fd610993",
+                    "name": "General",
+                    "description": "",
+                    "createdUtcTicks": 639047447553776360,
+                    "updatedUtcTicks": 639047447553776360
+                }
+            ],
+            "tasks": []
+        }
+    ],
+    "today": {
+        "dateIso": "2026-01-23",
+        "items": [
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "75685643a5c44511845191e240e571c0",
+                "done": false,
+                "addedUtcTicks": 639047356794867304
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "f24e9643b7d14281848038cf7173bdf9",
+                "done": false,
+                "addedUtcTicks": 639047356794867304
+            }
+        ]
+    }
+}

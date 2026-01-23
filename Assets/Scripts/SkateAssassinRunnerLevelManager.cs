@@ -138,7 +138,6 @@ namespace MoreMountains.InfiniteRunnerEngine
             ResetSlam();
         }
 
-
         protected override void InstantiateCharacters()
         {
             base.InstantiateCharacters();

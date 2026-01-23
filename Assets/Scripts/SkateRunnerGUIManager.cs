@@ -1,9 +1,12 @@
+using DamageNumbersPro;
+using IndieKit;
+using MoreMountains.Tools;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using MoreMountains.Tools;
-using IndieKit;
-using TMPro;
-using System.Collections;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -44,7 +47,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Tooltip("Disabled Downslam button sprite (black & white)")]
         [SerializeField] private Sprite DownslamDisabledSprite;
 
-        [SerializeField] private Button DownslamButton;
+        [SerializeField] private UnityEngine.UI.Button DownslamButton;
 
         [Tooltip("How many shards are required to become 'Ready'.")]
         [SerializeField] private int MaxSlamCharges = 5;
@@ -77,14 +80,22 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         [SerializeField] private Image reviveFillImage;   // assign ReviveFill
         [SerializeField] private RectTransform revivePulseTarget; // assign ReviveButton (or ReviveLogo)
-        private Coroutine _reviveAnimCo;
 
+        [Header("Damage Numbers Pro - Cash Popup")]
+        [SerializeField] private DamageNumber cashPopupPrefab;
+        [SerializeField] private Vector3 cashPopupWorldOffset = new Vector3(0f, 1.2f, 0f);
+        [SerializeField] private Vector2 cashPopupScatterXZ = new Vector2(0.3f, 0.3f);
+        [SerializeField] private Vector2 cashPopupScatterY = new Vector2(0.0f, 0.4f);
+
+        public DamageNumber CashPopupPrefab => cashPopupPrefab;
+        public Vector3 CashPopupWorldOffset => cashPopupWorldOffset;
+        private Coroutine _reviveAnimCo;
 
         private bool _levelEndShown;
 
         private CanvasGroup _powerMeterGroup;
         private Coroutine _fadePowerMeterRoutine;
-
+        
 
         private bool _phase2SimInProgress;
         private SwipeDownDetector _swipeDownDetectorCached;
@@ -124,6 +135,10 @@ namespace MoreMountains.InfiniteRunnerEngine
             // Usually LevelManager has a Player reference, or use GameObject.FindWithTag("Player") as fallback.
             CachePhase2EventsWhenReadyCo();
             BindPhase2FrameEvents();
+            if (cashPopupPrefab != null)
+            {
+                cashPopupPrefab.PrewarmPool();
+            }
         }
 
         private IEnumerator CachePhase2EventsWhenReadyCo()
@@ -166,6 +181,26 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             SetSlamCharge(0);
         }
+
+        public void SpawnCashPopup(Vector3 worldPos, int amount, float scale = 1f)
+        {
+            if (cashPopupPrefab == null) return;
+
+            Vector3 randomOffset = new Vector3(
+                Random.Range(-cashPopupScatterXZ.x, cashPopupScatterXZ.x),
+                Random.Range(cashPopupScatterY.x, cashPopupScatterY.y),
+                Random.Range(-cashPopupScatterXZ.y, cashPopupScatterXZ.y)
+            );
+
+            var dn = cashPopupPrefab.Spawn(
+                worldPos + cashPopupWorldOffset + randomOffset,
+                amount
+            );
+
+            dn.transform.localScale *= scale;
+        }
+
+
         private void CacheSlamHUDReferencesIfNeeded()
         {
             // If you assign in inspector, we use that.
@@ -739,6 +774,10 @@ namespace MoreMountains.InfiniteRunnerEngine
             if (amount <= 0) return;
 
             SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddBounties(amount);
+            if (cashPopupPrefab != null)
+            {
+                cashPopupPrefab.Spawn(obj.transform.position + cashPopupWorldOffset, amount);
+            }
             RefreshBounties();
         }
 
