@@ -15,45 +15,289 @@
             "features": [
                 {
                     "id": "1bfa635877514cdab5059478464030ee",
-                    "name": "Player increases speed on tap and hold, decreases on letting go",
+                    "name": "Player should die on Phase 2 time end and if they didn't jump",
                     "description": "Default feature bucket.",
                     "createdUtcTicks": 639047330652243947,
-                    "updatedUtcTicks": 639047353455884834
+                    "updatedUtcTicks": 639047486882832832
                 },
                 {
                     "id": "8cd120be2adc48b086feae97dad032df",
-                    "name": "Feature 2",
+                    "name": "Every Completed Level Should increase level number",
                     "description": "",
                     "createdUtcTicks": 639047330874404271,
-                    "updatedUtcTicks": 639047330874404271
+                    "updatedUtcTicks": 639047486978759180
+                },
+                {
+                    "id": "7e2286db93414364910ddce87f139461",
+                    "name": "Every Failed level should never increase level number",
+                    "description": "",
+                    "createdUtcTicks": 639047487032046097,
+                    "updatedUtcTicks": 639047487077317242
+                },
+                {
+                    "id": "7c63027c208d48c2b113958446f03f53",
+                    "name": "level number will be shown in the homepage along with their total Cash amount and Bounty amount",
+                    "description": "",
+                    "createdUtcTicks": 639047487325807264,
+                    "updatedUtcTicks": 639047487471336068
+                },
+                {
+                    "id": "ce2af2986f5742afa381bd6bedc3dc83",
+                    "name": "Implement EasySave to save level progression, cash, bounty",
+                    "description": "",
+                    "createdUtcTicks": 639047487679181700,
+                    "updatedUtcTicks": 639047487793903618
+                },
+                {
+                    "id": "51168ffeb23e424093ec6568c7f9de76",
+                    "name": "Cash is earned regardless of mission pass or fail. Bounties are only earned on pass",
+                    "description": "",
+                    "createdUtcTicks": 639047487956216158,
+                    "updatedUtcTicks": 639047492794416359
+                },
+                {
+                    "id": "e8a321d769a64a4698615ce3161e613a",
+                    "name": "Save Bounties only when player exits Results → Home",
+                    "description": "",
+                    "createdUtcTicks": 639047488105512657,
+                    "updatedUtcTicks": 639047488439520896
+                },
+                {
+                    "id": "3780db368e284265ad07e72fb920d921",
+                    "name": "Dual Currency",
+                    "description": "",
+                    "createdUtcTicks": 639047488977126183,
+                    "updatedUtcTicks": 639047489098896262
+                },
+                {
+                    "id": "333499d85852450dab7434889e3b1916",
+                    "name": "Dev Debug  shortcuts",
+                    "description": "",
+                    "createdUtcTicks": 639047496966525135,
+                    "updatedUtcTicks": 639047497102212296
                 }
             ],
             "tasks": [
                 {
-                    "id": "75685643a5c44511845191e240e571c0",
+                    "id": "4df3027dd7ab49179e0979940f724606",
                     "featureId": "1bfa635877514cdab5059478464030ee",
-                    "title": "Implement Player increase speed on tap and hold",
-                    "description": "Gradually increase speed. But don't make it completely physics speed",
+                    "title": "Implement Player dying on Phase 2 if they didn't jump before time",
+                    "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
-                    "createdUtcTicks": 639047353853125042,
-                    "updatedUtcTicks": 639047353853125042,
+                    "status": 3,
+                    "createdUtcTicks": 639047489523300817,
+                    "updatedUtcTicks": 639048376724368789,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
                     "screenshotAssetGuid": ""
                 },
                 {
-                    "id": "f24e9643b7d14281848038cf7173bdf9",
-                    "featureId": "1bfa635877514cdab5059478464030ee",
-                    "title": "Implement level Speed going down on letting go",
-                    "description": "The level speed shouldn't go down instantly. It should take time. ",
+                    "id": "9a405daa9bfd4ff183bd907d9c00a759",
+                    "featureId": "8cd120be2adc48b086feae97dad032df",
+                    "title": "After every Completed Level Increase Level Number",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047489945957167,
+                    "updatedUtcTicks": 639047489945957167,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "eceb1dad112d4a6eb8d613c27f4d445b",
+                    "featureId": "7e2286db93414364910ddce87f139461",
+                    "title": "Make sure we don't increase Level Number after level failed",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047490627411773,
+                    "updatedUtcTicks": 639047490627411773,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "f185164537c64bbb83f267608a7300fe",
+                    "featureId": "7c63027c208d48c2b113958446f03f53",
+                    "title": "Show current level progression in homepage",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047490996707186,
+                    "updatedUtcTicks": 639047490996707186,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "0ecca1a320ac43658e45bc6f8ade05a9",
+                    "featureId": "7c63027c208d48c2b113958446f03f53",
+                    "title": "Show current Bounties and Cash in homepage",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047491134705402,
+                    "updatedUtcTicks": 639047491134705402,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "99bbc0293744428793c9141f44dd1662",
+                    "featureId": "ce2af2986f5742afa381bd6bedc3dc83",
+                    "title": "Import Easy Save and implement save feature for Cash, Bounties, levels etc",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047491440632184,
+                    "updatedUtcTicks": 639047491440632184,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "7b314b6c0a024fe18882abe2976fd26b",
+                    "featureId": "51168ffeb23e424093ec6568c7f9de76",
+                    "title": "Make sure cash is earned regardless of mission pass or fail after every level.",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047492392332191,
+                    "updatedUtcTicks": 639047492392332191,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "812cb77aee1d477687c38dd8bc3ce6bc",
+                    "featureId": "51168ffeb23e424093ec6568c7f9de76",
+                    "title": "Ensure Bounties are earned only if mission is passed  after each level",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047493214272218,
+                    "updatedUtcTicks": 639047493214272218,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "a4a373d3a8424f63b78f34e05515a756",
+                    "featureId": "e8a321d769a64a4698615ce3161e613a",
+                    "title": "Make sure Bounties are only awarded and saved after when the player goes from Results to homepage",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047493761168465,
+                    "updatedUtcTicks": 639047493761168465,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "11fa7b632793498a8a4e81f9b056305a",
+                    "featureId": "3780db368e284265ad07e72fb920d921",
+                    "title": "Make sure every level have different goals and pass fail logic for those goals",
+                    "description": "These goals are not really important to pass the level. But they are important to earn bounties. ",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047494578464507,
+                    "updatedUtcTicks": 639047494578464507,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "952645ce9cf5421987422331cbbb1758",
+                    "featureId": "3780db368e284265ad07e72fb920d921",
+                    "title": "Add check for each goal after level completion",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047495262642552,
+                    "updatedUtcTicks": 639047495262642552,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "a3cf54067f6b4987ac42f4541d5e3753",
+                    "featureId": "3780db368e284265ad07e72fb920d921",
+                    "title": "On each goal completed && level passed, award bounties to the player",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047495562649911,
+                    "updatedUtcTicks": 639047495562649911,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "4ec440562b2c46629705ac0bd8637475",
+                    "featureId": "3780db368e284265ad07e72fb920d921",
+                    "title": "Create an infrastructure in the code where you can easily add more types of goals later.",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047496017465406,
+                    "updatedUtcTicks": 639047496017465406,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "bdf3054ed7f0475592e95bfc5c570189",
+                    "featureId": "333499d85852450dab7434889e3b1916",
+                    "title": "Create a dev shortcut to move to different levels whenever needed",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639047497467419287,
+                    "updatedUtcTicks": 639047497467419287,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "d67d66e02d7f4bb7b52831da773e6a33",
+                    "featureId": "3780db368e284265ad07e72fb920d921",
+                    "title": "Implement Bounty currency",
+                    "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
                     "status": 1,
-                    "createdUtcTicks": 639047354062539429,
-                    "updatedUtcTicks": 639047354062539429,
+                    "createdUtcTicks": 639048244501368305,
+                    "updatedUtcTicks": 639048244501368305,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -81,13 +325,111 @@
             "features": [
                 {
                     "id": "0a0788a7c6694706b9a1249eaf598a3e",
-                    "name": "General",
+                    "name": "Player Animation Fixes",
                     "description": "",
                     "createdUtcTicks": 639047444991490019,
-                    "updatedUtcTicks": 639047444991490019
+                    "updatedUtcTicks": 639048249139788076
+                },
+                {
+                    "id": "e3b63e9db4394b7b872a5ab7f5664f1f",
+                    "name": "Enemy Animation Fixes",
+                    "description": "",
+                    "createdUtcTicks": 639048249180028778,
+                    "updatedUtcTicks": 639048249259955289
                 }
             ],
-            "tasks": []
+            "tasks": [
+                {
+                    "id": "cc33d2c8083940e4a00b074b3f57a1ec",
+                    "featureId": "0a0788a7c6694706b9a1249eaf598a3e",
+                    "title": "Fix Player Skate Animation",
+                    "description": "Add some skate Animation variety. \nAlign roller blades properly with animation",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048248635699959,
+                    "updatedUtcTicks": 639048248635699959,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "f1d74ac931294e5fae56668a2c7a9b2c",
+                    "featureId": "0a0788a7c6694706b9a1249eaf598a3e",
+                    "title": "Fix Phase 2 Slow Mo animation timing and tune it properly",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048248881061594,
+                    "updatedUtcTicks": 639048248881061594,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "c3e9ff146b214842921dda484f4c7f40",
+                    "featureId": "e3b63e9db4394b7b872a5ab7f5664f1f",
+                    "title": "Fix Enemy type 2 animation on down attack when player has already crossed them",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048249576674427,
+                    "updatedUtcTicks": 639048249576674427,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "81878d5bdf2c43ed9a6b26680bcb20b3",
+                    "featureId": "e3b63e9db4394b7b872a5ab7f5664f1f",
+                    "title": "Fix Enemy Walk Animation to be more natural with animation designer",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048249919252056,
+                    "updatedUtcTicks": 639048249919252056,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "d6241421db404dcc8b8b478dc53684df",
+                    "featureId": "e3b63e9db4394b7b872a5ab7f5664f1f",
+                    "title": "Slice Enemy type 1 and 2 in different pieces in different prefabs.",
+                    "description": "Currently Enemy 2 just get burst on death. We need sliced prefabs same as Enemy 1. \n\nCreate variety of slices for enemy 1 and 2. Just slice them in 2 pieces exactly. But create multiple prefabs with slices on different parts\n",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048251570164873,
+                    "updatedUtcTicks": 639048251703824577,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "4aa2a86e27e94443871aa72364247220",
+                    "featureId": "e3b63e9db4394b7b872a5ab7f5664f1f",
+                    "title": "Fix enemy 2 falback animation",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048285045423746,
+                    "updatedUtcTicks": 639048285045423746,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                }
+            ]
         },
         {
             "id": "63fc04ba2a0d4fbfb0223576f3c72b83",
@@ -95,13 +437,304 @@
             "features": [
                 {
                     "id": "f5ee0b766eb7460a8bf1642c33f3d408",
-                    "name": "General",
+                    "name": "Homepage GUI should have settings page",
                     "description": "",
                     "createdUtcTicks": 639047444995650562,
-                    "updatedUtcTicks": 639047444995650562
+                    "updatedUtcTicks": 639048253888136166
+                },
+                {
+                    "id": "752d034373434686aaa59f353006c714",
+                    "name": "Homepage GUI should have Level Numbers and bounties and cash on top corner",
+                    "description": "",
+                    "createdUtcTicks": 639048253903817765,
+                    "updatedUtcTicks": 639048254154219957
+                },
+                {
+                    "id": "0a5c3f2933b2446090a8b455ac63a791",
+                    "name": "Homepage GUI should have tabs at the bottom for Inventory, Shop, Rewards and Home",
+                    "description": "",
+                    "createdUtcTicks": 639048254173665734,
+                    "updatedUtcTicks": 639048337811886923
+                },
+                {
+                    "id": "4ceb9636c32c4bbfb3d3323d9a1949b7",
+                    "name": "Homepage GUI should have Side Buttons for \"Free Bounties\" and Spin Wheel hooked with ads",
+                    "description": "",
+                    "createdUtcTicks": 639048255866821960,
+                    "updatedUtcTicks": 639048256625796400
+                },
+                {
+                    "id": "f920512de19e45aa923fa4414ad0b962",
+                    "name": "Homepage GUI should have Side Buttons for Ad Free And purchase cosmetics",
+                    "description": "",
+                    "createdUtcTicks": 639048256370668891,
+                    "updatedUtcTicks": 639048257906310235
+                },
+                {
+                    "id": "1bb5ec45b8d546918f098e6aa05d68cd",
+                    "name": "On Startup Homepage should show up and internet connection check happens, if not connected, show message",
+                    "description": "",
+                    "createdUtcTicks": 639048257997352051,
+                    "updatedUtcTicks": 639048258494162934
+                },
+                {
+                    "id": "507a5c32e3474835a76b3f1b24735e55",
+                    "name": "Daily Rewards popup on startup and also on Homepage Side Button",
+                    "description": "",
+                    "createdUtcTicks": 639048258584724188,
+                    "updatedUtcTicks": 639048259351858716
+                },
+                {
+                    "id": "23873fc9400d4c5ea2117a5653085d1d",
+                    "name": "Ad free popup on startup once per day",
+                    "description": "",
+                    "createdUtcTicks": 639048259366982810,
+                    "updatedUtcTicks": 639048259835793451
+                },
+                {
+                    "id": "0ae1ffe777104ac795139053181ea553",
+                    "name": "Create Shop and Inventory GUI with reference",
+                    "description": "",
+                    "createdUtcTicks": 639048260602606519,
+                    "updatedUtcTicks": 639048260871173966
+                },
+                {
+                    "id": "46a719c7a37d4cd4a2da85dfbaef6231",
+                    "name": "Custom Loading page",
+                    "description": "",
+                    "createdUtcTicks": 639048261839755276,
+                    "updatedUtcTicks": 639048262088081460
+                },
+                {
+                    "id": "1b3fde16e34247859b44d78c1cc595f0",
+                    "name": "Level End GUI and Level Failure GUI",
+                    "description": "",
+                    "createdUtcTicks": 639048262440013200,
+                    "updatedUtcTicks": 639048262757695100
+                },
+                {
+                    "id": "6844641dbc6844e0a9934d48bffadff9",
+                    "name": "Add GUI Animation on Bounty Text, Cash text etc during cash increase in level",
+                    "description": "",
+                    "createdUtcTicks": 639048283114017994,
+                    "updatedUtcTicks": 639048283600824923
+                },
+                {
+                    "id": "374cf4d31e5148b7a30106227969944e",
+                    "name": "Add GUI animation in homepage and other pages as needed to make things catch eyes",
+                    "description": "",
+                    "createdUtcTicks": 639048283738031069,
+                    "updatedUtcTicks": 639048284103951898
+                },
+                {
+                    "id": "c8e90300c83a4ccc8d24291057f7c782",
+                    "name": "Add Custom Icon and Splash Screen for startup",
+                    "description": "",
+                    "createdUtcTicks": 639048333378991420,
+                    "updatedUtcTicks": 639048333653632201
                 }
             ],
-            "tasks": []
+            "tasks": [
+                {
+                    "id": "f59e602ae03a41be81defe666e50af82",
+                    "featureId": "0ae1ffe777104ac795139053181ea553",
+                    "title": "Create Shop GUI with reference",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048260962140060,
+                    "updatedUtcTicks": 639048260962140060,
+                    "attachmentGuids": [
+                        "c009426c7fbbf9645a21eb8bcfc5787d"
+                    ],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "98271d1539414c4a94112b3dd871445c",
+                    "featureId": "0ae1ffe777104ac795139053181ea553",
+                    "title": "Create Inventory GUI almost same as Shop GUI",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048261582790074,
+                    "updatedUtcTicks": 639048261582790074,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "7b533ca1fc044f36a239eca51e766134",
+                    "featureId": "f5ee0b766eb7460a8bf1642c33f3d408",
+                    "title": "Add Settings Popup and blur the background behind the popup window",
+                    "description": "Add Settings Popup and blur the background behind the popup window\nAdd Close Button to close popup\nEach action button should save the action automatically. No Save Button should be required",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048334896542301,
+                    "updatedUtcTicks": 639048334896542301,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "818b8c8a8ce24fe0b51b2cc18818933a",
+                    "featureId": "f5ee0b766eb7460a8bf1642c33f3d408",
+                    "title": "Add Sound Toggle feature",
+                    "description": "",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048335622725192,
+                    "updatedUtcTicks": 639048335622725192,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "12f5e6d583a847f58f26125df96454b4",
+                    "featureId": "f5ee0b766eb7460a8bf1642c33f3d408",
+                    "title": "Add Vibration Toggle Feature",
+                    "description": "",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048335706728330,
+                    "updatedUtcTicks": 639048335706728330,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "3e960840c39a444a9f76589967ef221b",
+                    "featureId": "f5ee0b766eb7460a8bf1642c33f3d408",
+                    "title": "Add Language toggle and Localization",
+                    "description": "English (default)\n\nSpanish\n\nPortuguese (Brazil)\n\nFrench\n\nGerman\n\nJapanese",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048335870016927,
+                    "updatedUtcTicks": 639048335870016927,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "5c6b6faa938c406d8dfec08be9d1bcf2",
+                    "featureId": "f5ee0b766eb7460a8bf1642c33f3d408",
+                    "title": "Add Privacy and Legal Documents",
+                    "description": "Privacy Policy\nTerms of Service / EULA\nConsent Management (GDPR / ATT)\nThird-Party Licenses (optional)",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048336018813191,
+                    "updatedUtcTicks": 639048336018813191,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "770e86be53774f7ca93c4ea16d86f9cd",
+                    "featureId": "f5ee0b766eb7460a8bf1642c33f3d408",
+                    "title": "Add Link to Elroi socials",
+                    "description": "",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048336881154951,
+                    "updatedUtcTicks": 639048336881154951,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "c716764d0a1244099691594d00fe4e21",
+                    "featureId": "1b3fde16e34247859b44d78c1cc595f0",
+                    "title": "The Level End Popup should show how many stars the player got out of 3",
+                    "description": "Mostly, one star for completing the level and 2 stars for finishing the mission. 0 Star on failure to complete level.",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048340026911155,
+                    "updatedUtcTicks": 639048340026911155,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "607b7865d6df4713974709bb3e18f231",
+                    "featureId": "1b3fde16e34247859b44d78c1cc595f0",
+                    "title": "The level end pop up should show how cash and bounties the player has collected",
+                    "description": "Cash is collected by picking pickables \nBounties are collected by finishing missions",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048348855769075,
+                    "updatedUtcTicks": 639048348855769075,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "4d6ee4e03c6c40359bacfc5c2bc12969",
+                    "featureId": "1b3fde16e34247859b44d78c1cc595f0",
+                    "title": "The level end pop up should show how many enemies were killed and which missions were successful",
+                    "description": "",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048349346181328,
+                    "updatedUtcTicks": 639048349346181328,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "16caa872b9124b9a8791c2ff8f697102",
+                    "featureId": "1b3fde16e34247859b44d78c1cc595f0",
+                    "title": "The level end pop up should have a ticker to 4X their cash earned",
+                    "description": "It should have a ticker like the picture that lets the player click on the button at the right time to 4X their bounties earned. \nBut that depends on where the ticker landed. And on click it will open an ad (We won't hook the ads yet, just leaving space for it now) \nand the player can easily watch ad to 4X their earning. The ticker will be very slow, not a super hard minigame or anything. \nIt'll be slow so that it's easy for the player to 4x the earnings. Right now, we don't have to worry about 4x-in the earnings as bounty \nsaving system has not been implemented yet. But we will create this ticker. Something similar and stylish. After ads, it should redirect the \nplayer to the homepage. ",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048350349806230,
+                    "updatedUtcTicks": 639048350349806230,
+                    "attachmentGuids": [
+                        "9e376060e55616f4497c80daf81aad94"
+                    ],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "cf1520e52e444fadb7c6f41249b5fb00",
+                    "featureId": "1b3fde16e34247859b44d78c1cc595f0",
+                    "title": "The Level End Popup should have that tap to continue button",
+                    "description": "It should have that tap to continue where the user can tap anywhere other than the button to continue to the homepage and \nignore watching the ads.",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048351410545427,
+                    "updatedUtcTicks": 639048351410545427,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                }
+            ]
         },
         {
             "id": "a893521066a14ceb883ceb72cb86947f",
@@ -109,10 +742,38 @@
             "features": [
                 {
                     "id": "2ee4dee5b4db4533b25d78f736e09573",
-                    "name": "General",
+                    "name": "Shop Should have 4 Tabs. Jump Moves, Sword Power, Sowrds and Characters",
                     "description": "",
                     "createdUtcTicks": 639047444999730667,
-                    "updatedUtcTicks": 639047444999730667
+                    "updatedUtcTicks": 639048263543715846
+                },
+                {
+                    "id": "ceeadd3c9dbc4ad2b594c54112e09d3b",
+                    "name": "Cosmetics can be bought using bounties, cash and IAP",
+                    "description": "",
+                    "createdUtcTicks": 639048262908338555,
+                    "updatedUtcTicks": 639048264164769078
+                },
+                {
+                    "id": "c81b92a5d64c4f878dbf993b24676841",
+                    "name": "Any bought cosmetic needs to be saved locally",
+                    "description": "",
+                    "createdUtcTicks": 639048264315737298,
+                    "updatedUtcTicks": 639048264655903147
+                },
+                {
+                    "id": "44100ff5599d4ef5bfdfe897ce17b1bb",
+                    "name": "Any IAP needs to be saved in cloud so that on a re-install, it still exists",
+                    "description": "",
+                    "createdUtcTicks": 639048264671266290,
+                    "updatedUtcTicks": 639048265067033686
+                },
+                {
+                    "id": "b3fa507f7f604fd2bee028e545076d35",
+                    "name": "Daily Rewards and Rewards for rewarded ads should also exist in shop",
+                    "description": "",
+                    "createdUtcTicks": 639048265152789581,
+                    "updatedUtcTicks": 639048265923214968
                 }
             ],
             "tasks": []
@@ -123,13 +784,171 @@
             "features": [
                 {
                     "id": "6e8d88aa97254f8cb0bc5aac15827c29",
-                    "name": "General",
+                    "name": "Sound Effects in GUI",
                     "description": "",
                     "createdUtcTicks": 639047445041407963,
-                    "updatedUtcTicks": 639047445041407963
+                    "updatedUtcTicks": 639048268891672294
+                },
+                {
+                    "id": "42382bba660e47669c3c1374a61d3d5e",
+                    "name": "Sound Effects in game",
+                    "description": "",
+                    "createdUtcTicks": 639048268522955505,
+                    "updatedUtcTicks": 639048268661113010
                 }
             ],
-            "tasks": []
+            "tasks": [
+                {
+                    "id": "ec3adff3b739452483ca43647597ef23",
+                    "featureId": "6e8d88aa97254f8cb0bc5aac15827c29",
+                    "title": "Add GUI Backgound Sound",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048267589882107,
+                    "updatedUtcTicks": 639048267589882107,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "2516a856773d4189b3def60c9101569c",
+                    "featureId": "6e8d88aa97254f8cb0bc5aac15827c29",
+                    "title": "Add GUI click sounds",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048267832618159,
+                    "updatedUtcTicks": 639048267832618159,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "83d739d41e804a239df113560a484a96",
+                    "featureId": "6e8d88aa97254f8cb0bc5aac15827c29",
+                    "title": "Add GUI Sounds for Spin the wheel and any necessary change per page",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048268505110338,
+                    "updatedUtcTicks": 639048268505110338,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "12bf14de657c4ca9b0ca28ea44b5fe09",
+                    "featureId": "42382bba660e47669c3c1374a61d3d5e",
+                    "title": "Add background sound from game start to end with ending synced with gameplay",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048269426176713,
+                    "updatedUtcTicks": 639048269426176713,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "f0f3683b11114af29379250be64093fb",
+                    "featureId": "42382bba660e47669c3c1374a61d3d5e",
+                    "title": "Add sounds for dash attack and down attack with impact",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048269872262644,
+                    "updatedUtcTicks": 639048269872262644,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "454a77d02de943518d3d3341b66d533b",
+                    "featureId": "42382bba660e47669c3c1374a61d3d5e",
+                    "title": "Add sound for car and enemy 3 bullet on phase 2",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048270090590372,
+                    "updatedUtcTicks": 639048270090590372,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "a846b0732f624ce19a0688e63a3be2fb",
+                    "featureId": "42382bba660e47669c3c1374a61d3d5e",
+                    "title": "Add sound for blood splatter and hit effect",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048270373874558,
+                    "updatedUtcTicks": 639048270373874558,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "ac9fe85631d147519bab8b14af80a819",
+                    "featureId": "42382bba660e47669c3c1374a61d3d5e",
+                    "title": "Add sound for enemy death",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048270465240644,
+                    "updatedUtcTicks": 639048270465240644,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "eb4d0d176f1c451da32ded947218f9f1",
+                    "featureId": "42382bba660e47669c3c1374a61d3d5e",
+                    "title": "Add sound for barrel destruction or any other non-living thing destruction",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048270810123676,
+                    "updatedUtcTicks": 639048270810123676,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "99a10bba55d744889e23c7d215488587",
+                    "featureId": "6e8d88aa97254f8cb0bc5aac15827c29",
+                    "title": "Add sound for loading screen",
+                    "description": "",
+                    "dueDateIso": "2026-01-23",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639048271250457206,
+                    "updatedUtcTicks": 639048271250457206,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                }
+            ]
         },
         {
             "id": "8d5c6b8900fc461e88bd59fae1b81eba",
@@ -137,10 +956,52 @@
             "features": [
                 {
                     "id": "4b791b3cb5484fadbb930600da42533c",
-                    "name": "General",
+                    "name": "Adhooks shall support Admob, AppLovin, LevelPlay, IronSource, UnityAds and LiftOff",
                     "description": "",
                     "createdUtcTicks": 639047445044612644,
-                    "updatedUtcTicks": 639047445044612644
+                    "updatedUtcTicks": 639048272171676379
+                },
+                {
+                    "id": "f0cc2cbefc32498b85d638d9ef4307d7",
+                    "name": "Add adhooks for Daily rewards, rewarded ads, short ads after every level and Banner",
+                    "description": "",
+                    "createdUtcTicks": 639048272194075539,
+                    "updatedUtcTicks": 639048273362421525
+                },
+                {
+                    "id": "ed5a57e9df42411082d8c184a36bff39",
+                    "name": "User Review System from Monetization V2 Pro",
+                    "description": "",
+                    "createdUtcTicks": 639048273730356242,
+                    "updatedUtcTicks": 639048273987965896
+                },
+                {
+                    "id": "f053441d25584f2190ce1afc5fce90f1",
+                    "name": "Notification (Good to have. Not necessary)",
+                    "description": "",
+                    "createdUtcTicks": 639048274412687850,
+                    "updatedUtcTicks": 639048275134224979
+                },
+                {
+                    "id": "df485f73a71847dcad2e8d525fd958f1",
+                    "name": "In App Update (not needed for version 1. But we can keep it there if we have time)",
+                    "description": "",
+                    "createdUtcTicks": 639048275333912413,
+                    "updatedUtcTicks": 639048275566469475
+                },
+                {
+                    "id": "2ef79b3215f14fe8946af54e89d910f0",
+                    "name": "Firebase Analytics using Monetization Pro V2",
+                    "description": "",
+                    "createdUtcTicks": 639048275810240536,
+                    "updatedUtcTicks": 639048276114411826
+                },
+                {
+                    "id": "93c91c44de7448b999f6e3ee8eb1e3ff",
+                    "name": "No Internet Connectivity Checker",
+                    "description": "",
+                    "createdUtcTicks": 639048276170573995,
+                    "updatedUtcTicks": 639048276247854612
                 }
             ],
             "tasks": []
@@ -151,10 +1012,31 @@
             "features": [
                 {
                     "id": "30279aa80c4a470f86edf4407477c2fe",
-                    "name": "General",
+                    "name": "Should Have Ad free for $4.99",
                     "description": "",
                     "createdUtcTicks": 639047445048366117,
-                    "updatedUtcTicks": 639047445048366117
+                    "updatedUtcTicks": 639048276910751440
+                },
+                {
+                    "id": "69a029aa974642ddbb2340f0fa342d2b",
+                    "name": "Should have cosmetics for around 2.99 to 4.99",
+                    "description": "",
+                    "createdUtcTicks": 639048276929153138,
+                    "updatedUtcTicks": 639048277128030146
+                },
+                {
+                    "id": "ea663550159a4619890054d4133c7b7f",
+                    "name": "Display In-App-Purchase prices in Local Currencies",
+                    "description": "",
+                    "createdUtcTicks": 639048277562365739,
+                    "updatedUtcTicks": 639048277718049135
+                },
+                {
+                    "id": "d42f99ac8e78415f955992b00ffd1d8d",
+                    "name": "Compliance Ready GDPR & ATT (See Mobile Monetization Pro V2)",
+                    "description": "",
+                    "createdUtcTicks": 639048279497291974,
+                    "updatedUtcTicks": 639048279706972676
                 }
             ],
             "tasks": []
@@ -165,10 +1047,59 @@
             "features": [
                 {
                     "id": "0e2df6221605476997ce4006c691813c",
-                    "name": "General",
+                    "name": "Add Slow mo in power slam attacks",
                     "description": "",
                     "createdUtcTicks": 639047445052293936,
-                    "updatedUtcTicks": 639047445052293936
+                    "updatedUtcTicks": 639048279957382316
+                },
+                {
+                    "id": "4659d2521c724fe38463b8f464029a63",
+                    "name": "Add slash fx and mild vibration on every dash attack",
+                    "description": "",
+                    "createdUtcTicks": 639048279977540162,
+                    "updatedUtcTicks": 639048280288749968
+                },
+                {
+                    "id": "dcdee7b015d44c428849478ab4bd2a83",
+                    "name": "Add vfx and camera shake on power slam and regular slam",
+                    "description": "",
+                    "createdUtcTicks": 639048280315073228,
+                    "updatedUtcTicks": 639048281854631582
+                },
+                {
+                    "id": "62846262b762481b9690697b079d432b",
+                    "name": "Add vfx on Enemy Weapons",
+                    "description": "",
+                    "createdUtcTicks": 639048280644920952,
+                    "updatedUtcTicks": 639048280806683521
+                },
+                {
+                    "id": "9e4bce8994894916ac8f89053a2f0672",
+                    "name": "Add vfx and feel shake on phase 2 ruthless slice",
+                    "description": "",
+                    "createdUtcTicks": 639048281060125691,
+                    "updatedUtcTicks": 639048281363805303
+                },
+                {
+                    "id": "cc13d4b734dc4b8ca23404892435a6c1",
+                    "name": "Add FEEL and camera zoom and slow mo on player death",
+                    "description": "",
+                    "createdUtcTicks": 639048281955192607,
+                    "updatedUtcTicks": 639048282317194679
+                },
+                {
+                    "id": "accab25f1c774626b19927aaaba27bf4",
+                    "name": "Add special Combo effect on back to back enemy kill without dying",
+                    "description": "",
+                    "createdUtcTicks": 639048282470081787,
+                    "updatedUtcTicks": 639048282814891776
+                },
+                {
+                    "id": "238dc8d6ee4a478fa7d161b86e52c8c0",
+                    "name": "Add 2D Blood fx on enemy death",
+                    "description": "",
+                    "createdUtcTicks": 639048284509006568,
+                    "updatedUtcTicks": 639048284752766781
                 }
             ],
             "tasks": []
@@ -193,29 +1124,53 @@
             "features": [
                 {
                     "id": "27826c5d83a646278e81e336fd610993",
-                    "name": "General",
+                    "name": "Fix the car wheel spinning on player death and level stopped",
                     "description": "",
                     "createdUtcTicks": 639047447553776360,
-                    "updatedUtcTicks": 639047447553776360
+                    "updatedUtcTicks": 639048374875841761
+                }
+            ],
+            "tasks": [
+                {
+                    "id": "7bc9a7fbaf574aa49091e175fea8c260",
+                    "featureId": "27826c5d83a646278e81e336fd610993",
+                    "title": "Car wheel spinning on player death and level stopped on Phase 2",
+                    "description": "",
+                    "dueDateIso": "2026-01-24",
+                    "type": 1,
+                    "status": 0,
+                    "createdUtcTicks": 639048375292614379,
+                    "updatedUtcTicks": 639048375292614379,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                }
+            ]
+        },
+        {
+            "id": "b6a53861b41c49e78ec85a2c627e24c9",
+            "name": "Localization",
+            "features": [
+                {
+                    "id": "9a1bb3409bab4277b132c1e32b9abf64",
+                    "name": "Localization in a few languages in needed. English, Spanish, Chinese and Portugese",
+                    "description": "",
+                    "createdUtcTicks": 639048328056617737,
+                    "updatedUtcTicks": 639048328394538861
                 }
             ],
             "tasks": []
         }
     ],
     "today": {
-        "dateIso": "2026-01-23",
+        "dateIso": "2026-01-24",
         "items": [
             {
                 "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "75685643a5c44511845191e240e571c0",
+                "taskId": "d67d66e02d7f4bb7b52831da773e6a33",
                 "done": false,
-                "addedUtcTicks": 639047356794867304
-            },
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "f24e9643b7d14281848038cf7173bdf9",
-                "done": false,
-                "addedUtcTicks": 639047356794867304
+                "addedUtcTicks": 639048244663138714
             }
         ]
     }

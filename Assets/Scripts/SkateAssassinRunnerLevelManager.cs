@@ -394,8 +394,10 @@ namespace MoreMountains.InfiniteRunnerEngine
                 yield return null;
             }
 
-            // Time’s up — you said: “if they fail, player gets shot immediately”
-            // We just fire an event hook for now (you can hook sniper shot / instant fail to this)
+            // Time’s up — ask GUI to resolve timeout safely
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor
+                ?.OnPhase2BossCountdownFinished();
+
             MMGameEvent.Trigger("Phase2BossQTETimeout");
 
             _phase2BossQTERoutine = null;

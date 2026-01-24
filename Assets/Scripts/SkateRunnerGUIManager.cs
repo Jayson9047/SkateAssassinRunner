@@ -87,6 +87,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private Vector2 cashPopupScatterXZ = new Vector2(0.3f, 0.3f);
         [SerializeField] private Vector2 cashPopupScatterY = new Vector2(0.0f, 0.4f);
 
+        // Phase 2 Timeout Guards
+        private bool _phase2DownslamButtonPressed;   // latch: once true, never kill on timeout
+        private bool _phase2BossResolved;            // latch: once resolved, ignore further timeout/result triggers
+
         public DamageNumber CashPopupPrefab => cashPopupPrefab;
         public Vector3 CashPopupWorldOffset => cashPopupWorldOffset;
         private Coroutine _reviveAnimCo;
@@ -257,6 +261,9 @@ namespace MoreMountains.InfiniteRunnerEngine
         // ------------------------------------------------------
         public void EnterPhase2BossHUD()
         {
+            _phase2DownslamButtonPressed = false;
+            _phase2BossResolved = false;
+
             CacheSlamHUDReferencesIfNeeded();
 
             // Ensure slam button exists and is enabled
@@ -403,6 +410,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         private void OnPowerMeterResult(PowerMeter.ZoneResult result, float normalized)
         {
+            // Once we have a result, phase2 is resolved; ignore timeout events.
+            _phase2BossResolved = true;
             switch (result)
             {
                 case PowerMeter.ZoneResult.Red:
@@ -438,6 +447,31 @@ namespace MoreMountains.InfiniteRunnerEngine
                 }
             }
         }
+
+        public void OnPhase2BossCountdownFinished()
+        {
+            // If phase already resolved (meter result happened, or we already handled timeout), do nothing.
+            if (_phase2BossResolved)
+                return;
+
+            _phase2BossResolved = true;
+
+            // If player ever pressed the button, we NEVER kill on timeout (prevents mid-slam / post-slam kills).
+            if (_phase2DownslamButtonPressed)
+                return;
+
+            // Otherwise: same deterministic Phase2 fail as RED
+            var player = FindFirstObjectByType<PlayerPhase2Controller>();
+            if (player != null)
+            {
+                player.TriggerPhase2RedFail();
+            }
+            else
+            {
+                Debug.LogError("[Phase2] PlayerPhase2Controller not found for timeout fail.");
+            }
+        }
+
 
         private void FadeOutSlamHUD(float duration = 0.15f)
         {
@@ -517,11 +551,17 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         private void OnDownslamButtonClicked()
         {
-            // In Phase 2 you said all controls are locked, and ONLY this button works.
-            // So we simulate the correct combo regardless of lock state.
             if (_phase2SimInProgress) return;
+
+            // Latch immediately. From this point on, we NEVER allow timeout-death.
+            _phase2DownslamButtonPressed = true;
+
+            // Optional but matches what you said: timer stops the moment button is clicked.
+            SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.StopPhase2BossQTECountdown();
+
             powerMeter.StopMeterAndEvaluate();
         }
+
 
         private IEnumerator SimulateDoubleJumpThenDownAttack()
         {
