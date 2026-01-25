@@ -61,8 +61,11 @@ namespace MoreMountains.MMInterface
 			{
 				return;
 			}
-
-			MMFadeEvent.Trigger(FaderOpenDuration, FaderOpacity, Tween, ID);
+            if (_animator == null)
+            {
+                _animator = GetComponent<Animator>();
+            }
+            MMFadeEvent.Trigger(FaderOpenDuration, FaderOpacity, Tween, ID);
 			_animator.SetTrigger ("Open");
 			CurrentlyOpen = true;
 		}
