@@ -14,7 +14,7 @@ namespace MoreMountains.InfiniteRunnerEngine
     /// </summary>
     public class SkateAssassinRunnerLevelManager : LevelManager
     {
-        protected float _savedBounties;
+        protected float _savedCash;
         private bool _hasLastDeathPosition;
         private Vector3 _lastDeathPosition;
         public static event Action<int, bool> OnSlamChanged;
@@ -90,7 +90,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             // storage
             _savedPoints = GameManager.Instance.Points;
-            _savedBounties = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Bounties;
+            _savedCash = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Cash;
+            SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.BeginLevelSession();
             _started = DateTime.UtcNow;
             GameManager.Instance.SetStatus(GameManager.GameStatus.BeforeGameStart);
             GameManager.Instance.SetPointsPerSecond(PointsPerSecond);
@@ -197,7 +198,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             MMGameEvent.Trigger("LifeLost");
             _started = DateTime.UtcNow;
             GameManager.Instance.SetPoints(_savedPoints);
-            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.SetBounties(_savedBounties);
+            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.SetCash(_savedCash);
             GameManager.Instance.LoseLives(1);
 
             if (GameManager.Instance.CurrentLives <= 0)
@@ -464,7 +465,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         public override void Update()
         {
             _savedPoints = GameManager.Instance.Points;
-            _savedBounties = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Bounties;
+            _savedCash = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Cash;
             _started = DateTime.UtcNow;
 
             // we increment the total distance traveled so far

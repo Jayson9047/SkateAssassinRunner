@@ -157,8 +157,8 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
                     if (maxCashPerTap < minCashPerTap) maxCashPerTap = minCashPerTap;
 
                     int cash = Random.Range(minCashPerTap, maxCashPerTap + 1); // 1–7 inclusive
-                    SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.AddBounties(cash);
-                    SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshBounties();
+                    SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.AddCash(cash);
+                    SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();
 
                     // Spawn popup at Enemy Type 3 (ruthless target)
                     var target = lm.RuthlessTapTarget;

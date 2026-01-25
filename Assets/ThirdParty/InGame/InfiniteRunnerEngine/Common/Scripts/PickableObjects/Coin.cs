@@ -11,12 +11,12 @@ namespace MoreMountains.InfiniteRunnerEngine
 	{
 		/// The amount of points to add when collected
 		[Tooltip("The amount of points to add when collected")]
-		public int BountiesToAdd = 10;
+		public int CashToAdd = 10;
 
 		protected override void ObjectPicked()
 		{
 			// We pass the specified amount of points to the game manager
-			SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddBounties(BountiesToAdd);
+			SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddCash(CashToAdd);
 		}
 	}
 }

@@ -11,7 +11,15 @@ namespace MoreMountains.InfiniteRunnerEngine
     public class SkateRunnerGameManager : GameManager
     {
         /// the current number of game bounties
-        public float Bounties { get; protected set; }
+        public float Cash { get; protected set; }
+
+        [Header("Gems")]
+        public float DefaultGemsPerLevelComplete = 2f;
+        public float Gems { get; protected set; }
+
+        // snapshots for "earned this level" on LevelEndScreen
+        private float _cashAtLevelStart;
+        private float _gemsAtLevelStart;
 
         public static SkateRunnerGameManager SkateRunnerGameManagerAccessor { get; private set; }
 
@@ -28,10 +36,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// Adds the bounties in parameters to the current game bounties.
         /// </summary>
         /// <param name="bountiesToAdd">bounties to add.</param>
-        public virtual void AddBounties(float bountiesToAdd)
+        public virtual void AddCash(float cashToAdd)
         {
-            Bounties += bountiesToAdd;
-            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshBounties();
+            Cash += cashToAdd;
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();
             
         }
 
@@ -40,7 +48,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// </summary>
         public override void Reset()
         {
-            Bounties = 0;
+            Cash = 0;
+            Gems = 0;
             base.Reset();
         }
 
@@ -48,11 +57,46 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// use this to set the current bounties to the one you pass as a parameter
         /// </summary>
         /// <param name="bounties">bounties.</param>
-        public virtual void SetBounties(float bounties)
+        public virtual void SetCash(float bounties)
         {
-            Bounties = bounties;
-            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshBounties();
+            Cash = bounties;
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();
             
         }
+
+
+        public void BeginLevelSession()
+        {
+            _cashAtLevelStart = Cash;
+            _gemsAtLevelStart = Gems;
+        }
+
+        public float GetCashEarnedThisLevel()
+        {
+            return Mathf.Max(0f, Cash - _cashAtLevelStart);
+        }
+
+        public float GetGemsEarnedThisLevel()
+        {
+            return Mathf.Max(0f, Gems - _gemsAtLevelStart);
+        }
+
+        private void AddGems(float amount)
+        {
+            Gems += amount;
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshGems();
+        }
+
+        public void AddGems()
+        {
+            AddGems(DefaultGemsPerLevelComplete);
+        }
+
+        public void SetGems(float value)
+        {
+            Gems = value;
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshGems();
+        }
+
     }
 }

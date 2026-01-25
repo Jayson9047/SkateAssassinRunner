@@ -1,7 +1,7 @@
 {
     "schemaVersion": 5,
     "selectedMilestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-    "selectedFeatureId": "1bfa635877514cdab5059478464030ee",
+    "selectedFeatureId": "e8a321d769a64a4698615ce3161e613a",
     "columnNames": [
         "Backlog",
         "In Progress",
@@ -100,7 +100,7 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639047489945957167,
                     "updatedUtcTicks": 639047489945957167,
                     "attachmentGuids": [],
@@ -115,7 +115,7 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639047490627411773,
                     "updatedUtcTicks": 639047490627411773,
                     "attachmentGuids": [],
@@ -130,7 +130,7 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639047490996707186,
                     "updatedUtcTicks": 639047490996707186,
                     "attachmentGuids": [],
@@ -145,7 +145,7 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639047491134705402,
                     "updatedUtcTicks": 639047491134705402,
                     "attachmentGuids": [],
@@ -160,7 +160,7 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639047491440632184,
                     "updatedUtcTicks": 639047491440632184,
                     "attachmentGuids": [],
@@ -175,7 +175,7 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639047492392332191,
                     "updatedUtcTicks": 639047492392332191,
                     "attachmentGuids": [],
@@ -205,9 +205,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639047493761168465,
-                    "updatedUtcTicks": 639047493761168465,
+                    "updatedUtcTicks": 639048861720196003,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -280,7 +280,7 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639047497467419287,
                     "updatedUtcTicks": 639047497467419287,
                     "attachmentGuids": [],
@@ -291,7 +291,7 @@
                 {
                     "id": "d67d66e02d7f4bb7b52831da773e6a33",
                     "featureId": "3780db368e284265ad07e72fb920d921",
-                    "title": "Implement Bounty currency",
+                    "title": "Implement Gems currency",
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
@@ -1171,6 +1171,54 @@
                 "taskId": "d67d66e02d7f4bb7b52831da773e6a33",
                 "done": false,
                 "addedUtcTicks": 639048244663138714
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "9a405daa9bfd4ff183bd907d9c00a759",
+                "done": false,
+                "addedUtcTicks": 639048859567017725
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "eceb1dad112d4a6eb8d613c27f4d445b",
+                "done": false,
+                "addedUtcTicks": 639048859567017725
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "f185164537c64bbb83f267608a7300fe",
+                "done": false,
+                "addedUtcTicks": 639048859567017725
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "0ecca1a320ac43658e45bc6f8ade05a9",
+                "done": false,
+                "addedUtcTicks": 639048859567017725
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "99bbc0293744428793c9141f44dd1662",
+                "done": false,
+                "addedUtcTicks": 639048861297455626
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "7b314b6c0a024fe18882abe2976fd26b",
+                "done": false,
+                "addedUtcTicks": 639048861297455626
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "bdf3054ed7f0475592e95bfc5c570189",
+                "done": false,
+                "addedUtcTicks": 639048861297455626
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "a4a373d3a8424f63b78f34e05515a756",
+                "done": false,
+                "addedUtcTicks": 639048861732269089
             }
         ]
     }

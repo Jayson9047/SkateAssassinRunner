@@ -17,7 +17,7 @@ namespace MoreMountains.InfiniteRunnerEngine
     {
         [Header("Bounties")]
         [Tooltip("the bounties counter")]
-        public Text BountiesText;
+        public TextMeshProUGUI CashText;
 
         [Header("Phase Timer")]
         [Tooltip("Top-of-screen phase timer text (0..60).")]
@@ -77,6 +77,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Header("Level End Screen")]
         public GameObject LevelEndScreen;
         [SerializeField] private TextMeshProUGUI LevelEndTitleText;
+        public TextMeshProUGUI LevelEndCashEarnedText;
+        public TextMeshProUGUI LevelEndGemsEarnedText;
 
         [SerializeField] private Image reviveFillImage;   // assign ReviveFill
         [SerializeField] private RectTransform revivePulseTarget; // assign ReviveButton (or ReviveLogo)
@@ -164,13 +166,19 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// <summary>
         /// Sets the text to the game manager's points.
         /// </summary>
-        public virtual void RefreshBounties()
+        public virtual void RefreshCash()
         {
             var skateRunnerGameManager = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
-            if (BountiesText == null)
+            if (CashText == null)
                 return;
 
-            BountiesText.text = skateRunnerGameManager.Bounties.ToString("000000");
+            CashText.text = skateRunnerGameManager.Cash.ToString("000000");
+        }
+
+        public void RefreshGems()
+        {
+            if (LevelEndGemsEarnedText == null) { return; }
+            LevelEndGemsEarnedText.text = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Gems.ToString("0");
         }
 
         /// <summary>
@@ -813,12 +821,12 @@ namespace MoreMountains.InfiniteRunnerEngine
             int amount = reward.GetRandomCash();
             if (amount <= 0) return;
 
-            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddBounties(amount);
+            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddCash(amount);
             if (cashPopupPrefab != null)
             {
                 cashPopupPrefab.Spawn(obj.transform.position + cashPopupWorldOffset, amount);
             }
-            RefreshBounties();
+            RefreshCash();
         }
 
         private void HandleEnemyKilledForSlam(SkateRunnerDestructibleObject obj)
@@ -843,8 +851,8 @@ namespace MoreMountains.InfiniteRunnerEngine
             var gm = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
             if (gm == null) return;
 
-            gm.AddBounties(amount);
-            RefreshBounties();
+            gm.AddCash(amount);
+            RefreshCash();
         }
 
         public void ShowLevelEndScreen(bool success)
@@ -861,7 +869,24 @@ namespace MoreMountains.InfiniteRunnerEngine
             if (LevelEndScreen != null) LevelEndScreen.SetActive(true);
 
             if (LevelEndTitleText != null)
+            {
                 LevelEndTitleText.text = success ? "LEVEL COMPLETED" : "LEVEL FAILED";
+                if (success)
+                {
+                    SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddGems();
+                }
+                if (LevelEndCashEarnedText != null)
+                {
+                    LevelEndCashEarnedText.text =
+                        SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel().ToString("0");
+                }
+
+                if (LevelEndGemsEarnedText != null)
+                {
+                    LevelEndGemsEarnedText.text =
+                        SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetGemsEarnedThisLevel().ToString("0");
+                }
+            }
         }
 
         public void ResetLevelEndUIState()
