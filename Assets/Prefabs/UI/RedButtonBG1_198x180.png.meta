@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 836fdd40f5b62fb459dfe34b4e9c6fd7
+guid: 3622c1b9a23b2ce4393ebe02f77a8a62
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7421230273862205802
-    second: PurpleButtonBG1_0
+      213: -6031488116578833906
+    second: RedButtonBG1_198x180_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PurpleButtonBG1_0
+      name: RedButtonBG1_198x180_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 867
-        height: 584
+        width: 198
+        height: 180
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69e7112a26e720990800000000000000
-      internalID: -7421230273862205802
+      spriteID: e0a2450a389db4ca0800000000000000
+      internalID: -6031488116578833906
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PurpleButtonBG1_0: -7421230273862205802
+      RedButtonBG1_198x180_0: -6031488116578833906
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 884555c82434af543837f0214916d7a9
+guid: 481b3620e06311047a50d0d090175a8f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5008435273799300847
-    second: BlueButtonBG2 (1)_0
+      213: -8993152096277671987
+    second: MissionIcon_148x157_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BlueButtonBG2 (1)_0
+      name: MissionIcon_148x157_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 868
-        height: 583
+        width: 148
+        height: 157
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fe6f75f7859818540800000000000000
-      internalID: 5008435273799300847
+      spriteID: dcf4f42f0d7e13380800000000000000
+      internalID: -8993152096277671987
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BlueButtonBG2 (1)_0: 5008435273799300847
+      MissionIcon_148x157_0: -8993152096277671987
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

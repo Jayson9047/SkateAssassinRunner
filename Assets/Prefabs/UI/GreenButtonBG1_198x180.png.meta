@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 36b6f267c62eee44d8a43ad6055bc8d5
+guid: 6ba14a0db827a8d409a0567e9bf1e96b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5833674295998635838
-    second: MissionIcon (1)_0
+      213: 1994451472415689394
+    second: GreenButtonBG1_198x180_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -74,8 +74,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MissionIcon (1)_0
+      name: GreenButtonBG1_198x180_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 697
-        height: 756
+        width: 198
+        height: 180
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e3f53543ddf55f050800000000000000
-      internalID: 5833674295998635838
+      spriteID: 2ba871f0c07bdab10800000000000000
+      internalID: 1994451472415689394
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      MissionIcon (1)_0: 5833674295998635838
+      GreenButtonBG1_198x180_0: 1994451472415689394
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 839f3dd74f1514f4295fc21f5ebcccb3
+guid: fb74e0a7e1def664fb1527edc38d6fbd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1186780027108670212
-    second: Home1 (1)_0
+      213: 1586834253967547833
+    second: PurpleButtonBG1_198x180_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -74,8 +74,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Home1 (1)_0
+      name: PurpleButtonBG1_198x180_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 559
-        height: 504
+        width: 198
+        height: 180
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 40b3756952a487010800000000000000
-      internalID: 1186780027108670212
+      spriteID: 9bd5829b851950610800000000000000
+      internalID: 1586834253967547833
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Home1 (1)_0: 1186780027108670212
+      PurpleButtonBG1_198x180_0: 1586834253967547833
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
