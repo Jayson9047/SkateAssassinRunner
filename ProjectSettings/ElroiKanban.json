@@ -1,7 +1,7 @@
 {
     "schemaVersion": 5,
-    "selectedMilestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-    "selectedFeatureId": "e8a321d769a64a4698615ce3161e613a",
+    "selectedMilestoneId": "36b29d37771f4250be30ecb8c9bc054f",
+    "selectedFeatureId": "ccaa818eccec409fb2ba7df059f32ee9",
     "columnNames": [
         "Backlog",
         "In Progress",
@@ -1161,10 +1161,84 @@
                 }
             ],
             "tasks": []
+        },
+        {
+            "id": "36b29d37771f4250be30ecb8c9bc054f",
+            "name": "First Time Install Routine",
+            "features": [
+                {
+                    "id": "1a6a9661e4f64548849469192cde8846",
+                    "name": "On First time install, the game should always just start without going to the homepage",
+                    "description": "",
+                    "createdUtcTicks": 639049047311431286,
+                    "updatedUtcTicks": 639049047710308179
+                },
+                {
+                    "id": "a50b5d938cd34e22897998554440fa6c",
+                    "name": "During First Time Gameplay, A tutorial should be shown during run for controls",
+                    "description": "",
+                    "createdUtcTicks": 639049048177042922,
+                    "updatedUtcTicks": 639049048762736658
+                },
+                {
+                    "id": "ccaa818eccec409fb2ba7df059f32ee9",
+                    "name": "On First time Gameplay, A tutorial must be shown during in homepage to get the player familiar",
+                    "description": "",
+                    "createdUtcTicks": 639049048703457362,
+                    "updatedUtcTicks": 639049049089783137
+                }
+            ],
+            "tasks": [
+                {
+                    "id": "f31df281dd644bf6963247fe296162fa",
+                    "featureId": "1a6a9661e4f64548849469192cde8846",
+                    "title": "Ensure On First time install, the game should always just start and never go to the homepage until level 1 is done",
+                    "description": "",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639049048146405121,
+                    "updatedUtcTicks": 639049048146405121,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "7425da2ef52d40a2b7b41c232eecb3bc",
+                    "featureId": "a50b5d938cd34e22897998554440fa6c",
+                    "title": "Implement tutorials for controls",
+                    "description": "",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639049048581301859,
+                    "updatedUtcTicks": 639049048581301859,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "209d5d5f1ae04d0f94ba24ad409babdf",
+                    "featureId": "ccaa818eccec409fb2ba7df059f32ee9",
+                    "title": "Implement tutorial for GUI to make player understand how to progress",
+                    "description": "",
+                    "dueDateIso": "2026-01-24",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639049049426595972,
+                    "updatedUtcTicks": 639049049426595972,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                }
+            ]
         }
     ],
     "today": {
-        "dateIso": "2026-01-24",
+        "dateIso": "2026-01-25",
         "items": [
             {
                 "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
