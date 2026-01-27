@@ -90,6 +90,11 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private Vector2 cashPopupScatterXZ = new Vector2(0.3f, 0.3f);
         [SerializeField] private Vector2 cashPopupScatterY = new Vector2(0.0f, 0.4f);
 
+        [Header("Level End Stars (Images disabled by default)")]
+        [SerializeField] private UnityEngine.UI.Image _star1;
+        [SerializeField] private UnityEngine.UI.Image _star2;
+        [SerializeField] private UnityEngine.UI.Image _star3;
+
         // Phase 2 Timeout Guards
         private bool _phase2DownslamButtonPressed;   // latch: once true, never kill on timeout
         private bool _phase2BossResolved;            // latch: once resolved, ignore further timeout/result triggers
@@ -162,6 +167,17 @@ namespace MoreMountains.InfiniteRunnerEngine
             // Optional: log if still missing (helps debugging prefab issues)
             if (phase2PowerSlamFrameEvents == null)
                 Debug.LogWarning("Phase2PowerSlamFrameEvents not found under PlayerCharacter.");
+        }
+
+        private int GetGemRewardForStars(int stars)
+        {
+            return stars switch
+            {
+                1 => 1,
+                2 => 3,
+                3 => 5,
+                _ => 0
+            };
         }
 
         /// <summary>
@@ -845,6 +861,24 @@ namespace MoreMountains.InfiniteRunnerEngine
             // Lock gameplay input so player can't keep tapping
             LevelManager.Instance?.LockGameplayInputs();
 
+            // 1) Compute stars
+            int stars = 0;
+            if (success && Elroi.Missions.MissionSystem.MissionSystemAccessor != null)
+            {
+                stars = Elroi.Missions.MissionSystem.MissionSystemAccessor.GetStarsEarned(success);
+            }
+            else if (success)
+            {
+                // if MissionSystem missing, still give the completion star
+                stars = 1;
+            }
+
+            // 2) Enable star images
+            SetStars(stars);
+
+            // 3) Award gems based on stars (replaces your current defaulted gems)
+            int gemsToAward = GetGemRewardForStars(stars);
+
             // Hide revive popup if it's still up
             if (GameOverScreen != null) GameOverScreen.SetActive(false);
 
@@ -856,9 +890,11 @@ namespace MoreMountains.InfiniteRunnerEngine
             if (LevelEndTitleText != null)
             {
                 LevelEndTitleText.text = success ? "LEVEL COMPLETED" : "LEVEL FAILED";
-                if (success)
+
+                if (success && gemsToAward > 0)
                 {
-                    SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddGems();
+                    // add to session gems; SaveAfterLevelEnd will bank it
+                    SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.AddGems(gemsToAward);
                 }
                 if (LevelEndCashEarnedText != null)
                 {
@@ -874,6 +910,12 @@ namespace MoreMountains.InfiniteRunnerEngine
                 // TEMP: saving immediately for now (replace with callback after ad returns)
                 SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.SaveAfterLevelEnd(success);
             }
+        }
+        private void SetStars(int stars)
+        {
+            if (_star1 != null) _star1.gameObject.SetActive(stars >= 1);
+            if (_star2 != null) _star2.gameObject.SetActive(stars >= 2);
+            if (_star3 != null) _star3.gameObject.SetActive(stars >= 3);
         }
 
         public void ResetLevelEndUIState()

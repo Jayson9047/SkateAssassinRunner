@@ -78,6 +78,22 @@ namespace Elroi.Missions
             }
         }
 
+        public int GetStarsEarned(bool levelSuccess)
+        {
+            if (!levelSuccess) return 0; // if you ever show end screen on fail, no stars
+
+            int stars = 1; // level completed = 1 star
+
+            // Mission stars: +1 per completed mission (up to 2)
+            for (int i = 0; i < _activeMissions.Count && i < 2; i++)
+            {
+                if (_activeMissions[i] != null && _activeMissions[i].IsComplete)
+                    stars++;
+            }
+
+            return Mathf.Clamp(stars, 0, 3);
+        }
+
         internal void NotifyMissionProgressChanged(IMission mission)
         {
             int slot = _activeMissions.IndexOf(mission);

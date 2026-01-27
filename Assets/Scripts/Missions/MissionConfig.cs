@@ -51,16 +51,46 @@ namespace Elroi.Missions
 
         public int GetTargetForLevel(int level)
         {
+            MissionLevelBand bestMatch = null;
+            MissionLevelBand latestBand = null;
+
             for (int i = 0; i < levelBands.Count; i++)
             {
-                if (levelBands[i] != null && levelBands[i].Matches(level))
-                    return levelBands[i].RollX();
+                var band = levelBands[i];
+                if (band == null) continue;
+
+                // Track the "latest" band by highest minLevel
+                // (if tie, prefer the one with higher maxLevel, treating -1 as infinity)
+                if (latestBand == null ||
+                    band.minLevel > latestBand.minLevel ||
+                    (band.minLevel == latestBand.minLevel && NormalizeMax(band.maxLevel) > NormalizeMax(latestBand.maxLevel)))
+                {
+                    latestBand = band;
+                }
+
+                // First-match wins for actual in-range matches (top to bottom)
+                if (bestMatch == null && band.Matches(level))
+                {
+                    bestMatch = band;
+                }
             }
 
-            // Fallback if not configured (won't crash your run)
-            Debug.LogWarning($"[Missions] No level band matched for {type} at level {level}. Defaulting to 5.");
+            if (bestMatch != null)
+                return bestMatch.RollX();
+
+            // Fallback: if level is beyond configured ranges, keep using the latest band
+            if (latestBand != null)
+                return latestBand.RollX();
+
+            Debug.LogWarning($"[Missions] No level bands configured for {type}. Defaulting to 5.");
             return 5;
         }
+
+        private int NormalizeMax(int maxLevel)
+        {
+            return maxLevel == -1 ? int.MaxValue : maxLevel;
+        }
+
 
         public string BuildDescription(int x) => string.Format(descriptionFormat, x);
     }

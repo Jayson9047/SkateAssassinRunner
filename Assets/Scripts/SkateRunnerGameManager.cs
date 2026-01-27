@@ -98,7 +98,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             return Mathf.Max(0f, Gems - _gemsAtLevelStart);
         }
 
-        private void AddGems(float amount)
+        public void AddGems(float amount)
         {
             Gems += amount;
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshGems();
