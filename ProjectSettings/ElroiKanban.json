@@ -1,7 +1,7 @@
 {
     "schemaVersion": 5,
-    "selectedMilestoneId": "36b29d37771f4250be30ecb8c9bc054f",
-    "selectedFeatureId": "ccaa818eccec409fb2ba7df059f32ee9",
+    "selectedMilestoneId": "63fc04ba2a0d4fbfb0223576f3c72b83",
+    "selectedFeatureId": "f5ee0b766eb7460a8bf1642c33f3d408",
     "columnNames": [
         "Backlog",
         "In Progress",
@@ -100,9 +100,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639047489945957167,
-                    "updatedUtcTicks": 639047489945957167,
+                    "updatedUtcTicks": 639050692235464492,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -115,9 +115,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639047490627411773,
-                    "updatedUtcTicks": 639047490627411773,
+                    "updatedUtcTicks": 639050692322075188,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -130,9 +130,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639047490996707186,
-                    "updatedUtcTicks": 639047490996707186,
+                    "updatedUtcTicks": 639050692432786311,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -145,9 +145,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639047491134705402,
-                    "updatedUtcTicks": 639047491134705402,
+                    "updatedUtcTicks": 639050692493256680,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -160,9 +160,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639047491440632184,
-                    "updatedUtcTicks": 639047491440632184,
+                    "updatedUtcTicks": 639050692578215809,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -175,9 +175,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639047492392332191,
-                    "updatedUtcTicks": 639047492392332191,
+                    "updatedUtcTicks": 639050692635578857,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -192,7 +192,7 @@
                     "type": 0,
                     "status": 0,
                     "createdUtcTicks": 639047493214272218,
-                    "updatedUtcTicks": 639047493214272218,
+                    "updatedUtcTicks": 639050693128045683,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -205,9 +205,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639047493761168465,
-                    "updatedUtcTicks": 639048861720196003,
+                    "updatedUtcTicks": 639050692785263335,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -222,7 +222,7 @@
                     "type": 0,
                     "status": 0,
                     "createdUtcTicks": 639047494578464507,
-                    "updatedUtcTicks": 639047494578464507,
+                    "updatedUtcTicks": 639050693233423288,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -246,7 +246,7 @@
                 {
                     "id": "a3cf54067f6b4987ac42f4541d5e3753",
                     "featureId": "3780db368e284265ad07e72fb920d921",
-                    "title": "On each goal completed && level passed, award bounties to the player",
+                    "title": "On each goal completed && level passed, award gems to the player",
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
@@ -295,9 +295,24 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639048244501368305,
-                    "updatedUtcTicks": 639048244501368305,
+                    "updatedUtcTicks": 639050692839338044,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "86b8d4d27cfc4ba9afc1e098d7df6a88",
+                    "featureId": "3780db368e284265ad07e72fb920d921",
+                    "title": "Add this missions",
+                    "description": "1. Kill X enemies this run \n2. Earn X cash this run (killing enemies also gives cash. So, this number needs to be high) \n3. Survive X seconds this run \n4. Use Down-Attack X times this run \n5. Use Dash-Attack X times this run \n6. Use Powerslam X times this run (for powerslam, there is a bar that fills up after killing 5 enemies) \n7. Reach X combo hits in Phase 2 \n8. Earn X cash in phase 2 \n9. Finish Phase 2 without failing once \n10. Instead of asking them to revive, we're going to offer watching an ad to buy a powerslam-ready state. \nUsually they have to kill 5 enemies to get to a state where they can do a powerslam. But you can watch an ad to just start with that state.\n",
+                    "dueDateIso": "2026-01-26",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639050689453566402,
+                    "updatedUtcTicks": 639050689453566402,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -1238,61 +1253,13 @@
         }
     ],
     "today": {
-        "dateIso": "2026-01-25",
+        "dateIso": "2026-01-26",
         "items": [
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "d67d66e02d7f4bb7b52831da773e6a33",
-                "done": false,
-                "addedUtcTicks": 639048244663138714
-            },
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "9a405daa9bfd4ff183bd907d9c00a759",
-                "done": false,
-                "addedUtcTicks": 639048859567017725
-            },
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "eceb1dad112d4a6eb8d613c27f4d445b",
-                "done": false,
-                "addedUtcTicks": 639048859567017725
-            },
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "f185164537c64bbb83f267608a7300fe",
-                "done": false,
-                "addedUtcTicks": 639048859567017725
-            },
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "0ecca1a320ac43658e45bc6f8ade05a9",
-                "done": false,
-                "addedUtcTicks": 639048859567017725
-            },
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "99bbc0293744428793c9141f44dd1662",
-                "done": false,
-                "addedUtcTicks": 639048861297455626
-            },
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "7b314b6c0a024fe18882abe2976fd26b",
-                "done": false,
-                "addedUtcTicks": 639048861297455626
-            },
             {
                 "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
                 "taskId": "bdf3054ed7f0475592e95bfc5c570189",
                 "done": false,
                 "addedUtcTicks": 639048861297455626
-            },
-            {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "a4a373d3a8424f63b78f34e05515a756",
-                "done": false,
-                "addedUtcTicks": 639048861732269089
             }
         ]
     }

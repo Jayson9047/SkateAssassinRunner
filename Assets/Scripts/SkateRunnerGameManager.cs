@@ -23,9 +23,22 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public static SkateRunnerGameManager SkateRunnerGameManagerAccessor { get; private set; }
 
+        [Header("Profile Totals (Saved)")]
+        public float TotalCash { get; private set; }
+        public float TotalGems { get; private set; }
+        public int LevelNum { get; private set; } = 1;
+
+        private const string ES3_TOTAL_CASH = "TotalCash";
+        private const string ES3_TOTAL_GEMS = "TotalGems";
+        private const string ES3_LEVEL_NUM = "LevelNum";
+
         protected override void Awake()
         {
             base.Awake(); // VERY important for MM
+
+            TotalCash = ES3.Load(ES3_TOTAL_CASH, 0f);
+            TotalGems = ES3.Load(ES3_TOTAL_GEMS, 0f);
+            LevelNum = ES3.Load(ES3_LEVEL_NUM, 1);
 
             SkateRunnerGameManagerAccessor = this;
             // Make CurrentLives correct before any GUI init
@@ -68,8 +81,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         public void BeginLevelSession()
         {
             _cashAtLevelStart = Cash;
-            _gemsAtLevelStart = Gems;
+            Gems = 0f;                 // this level only
+            _gemsAtLevelStart = 0f;    // optional, keeps your delta method consistent
         }
+
 
         public float GetCashEarnedThisLevel()
         {
@@ -97,6 +112,43 @@ namespace MoreMountains.InfiniteRunnerEngine
             Gems = value;
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshGems();
         }
+        public void SaveAfterLevelEnd(bool success)
+        {
+            // Accumulate totals
+            TotalCash += Cash;
+            TotalGems += Gems;
+
+            if (success)
+            {
+                LevelNum += 1;
+            }
+
+            // Save using EasySave3
+            ES3.Save(ES3_TOTAL_CASH, TotalCash);
+            ES3.Save(ES3_TOTAL_GEMS, TotalGems);
+            ES3.Save(ES3_LEVEL_NUM, LevelNum);
+
+            Debug.Log(
+                $"[SAVE] Level={LevelNum}, +" +
+                $"Cash={Cash}, +Gems={Gems} | " +
+                $"Totals -> Cash={TotalCash}, Gems={TotalGems}"
+            );
+        }
+
+        [ContextMenu("DEV Reset Save")]
+        public void DevResetSave()
+        {
+            ES3.DeleteKey("TotalCash");
+            ES3.DeleteKey("TotalGems");
+            ES3.DeleteKey("LevelNum");
+
+            TotalCash = 0;
+            TotalGems = 0;
+            LevelNum = 1;
+
+            Debug.Log("[DEV] Save reset");
+        }
+
 
     }
 }

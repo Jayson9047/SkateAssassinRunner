@@ -178,8 +178,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         public void RefreshGems()
         {
             if (LevelEndGemsEarnedText == null) { return; }
-            LevelEndGemsEarnedText.text = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Gems.ToString("0");
+            LevelEndGemsEarnedText.text =
+                SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetGemsEarnedThisLevel().ToString("0");
         }
+
 
         /// <summary>
         /// Slam meter API — call this when enemies die.
@@ -834,27 +836,6 @@ namespace MoreMountains.InfiniteRunnerEngine
             AddSlamCharge(1);
         }
 
-        private void HandleDestructibleDestroyed(SkateRunnerDestructibleObject obj)
-        {
-            if (obj == null) return;
-
-            // Existing behavior (keep as-is)
-            AddSlamCharge(1);
-
-            // CASH REWARD (generic)
-            var cashReward = obj.GetComponent<CashRewardOnDestroyed>();
-            if (cashReward == null || !cashReward.EnabledReward) return;
-
-            int amount = cashReward.GetRandomCash();
-            if (amount <= 0) return;
-
-            var gm = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
-            if (gm == null) return;
-
-            gm.AddCash(amount);
-            RefreshCash();
-        }
-
         public void ShowLevelEndScreen(bool success)
         {
             if (_levelEndShown) return;
@@ -867,6 +848,9 @@ namespace MoreMountains.InfiniteRunnerEngine
             if (GameOverScreen != null) GameOverScreen.SetActive(false);
 
             if (LevelEndScreen != null) LevelEndScreen.SetActive(true);
+
+            // TODO (AD HOOK): Show "Commercial Break..." + interstitial here.
+            // Save/level progression should only be committed AFTER the ad returns.
 
             if (LevelEndTitleText != null)
             {
@@ -886,6 +870,8 @@ namespace MoreMountains.InfiniteRunnerEngine
                     LevelEndGemsEarnedText.text =
                         SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetGemsEarnedThisLevel().ToString("0");
                 }
+                // TEMP: saving immediately for now (replace with callback after ad returns)
+                SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.SaveAfterLevelEnd(success);
             }
         }
 

@@ -356,15 +356,6 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         });
     }
 
-    private IEnumerator ShowLevelEndWhenGroundedCo()
-    {
-        var jumper = FindFirstObjectByType<Jumper>();
-        while (jumper != null && !jumper.IsGrounded)
-            yield return null;
-
-        SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);
-    }
-
     
     private IEnumerator ShowLevelEndAfterDelayCo()
     {
