@@ -66,6 +66,18 @@ namespace MoreMountains.InfiniteRunnerEngine
         public bool IsPhase2BossActive => _phase2BossQTEActive;
         public CarImpulseTest Phase2CarImpulse => _phase2CarImpulse;
 
+        public float Phase1Duration => Phase1DurationSeconds;
+
+        // If you already have a timer float, return it here instead of Time.time math.
+        // Replace `_phase1ElapsedSeconds` with your real variable name.
+        public float Phase1ElapsedSeconds
+        {
+            get
+            {
+                return _phaseElapsedSeconds;
+            }
+        }
+
         // runtime state
         private float _phaseElapsedSeconds;
         private bool _phase2Started;
