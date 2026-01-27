@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Elroi.Missions;
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -92,6 +93,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             _savedPoints = GameManager.Instance.Points;
             _savedCash = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Cash;
             SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.BeginLevelSession();
+            MissionSystem.MissionSystemAccessor?.BeginLevel(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.LevelNum);
             _started = DateTime.UtcNow;
             GameManager.Instance.SetStatus(GameManager.GameStatus.BeforeGameStart);
             GameManager.Instance.SetPointsPerSecond(PointsPerSecond);

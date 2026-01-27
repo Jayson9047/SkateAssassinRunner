@@ -1,4 +1,5 @@
 using DamageNumbersPro;
+using Elroi.Missions;
 using IndieKit;
 using MoreMountains.Tools;
 using System.Collections;
@@ -840,7 +841,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             if (_levelEndShown) return;
             _levelEndShown = true;
-
+            MissionSystem.MissionSystemAccessor?.OnLevelEnd(success);
             // Lock gameplay input so player can't keep tapping
             LevelManager.Instance?.LockGameplayInputs();
 

@@ -22,6 +22,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         private float _gemsAtLevelStart;
 
         public static SkateRunnerGameManager SkateRunnerGameManagerAccessor { get; private set; }
+        public static event System.Action<float> OnCashAdded;
 
         [Header("Profile Totals (Saved)")]
         public float TotalCash { get; private set; }
@@ -52,6 +53,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         public virtual void AddCash(float cashToAdd)
         {
             Cash += cashToAdd;
+            OnCashAdded?.Invoke(cashToAdd);
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();
             
         }

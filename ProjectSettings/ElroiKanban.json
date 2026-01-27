@@ -1,7 +1,7 @@
 {
     "schemaVersion": 5,
-    "selectedMilestoneId": "63fc04ba2a0d4fbfb0223576f3c72b83",
-    "selectedFeatureId": "f5ee0b766eb7460a8bf1642c33f3d408",
+    "selectedMilestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+    "selectedFeatureId": "3780db368e284265ad07e72fb920d921",
     "columnNames": [
         "Backlog",
         "In Progress",
@@ -310,7 +310,7 @@
                     "description": "1. Kill X enemies this run \n2. Earn X cash this run (killing enemies also gives cash. So, this number needs to be high) \n3. Survive X seconds this run \n4. Use Down-Attack X times this run \n5. Use Dash-Attack X times this run \n6. Use Powerslam X times this run (for powerslam, there is a bar that fills up after killing 5 enemies) \n7. Reach X combo hits in Phase 2 \n8. Earn X cash in phase 2 \n9. Finish Phase 2 without failing once \n10. Instead of asking them to revive, we're going to offer watching an ad to buy a powerslam-ready state. \nUsually they have to kill 5 enemies to get to a state where they can do a powerslam. But you can watch an ad to just start with that state.\n",
                     "dueDateIso": "2026-01-26",
                     "type": 0,
-                    "status": 0,
+                    "status": 1,
                     "createdUtcTicks": 639050689453566402,
                     "updatedUtcTicks": 639050689453566402,
                     "attachmentGuids": [],
@@ -1253,13 +1253,19 @@
         }
     ],
     "today": {
-        "dateIso": "2026-01-26",
+        "dateIso": "2026-01-27",
         "items": [
             {
                 "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
                 "taskId": "bdf3054ed7f0475592e95bfc5c570189",
                 "done": false,
                 "addedUtcTicks": 639048861297455626
+            },
+            {
+                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+                "taskId": "86b8d4d27cfc4ba9afc1e098d7df6a88",
+                "done": false,
+                "addedUtcTicks": 639050869470825858
             }
         ]
     }
