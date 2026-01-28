@@ -15,6 +15,10 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     [SerializeField] private int minCashPerTap = 1;
     [SerializeField] private int maxCashPerTap = 7;
 
+    // Missions hooks (Phase 2 / Ruthless Tap Mode)
+    public static System.Action<int> OnPhase2ComboUpdated; // sends current combo count
+    public static System.Action<int> OnPhase2CashEarned;   // sends cash earned (delta)
+
     private Coroutine _fadeCo;
     private bool _lastRuthlessState;
 
@@ -151,12 +155,13 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
             {
                 lm.RuthlessTapCount++;
                 ShowCombo(lm.RuthlessTapCount);
-
+                OnPhase2ComboUpdated?.Invoke(lm.RuthlessTapCount);
                 if (awardCashOnRuthlessTap)
                 {
                     if (maxCashPerTap < minCashPerTap) maxCashPerTap = minCashPerTap;
 
                     int cash = Random.Range(minCashPerTap, maxCashPerTap + 1); // 1–7 inclusive
+                    OnPhase2CashEarned?.Invoke(cash);
                     SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.AddCash(cash);
                     SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();
 

@@ -616,8 +616,16 @@ public class SwipeRightAttackDetector : MonoBehaviour
             if (zDelta > depthWindow)
                 continue;
 
-            // Apply damage at the closest point
-            damageable.ApplyDamage(attackDamage, closest);
+            KillContext.Set(KillCause.DashAttack);
+            try
+            {
+                // Apply damage at the closest point
+                damageable.ApplyDamage(attackDamage, closest);
+            }
+            finally
+            {
+                KillContext.Clear();
+            }
         }
     }
 

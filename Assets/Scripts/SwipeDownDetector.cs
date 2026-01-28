@@ -419,29 +419,37 @@ public class SwipeDownDetector : MonoBehaviour
 
         float effectiveRadius = slamReady ? poweredImpactRadius : normalImpactRadius;
 
-        Collider[] hits = Physics.OverlapSphere(center, effectiveRadius, damageableMask, QueryTriggerInteraction.Collide);
-        if (hits != null && hits.Length > 0)
+        // Tag kills caused by this impact as DownAttack
+        KillContext.Set(KillCause.DownAttack);
+
+        try
         {
-            for (int i = 0; i < hits.Length; i++)
+            Collider[] hits = Physics.OverlapSphere(center, effectiveRadius, damageableMask, QueryTriggerInteraction.Collide);
+            if (hits != null && hits.Length > 0)
             {
-                Collider col = hits[i];
-                if (col == null) continue;
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    Collider col = hits[i];
+                    if (col == null) continue;
 
-                var dmg = col.GetComponentInParent<IDamageable>();
-                if (dmg == null) continue;
+                    var dmg = col.GetComponentInParent<IDamageable>();
+                    if (dmg == null) continue;
 
-                Component key = dmg as Component;
-                if (key == null) key = col.transform;
+                    Component key = dmg as Component;
+                    if (key == null) key = col.transform;
 
-                if (damagedThisImpact.Contains(key))
-                    continue;
+                    if (damagedThisImpact.Contains(key))
+                        continue;
 
-                damagedThisImpact.Add(key);
+                    damagedThisImpact.Add(key);
 
-                dmg.ApplyDamage(slamDamage, hitPoint);
+                    dmg.ApplyDamage(slamDamage, hitPoint);
+                }
             }
-            // still consume slam if you want the slam to "spend" even if it hits nothing
-            // (I’d personally NOT consume it if it hits nothing.)
+        }
+        finally
+        {
+            KillContext.Clear();
         }
 
         // ---- NEW: Shatter EnemyType2 shields even though they're NOT on damageable layer ----

@@ -101,6 +101,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public DamageNumber CashPopupPrefab => cashPopupPrefab;
         public Vector3 CashPopupWorldOffset => cashPopupWorldOffset;
+        public static System.Action OnPowerSlamUsed;
+
         private Coroutine _reviveAnimCo;
 
         private bool _levelEndShown;
@@ -740,8 +742,11 @@ namespace MoreMountains.InfiniteRunnerEngine
                 return false;
 
             ResetSlamCharge(); // this calls SetSlamCharge(0) -> RefreshSlamShards()
+
+            OnPowerSlamUsed?.Invoke();   // mission hook: slam was actually spent
             return true;
         }
+
 
 
         /// <summary>

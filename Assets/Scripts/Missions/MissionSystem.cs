@@ -7,8 +7,13 @@ namespace Elroi.Missions
 {
     public class MissionSystem : MonoBehaviour
     {
-        public static MissionSystem MissionSystemAccessor { get; private set; }
 
+        [Header("DEBUG")]
+        [SerializeField] private bool debugForceOneMission = false;
+        [SerializeField] private MissionType debugForcedMissionType = MissionType.KillEnemies;
+        [SerializeField, Range(0, 1)] private int debugForcedSlot = 0; // 0 or 1
+
+        public static MissionSystem MissionSystemAccessor { get; private set; }
         // UI-facing events
         public event Action<int, string> OnMissionAssigned;
         public event Action<int, string> OnMissionProgressText;
@@ -23,6 +28,7 @@ namespace Elroi.Missions
 
         private readonly List<IMission> _activeMissions = new();
         public IReadOnlyList<IMission> ActiveMissions => _activeMissions;
+
 
         // CRITICAL: mission -> UI slot mapping (slot 0/1)
         private readonly Dictionary<IMission, int> _missionSlotMap = new();
@@ -58,10 +64,27 @@ namespace Elroi.Missions
             for (int i = 0; i < missionDefinitions.Count; i++)
             {
                 var def = missionDefinitions[i];
-                if (def == null) continue;
-                if (def.levelBands == null || def.levelBands.Count == 0) continue;
-                if (!IsImplemented(def.type)) continue;
 
+                if (def == null)
+                {
+                    Debug.Log($"[Missions][EligibleCheck] Index {i}: NULL def");
+                    continue;
+                }
+
+                bool needsBands = RequiresLevelBands(def.type);
+                if (needsBands && (def.levelBands == null || def.levelBands.Count == 0))
+                {
+                    Debug.Log($"[Missions][EligibleCheck] {def.type}: SKIP (no levelBands configured)");
+                    continue;
+                }
+
+                if (!IsImplemented(def.type))
+                {
+                    Debug.Log($"[Missions][EligibleCheck] {def.type}: SKIP (not implemented)");
+                    continue;
+                }
+
+                Debug.Log($"[Missions][EligibleCheck] {def.type}: OK");
                 eligible.Add(def);
             }
 
@@ -77,13 +100,58 @@ namespace Elroi.Missions
 
             int pickCount = Mathf.Min(2, eligible.Count);
 
+            // DEBUG: force just ONE mission in a chosen slot (the other slot stays random)
+            MissionDefinition forcedDef = null;
+            if (debugForceOneMission)
+            {
+                forcedDef = eligible.Find(d => d != null && d.type == debugForcedMissionType);
+                if (forcedDef == null)
+                {
+                    Debug.LogWarning($"[Missions][DEBUG] Forced mission {debugForcedMissionType} not found/eligible. Falling back to random.");
+                }
+            }
+
             for (int slot = 0; slot < pickCount; slot++)
             {
-                int idx = rng.Next(0, eligible.Count);
-                var def = eligible[idx];
-                eligible.RemoveAt(idx);
+                MissionDefinition def;
 
-                int target = def.GetTargetForLevel(levelNum);
+                // If forcing and this is the forced slot, pick it (as long as it's eligible)
+                if (debugForceOneMission && forcedDef != null && slot == debugForcedSlot)
+                {
+                    def = forcedDef;
+
+                    // Remove so it cannot be selected again in the other slot (keeps "distinct" behavior)
+                    eligible.Remove(def);
+
+                    // If we just removed the last item but still need another slot, we can't continue
+                    if (slot + 1 < pickCount && eligible.Count == 0)
+                    {
+                        Debug.LogWarning("[Missions][DEBUG] Only one eligible mission available after forcing; reducing pickCount to 1.");
+                        pickCount = 1;
+                    }
+                }
+                else
+                {
+                    if (eligible.Count == 0)
+                    {
+                        Debug.LogWarning("[Missions] Eligible list exhausted unexpectedly.");
+                        break;
+                    }
+
+                    int idx = rng.Next(0, eligible.Count);
+                    def = eligible[idx];
+                    eligible.RemoveAt(idx);
+                }
+
+                int target;
+                if (!RequiresLevelBands(def.type))
+                {
+                    target = 1; // binary completion
+                }
+                else
+                {
+                    target = def.GetTargetForLevel(levelNum);
+                }
 
                 // SurviveSeconds must not exceed phase 1 duration
                 if (def.type == MissionType.SurviveSeconds && _levelManager != null)
@@ -93,7 +161,11 @@ namespace Elroi.Missions
                 }
 
                 IMission mission = CreateMissionInstance(def.type, target);
-                if (mission == null) continue;
+                if (mission == null)
+                {
+                    Debug.LogWarning($"[Missions] CreateMissionInstance returned null for {def.type}. Skipping slot {slot}.");
+                    continue;
+                }
 
                 _activeMissions.Add(mission);
                 _missionSlotMap[mission] = slot;
@@ -104,6 +176,18 @@ namespace Elroi.Missions
                 OnMissionAssigned?.Invoke(slot, BuildDisplayText(def, mission));
 
                 Debug.Log($"[Missions] Level {levelNum} slot {slot}: {def.type} | Target={target}");
+            }
+        }
+        private bool RequiresLevelBands(MissionType type)
+        {
+            switch (type)
+            {
+                // Binary / fixed-target missions: level bands don't apply
+                case MissionType.FinishPhase2NoFail:
+                    return false;
+
+                default:
+                    return true;
             }
         }
 
@@ -174,7 +258,13 @@ namespace Elroi.Missions
         {
             return type == MissionType.KillEnemies
                 || type == MissionType.EarnCash
-                || type == MissionType.SurviveSeconds;
+                || type == MissionType.SurviveSeconds
+                || type == MissionType.KillEnemiesWithDownAttack
+                || type == MissionType.KillEnemiesWithDashAttack
+                || type == MissionType.UsePowerSlam
+                || type == MissionType.ReachPhase2Combo
+                || type == MissionType.EarnPhase2Cash
+                || type == MissionType.FinishPhase2NoFail;
         }
 
         private IMission CreateMissionInstance(MissionType type, int target)
@@ -189,6 +279,24 @@ namespace Elroi.Missions
 
                 case MissionType.SurviveSeconds:
                     return new SurviveSecondsMission(target, _levelManager);
+
+                case MissionType.KillEnemiesWithDownAttack:
+                    return new KillEnemiesWithDownAttackMission(target);
+
+                case MissionType.KillEnemiesWithDashAttack:
+                    return new KillEnemiesWithDashAttackMission(target);
+
+                case MissionType.UsePowerSlam:
+                    return new UsePowerSlamMission(target);
+
+                case MissionType.ReachPhase2Combo:
+                    return new ReachPhase2ComboMission(target);
+
+                case MissionType.EarnPhase2Cash:
+                    return new EarnPhase2CashMission(target);
+
+                case MissionType.FinishPhase2NoFail:
+                    return new FinishPhase2NoFailMission(target);
 
                 default:
                     Debug.LogError($"[Missions] No mission class implemented for type: {type}");

@@ -359,6 +359,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     
     private IEnumerator ShowLevelEndAfterDelayCo()
     {
+        SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.NotifyLevelWon();
         //delay to allow for pose to finish
         yield return new WaitForSecondsRealtime(6f);
         SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);

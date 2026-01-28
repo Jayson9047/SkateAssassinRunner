@@ -4,8 +4,13 @@ namespace Elroi.Missions
     {
         KillEnemies,
         EarnCash,
-        SurviveSeconds
-        // later: DownAttack, DashAttack, PowerSlam, Phase2Combo, etc.
+        SurviveSeconds,
+        KillEnemiesWithDownAttack,
+        KillEnemiesWithDashAttack,
+        UsePowerSlam,
+        ReachPhase2Combo,
+        EarnPhase2Cash,
+        FinishPhase2NoFail
     }
 
     public enum MissionCategory

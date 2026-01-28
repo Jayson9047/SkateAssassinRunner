@@ -307,7 +307,7 @@
                     "id": "86b8d4d27cfc4ba9afc1e098d7df6a88",
                     "featureId": "3780db368e284265ad07e72fb920d921",
                     "title": "Add this missions",
-                    "description": "1. Kill X enemies this run \n2. Earn X cash this run (killing enemies also gives cash. So, this number needs to be high) \n3. Survive X seconds this run \n4. Use Down-Attack X times this run \n5. Use Dash-Attack X times this run \n6. Use Powerslam X times this run (for powerslam, there is a bar that fills up after killing 5 enemies) \n7. Reach X combo hits in Phase 2 \n8. Earn X cash in phase 2 \n9. Finish Phase 2 without failing once \n10. Instead of asking them to revive, we're going to offer watching an ad to buy a powerslam-ready state. \nUsually they have to kill 5 enemies to get to a state where they can do a powerslam. But you can watch an ad to just start with that state.\n",
+                    "description": "1. Kill X enemies this run \n2. Earn X cash this run (killing enemies also gives cash. So, this number needs to be high) \n3. Survive X seconds this run \n4. Use Down-Attack X times this run \n5. Use Dash-Attack X times this run \n6. Use Powerslam X times this run (for powerslam, there is a bar that fills up after killing 5 enemies) \n7. Reach X combo hits in Phase 2 \n8. Earn X cash in Phase 2\n9. Finish Phase 2 without failing once \n10. Instead of asking them to revive, we're going to offer watching an ad to buy a powerslam-ready state. \nUsually they have to kill 5 enemies to get to a state where they can do a powerslam. But you can watch an ad to just start with that state.\n",
                     "dueDateIso": "2026-01-26",
                     "type": 0,
                     "status": 1,
@@ -1253,7 +1253,7 @@
         }
     ],
     "today": {
-        "dateIso": "2026-01-27",
+        "dateIso": "2026-01-28",
         "items": [
             {
                 "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",

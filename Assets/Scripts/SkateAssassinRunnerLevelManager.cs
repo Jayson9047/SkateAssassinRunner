@@ -65,7 +65,9 @@ namespace MoreMountains.InfiniteRunnerEngine
         private Coroutine _phase2CarSpawnerRoutine;
         public bool IsPhase2BossActive => _phase2BossQTEActive;
         public CarImpulseTest Phase2CarImpulse => _phase2CarImpulse;
-
+        public static System.Action OnPhase2Started;
+        public static System.Action OnPhase2LifeLost;
+        public static System.Action OnLevelWon;
         public float Phase1Duration => Phase1DurationSeconds;
 
         // If you already have a timer float, return it here instead of Time.time math.
@@ -317,6 +319,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         
         public override void LifeLostAction()
         {
+            if (_phase2BossQTEActive)
+            {
+                OnPhase2LifeLost?.Invoke();
+            }
             // Restore whatever speed/accel we had before the cinematic stop
             if (LevelManager.Instance != null)
             {
@@ -327,6 +333,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             // We are still in Phase 2, just retrying the QTE
             if (_phase2BossQTEActive)
             {
+                OnPhase2LifeLost?.Invoke();
                 RestartPhase2BossQTE();
             }
         }
@@ -365,6 +372,7 @@ namespace MoreMountains.InfiniteRunnerEngine
                 return;
 
             _phase2BossQTEActive = true;
+            OnPhase2Started?.Invoke();
 
             // 1) Stop all gameplay controls (swipes/tap zone, etc.)
             // Your detectors already early-return when GameplayInputsLocked is true.
@@ -471,6 +479,11 @@ namespace MoreMountains.InfiniteRunnerEngine
             {
                 MMSceneLoadingManager.LoadScene(levelName);
             }
+        }
+
+        public void NotifyLevelWon()
+        {
+            OnLevelWon?.Invoke();
         }
 
         /// <summary>

@@ -19,6 +19,10 @@ namespace IndieKit
         [SerializeField] private float destroySlowMoDurationRealtime = 2f;
         [SerializeField] private bool destroySlowMoAffectsPhysics = true;
 
+        public static event Action<SkateRunnerDestructibleObject, KillCause> OnEnemyKilledWithCause; // enemy kill + cause
+
+        public KillCause LastKillCause { get; private set; } = KillCause.Unknown;
+
         private float _initialHealth;
         private bool _isDead;
 
@@ -68,8 +72,13 @@ namespace IndieKit
             // Only enemies count for enemy-kill systems (slam meter, missions, etc.)
             if (countsAsEnemyKill)
             {
+                // Capture cause-of-kill at the moment the enemy dies
+                LastKillCause = KillContext.Current;
+
                 OnEnemyKilled?.Invoke(this);
+                OnEnemyKilledWithCause?.Invoke(this, LastKillCause);
             }
+
 
             gameObject.SetActive(false);
         }
