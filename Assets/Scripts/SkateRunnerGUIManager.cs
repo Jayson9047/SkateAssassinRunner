@@ -889,7 +889,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             if (LevelEndScreen != null) LevelEndScreen.SetActive(true);
 
-            // TODO (AD HOOK): Show "Commercial Break..." + interstitial here.
+            // TODO: Show "Commercial Break..." + interstitial here (AD Hook)
             // Save/level progression should only be committed AFTER the ad returns.
 
             if (LevelEndTitleText != null)

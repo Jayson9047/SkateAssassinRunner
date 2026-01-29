@@ -9,20 +9,10 @@ public class SettingsPopup : MMPopup
     public override void Open()
     {
         base.Open();
-
-        if (startBtn != null)
-        {
-            startBtn.SetActive(false);
-        }
     }
 
     public override void Close()
     {
         base.Close();
-
-        if (startBtn != null)
-        {
-            startBtn.SetActive(true);
-        }
     }
 }
