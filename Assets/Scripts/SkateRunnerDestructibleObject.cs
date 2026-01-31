@@ -3,15 +3,25 @@ using UnityEngine;
 
 namespace IndieKit
 {
-    public class SkateRunnerDestructibleObjects : MonoBehaviour, IDamageable
+    public class SkateRunnerDestructibleObject : MonoBehaviour, IDamageable
     {
-        public static event Action<SkateRunnerDestructibleObjects> OnDestroyed; // global signal
+        public static event Action<SkateRunnerDestructibleObject> OnDestroyed;     // fires for ALL destroyed
+        public static event Action<SkateRunnerDestructibleObject> OnEnemyKilled;   // fires only for enemies
 
         [SerializeField] private float health = 1f;
         [SerializeField] private GameObject DebrisPrefab;
 
         [Header("Gameplay")]
         [SerializeField] private bool countsAsEnemyKill = true;
+
+        [Header("Optional SlowMo On Destroy")]
+        [SerializeField] private float destroySlowMoScale = 0.12f;
+        [SerializeField] private float destroySlowMoDurationRealtime = 2f;
+        [SerializeField] private bool destroySlowMoAffectsPhysics = true;
+
+        public static event Action<SkateRunnerDestructibleObject, KillCause> OnEnemyKilledWithCause; // enemy kill + cause
+
+        public KillCause LastKillCause { get; private set; } = KillCause.Unknown;
 
         private float _initialHealth;
         private bool _isDead;
@@ -27,10 +37,14 @@ namespace IndieKit
             _isDead = false;
         }
 
-        public void ApplyDamage(float damage, Vector3 hitPoint)
+        public void ApplyDamage(float damage, Vector3 hitPoint, bool triggerSlowMo = false)
         {
             if (_isDead) return;
-
+            if (triggerSlowMo)
+            {
+                // Use your global defaults (or add fields on this component)
+                SkateRunnerGameFeel.TriggerSlowMoStatic(destroySlowMoScale, destroySlowMoDurationRealtime, destroySlowMoAffectsPhysics);
+            }
             health -= damage;
             if (health > 0f) return;
 
@@ -52,12 +66,26 @@ namespace IndieKit
                 }
             }
 
+            // Always broadcast destroyed (barrels included)
+            OnDestroyed?.Invoke(this);
+
+            // Only enemies count for enemy-kill systems (slam meter, missions, etc.)
             if (countsAsEnemyKill)
             {
-                OnDestroyed?.Invoke(this);
+                // Capture cause-of-kill at the moment the enemy dies
+                LastKillCause = KillContext.Current;
+
+                OnEnemyKilled?.Invoke(this);
+                OnEnemyKilledWithCause?.Invoke(this, LastKillCause);
             }
+
 
             gameObject.SetActive(false);
         }
+        public void ResetDestructible()
+        {
+            _isDead = false;
+        }
     }
+
 }

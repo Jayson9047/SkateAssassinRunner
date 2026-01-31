@@ -11,13 +11,35 @@ namespace MoreMountains.InfiniteRunnerEngine
     public class SkateRunnerGameManager : GameManager
     {
         /// the current number of game bounties
-        public float Bounties { get; protected set; }
+        public float Cash { get; protected set; }
+
+        [Header("Gems")]
+        public float DefaultGemsPerLevelComplete = 2f;
+        public float Gems { get; protected set; }
+
+        // snapshots for "earned this level" on LevelEndScreen
+        private float _cashAtLevelStart;
+        private float _gemsAtLevelStart;
 
         public static SkateRunnerGameManager SkateRunnerGameManagerAccessor { get; private set; }
+        public static event System.Action<float> OnCashAdded;
+
+        [Header("Profile Totals (Saved)")]
+        public float TotalCash { get; private set; }
+        public float TotalGems { get; private set; }
+        public int LevelNum { get; private set; } = 1;
+
+        private const string ES3_TOTAL_CASH = "TotalCash";
+        private const string ES3_TOTAL_GEMS = "TotalGems";
+        private const string ES3_LEVEL_NUM = "LevelNum";
 
         protected override void Awake()
         {
             base.Awake(); // VERY important for MM
+
+            TotalCash = ES3.Load(ES3_TOTAL_CASH, 0f);
+            TotalGems = ES3.Load(ES3_TOTAL_GEMS, 0f);
+            LevelNum = ES3.Load(ES3_LEVEL_NUM, 1);
 
             SkateRunnerGameManagerAccessor = this;
             // Make CurrentLives correct before any GUI init
@@ -28,10 +50,11 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// Adds the bounties in parameters to the current game bounties.
         /// </summary>
         /// <param name="bountiesToAdd">bounties to add.</param>
-        public virtual void AddBounties(float bountiesToAdd)
+        public virtual void AddCash(float cashToAdd)
         {
-            Bounties += bountiesToAdd;
-            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshBounties();
+            Cash += cashToAdd;
+            OnCashAdded?.Invoke(cashToAdd);
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();
             
         }
 
@@ -40,7 +63,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// </summary>
         public override void Reset()
         {
-            Bounties = 0;
+            Cash = 0;
+            Gems = 0;
             base.Reset();
         }
 
@@ -48,11 +72,85 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// use this to set the current bounties to the one you pass as a parameter
         /// </summary>
         /// <param name="bounties">bounties.</param>
-        public virtual void SetBounties(float bounties)
+        public virtual void SetCash(float bounties)
         {
-            Bounties = bounties;
-            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshBounties();
+            Cash = bounties;
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();
             
         }
+
+
+        public void BeginLevelSession()
+        {
+            _cashAtLevelStart = Cash;
+            Gems = 0f;                 // this level only
+            _gemsAtLevelStart = 0f;    // optional, keeps your delta method consistent
+        }
+
+
+        public float GetCashEarnedThisLevel()
+        {
+            return Mathf.Max(0f, Cash - _cashAtLevelStart);
+        }
+
+        public float GetGemsEarnedThisLevel()
+        {
+            return Mathf.Max(0f, Gems - _gemsAtLevelStart);
+        }
+
+        public void AddGems(float amount)
+        {
+            Gems += amount;
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshGems();
+        }
+
+        public void AddGems()
+        {
+            AddGems(DefaultGemsPerLevelComplete);
+        }
+
+        public void SetGems(float value)
+        {
+            Gems = value;
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshGems();
+        }
+        public void SaveAfterLevelEnd(bool success)
+        {
+            // Accumulate totals
+            TotalCash += Cash;
+            TotalGems += Gems;
+
+            if (success)
+            {
+                LevelNum += 1;
+            }
+
+            // Save using EasySave3
+            ES3.Save(ES3_TOTAL_CASH, TotalCash);
+            ES3.Save(ES3_TOTAL_GEMS, TotalGems);
+            ES3.Save(ES3_LEVEL_NUM, LevelNum);
+
+            Debug.Log(
+                $"[SAVE] Level={LevelNum}, +" +
+                $"Cash={Cash}, +Gems={Gems} | " +
+                $"Totals -> Cash={TotalCash}, Gems={TotalGems}"
+            );
+        }
+
+        [ContextMenu("DEV Reset Save")]
+        public void DevResetSave()
+        {
+            ES3.DeleteKey("TotalCash");
+            ES3.DeleteKey("TotalGems");
+            ES3.DeleteKey("LevelNum");
+
+            TotalCash = 0;
+            TotalGems = 0;
+            LevelNum = 1;
+
+            Debug.Log("[DEV] Save reset");
+        }
+
+
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Elroi.Missions;
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -14,10 +15,12 @@ namespace MoreMountains.InfiniteRunnerEngine
     /// </summary>
     public class SkateAssassinRunnerLevelManager : LevelManager
     {
-        protected float _savedBounties;
+        protected float _savedCash;
         private bool _hasLastDeathPosition;
         private Vector3 _lastDeathPosition;
         public static event Action<int, bool> OnSlamChanged;
+
+        public static SkateAssassinRunnerLevelManager SkateRunnerLevelManagerAccessor { get; private set; }
 
         private const int SlamMax = 5;
         private int _slamKills;
@@ -61,52 +64,31 @@ namespace MoreMountains.InfiniteRunnerEngine
         private bool _phase2CarSpawnerActivated;
         private Coroutine _phase2CarSpawnerRoutine;
         public bool IsPhase2BossActive => _phase2BossQTEActive;
+        public CarImpulseTest Phase2CarImpulse => _phase2CarImpulse;
+        public static System.Action OnPhase2Started;
+        public static System.Action OnPhase2LifeLost;
+        public static System.Action OnLevelWon;
+        public float Phase1Duration => Phase1DurationSeconds;
 
+        // If you already have a timer float, return it here instead of Time.time math.
+        // Replace `_phase1ElapsedSeconds` with your real variable name.
+        public float Phase1ElapsedSeconds
+        {
+            get
+            {
+                return _phaseElapsedSeconds;
+            }
+        }
 
         // runtime state
         private float _phaseElapsedSeconds;
         private bool _phase2Started;
         private bool _spawningDisabled;
 
-        /// <summary>
-        /// What happens when all characters are dead (or when the character is dead if you only have one)
-        /// </summary>
-        protected override void AllCharactersAreDead()
+        protected override void Awake()
         {
-            // if we've specified an effect for when a life is lost, we instantiate it at the camera's position
-            if (LifeLostExplosion != null)
-            {
-                GameObject explosion = Instantiate(LifeLostExplosion);
-
-                if (_hasLastDeathPosition)
-                {
-                    explosion.transform.position = _lastDeathPosition;
-                    _hasLastDeathPosition = false; // clear after use
-                }
-                else
-                {
-                    explosion.transform.position = StartingPosition.transform.position; // fallback
-                }
-            }
-
-            // we've just lost a life
-            GameManager.Instance.SetStatus(GameManager.GameStatus.LifeLost);
-            MMGameEvent.Trigger("LifeLost");
-            _started = DateTime.UtcNow;
-            GameManager.Instance.SetPoints(_savedPoints);
-            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.SetBounties(_savedBounties);
-            GameManager.Instance.LoseLives(1);
-
-            if (GameManager.Instance.CurrentLives <= 0)
-            {
-                GUIManager.Instance.SetGameOverScreen(true);
-                GameManager.Instance.SetStatus(GameManager.GameStatus.GameOver);
-                MMGameEvent.Trigger("GameOver");
-            }
-            if (LevelManager.Instance != null)
-            {
-                LevelManager.Instance.UnlockGameplayInputs();
-            }
+            base.Awake();
+            SkateRunnerLevelManagerAccessor = this;
         }
 
         /// <summary>
@@ -123,7 +105,9 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             // storage
             _savedPoints = GameManager.Instance.Points;
-            _savedBounties = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Bounties;
+            _savedCash = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Cash;
+            SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.BeginLevelSession();
+            MissionSystem.MissionSystemAccessor?.BeginLevel(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.LevelNum);
             _started = DateTime.UtcNow;
             GameManager.Instance.SetStatus(GameManager.GameStatus.BeforeGameStart);
             GameManager.Instance.SetPointsPerSecond(PointsPerSecond);
@@ -171,6 +155,26 @@ namespace MoreMountains.InfiniteRunnerEngine
             ResetSlam();
         }
 
+        protected override void InstantiateCharacters()
+        {
+            base.InstantiateCharacters();
+            TryBindCinemachineToFirstPlayer();
+        }
+
+        protected virtual void TryBindCinemachineToFirstPlayer()
+        {
+            if (CurrentPlayableCharacters == null || CurrentPlayableCharacters.Count == 0) return;
+
+            var player = CurrentPlayableCharacters[0];
+            if (player == null) return;
+
+            var binder = FindFirstObjectByType<CameraPlayerBinder>();
+            if (binder == null) return;
+
+            binder.BindTo(player.transform);
+        }
+
+
         private void DisableObstacleSpawning()
         {
             if (_spawningDisabled) return;
@@ -183,20 +187,60 @@ namespace MoreMountains.InfiniteRunnerEngine
                 ObstacleSpawnerPooler.Pool[i].Enabled = false;
             }
         }
+        /// <summary>
+        /// What happens when all characters are dead (or when the character is dead if you only have one)
+        /// </summary>
+        protected override void AllCharactersAreDead()
+        {
+            // if we've specified an effect for when a life is lost, we instantiate it at the camera's position
+            if (LifeLostExplosion != null)
+            {
+                GameObject explosion = Instantiate(LifeLostExplosion);
 
+                LevelManager.Instance.FreezeSpeedAndCancelBoost();
+                if (_hasLastDeathPosition)
+                {
+                    explosion.transform.position = _lastDeathPosition;
+                    _hasLastDeathPosition = false; // clear after use
+                }
+                else
+                {
+                    explosion.transform.position = StartingPosition.transform.position; // fallback
+                }
+            }
+
+            // we've just lost a life
+            GameManager.Instance.SetStatus(GameManager.GameStatus.LifeLost);
+            MMGameEvent.Trigger("LifeLost");
+            _started = DateTime.UtcNow;
+            GameManager.Instance.SetPoints(_savedPoints);
+            SkateRunnerGameManager.SkateRunnerGameManagerAccessor.SetCash(_savedCash);
+            GameManager.Instance.LoseLives(1);
+
+            if (GameManager.Instance.CurrentLives <= 0)
+            {
+                GUIManager.Instance.SetGameOverScreen(true);
+                GameManager.Instance.SetStatus(GameManager.GameStatus.GameOver);
+                MMGameEvent.Trigger("GameOver");
+            }
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.UnlockGameplayInputs();
+            }
+        }
 
         protected override void OnDisable()
         {
-            SkateRunnerDestructibleObjects.OnDestroyed -= HandleDestroyed;
+            SkateRunnerDestructibleObject.OnDestroyed -= HandleDestroyed;
             base.OnDisable();
         }
         protected override void OnEnable()
         {
             base.OnEnable();
-            SkateRunnerDestructibleObjects.OnDestroyed += HandleDestroyed;
+            SkateRunnerDestructibleObject.OnDestroyed += HandleDestroyed;
         }
 
-        private void HandleDestroyed(SkateRunnerDestructibleObjects obj)
+        private void HandleDestroyed(SkateRunnerDestructibleObject obj)
         {
             AddSlamKill();
         }
@@ -272,9 +316,13 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
         }
 
-
+        
         public override void LifeLostAction()
         {
+            if (_phase2BossQTEActive)
+            {
+                OnPhase2LifeLost?.Invoke();
+            }
             // Restore whatever speed/accel we had before the cinematic stop
             if (LevelManager.Instance != null)
             {
@@ -285,9 +333,35 @@ namespace MoreMountains.InfiniteRunnerEngine
             // We are still in Phase 2, just retrying the QTE
             if (_phase2BossQTEActive)
             {
+                OnPhase2LifeLost?.Invoke();
                 RestartPhase2BossQTE();
             }
         }
+
+        public override void ResetLevel()
+        {
+            UnlockGameplayInputs();
+            ResumeSpeedAfterFreeze();
+
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ResetLevelEndUIState();
+
+            base.ResetLevel();
+        }
+        public override void GameOverAction()
+        {
+            // We're using the "GameOverScreen" as a Revive popup now.
+            // The base engine restarts the level on ANY click during GameOver.
+            // So while the popup is up, we must ignore global restart input.
+            if (GUIManager.Instance != null &&
+                GUIManager.Instance.GameOverScreen != null &&
+                GUIManager.Instance.GameOverScreen.activeInHierarchy)
+            {
+                return;
+            }
+
+            base.GameOverAction();
+        }
+
 
         // ------------------------------------------------------
         // NEW: Called by Phase2CarApproachController when the Jeep is fully in position (Speed = 0)
@@ -298,6 +372,7 @@ namespace MoreMountains.InfiniteRunnerEngine
                 return;
 
             _phase2BossQTEActive = true;
+            OnPhase2Started?.Invoke();
 
             // 1) Stop all gameplay controls (swipes/tap zone, etc.)
             // Your detectors already early-return when GameplayInputsLocked is true.
@@ -305,7 +380,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             {
                 LevelManager.Instance.LockGameplayInputs();
             }
-
+            _enemyLaunch.SetEnemyDisarmed(true);
             // 2) Tell GUI to transition: Slam button only, platform + shards fade out
             if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
             {
@@ -342,11 +417,22 @@ namespace MoreMountains.InfiniteRunnerEngine
                 yield return null;
             }
 
-            // Time’s up — you said: “if they fail, player gets shot immediately”
-            // We just fire an event hook for now (you can hook sniper shot / instant fail to this)
+            // Time’s up — ask GUI to resolve timeout safely
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor
+                ?.OnPhase2BossCountdownFinished();
+
             MMGameEvent.Trigger("Phase2BossQTETimeout");
 
             _phase2BossQTERoutine = null;
+        }
+
+        public void StopPhase2BossQTECountdown()
+        {
+            if (_phase2BossQTERoutine != null)
+            {
+                StopCoroutine(_phase2BossQTERoutine);
+                _phase2BossQTERoutine = null;
+            }
         }
 
 
@@ -395,13 +481,18 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
         }
 
+        public void NotifyLevelWon()
+        {
+            OnLevelWon?.Invoke();
+        }
+
         /// <summary>
         /// Every frame
         /// </summary>
         public override void Update()
         {
             _savedPoints = GameManager.Instance.Points;
-            _savedBounties = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Bounties;
+            _savedCash = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Cash;
             _started = DateTime.UtcNow;
 
             // we increment the total distance traveled so far

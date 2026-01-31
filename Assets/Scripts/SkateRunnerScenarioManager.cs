@@ -18,7 +18,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// </summary>
         protected override void EvaluateScenario()
         {
-            float currentBounties = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Bounties;
+            float currentBounties = SkateRunnerGameManager.SkateRunnerGameManagerAccessor.Cash;
 
             base.EvaluateScenario();
         }

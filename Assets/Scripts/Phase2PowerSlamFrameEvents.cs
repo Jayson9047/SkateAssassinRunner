@@ -1,5 +1,7 @@
-using UnityEngine;
 using DG.Tweening;
+using MoreMountains.InfiniteRunnerEngine;
+using System.Collections;
+using UnityEngine;
 
 public class Phase2PowerSlamFrameEvents : MonoBehaviour
 {
@@ -38,6 +40,39 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     [SerializeField] private float lockedKatanaWeight = 0f;
 
+    [Header("Frame 18 Failsafe (Generous)")]
+    [SerializeField] private string downAttackStateName = "DownAttack";   // base layer state name
+    [SerializeField] private AnimationClip downAttackClip;                 // clip that has frame 18 event
+    [SerializeField] private int triggerAtFrame = 18;                      // default 18
+    [SerializeField] private int graceFramesEarly = 2;                     // allow 16+
+    [SerializeField] private float armedFailsafeSeconds = 0.20f;           // if state name mismatch, still fire
+
+    [Header("Frame 18 Failsafe (Never Early)")]
+    [SerializeField] private int frame18 = 18;
+    [SerializeField] private float extraGraceSeconds = 0.03f;   // small cushion for frame timing / hiccups
+
+    [SerializeField] private bool debugAlignCamera = false;
+
+    [Header("Slow Motion")]
+    [SerializeField] private float slowMoScale = 0.25f;
+    [SerializeField] private float slowMoDurationRealtime = 0.20f;
+    [SerializeField] private bool slowMoAffectsPhysics = true;
+
+    private GameObject _enemyInstance;
+
+
+
+    private float _defaultFixedDeltaTime;
+    private bool _slowMoActive;
+
+
+    private float _armedAtTime;
+    private bool _frame18FailsafeArmed;
+
+    private bool _frame18FailsafeFired;
+    private float _triggerNormEarly = 0.6f; // computed
+
+
     private bool _lockKatanaLayerWeight;
     private int _upperBodyLayerIndex = -1;
 
@@ -56,6 +91,8 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     {
         // Pool-safe reset
         _launchedThisSlam = false;
+        _frame18FailsafeFired = false;
+        _defaultFixedDeltaTime = Time.fixedDeltaTime;
 
         _tween?.Kill();
         _tween = null;
@@ -88,6 +125,10 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         if (animator != null && _upperBodyLayerIndex >= 0)
             animator.SetLayerWeight(_upperBodyLayerIndex, 1f);
     }
+    public void SetEnemyInstance(GameObject enemyInstance)
+    {
+        _enemyInstance = enemyInstance;
+    }
 
 
     /// <summary>
@@ -97,15 +138,28 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     public void ArmPhase2LaunchForNextSlam()
     {
         _armedForThisSlam = true;
-        _launchedThisSlam = false; // reset per arm
+        _launchedThisSlam = false;
+
+        _armedAtTime = Time.time;
+        _frame18FailsafeArmed = true;
 
         if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] ARMED");
     }
+
+
 
     public void Awake()
     {
         if (animator == null) animator = GetComponent<Animator>();
         _upperBodyLayerIndex = animator != null ? animator.GetLayerIndex(upperBodyLayerName) : -1;
+
+        if (downAttackClip != null && downAttackClip.frameRate > 0f)
+        {
+            float totalFrames = downAttackClip.length * downAttackClip.frameRate;
+            float targetFrame = Mathf.Clamp(triggerAtFrame - graceFramesEarly, 0, totalFrames);
+            _triggerNormEarly = Mathf.Clamp01(targetFrame / Mathf.Max(1f, totalFrames));
+        }
+
     }
     private void LateUpdate()
     {
@@ -113,11 +167,15 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             ForceKatanaLayerWeight();
     }
 
+
+
     /// <summary>
     /// Animation Event on frame 18 of the slam clip.
     /// </summary>
     public void OnPhase2PowerSlamFrame18()
     {
+        _frame18FailsafeArmed = false;
+
         if (!_armedForThisSlam)
         {
             if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] Frame18 fired but NOT armed (ignored)");
@@ -146,7 +204,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             animator.ResetTrigger(strikeTakeoffTrigger);
             animator.SetTrigger(strikeTakeoffTrigger);
         }
-
+        SkateRunnerGameFeel.TriggerSlowMoStatic(slowMoScale, slowMoDurationRealtime, slowMoAffectsPhysics);
         // optional: kill upper body aiming layer during execution
         if (_upperBodyLayerIndex >= 0 && animator != null)
         {
@@ -164,25 +222,33 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         _cachedBodyLocalPos = transform.localPosition;
         _cachedBodyLocalRot = transform.localRotation;
         StartMoveToMeetPointSynced();
-
-
-        //Transform playerRoot = transform.root;
-
-        //Vector3 start = playerRoot.position;
-        //Vector3 end = playerMeetPoint.position;
-
-        //Vector3 mid = (start + end) * 0.5f;
-        //mid.y += apexHeight;
-
-        //Vector3[] path = new[] { start, mid, end };
-
-        //_tween?.Kill();
-        //_tween = playerRoot
-        //    .DOPath(path, launchDuration, PathType.CatmullRom, PathMode.Full3D)
-        //    .SetEase(ease);
-
-        //if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] LAUNCH started via Frame18");
     }
+
+
+    private void Update()
+    {
+        // If event already happened or we're not armed, do nothing
+        if (!_frame18FailsafeArmed || !_armedForThisSlam || _launchedThisSlam)
+            return;
+
+        if (downAttackClip == null || downAttackClip.frameRate <= 0f)
+            return; // can't compute frame 18 time safely; assign the clip
+
+        // Compute the earliest allowed moment to behave like frame 18:
+        float frame18Time = (frame18 / downAttackClip.frameRate) + extraGraceSeconds;
+
+        // IMPORTANT: This can NEVER fire early because it's time-based from the moment you armed the slam.
+        if (Time.time - _armedAtTime >= frame18Time)
+        {
+            _frame18FailsafeArmed = false;
+
+            if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] Frame18 FAILSAFE fired (time-based, never early)");
+
+            // Reuse your proven pathway
+            OnPhase2PowerSlamFrame18();
+        }
+    }
+
 
     private void StartMoveToMeetPointSynced()
     {
@@ -242,12 +308,65 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     public void OnPhase2StrikeDashStart()
     {
-        // DO NOT _meetTween.Complete() — that creates the hard stop.
-        StartDashToStrikeEnd(fromCurrentPosition: true);
+        FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToCollision();
+        // Set target for ruthless tap cash popups
+        if (_enemyInstance != null)
+        {
+            LevelManager.Instance?.SetRuthlessTapTarget(_enemyInstance.transform);
+        }
+        LevelManager.Instance?.EnterRuthlessTapMode();
+
+        RuthlessTapModeController.Instance.Begin(slowMoDurationRealtime - 3f, taps =>
+        {
+            LevelManager.Instance?.ExitRuthlessTapMode();
+            Debug.Log("Final combo taps: " + taps);
+
+            StartDashToStrikeEnd(fromCurrentPosition: true, onArrive: () =>
+            {
+                var enemyGo = _enemyInstance;
+                if (enemyGo == null)
+                {
+                    Debug.LogError("[Phase2PowerSlamFrameEvents] Enemy instance is NULL. SetEnemyInstance() was never called.");
+                    return;
+                }
+
+                var dmg = enemyGo.GetComponentInParent<IndieKit.IDamageable>();
+                if (dmg != null)
+                {
+                    // optional: use strike end point as hit point if you want it to feel like contact
+                    Vector3 hitPoint = enemyGo.transform.position;
+                    dmg.ApplyDamage(999f, hitPoint, true);
+                }
+                else
+                {
+                    Debug.LogError("[Phase2PowerSlamFrameEvents] No IDamageable found in parent chain of enemy instance.");
+                }
+
+                if (LevelManager.Instance != null)
+                    LevelManager.Instance.FreezeSpeedAndCancelBoost();
+            });
+            FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToFollow();
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.FadeOutPowerMeterWhenPlayerGrounded();
+
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.FreezeSpeedAndCancelBoost();
+            }
+            StartCoroutine(ShowLevelEndAfterDelayCo());
+        });
+    }
+
+    
+    private IEnumerator ShowLevelEndAfterDelayCo()
+    {
+        SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.NotifyLevelWon();
+        //delay to allow for pose to finish
+        yield return new WaitForSecondsRealtime(6f);
+        SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);
     }
 
 
-    private void StartDashToStrikeEnd(bool fromCurrentPosition = false)
+    private void StartDashToStrikeEnd(bool fromCurrentPosition = false, System.Action onArrive = null)
     {
         if (playerStrikeEndPoint == null)
         {
@@ -265,9 +384,8 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         float dist = Vector3.Distance(start, end);
         float duration = Mathf.Max(0.001f, dist / Mathf.Max(0.01f, dashSpeed));
 
-        // IMPORTANT: if meet tween is still running, don't complete it; just kill it so we continue smoothly
         if (_meetTween != null && _meetTween.IsActive() && _meetTween.IsPlaying())
-            _meetTween.Kill(false); // false = do NOT complete; keep current position
+            _meetTween.Kill(false);
 
         _dashTween = transform
             .DOMove(end, duration)
@@ -275,9 +393,10 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             .OnComplete(() =>
             {
                 ResyncRootToBodyAndRestoreHierarchy();
+                onArrive?.Invoke();
             });
-
     }
+
 
     private void ForceKatanaLayerWeight()
     {
