@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5dac1bcf2a2e06e4eb3c433a7000513a
+guid: 9dd50b48b0094d54ba1ac8d11a5b4d43
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5836286094176148828
-    second: CashIcon_0
+      213: -1254900475988315701
+    second: GemBasket_440x315_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CashIcon_0
+      name: GemBasket_440x315_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 348
-        height: 257
+        x: 0
+        y: 0
+        width: 440
+        height: 314
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4a2241528b8510fa0800000000000000
-      internalID: -5836286094176148828
+      spriteID: bc17f347aa2b59ee0800000000000000
+      internalID: -1254900475988315701
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CashIcon_0: -5836286094176148828
+      GemBasket_440x315_0: -1254900475988315701
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

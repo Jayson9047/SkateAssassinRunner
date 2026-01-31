@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5dac1bcf2a2e06e4eb3c433a7000513a
+guid: 11a12b2efa584ab4aa81eabcc1fa3417
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5836286094176148828
-    second: CashIcon_0
+      213: 7380379842668284336
+    second: CashSafe_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CashIcon_0
+      name: CashSafe_0
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 1
-        width: 348
-        height: 257
+        width: 1097
+        height: 708
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4a2241528b8510fa0800000000000000
-      internalID: -5836286094176148828
+      spriteID: 0b942bd2d506c6660800000000000000
+      internalID: 7380379842668284336
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CashIcon_0: -5836286094176148828
+      CashSafe_0: 7380379842668284336
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
