@@ -83,6 +83,8 @@ public class SwipeDownDetector : MonoBehaviour
 
 #if UNITY_EDITOR
     [SerializeField] private bool debug_StartWithPowerSlam = false;
+#else
+    private const bool debug_StartWithPowerSlam = false;
 #endif
 
     private bool impactTriggeredThisDownAttack = false;
