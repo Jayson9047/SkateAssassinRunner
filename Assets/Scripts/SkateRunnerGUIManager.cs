@@ -429,13 +429,37 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void RestartPhase2PowerMeter()
         {
+            // IMPORTANT: reset Phase2 resolution latches for the retry
+            _phase2BossResolved = false;
+            _phase2DownslamButtonPressed = false;
+            _phase2SimInProgress = false;
+
             if (powerMeter == null)
                 return;
 
+            // Make sure the UI is usable again
             powerMeter.gameObject.SetActive(true);
-            powerMeter.ResetTickerTo(Random.value); // or 0.5f if you want consistency
+
+            CacheSlamHUDReferencesIfNeeded();
+            if (DownslamButton != null)
+            {
+                DownslamButton.gameObject.SetActive(true);
+                DownslamButton.interactable = true;
+            }
+
+            // Optional: bring meter back visually if it was faded out
+            CachePowerMeterGroupIfNeeded();
+            if (_powerMeterGroup != null)
+            {
+                _powerMeterGroup.alpha = 1f;
+                _powerMeterGroup.interactable = false;   // meter shouldn't block clicks
+                _powerMeterGroup.blocksRaycasts = false;
+            }
+
+            powerMeter.ResetTickerTo(Random.value); // or 0.5f if you want consistent retries
             powerMeter.StartMeter();
         }
+
 
         private void OnPowerMeterResult(PowerMeter.ZoneResult result, float normalized)
         {

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: e54d655db69ec4b3aab5409ce7af594b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 309617
+  packageName: 'Mobile Monetization Pro V2: Ads, IAP(In App Purchase) & More - Android
+    & iOS'
+  packageVersion: 2.6
+  assetPath: Assets/Mobile Monetization Pro/Scripts/MobileMonetizationPro_PlayerController.cs
+  uploadId: 842720
