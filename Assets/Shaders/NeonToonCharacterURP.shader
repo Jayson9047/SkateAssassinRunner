@@ -184,7 +184,7 @@ Shader "Elroi/NeonToonCharacterURP"
         }
 
         // =========================================================
-        // Shadow caster pass (NOW allows meshes using this shader to CAST shadows)
+        // Shadow caster pass (URP-built, skinned-mesh safe)
         // =========================================================
         Pass
         {
@@ -199,43 +199,16 @@ Shader "Elroi/NeonToonCharacterURP"
             #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
 
+            #pragma multi_compile_instancing
+            #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
-
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-                float3 normalOS   : NORMAL;
-            };
-
-            struct Varyings
-            {
-                float4 positionCS : SV_POSITION;
-            };
-
-            Varyings ShadowPassVertex(Attributes IN)
-            {
-                Varyings OUT;
-
-                float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz);
-                float3 normalWS   = TransformObjectToWorldNormal(IN.normalOS);
-
-                // Apply shadow bias to reduce acne
-                float4 positionCS = TransformWorldToHClip(
-                    ApplyShadowBias(positionWS, normalWS, _MainLightPosition.xyz)
-                );
-
-                OUT.positionCS = positionCS;
-                return OUT;
-            }
-
-            half4 ShadowPassFragment(Varyings IN) : SV_Target
-            {
-                // Depth only
-                return 0;
-            }
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
             ENDHLSL
         }
+
+
+
 
         // =========================================================
         // Optional outline pass (thin, night-colored)
