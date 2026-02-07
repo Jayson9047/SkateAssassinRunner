@@ -8,6 +8,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
+using AccuracyMeter; // top of file
+
+
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -94,6 +97,9 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private UnityEngine.UI.Image _star1;
         [SerializeField] private UnityEngine.UI.Image _star2;
         [SerializeField] private UnityEngine.UI.Image _star3;
+
+        [SerializeField] private AccuracyMeterCashPreviewExample accuracyCashPreview;
+        public bool LastLevelSuccess { get; private set; }
 
         // Phase 2 Timeout Guards
         private bool _phase2DownslamButtonPressed;   // latch: once true, never kill on timeout
@@ -884,6 +890,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void ShowLevelEndScreen(bool success)
         {
+            LastLevelSuccess = success;
             if (_levelEndShown) return;
             _levelEndShown = true;
             MissionSystem.MissionSystemAccessor?.OnLevelEnd(success);
@@ -929,6 +936,10 @@ namespace MoreMountains.InfiniteRunnerEngine
                 {
                     LevelEndCashEarnedText.text =
                         SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel().ToString("0");
+                    int earnedCash = Mathf.RoundToInt(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel());
+
+                    accuracyCashPreview?.UnlockPreview();
+                    accuracyCashPreview?.SetEarnedCash(earnedCash);
                 }
 
                 if (LevelEndGemsEarnedText != null)
@@ -936,8 +947,6 @@ namespace MoreMountains.InfiniteRunnerEngine
                     LevelEndGemsEarnedText.text =
                         SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetGemsEarnedThisLevel().ToString("0");
                 }
-                // TEMP: saving immediately for now (replace with callback after ad returns)
-                SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.SaveAfterLevelEnd(success);
             }
         }
         private void SetStars(int stars)
