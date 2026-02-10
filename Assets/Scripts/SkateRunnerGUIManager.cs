@@ -461,7 +461,11 @@ namespace MoreMountains.InfiniteRunnerEngine
                 _powerMeterGroup.interactable = false;   // meter shouldn't block clicks
                 _powerMeterGroup.blocksRaycasts = false;
             }
-
+            if (SlamButtonGroup != null)
+            {
+                SlamButtonGroup.interactable = true;
+                SlamButtonGroup.blocksRaycasts = true;
+            }
             powerMeter.ResetTickerTo(Random.value); // or 0.5f if you want consistent retries
             powerMeter.StartMeter();
         }
@@ -475,6 +479,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             {
                 case PowerMeter.ZoneResult.Red:
                 {
+                    DisableSlamButtonForPhase2Death();
                     var player = FindFirstObjectByType<PlayerPhase2Controller>();
                     if (player != null)
                     {
@@ -857,6 +862,9 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             SkateRunnerDestructibleObject.OnDestroyed += HandleDestroyedForCash;
             SkateRunnerDestructibleObject.OnEnemyKilled += HandleEnemyKilledForSlam;
+
+            //SkateAssassinRunnerLevelManager.OnPhase2LifeLost += HandlePhase2LifeLost;
+
             base.OnEnable();
         }
 
@@ -864,7 +872,35 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             SkateRunnerDestructibleObject.OnDestroyed -= HandleDestroyedForCash;
             SkateRunnerDestructibleObject.OnEnemyKilled -= HandleEnemyKilledForSlam;
+
+            //SkateAssassinRunnerLevelManager.OnPhase2LifeLost -= HandlePhase2LifeLost;
+
             base.OnDisable();
+        }
+
+        private void HandlePhase2LifeLost()
+        {
+            // Only matters during Phase 2 boss/QTE. Phase 1 untouched.
+            if (SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor == null ||
+                !SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor.IsPhase2BossActive)
+            {
+                return;
+            }
+
+            // Disable Slam button completely during death/respawn window
+            if (DownslamButton != null)
+            {
+                DownslamButton.interactable = false;
+                DownslamButton.gameObject.SetActive(false);
+            }
+
+            // Also ensure CanvasGroup doesn't eat clicks if it exists
+            CacheSlamHUDReferencesIfNeeded();
+            if (SlamButtonGroup != null)
+            {
+                SlamButtonGroup.interactable = false;
+                SlamButtonGroup.blocksRaycasts = false;
+            }
         }
 
         private void HandleDestroyedForCash(SkateRunnerDestructibleObject obj)
@@ -968,6 +1004,30 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             // Player declined revive -> show end screen as failure
             ShowLevelEndScreen(false);
+        }
+        public void DisableSlamButtonForPhase2Death()
+        {
+            // Only matters during Phase 2 boss/QTE. Phase 1 untouched.
+            if (SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor == null ||
+                !SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor.IsPhase2BossActive)
+            {
+                return;
+            }
+
+            // Disable Slam button completely during death/respawn window
+            if (DownslamButton != null)
+            {
+                DownslamButton.interactable = false;
+                DownslamButton.gameObject.SetActive(false);
+            }
+
+            // Also ensure CanvasGroup doesn't eat clicks if it exists
+            CacheSlamHUDReferencesIfNeeded();
+            if (SlamButtonGroup != null)
+            {
+                SlamButtonGroup.interactable = false;
+                SlamButtonGroup.blocksRaycasts = false;
+            }
         }
 
 

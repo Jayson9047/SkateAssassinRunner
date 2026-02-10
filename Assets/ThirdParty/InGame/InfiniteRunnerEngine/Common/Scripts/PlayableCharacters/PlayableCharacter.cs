@@ -412,7 +412,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 		protected virtual void OnCollisionEnter2D(Collision2D collidingObject)
 		{
 			CollisionEnter(collidingObject.collider.gameObject);
-		}
+            Debug.Log($"PLAYER COLLISION with {collidingObject.collider.name} (root {collidingObject.collider.transform.root.name}) layer={LayerMask.LayerToName(collidingObject.collider.gameObject.layer)}");
+        }
 
 		/// <summary>
 		/// Handles exit collision with 2D colliders
@@ -430,7 +431,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 		protected virtual void OnCollisionEnter(Collision collidingObject)
 		{
 			CollisionEnter(collidingObject.collider.gameObject);
-		}
+            Debug.Log($"PLAYER COLLISION with {collidingObject.collider.name} (root {collidingObject.collider.transform.root.name}) layer={LayerMask.LayerToName(collidingObject.collider.gameObject.layer)}");
+        }
 
 		/// <summary>
 		/// Handles exit collision with 3D colliders
@@ -466,7 +468,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 		protected virtual void OnTriggerEnter(Collider collidingObject)
 		{
 			TriggerEnter(collidingObject.gameObject);
-		}
+            Debug.Log($"PLAYER TRIGGER with {collidingObject.name} (root {collidingObject.transform.root.name}) layer={LayerMask.LayerToName(collidingObject.gameObject.layer)}");
+        }
 
 		/// <summary>
 		/// Handles enter collision with 2D triggers

@@ -1,7 +1,7 @@
 {
     "schemaVersion": 5,
-    "selectedMilestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-    "selectedFeatureId": "3780db368e284265ad07e72fb920d921",
+    "selectedMilestoneId": "58f8732127854a56b91fddae7e264b4b",
+    "selectedFeatureId": "878efcba16e84335b61a87aa3e229140",
     "columnNames": [
         "Backlog",
         "In Progress",
@@ -1143,6 +1143,13 @@
                     "description": "",
                     "createdUtcTicks": 639047447553776360,
                     "updatedUtcTicks": 639048374875841761
+                },
+                {
+                    "id": "878efcba16e84335b61a87aa3e229140",
+                    "name": "Fix Slam Button being disabled on respawn in phase 2",
+                    "description": "",
+                    "createdUtcTicks": 639062833499122729,
+                    "updatedUtcTicks": 639062834228581512
                 }
             ],
             "tasks": [

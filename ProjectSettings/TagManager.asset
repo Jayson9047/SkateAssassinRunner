@@ -7,6 +7,8 @@ TagManager:
   - UICamera
   - Enemy
   - CarAccelerationCollider
+  - StartDriftMarker
+  - CarSlotMarker
   layers:
   - Default
   - TransparentFX
