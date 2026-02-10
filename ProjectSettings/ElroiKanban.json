@@ -1,7 +1,7 @@
 {
     "schemaVersion": 5,
     "selectedMilestoneId": "58f8732127854a56b91fddae7e264b4b",
-    "selectedFeatureId": "878efcba16e84335b61a87aa3e229140",
+    "selectedFeatureId": "951bafd6fd2f4e3382c880ce83bde84e",
     "columnNames": [
         "Backlog",
         "In Progress",
@@ -75,6 +75,13 @@
                     "description": "",
                     "createdUtcTicks": 639047496966525135,
                     "updatedUtcTicks": 639047497102212296
+                },
+                {
+                    "id": "1e25eefed9564be6be77324edc36accf",
+                    "name": "Accuracy Meter consequences",
+                    "description": "",
+                    "createdUtcTicks": 639062889747838053,
+                    "updatedUtcTicks": 639062889963593739
                 }
             ],
             "tasks": [
@@ -190,9 +197,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639047493214272218,
-                    "updatedUtcTicks": 639050693128045683,
+                    "updatedUtcTicks": 639062889302492878,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -220,9 +227,9 @@
                     "description": "These goals are not really important to pass the level. But they are important to earn bounties. ",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639047494578464507,
-                    "updatedUtcTicks": 639050693233423288,
+                    "updatedUtcTicks": 639062889458952015,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -235,9 +242,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639047495262642552,
-                    "updatedUtcTicks": 639047495262642552,
+                    "updatedUtcTicks": 639062889541092696,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -250,9 +257,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639047495562649911,
-                    "updatedUtcTicks": 639047495562649911,
+                    "updatedUtcTicks": 639062889610088858,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -265,9 +272,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639047496017465406,
-                    "updatedUtcTicks": 639047496017465406,
+                    "updatedUtcTicks": 639062889670853791,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -280,9 +287,9 @@
                     "description": "",
                     "dueDateIso": "2026-01-23",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639047497467419287,
-                    "updatedUtcTicks": 639047497467419287,
+                    "updatedUtcTicks": 639062886567468189,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -310,9 +317,24 @@
                     "description": "1. Kill X enemies this run \n2. Earn X cash this run (killing enemies also gives cash. So, this number needs to be high) \n3. Survive X seconds this run \n4. Use Down-Attack X times this run \n5. Use Dash-Attack X times this run \n6. Use Powerslam X times this run (for powerslam, there is a bar that fills up after killing 5 enemies) \n7. Reach X combo hits in Phase 2 \n8. Earn X cash in Phase 2\n9. Finish Phase 2 without failing once \n10. Instead of asking them to revive, we're going to offer watching an ad to buy a powerslam-ready state. \nUsually they have to kill 5 enemies to get to a state where they can do a powerslam. But you can watch an ad to just start with that state.\n",
                     "dueDateIso": "2026-01-26",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639050689453566402,
-                    "updatedUtcTicks": 639050689453566402,
+                    "updatedUtcTicks": 639062886559795512,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "ffec7615db6b47be92d90aec90b6b269",
+                    "featureId": "1e25eefed9564be6be77324edc36accf",
+                    "title": "Add Accuracy Meter consequences",
+                    "description": "Currently, we don't have a way to reward accuracy during Phase 2 accuracy meter. \nLike, when the player jumps at yellow vs cyan, the result is the same. \nWe want to reward the player here by changing the total time the slow motion lasts. \nThis means, if you jumped at yellow, you get a smaller slow mo window, \nmeans short time to execute your ruthless tap resulting in less taps -> less money. \nFor green, the timing is better, for cyan, the timing is the best.",
+                    "dueDateIso": "2026-02-09",
+                    "type": 0,
+                    "status": 1,
+                    "createdUtcTicks": 639062890008703878,
+                    "updatedUtcTicks": 639062890008703878,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -1150,6 +1172,27 @@
                     "description": "",
                     "createdUtcTicks": 639062833499122729,
                     "updatedUtcTicks": 639062834228581512
+                },
+                {
+                    "id": "ffcef91f6d604d3bb1da9b85e9fae61c",
+                    "name": "Dash attack sometimes ignores collision",
+                    "description": "",
+                    "createdUtcTicks": 639062886991999913,
+                    "updatedUtcTicks": 639062887126309031
+                },
+                {
+                    "id": "951bafd6fd2f4e3382c880ce83bde84e",
+                    "name": "Android Build Landscape Issue",
+                    "description": "",
+                    "createdUtcTicks": 639062887809612234,
+                    "updatedUtcTicks": 639062888042946635
+                },
+                {
+                    "id": "1ab6b16973f84139b91c9016730c83aa",
+                    "name": "In-game and Level End GUI gets out of screen",
+                    "description": "",
+                    "createdUtcTicks": 639062888540184595,
+                    "updatedUtcTicks": 639062888800974938
                 }
             ],
             "tasks": [
@@ -1163,6 +1206,66 @@
                     "status": 0,
                     "createdUtcTicks": 639048375292614379,
                     "updatedUtcTicks": 639048375292614379,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "411f3aeab1364c458250d5a3f728cd53",
+                    "featureId": "878efcba16e84335b61a87aa3e229140",
+                    "title": "Fix Slam Button is disabled on respawn in phase 2",
+                    "description": "",
+                    "dueDateIso": "2026-02-09",
+                    "type": 0,
+                    "status": 3,
+                    "createdUtcTicks": 639062875402665661,
+                    "updatedUtcTicks": 639062875445834221,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "085203cfc5a8421f83d8158399acb787",
+                    "featureId": "ffcef91f6d604d3bb1da9b85e9fae61c",
+                    "title": "Fix dash attack sometimes ignores collision",
+                    "description": "dash attack sometimes ignores the barrier collision. Meaning, if there is an obstacle that has a collider, it just ignores that collision sometimes \nor if you time it right. So, basically, if you're fairly close to that obstacle and you perform a dash attack, it can't catch collision. \nProbably because it's too fast. We NEED to fix this.",
+                    "dueDateIso": "2026-02-09",
+                    "type": 0,
+                    "status": 1,
+                    "createdUtcTicks": 639062887282135805,
+                    "updatedUtcTicks": 639062887282135805,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "41144a0ac900448d9cb579a6d21f8a78",
+                    "featureId": "951bafd6fd2f4e3382c880ce83bde84e",
+                    "title": "Android build doesn't rotate on flipping screen",
+                    "description": "The android build, everytime I play, it only shows up on one sided landscape. If I flip the screen, it doesn't auto adjust to the other side. \nStill landscape.",
+                    "dueDateIso": "2026-02-09",
+                    "type": 0,
+                    "status": 3,
+                    "createdUtcTicks": 639062888277251345,
+                    "updatedUtcTicks": 639063032454495535,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "4974ab844ee54c8999effcd6694e5dc3",
+                    "featureId": "1ab6b16973f84139b91c9016730c83aa",
+                    "title": "Fix In-game and Level End GUI gets out of screen",
+                    "description": "The levelEnd GUI/ some in-game GUI objects are going out of screen in my android. \nThat tells me, this will mess up in other androids too. I need to learn how to position GUI objects so that it works the same in all Android",
+                    "dueDateIso": "2026-02-09",
+                    "type": 0,
+                    "status": 1,
+                    "createdUtcTicks": 639062888874716864,
+                    "updatedUtcTicks": 639062888874716864,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -1260,19 +1363,25 @@
         }
     ],
     "today": {
-        "dateIso": "2026-02-09",
+        "dateIso": "2026-02-10",
         "items": [
             {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "bdf3054ed7f0475592e95bfc5c570189",
+                "milestoneId": "58f8732127854a56b91fddae7e264b4b",
+                "taskId": "085203cfc5a8421f83d8158399acb787",
                 "done": false,
-                "addedUtcTicks": 639048861297455626
+                "addedUtcTicks": 639062890478993520
+            },
+            {
+                "milestoneId": "58f8732127854a56b91fddae7e264b4b",
+                "taskId": "4974ab844ee54c8999effcd6694e5dc3",
+                "done": false,
+                "addedUtcTicks": 639062890478993520
             },
             {
                 "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "86b8d4d27cfc4ba9afc1e098d7df6a88",
+                "taskId": "ffec7615db6b47be92d90aec90b6b269",
                 "done": false,
-                "addedUtcTicks": 639050869470825858
+                "addedUtcTicks": 639062890689143346
             }
         ]
     }
