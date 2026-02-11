@@ -1263,9 +1263,9 @@
                     "description": "The levelEnd GUI/ some in-game GUI objects are going out of screen in my android. \nThat tells me, this will mess up in other androids too. I need to learn how to position GUI objects so that it works the same in all Android",
                     "dueDateIso": "2026-02-09",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639062888874716864,
-                    "updatedUtcTicks": 639062888874716864,
+                    "updatedUtcTicks": 639063545614789045,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -1368,12 +1368,6 @@
             {
                 "milestoneId": "58f8732127854a56b91fddae7e264b4b",
                 "taskId": "085203cfc5a8421f83d8158399acb787",
-                "done": false,
-                "addedUtcTicks": 639062890478993520
-            },
-            {
-                "milestoneId": "58f8732127854a56b91fddae7e264b4b",
-                "taskId": "4974ab844ee54c8999effcd6694e5dc3",
                 "done": false,
                 "addedUtcTicks": 639062890478993520
             },

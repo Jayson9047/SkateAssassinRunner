@@ -499,7 +499,8 @@ namespace MoreMountains.InfiniteRunnerEngine
                     //Sanity check
                     if (phase2PowerSlamFrameEvents == null) BindPhase2FrameEvents();
                     if (phase2PowerSlamFrameEvents == null) { Debug.LogError("Phase2PowerSlamFrameEvents missing"); return; }
-
+                    
+                    phase2PowerSlamFrameEvents.SetPhase2PowerMeterResult(result);
                     // Trigger the arm flip + launch sequence
                     SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor.Phase2CarImpulse.ArmFlipOnce();
                     phase2PowerSlamFrameEvents.ResetExecutionAttempt();
