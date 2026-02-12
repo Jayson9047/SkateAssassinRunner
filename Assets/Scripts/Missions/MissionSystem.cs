@@ -18,6 +18,7 @@ namespace Elroi.Missions
         public event Action<int, string> OnMissionAssigned;
         public event Action<int, string> OnMissionProgressText;
         public event Action<int> OnMissionCompleted;
+        private readonly HashSet<IMission> _completedNotified = new();
 
         [Header("References")]
         [SerializeField] private SkateAssassinRunnerLevelManager _levelManager;
@@ -52,7 +53,7 @@ namespace Elroi.Missions
             StopAllActiveMissions();
             _activeMissions.Clear();
             _missionSlotMap.Clear();
-
+            _completedNotified.Clear();
             if (missionDefinitions == null || missionDefinitions.Count == 0)
             {
                 Debug.LogError("[Missions] No missionDefinitions configured in inspector.");
@@ -221,16 +222,18 @@ namespace Elroi.Missions
             if (mission == null) return;
 
             if (!_missionSlotMap.TryGetValue(mission, out int slot))
-                return; // mission not tracked / not in UI
+                return;
 
             var def = GetDefinition(mission.Type);
             string txt = BuildDisplayText(def, mission);
 
             OnMissionProgressText?.Invoke(slot, txt);
 
-            if (mission.IsComplete)
+            // fire completed only once per mission
+            if (mission.IsComplete && _completedNotified.Add(mission))
                 OnMissionCompleted?.Invoke(slot);
         }
+
 
         private void Update()
         {

@@ -15,6 +15,10 @@ namespace Elroi.Missions.UI
         public Color incompleteColor = Color.white;
         public Color completeColor = new Color(0.6f, 0.6f, 0.6f, 1f);
 
+        [Header("Pulse On Complete (optional)")]
+        public GUIPulse completePulse;     // assign on the row root OR on tick OR on text
+        public GUIPulse tickPulse;         // optional: pulse the tick separately
+
         public void SetInitial(string text)
         {
             if (missionText != null)
@@ -31,14 +35,19 @@ namespace Elroi.Missions.UI
         public void SetComplete()
         {
             if (tickImage != null)
-                tickImage.gameObject.SetActive(true);  // <-- IMPORTANT
+                tickImage.gameObject.SetActive(true);
 
             if (missionText != null)
             {
                 missionText.color = completeColor;
                 missionText.fontStyle |= TMPro.FontStyles.Strikethrough;
             }
+
+            // pulse animation(s)
+            completePulse?.Pulse();
+            tickPulse?.Pulse();
         }
+
 
 
         public void SetProgress(string text)

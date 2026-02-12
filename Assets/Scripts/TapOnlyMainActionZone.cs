@@ -15,7 +15,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     [SerializeField] private int minCashPerTap = 1;
     [SerializeField] private int maxCashPerTap = 7;
     [SerializeField] private SwipeRightAttackDetector swipeRightAttackDetector;
-
+    [SerializeField] private GUIPulse comboPulse;
     // Missions hooks (Phase 2 / Ruthless Tap Mode)
     public static System.Action<int> OnPhase2ComboUpdated; // sends current combo count
     public static System.Action<int> OnPhase2CashEarned;   // sends cash earned (delta)
@@ -90,6 +90,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
 
         comboText.text = string.Format(comboFormat, count);
         SetComboAlpha(1f);
+        comboPulse?.Pulse();
     }
 
     private void FadeOutCombo()

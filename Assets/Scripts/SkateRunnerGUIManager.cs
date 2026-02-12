@@ -107,6 +107,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private TextMeshProUGUI ruthlessTimerText;  // center text on bar
         [SerializeField] private CanvasGroup ruthlessTimerCanvasGroup;
         [SerializeField] private float ruthlessTimerFadeOutDuration = 0.25f;
+        [SerializeField] private GUIPulse cashPulse;
 
         [Header("Phase 2 +Seconds Popup / Fly")]
         [SerializeField] private RectTransform timePopupAnchor;      // near the power meter
@@ -148,7 +149,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         private bool _cachedOriginalPos;
         private Coroutine _phase2HudRoutine;
 
-
+        private float _lastCashAmount = -1f;
         private int _currentSlamCharges;
 
         protected override void Awake()
@@ -169,6 +170,10 @@ namespace MoreMountains.InfiniteRunnerEngine
                     powerMeter.OnResult.RemoveListener(OnPowerMeterResult);
                     powerMeter.OnResult.AddListener(OnPowerMeterResult);
                 }
+            }
+            if (CashText != null && cashPulse == null)
+            {
+                cashPulse = CashText.GetComponent<GUIPulse>();
             }
         }
 
@@ -227,12 +232,22 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// </summary>
         public virtual void RefreshCash()
         {
-            var skateRunnerGameManager = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
-            if (CashText == null)
-                return;
+            var gm = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
+            if (CashText == null || gm == null) return;
 
-            CashText.text = skateRunnerGameManager.Cash.ToString("000000");
+            float currentCash = gm.Cash;
+
+            CashText.text = currentCash.ToString("000000");
+
+            // Only pulse if increased (not on load or reset)
+            if (_lastCashAmount >= 0f && currentCash > _lastCashAmount)
+            {
+                cashPulse?.Pulse();
+            }
+
+            _lastCashAmount = currentCash;
         }
+
 
         public void RefreshGems()
         {
@@ -618,9 +633,6 @@ namespace MoreMountains.InfiniteRunnerEngine
                       );
                  });
         }
-
-
-
 
         public void OnPhase2BossCountdownFinished()
         {

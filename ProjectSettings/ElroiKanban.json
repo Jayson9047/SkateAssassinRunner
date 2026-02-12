@@ -1,7 +1,7 @@
 {
     "schemaVersion": 5,
-    "selectedMilestoneId": "58f8732127854a56b91fddae7e264b4b",
-    "selectedFeatureId": "951bafd6fd2f4e3382c880ce83bde84e",
+    "selectedMilestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
+    "selectedFeatureId": "1e25eefed9564be6be77324edc36accf",
     "columnNames": [
         "Backlog",
         "In Progress",
@@ -332,9 +332,9 @@
                     "description": "Currently, we don't have a way to reward accuracy during Phase 2 accuracy meter. \nLike, when the player jumps at yellow vs cyan, the result is the same. \nWe want to reward the player here by changing the total time the slow motion lasts. \nThis means, if you jumped at yellow, you get a smaller slow mo window, \nmeans short time to execute your ruthless tap resulting in less taps -> less money. \nFor green, the timing is better, for cyan, the timing is the best.",
                     "dueDateIso": "2026-02-09",
                     "type": 0,
-                    "status": 1,
+                    "status": 3,
                     "createdUtcTicks": 639062890008703878,
-                    "updatedUtcTicks": 639062890008703878,
+                    "updatedUtcTicks": 639064668740840053,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -348,13 +348,29 @@
             "features": [
                 {
                     "id": "36b4e8977d494fd5b8071940cf73c53f",
-                    "name": "General",
+                    "name": "There will be microscenarios that will spawn as obstacles.",
                     "description": "",
                     "createdUtcTicks": 639047444986128680,
-                    "updatedUtcTicks": 639047444986128680
+                    "updatedUtcTicks": 639064684200207846
                 }
             ],
-            "tasks": []
+            "tasks": [
+                {
+                    "id": "e331b0002c7d4d3abd55f742d17991a6",
+                    "featureId": "36b4e8977d494fd5b8071940cf73c53f",
+                    "title": "Create 10-20 micro scenarios",
+                    "description": "",
+                    "dueDateIso": "2026-02-11",
+                    "type": 0,
+                    "status": 0,
+                    "createdUtcTicks": 639064684340597260,
+                    "updatedUtcTicks": 639064684340597260,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                }
+            ]
         },
         {
             "id": "31328393dc894f3ab0f20dbe718bffe4",
@@ -554,7 +570,7 @@
                     "name": "Add GUI Animation on Bounty Text, Cash text etc during cash increase in level",
                     "description": "",
                     "createdUtcTicks": 639048283114017994,
-                    "updatedUtcTicks": 639048283600824923
+                    "updatedUtcTicks": 639064699654805803
                 },
                 {
                     "id": "374cf4d31e5148b7a30106227969944e",
@@ -569,6 +585,13 @@
                     "description": "",
                     "createdUtcTicks": 639048333378991420,
                     "updatedUtcTicks": 639048333653632201
+                },
+                {
+                    "id": "c10ba3dd3d8644259cdc01d9f0e6f144",
+                    "name": "Replace the More Mountains Heart Prefab with better ones",
+                    "description": "",
+                    "createdUtcTicks": 639064700160965639,
+                    "updatedUtcTicks": 639064700510169552
                 }
             ],
             "tasks": [
@@ -701,9 +724,9 @@
                     "description": "Mostly, one star for completing the level and 2 stars for finishing the mission. 0 Star on failure to complete level.",
                     "dueDateIso": "2026-01-24",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639048340026911155,
-                    "updatedUtcTicks": 639048340026911155,
+                    "updatedUtcTicks": 639064699014543362,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -716,24 +739,9 @@
                     "description": "Cash is collected by picking pickables \nBounties are collected by finishing missions",
                     "dueDateIso": "2026-01-24",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639048348855769075,
-                    "updatedUtcTicks": 639048348855769075,
-                    "attachmentGuids": [],
-                    "isArchived": false,
-                    "archivedUtcTicks": 0,
-                    "screenshotAssetGuid": ""
-                },
-                {
-                    "id": "4d6ee4e03c6c40359bacfc5c2bc12969",
-                    "featureId": "1b3fde16e34247859b44d78c1cc595f0",
-                    "title": "The level end pop up should show how many enemies were killed and which missions were successful",
-                    "description": "",
-                    "dueDateIso": "2026-01-24",
-                    "type": 0,
-                    "status": 0,
-                    "createdUtcTicks": 639048349346181328,
-                    "updatedUtcTicks": 639048349346181328,
+                    "updatedUtcTicks": 639064699034291172,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -746,9 +754,9 @@
                     "description": "It should have a ticker like the picture that lets the player click on the button at the right time to 4X their bounties earned. \nBut that depends on where the ticker landed. And on click it will open an ad (We won't hook the ads yet, just leaving space for it now) \nand the player can easily watch ad to 4X their earning. The ticker will be very slow, not a super hard minigame or anything. \nIt'll be slow so that it's easy for the player to 4x the earnings. Right now, we don't have to worry about 4x-in the earnings as bounty \nsaving system has not been implemented yet. But we will create this ticker. Something similar and stylish. After ads, it should redirect the \nplayer to the homepage. ",
                     "dueDateIso": "2026-01-24",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639048350349806230,
-                    "updatedUtcTicks": 639048350349806230,
+                    "updatedUtcTicks": 639064699271008717,
                     "attachmentGuids": [
                         "9e376060e55616f4497c80daf81aad94"
                     ],
@@ -763,9 +771,69 @@
                     "description": "It should have that tap to continue where the user can tap anywhere other than the button to continue to the homepage and \nignore watching the ads.",
                     "dueDateIso": "2026-01-24",
                     "type": 0,
-                    "status": 0,
+                    "status": 3,
                     "createdUtcTicks": 639048351410545427,
-                    "updatedUtcTicks": 639048351410545427,
+                    "updatedUtcTicks": 639064699362926782,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "345e0833a49b463fbef4e95bbb2ca225",
+                    "featureId": "6844641dbc6844e0a9934d48bffadff9",
+                    "title": "Add GUI Animation on Cash text, Combo text etc during cash increase in level",
+                    "description": "In Phase 2 Ruthless tap mode, everytime we tap, the combo increases. That's fine, but we want cartoonish pulse on every increase.\nIf you're using DoTween Pro for this, make this configurable so that I can try with different dotween Pro styles. \nBecause, we're using pro, we might have better options? Not sure.\n\nThe same thing should happen everytime we get cash during game. Cash is made in 2 ways. \nBy picking up cash objects and by killing enemies. Everytime that happens, we do a pulse on the cash text.",
+                    "dueDateIso": "2026-02-12",
+                    "type": 0,
+                    "status": 1,
+                    "createdUtcTicks": 639064699954406277,
+                    "updatedUtcTicks": 639064699954406277,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "162bae4e615c47f4836e60df769deb72",
+                    "featureId": "c10ba3dd3d8644259cdc01d9f0e6f144",
+                    "title": "Replace the More Mountains Heart Prefab with better ones",
+                    "description": "",
+                    "dueDateIso": "2026-02-12",
+                    "type": 0,
+                    "status": 3,
+                    "createdUtcTicks": 639064700532007174,
+                    "updatedUtcTicks": 639064724147584225,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "aaea486f2cbd425ca83a1072107c5ea0",
+                    "featureId": "374cf4d31e5148b7a30106227969944e",
+                    "title": "During Phase 2 Timer, pulse the time with color change",
+                    "description": "During phase 2 timer for accuracy meter (not the ruthless mode timer progress bar. \nThe timer that decides how long you have to click on the slam button before the enemy shoots), \nwhen the timer gets to 3, we start pulsing it fast with the text color also pulsing Red -> White, White -> Red. \nPulsing. Means, not just changing white to red in a snap. \nWhite to Red changes over a configurable amount of time and changes back to white again. \nThis is to create urgency.",
+                    "dueDateIso": "2026-02-12",
+                    "type": 0,
+                    "status": 1,
+                    "createdUtcTicks": 639064701850414782,
+                    "updatedUtcTicks": 639064701850414782,
+                    "attachmentGuids": [],
+                    "isArchived": false,
+                    "archivedUtcTicks": 0,
+                    "screenshotAssetGuid": ""
+                },
+                {
+                    "id": "e44a1655e13d49d2974f31d2243d817f",
+                    "featureId": "374cf4d31e5148b7a30106227969944e",
+                    "title": "LevelEndScreen GUI elements shall appear one at a time",
+                    "description": "In the Level End Screen, we have a bunch of different GUI elements. We want them to appear one at a time. \nKinda pop out style or something. We'll make this configurable with DOTween Pro so that I can try different stuff.",
+                    "dueDateIso": "2026-02-12",
+                    "type": 0,
+                    "status": 1,
+                    "createdUtcTicks": 639064702429858872,
+                    "updatedUtcTicks": 639064702429858872,
                     "attachmentGuids": [],
                     "isArchived": false,
                     "archivedUtcTicks": 0,
@@ -1363,7 +1431,7 @@
         }
     ],
     "today": {
-        "dateIso": "2026-02-11",
+        "dateIso": "2026-02-12",
         "items": [
             {
                 "milestoneId": "58f8732127854a56b91fddae7e264b4b",
@@ -1372,10 +1440,22 @@
                 "addedUtcTicks": 639062890478993520
             },
             {
-                "milestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-                "taskId": "ffec7615db6b47be92d90aec90b6b269",
+                "milestoneId": "63fc04ba2a0d4fbfb0223576f3c72b83",
+                "taskId": "345e0833a49b463fbef4e95bbb2ca225",
                 "done": false,
-                "addedUtcTicks": 639062890689143346
+                "addedUtcTicks": 639064702922819179
+            },
+            {
+                "milestoneId": "63fc04ba2a0d4fbfb0223576f3c72b83",
+                "taskId": "aaea486f2cbd425ca83a1072107c5ea0",
+                "done": false,
+                "addedUtcTicks": 639064702922824214
+            },
+            {
+                "milestoneId": "63fc04ba2a0d4fbfb0223576f3c72b83",
+                "taskId": "e44a1655e13d49d2974f31d2243d817f",
+                "done": false,
+                "addedUtcTicks": 639064702922824214
             }
         ]
     }
