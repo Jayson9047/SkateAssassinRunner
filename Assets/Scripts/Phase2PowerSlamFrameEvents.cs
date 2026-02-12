@@ -63,6 +63,8 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     [SerializeField] private float slowMoDurationGreen = 6.5f;
     [SerializeField] private float slowMoDurationCyan = 8f;
     [SerializeField] private float ruthlessTapStartDelayRealtime = 0f; // default 0
+    [SerializeField] private float ruthlessLeadInRealtime = 3f;
+
     private PowerMeter.ZoneResult cachedZoneResult = PowerMeter.ZoneResult.Yellow;
     private float _slowMoStartUnscaledTime;
     private float _slowMoDurationRealtimeActive;
@@ -221,18 +223,13 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         }
         // Track slowmo window in realtime/unscaled time so we can compute what's left later
 
-        float rewardedDuration = GetRewardedSlowMoDuration();
+        float ruthlessDuration = GetRewardedSlowMoDuration(); // now means ruthless duration
+        float totalSlowMo = ruthlessLeadInRealtime + ruthlessDuration;
 
-        // Track realtime slowmo window
-        _slowMoDurationRealtimeActive = rewardedDuration;
+        _slowMoDurationRealtimeActive = totalSlowMo;
         _slowMoStartUnscaledTime = Time.unscaledTime;
 
-        // Trigger slow motion
-        SkateRunnerGameFeel.TriggerSlowMoStatic(
-            slowMoScale,
-            rewardedDuration,
-            slowMoAffectsPhysics
-        );
+        SkateRunnerGameFeel.TriggerSlowMoStatic(slowMoScale, totalSlowMo, slowMoAffectsPhysics);
 
 
         // optional: kill upper body aiming layer during execution
@@ -362,19 +359,11 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
         LevelManager.Instance?.EnterRuthlessTapMode();
 
-        float totalSlowMo = (_slowMoDurationRealtimeActive > 0.01f) ? _slowMoDurationRealtimeActive : slowMoDurationRealtime;
+        float ruthlessDuration = GetRewardedSlowMoDuration(); // exact tap window
+        float remaining = ruthlessDuration;                   // full window at start
+        float totalSlowMo = ruthlessLeadInRealtime + ruthlessDuration;
 
-        float remaining;
-        if (_slowMoStartUnscaledTime > 0.01f)
-        {
-            float elapsed = Time.unscaledTime - _slowMoStartUnscaledTime;
-            remaining = Mathf.Max(0.05f, totalSlowMo - elapsed);
-        }
-        else
-        {
-            // Fallback: behave like "full duration remaining" if we somehow didn't track the start time
-            remaining = Mathf.Max(0.05f, totalSlowMo);
-        }
+        SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.Phase2BeginRuthlessTapCountdown(ruthlessDuration, ruthlessDuration);
 
         RuthlessTapModeController.Instance.Begin(remaining, taps =>
         {
@@ -475,6 +464,10 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             default:
                 return slowMoDurationYellow;
         }
+    }
+    public float PeekRewardedSlowMoDuration()
+    {
+        return GetRewardedSlowMoDuration();
     }
 
     private void ForceKatanaLayerWeight()

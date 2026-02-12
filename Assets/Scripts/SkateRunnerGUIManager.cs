@@ -1,4 +1,6 @@
+using AccuracyMeter; // top of file
 using DamageNumbersPro;
+using DG.Tweening;
 using Elroi.Missions;
 using IndieKit;
 using MoreMountains.Tools;
@@ -8,7 +10,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
-using AccuracyMeter; // top of file
 
 
 
@@ -99,6 +100,25 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private UnityEngine.UI.Image _star3;
 
         [SerializeField] private AccuracyMeterCashPreviewExample accuracyCashPreview;
+
+        [Header("Phase 2 Ruthless Timer UI")]
+        [SerializeField] private GameObject ruthlessTimerRoot;       // whole bar object
+        [SerializeField] private UnityEngine.UI.Slider ruthlessTimerSlider;            // fill image (type = Filled)
+        [SerializeField] private TextMeshProUGUI ruthlessTimerText;  // center text on bar
+        [SerializeField] private CanvasGroup ruthlessTimerCanvasGroup;
+        [SerializeField] private float ruthlessTimerFadeOutDuration = 0.25f;
+
+        [Header("Phase 2 +Seconds Popup / Fly")]
+        [SerializeField] private RectTransform timePopupAnchor;      // near the power meter
+        [SerializeField] private TextMeshProUGUI flyTextPrefab;      // lightweight TMP fly text
+        [SerializeField] private float popupHoldBeforeFly = 0.20f;
+        [SerializeField] private float flyDuration = 0.35f;
+        [SerializeField] private Vector2 popupAnchorOffset = new Vector2(40f, 20f);
+
+        public float FlyDuration => flyDuration;
+        private Tween _ruthlessFadeTween;
+        private Coroutine _ruthlessCountdownCo;
+        private float _ruthlessCountdownTotal;
         public bool LastLevelSuccess { get; private set; }
 
         // Phase 2 Timeout Guards
@@ -160,6 +180,17 @@ namespace MoreMountains.InfiniteRunnerEngine
                 cashPopupPrefab.PrewarmPool();
             }
         }
+        //private void ShowRuthlessTimerEmpty()
+        //{
+        //    if (ruthlessTimerRoot != null)
+        //        ruthlessTimerRoot.SetActive(true);
+
+        //    if (ruthlessTimerFill != null)
+        //        ruthlessTimerFill.fillAmount = 1f;
+
+        //    if (ruthlessTimerText != null)
+        //        ruthlessTimerText.text = "";
+        //}
 
         private IEnumerator CachePhase2EventsWhenReadyCo()
         {
@@ -501,6 +532,9 @@ namespace MoreMountains.InfiniteRunnerEngine
                     if (phase2PowerSlamFrameEvents == null) { Debug.LogError("Phase2PowerSlamFrameEvents missing"); return; }
                     
                     phase2PowerSlamFrameEvents.SetPhase2PowerMeterResult(result);
+                    float awarded = phase2PowerSlamFrameEvents.PeekRewardedSlowMoDuration();
+                    Phase2ShowRuthlessTimeAward(awarded);
+
                     // Trigger the arm flip + launch sequence
                     SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor.Phase2CarImpulse.ArmFlipOnce();
                     phase2PowerSlamFrameEvents.ResetExecutionAttempt();
@@ -508,10 +542,65 @@ namespace MoreMountains.InfiniteRunnerEngine
                     StartCoroutine(SimulateDoubleJumpThenDownAttack());
                     // success path (already working / later work)
                     FadeOutSlamHUD();
+
                     break;
                 }
             }
         }
+
+        public void Phase2ShowRuthlessTimeAward(float secondsAwarded)
+        {
+            // Show timer container (but DO NOT start countdown here)
+            Phase2ShowRuthlessTimerEmpty(secondsAwarded);
+
+            if (timePopupAnchor == null || flyTextPrefab == null || ruthlessTimerText == null)
+                return;
+
+            // Spawn flying text under same parent as anchor (same UI space)
+            var fly = Instantiate(flyTextPrefab, timePopupAnchor.parent);
+            fly.gameObject.SetActive(true);
+            fly.text = $"+{secondsAwarded:0.0}s";
+
+            var flyRt = fly.rectTransform;
+
+            // Start position near meter
+            flyRt.anchoredPosition = timePopupAnchor.anchoredPosition + popupAnchorOffset;
+
+            // Small pop (immune to slowmo)
+            flyRt.localScale = Vector3.one * 0.9f;
+            flyRt.DOScale(1.1f, 0.12f)
+                 .SetEase(Ease.OutBack)
+                 .SetUpdate(true);
+
+            // Fly to timer text (immune to slowmo)
+            flyRt.DOAnchorPos(ruthlessTimerText.rectTransform.anchoredPosition, flyDuration)
+                 .SetDelay(popupHoldBeforeFly)
+                 .SetEase(Ease.InOutQuad)
+                 .SetUpdate(true)
+                 .OnComplete(() =>
+                 {
+                     Destroy(fly.gameObject);
+
+                     // Set initial static text (countdown will overwrite later)
+                     ruthlessTimerText.text = $"{secondsAwarded:0.0}s";
+
+                     // Pulse
+                     var t = ruthlessTimerText.rectTransform;
+                     t.DOKill();
+                     t.localScale = Vector3.one;
+
+                     t.DOScale(1.18f, 0.08f)
+                      .SetEase(Ease.OutQuad)
+                      .SetUpdate(true)
+                      .OnComplete(() =>
+                          t.DOScale(1f, 0.10f)
+                           .SetEase(Ease.InQuad)
+                           .SetUpdate(true)
+                      );
+                 });
+        }
+
+
 
         public void OnPhase2BossCountdownFinished()
         {
@@ -1029,6 +1118,109 @@ namespace MoreMountains.InfiniteRunnerEngine
                 SlamButtonGroup.interactable = false;
                 SlamButtonGroup.blocksRaycasts = false;
             }
+        }
+        public void Phase2ShowRuthlessTimerEmpty(float awardedSeconds)
+        {
+            if (ruthlessTimerRoot != null && !ruthlessTimerRoot.activeSelf)
+                ruthlessTimerRoot.SetActive(true);
+
+            if (ruthlessTimerSlider != null)
+            {
+                ruthlessTimerSlider.minValue = 0f;
+                ruthlessTimerSlider.maxValue = Mathf.Max(0.01f, awardedSeconds);
+                ruthlessTimerSlider.value = ruthlessTimerSlider.maxValue; // starts full
+            }
+
+            if (ruthlessTimerText != null)
+                ruthlessTimerText.text = ""; // we’ll set it after fly animation later
+
+            if (ruthlessTimerCanvasGroup != null)
+            {
+                _ruthlessFadeTween?.Kill();
+                ruthlessTimerCanvasGroup.DOKill();
+                ruthlessTimerCanvasGroup.alpha = 1f;
+            }
+        }
+
+        public void Phase2BeginRuthlessTapCountdown(float totalAwardedSeconds, float remainingSeconds)
+        {
+            if (ruthlessTimerRoot != null && !ruthlessTimerRoot.activeSelf)
+                ruthlessTimerRoot.SetActive(true);
+
+            float total = Mathf.Max(0.01f, totalAwardedSeconds);
+            float remaining = Mathf.Clamp(remainingSeconds, 0f, total);
+
+            if (ruthlessTimerSlider != null)
+            {
+                ruthlessTimerSlider.minValue = 0f;
+                ruthlessTimerSlider.maxValue = total;
+                ruthlessTimerSlider.value = remaining;
+            }
+
+            if (_ruthlessCountdownCo != null)
+                StopCoroutine(_ruthlessCountdownCo);
+
+            _ruthlessCountdownCo = StartCoroutine(CoRuthlessCountdown(total, remaining));
+        }
+
+        private IEnumerator CoRuthlessCountdown(float total, float startRemaining)
+        {
+            float t = startRemaining;
+
+            while (t > 0f)
+            {
+                t -= Time.unscaledDeltaTime;
+                float clamped = Mathf.Max(0f, t);
+
+                if (ruthlessTimerSlider != null)
+                    ruthlessTimerSlider.value = clamped;
+
+                if (ruthlessTimerText != null)
+                    ruthlessTimerText.text = $"{clamped:0.0}s";
+
+                yield return null;
+            }
+
+            if (ruthlessTimerSlider != null)
+                ruthlessTimerSlider.value = 0f;
+
+            if (ruthlessTimerText != null)
+                ruthlessTimerText.text = "0.0s";
+
+            Phase2FadeOutRuthlessTimer();
+            _ruthlessCountdownCo = null;
+
+        }
+
+        private void Phase2FadeOutRuthlessTimer()
+        {
+            if (ruthlessTimerRoot == null) return;
+
+            // Ensure it’s active so the fade can be visible
+            if (!ruthlessTimerRoot.activeSelf)
+                ruthlessTimerRoot.SetActive(true);
+
+            if (ruthlessTimerCanvasGroup == null)
+            {
+                // fallback: can't fade without CanvasGroup
+                ruthlessTimerRoot.SetActive(false);
+                return;
+            }
+
+            // Kill any previous fade tween
+            _ruthlessFadeTween?.Kill();
+            ruthlessTimerCanvasGroup.DOKill();
+
+            // Start from current alpha (don’t force 1.0 here)
+            _ruthlessFadeTween = ruthlessTimerCanvasGroup
+                .DOFade(0f, ruthlessTimerFadeOutDuration)
+                .SetEase(DG.Tweening.Ease.OutQuad)
+                .SetUpdate(true) // unscaled (immune to slowmo)
+                .OnComplete(() =>
+                {
+                    ruthlessTimerRoot.SetActive(false);
+                    ruthlessTimerCanvasGroup.alpha = 1f; // reset for next time
+                });
         }
 
 
