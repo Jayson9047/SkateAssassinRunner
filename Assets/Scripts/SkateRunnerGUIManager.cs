@@ -114,6 +114,9 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private float popupHoldBeforeFly = 0.20f;
         [SerializeField] private float flyDuration = 0.35f;
         [SerializeField] private Vector2 popupAnchorOffset = new Vector2(40f, 20f);
+        [SerializeField] private RectTransform ruthlessTimerFillRect;
+        [SerializeField] private CanvasGroup ruthlessTimerTextCanvasGroup;
+        [SerializeField] private float ruthlessTimerTextFadeInDuration = 0.12f;
 
         public float FlyDuration => flyDuration;
         private Tween _ruthlessFadeTween;
@@ -550,30 +553,35 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void Phase2ShowRuthlessTimeAward(float secondsAwarded)
         {
-            // Show timer container (but DO NOT start countdown here)
             Phase2ShowRuthlessTimerEmpty(secondsAwarded);
 
             if (timePopupAnchor == null || flyTextPrefab == null || ruthlessTimerText == null)
                 return;
 
-            // Spawn flying text under same parent as anchor (same UI space)
+            // Spawn under the same parent as the anchor (your PowerMeterUI/Ticker chain)
             var fly = Instantiate(flyTextPrefab, timePopupAnchor.parent);
             fly.gameObject.SetActive(true);
             fly.text = $"+{secondsAwarded:0.0}s";
 
-            var flyRt = fly.rectTransform;
+            RectTransform flyRt = fly.rectTransform;
 
-            // Start position near meter
-            flyRt.anchoredPosition = timePopupAnchor.anchoredPosition + popupAnchorOffset;
+            // IMPORTANT: use WORLD positions (shared space across UI subtrees)
+            // Start at the anchor position + offset in the anchor's local space
+            Vector3 startWorld = timePopupAnchor.TransformPoint(new Vector3(popupAnchorOffset.x, popupAnchorOffset.y, 0f));
+            Vector3 targetWorld = ruthlessTimerFillRect != null
+                ? ruthlessTimerFillRect.position
+                : ruthlessTimerText.rectTransform.position; // fallback
 
-            // Small pop (immune to slowmo)
+            flyRt.position = startWorld;
+
+            // Pop (unscaled)
             flyRt.localScale = Vector3.one * 0.9f;
             flyRt.DOScale(1.1f, 0.12f)
                  .SetEase(Ease.OutBack)
                  .SetUpdate(true);
 
-            // Fly to timer text (immune to slowmo)
-            flyRt.DOAnchorPos(ruthlessTimerText.rectTransform.anchoredPosition, flyDuration)
+            // Fly in WORLD space (unscaled)
+            flyRt.DOMove(targetWorld, flyDuration)
                  .SetDelay(popupHoldBeforeFly)
                  .SetEase(Ease.InOutQuad)
                  .SetUpdate(true)
@@ -581,10 +589,21 @@ namespace MoreMountains.InfiniteRunnerEngine
                  {
                      Destroy(fly.gameObject);
 
-                     // Set initial static text (countdown will overwrite later)
+                     // Set text
                      ruthlessTimerText.text = $"{secondsAwarded:0.0}s";
 
-                     // Pulse
+                     // Fade in (unscaled), no movement
+                     if (ruthlessTimerTextCanvasGroup != null)
+                     {
+                         ruthlessTimerTextCanvasGroup.DOKill();
+                         ruthlessTimerTextCanvasGroup.alpha = 0f;
+                         ruthlessTimerTextCanvasGroup
+                             .DOFade(1f, ruthlessTimerTextFadeInDuration)
+                             .SetEase(Ease.OutQuad)
+                             .SetUpdate(true);
+                     }
+
+                     // Pulse scale only (unscaled)
                      var t = ruthlessTimerText.rectTransform;
                      t.DOKill();
                      t.localScale = Vector3.one;
@@ -599,6 +618,7 @@ namespace MoreMountains.InfiniteRunnerEngine
                       );
                  });
         }
+
 
 
 
@@ -1139,6 +1159,11 @@ namespace MoreMountains.InfiniteRunnerEngine
                 _ruthlessFadeTween?.Kill();
                 ruthlessTimerCanvasGroup.DOKill();
                 ruthlessTimerCanvasGroup.alpha = 1f;
+            }
+            if (ruthlessTimerTextCanvasGroup != null)
+            {
+                ruthlessTimerTextCanvasGroup.DOKill();
+                ruthlessTimerTextCanvasGroup.alpha = 0f; // start invisible
             }
         }
 
