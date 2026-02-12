@@ -47,6 +47,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private MovingObject _playerMovingObject;
     private bool _isReturningFromDash;
+    public bool IsReturningFromDashOnGround => _isReturningFromDash;
+
     // Assumption you already made: 36 frames total in the clip.
 
     private float attackMoveStartNormalizedTime => AttackStartFrame / 36f;
@@ -158,7 +160,12 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private void Update()
     {
         if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
-            return;
+        {
+            // Allow dash input during downattack once grounded
+            if (swipeDownDetector == null || !swipeDownDetector.DownAttackDashWindowOpen)
+                return;
+        }
+
 
         if (Input.GetKeyDown(swipeRightKey))
             OnSwipeRight();
@@ -195,11 +202,15 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private void OnSwipeRight()
     {
         if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
-            return;
+        {
+            if (swipeDownDetector == null || !swipeDownDetector.DownAttackDashWindowOpen)
+                return;
+        }
+
         if (attackInProgress)
             return;
 
-        if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking)
+        if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking && !swipeDownDetector.DownAttackDashWindowOpen)
             return;
 
         if (animator != null && katanaLayerIndex >= 0)
@@ -248,7 +259,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
             IEnumerator freshStart = WaitForFreshAttackStateStart();
             while (freshStart.MoveNext())
             {
-                if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking)
+                if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking && !swipeDownDetector.DownAttackDashWindowOpen)
                 {
                     AbortDashRoutine();
                     yield break;
@@ -266,7 +277,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
             IEnumerator gateFrame = WaitForAttackGateFrame();
             while (gateFrame.MoveNext())
             {
-                if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking)
+                if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking && !swipeDownDetector.DownAttackDashWindowOpen)
                 {
                     AbortDashRoutine();
                     yield break;

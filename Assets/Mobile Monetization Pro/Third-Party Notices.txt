@@ -1,0 +1,11 @@
+Third-Party Notices
+
+This asset uses the following third-party content:
+
+- LiberationSans Font under SIL Open Font License 1.1 (OFL).
+See: https://scripts.sil.org/OFL
+
+- TextMesh Pro (Unity, built-in package).
+See: https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.2/manual/index.html
+
+LiberationSans is used as the font for UI components through TextMesh Pro integration.

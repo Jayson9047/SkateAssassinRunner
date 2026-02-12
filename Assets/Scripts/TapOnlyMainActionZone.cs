@@ -14,6 +14,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     [SerializeField] private bool awardCashOnRuthlessTap = true;
     [SerializeField] private int minCashPerTap = 1;
     [SerializeField] private int maxCashPerTap = 7;
+    [SerializeField] private SwipeRightAttackDetector swipeRightAttackDetector;
 
     // Missions hooks (Phase 2 / Ruthless Tap Mode)
     public static System.Action<int> OnPhase2ComboUpdated; // sends current combo count
@@ -72,6 +73,12 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
         {
             SetComboAlpha(0f);
             comboText.text = "";
+        }
+        if (swipeRightAttackDetector == null)
+        {
+            var player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                swipeRightAttackDetector = player.GetComponentInChildren<SwipeRightAttackDetector>();
         }
     }
     private void ShowCombo(int count)
@@ -179,7 +186,6 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
             }
 
 
-            // If inputs are locked and NOT ruthless -> ignore tap (original behavior)
             if (lm.GameplayInputsLocked && !lm.RuthlessTapModeEntered)
                 return;
         }

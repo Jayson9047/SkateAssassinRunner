@@ -55,6 +55,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Header("Phase 2 Boss QTE")]
         [SerializeField] private float Phase2BossQTEDurationSeconds = 30f;
 
+        [Header("Phase 2 Markers (Enable when Phase 2 car spawns)")]
+        [SerializeField] private GameObject StartDriftMarkerGO;
+        [SerializeField] private GameObject Phase2CarSlotGO;
+
         private EnemyType3LaunchController _enemyLaunch;
         private CarImpulseTest _phase2CarImpulse;
 
@@ -100,6 +104,9 @@ namespace MoreMountains.InfiniteRunnerEngine
             DistanceTraveled = 0;
 
             InstantiateCharacters();
+
+            if (StartDriftMarkerGO != null) StartDriftMarkerGO.SetActive(false);
+            if (Phase2CarSlotGO != null) Phase2CarSlotGO.SetActive(false);
 
             ManageControlScheme();
 
@@ -208,7 +215,6 @@ namespace MoreMountains.InfiniteRunnerEngine
                     explosion.transform.position = StartingPosition.transform.position; // fallback
                 }
             }
-
             // we've just lost a life
             GameManager.Instance.SetStatus(GameManager.GameStatus.LifeLost);
             MMGameEvent.Trigger("LifeLost");
@@ -683,6 +689,8 @@ namespace MoreMountains.InfiniteRunnerEngine
                     pooler.Pool[i].Enabled = true;
                 }
             }
+            if (StartDriftMarkerGO != null) StartDriftMarkerGO.SetActive(true);
+            if (Phase2CarSlotGO != null) Phase2CarSlotGO.SetActive(true);
         }
 
 

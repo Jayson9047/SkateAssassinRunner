@@ -58,9 +58,21 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     [SerializeField] private float slowMoDurationRealtime = 0.20f;
     [SerializeField] private bool slowMoAffectsPhysics = true;
 
+    [Header("Slow Motion Reward / Sync")]
+    [SerializeField] private float slowMoDurationYellow = 5f;
+    [SerializeField] private float slowMoDurationGreen = 6.5f;
+    [SerializeField] private float slowMoDurationCyan = 8f;
+    [SerializeField] private float ruthlessTapStartDelayRealtime = 0f; // default 0
+    [SerializeField] private float ruthlessLeadInRealtime = 3f;
+
+    private PowerMeter.ZoneResult cachedZoneResult = PowerMeter.ZoneResult.Yellow;
+    private float _slowMoStartUnscaledTime;
+    private float _slowMoDurationRealtimeActive;
+
     private GameObject _enemyInstance;
 
-
+    private bool _ruthlessTapStarted;
+    private Coroutine _ruthlessTapCo;
 
     private float _defaultFixedDeltaTime;
     private bool _slowMoActive;
@@ -124,6 +136,8 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         // Optional: restore layer to normal gameplay weight (if you want)
         if (animator != null && _upperBodyLayerIndex >= 0)
             animator.SetLayerWeight(_upperBodyLayerIndex, 1f);
+        _ruthlessTapStarted = false;
+        if (_ruthlessTapCo != null) { StopCoroutine(_ruthlessTapCo); _ruthlessTapCo = null; }
     }
     public void SetEnemyInstance(GameObject enemyInstance)
     {
@@ -142,6 +156,9 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
         _armedAtTime = Time.time;
         _frame18FailsafeArmed = true;
+
+        _ruthlessTapStarted = false;
+        if (_ruthlessTapCo != null) { StopCoroutine(_ruthlessTapCo); _ruthlessTapCo = null; }
 
         if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] ARMED");
     }
@@ -204,7 +221,17 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             animator.ResetTrigger(strikeTakeoffTrigger);
             animator.SetTrigger(strikeTakeoffTrigger);
         }
-        SkateRunnerGameFeel.TriggerSlowMoStatic(slowMoScale, slowMoDurationRealtime, slowMoAffectsPhysics);
+        // Track slowmo window in realtime/unscaled time so we can compute what's left later
+
+        float ruthlessDuration = GetRewardedSlowMoDuration(); // now means ruthless duration
+        float totalSlowMo = ruthlessLeadInRealtime + ruthlessDuration;
+
+        _slowMoDurationRealtimeActive = totalSlowMo;
+        _slowMoStartUnscaledTime = Time.unscaledTime;
+
+        SkateRunnerGameFeel.TriggerSlowMoStatic(slowMoScale, totalSlowMo, slowMoAffectsPhysics);
+
+
         // optional: kill upper body aiming layer during execution
         if (_upperBodyLayerIndex >= 0 && animator != null)
         {
@@ -308,15 +335,37 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     public void OnPhase2StrikeDashStart()
     {
+        if (_ruthlessTapStarted) return;
+        _ruthlessTapStarted = true;
+
+        if (_ruthlessTapCo != null) StopCoroutine(_ruthlessTapCo);
+        _ruthlessTapCo = StartCoroutine(CoBeginRuthlessTapSyncedToSlowMo());
+    }
+
+    private IEnumerator CoBeginRuthlessTapSyncedToSlowMo()
+    {
+        // Optional additional delay (default 0). Uses realtime so it doesn't get affected by slowmo scale.
+        if (ruthlessTapStartDelayRealtime > 0f)
+            yield return new WaitForSecondsRealtime(ruthlessTapStartDelayRealtime);
+
+        // Switch camera (your project uses Phase2CameraDirector)
         FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToCollision();
+
         // Set target for ruthless tap cash popups
         if (_enemyInstance != null)
         {
             LevelManager.Instance?.SetRuthlessTapTarget(_enemyInstance.transform);
         }
+
         LevelManager.Instance?.EnterRuthlessTapMode();
 
-        RuthlessTapModeController.Instance.Begin(slowMoDurationRealtime - 3f, taps =>
+        float ruthlessDuration = GetRewardedSlowMoDuration(); // exact tap window
+        float remaining = ruthlessDuration;                   // full window at start
+        float totalSlowMo = ruthlessLeadInRealtime + ruthlessDuration;
+
+        SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.Phase2BeginRuthlessTapCountdown(ruthlessDuration, ruthlessDuration);
+
+        RuthlessTapModeController.Instance.Begin(remaining, taps =>
         {
             LevelManager.Instance?.ExitRuthlessTapMode();
             Debug.Log("Final combo taps: " + taps);
@@ -333,7 +382,6 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
                 var dmg = enemyGo.GetComponentInParent<IndieKit.IDamageable>();
                 if (dmg != null)
                 {
-                    // optional: use strike end point as hit point if you want it to feel like contact
                     Vector3 hitPoint = enemyGo.transform.position;
                     dmg.ApplyDamage(999f, hitPoint, true);
                 }
@@ -345,6 +393,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
                 if (LevelManager.Instance != null)
                     LevelManager.Instance.FreezeSpeedAndCancelBoost();
             });
+
             FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToFollow();
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.FadeOutPowerMeterWhenPlayerGrounded();
 
@@ -352,11 +401,12 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             {
                 LevelManager.Instance.FreezeSpeedAndCancelBoost();
             }
+
             StartCoroutine(ShowLevelEndAfterDelayCo());
         });
     }
 
-    
+
     private IEnumerator ShowLevelEndAfterDelayCo()
     {
         SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.NotifyLevelWon();
@@ -397,6 +447,28 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
             });
     }
 
+    public void SetPhase2PowerMeterResult(PowerMeter.ZoneResult result)
+    {
+        cachedZoneResult = result;
+    }
+
+    private float GetRewardedSlowMoDuration()
+    {
+        switch (cachedZoneResult)
+        {
+            case PowerMeter.ZoneResult.Cyan:
+                return slowMoDurationCyan;
+            case PowerMeter.ZoneResult.Green:
+                return slowMoDurationGreen;
+            case PowerMeter.ZoneResult.Yellow:
+            default:
+                return slowMoDurationYellow;
+        }
+    }
+    public float PeekRewardedSlowMoDuration()
+    {
+        return GetRewardedSlowMoDuration();
+    }
 
     private void ForceKatanaLayerWeight()
     {

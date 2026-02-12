@@ -48,6 +48,7 @@ public class SwipeDownDetector : MonoBehaviour
     private bool isDownAttacking;
     private Jumper jumper;
     private TapOnlyMainActionZone mainActionTouchZone;
+    public bool IsSliding => isSliding;
 
     [Header("DownAttack Slam")]
     public float downAttackFallSpeed = -25f;
@@ -80,9 +81,14 @@ public class SwipeDownDetector : MonoBehaviour
     [Header("DownAttack Slam Radius")]
     [SerializeField] private float normalImpactRadius = 2f;
     [SerializeField] private float poweredImpactRadius = 5f;
+    private bool downAttackHasGroundedOnce;
+    public bool DownAttackDashWindowOpen => isDownAttacking && downAttackHasGroundedOnce && !downAttackCancelledIntoSlide;
+
 
 #if UNITY_EDITOR
     [SerializeField] private bool debug_StartWithPowerSlam = false;
+#else
+    private const bool debug_StartWithPowerSlam = false;
 #endif
 
     private bool impactTriggeredThisDownAttack = false;
@@ -257,6 +263,7 @@ public class SwipeDownDetector : MonoBehaviour
 
     private IEnumerator DownAttackRoutine()
     {
+        downAttackHasGroundedOnce = false;
         isDownAttacking = true;
         downAttackArmed = false;
         downAttackFrozen = false;
@@ -306,6 +313,7 @@ public class SwipeDownDetector : MonoBehaviour
 
                 yield return null;
             }
+            downAttackHasGroundedOnce = true;
 
             if (downAttackCancelledIntoSlide)
                 yield break;
@@ -344,6 +352,7 @@ public class SwipeDownDetector : MonoBehaviour
             impactTriggeredThisDownAttack = false;
             damagedThisImpact.Clear();
             downAttackArmed = false;
+            downAttackHasGroundedOnce = false;
         }
     }
 

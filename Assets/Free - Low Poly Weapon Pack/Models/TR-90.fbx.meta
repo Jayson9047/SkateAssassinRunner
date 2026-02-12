@@ -1,9 +1,21 @@
 fileFormatVersion: 2
 guid: 7b96f336a605f114d8668183fcd05525
+AssetOrigin:
+  serializedVersion: 1
+  productId: 331318
+  packageName: Free - Low Poly Weapon Pack
+  packageVersion: 1.0
+  assetPath: Assets/Free - Low Poly Weapon Pack/Models/TR-90.fbx
+  uploadId: 783726
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.014
+    second: {fileID: 2100000, guid: 051cde37c5f49fe4eb543bc9c158841c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -105,10 +117,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 331318
-  packageName: Free - Low Poly Weapon Pack
-  packageVersion: 1.0
-  assetPath: Assets/Free - Low Poly Weapon Pack/Models/TR-90.fbx
-  uploadId: 783726

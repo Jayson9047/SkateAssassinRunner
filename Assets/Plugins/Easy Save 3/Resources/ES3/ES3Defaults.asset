@@ -39,6 +39,9 @@ MonoBehaviour:
     - Assembly-CSharp-firstpass
     - Autodesk.Fbx
     - Autodesk.Fbx.BuildTestAssets
+    - Boxophobic.PolyverseSkies.Runtime
+    - Boxophobic.PolyverseSkies.Scripts
+    - Boxophobic.Utils.Scripts
     - DamageNumbersPro
     - Kamgam.MeshExtractor
     - MoreMountains.Interface

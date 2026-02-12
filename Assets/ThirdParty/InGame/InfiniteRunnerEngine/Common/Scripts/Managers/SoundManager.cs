@@ -65,9 +65,6 @@ namespace MoreMountains.InfiniteRunnerEngine
 
 		[Header("Pause")] public bool MuteSfxOnPause = true;
 
-		protected const string _saveFolderName = "InfiniteRunnerEngine/";
-		protected const string _saveFileName = "sound.settings";
-
 		[Header("Tests")] 
 		[MMInspectorButton("ToggleMusic")]
 		public bool MusicToggleButton;
@@ -225,32 +222,40 @@ namespace MoreMountains.InfiniteRunnerEngine
 			SetSfx(!Settings.SfxOn);
 		}
 
-		protected virtual void SaveSoundSettings()
-		{
-			MMSaveLoadManager.Save(Settings, _saveFileName, _saveFolderName);
-		}
+        protected virtual void SaveSoundSettings()
+        {
+            ES3.Save("SoundSettings", Settings);
+        }
 
-		protected virtual void LoadSoundSettings()
-		{
-			SoundSettings settings =
-				(SoundSettings)MMSaveLoadManager.Load(typeof(SoundSettings), _saveFileName, _saveFolderName);
-			if (settings != null)
-			{
-				Settings = settings;
-			}
-		}
+        protected virtual void LoadSoundSettings()
+        {
+            if (ES3.KeyExists("SoundSettings"))
+            {
+                Settings = ES3.Load<SoundSettings>("SoundSettings");
+            }
+            else
+            {
+                Settings = new SoundSettings(); // defaults
+            }
+        }
 
-		public virtual AudioSource GetBackgroundMusic()
+
+        public virtual AudioSource GetBackgroundMusic()
 		{
 			return _backgroundMusic;
 		}
 
-		protected virtual void ResetSoundSettings()
-		{
-			MMSaveLoadManager.DeleteSave(_saveFileName, _saveFolderName);
-		}
+        protected virtual void ResetSoundSettings()
+        {
+            if (ES3.KeyExists("SoundSettings"))
+            {
+                ES3.DeleteKey("SoundSettings");
+            }
 
-		public virtual void OnMMSfxEvent(AudioClip clipToPlay, AudioMixerGroup audioGroup = null, float volume = 1f,
+            Settings = new SoundSettings(); // reset to defaults
+        }
+
+        public virtual void OnMMSfxEvent(AudioClip clipToPlay, AudioMixerGroup audioGroup = null, float volume = 1f,
 			float pitch = 1f)
 		{
 			PlaySound(clipToPlay, this.transform.position);

@@ -1,4 +1,6 @@
+using AccuracyMeter; // top of file
 using DamageNumbersPro;
+using DG.Tweening;
 using Elroi.Missions;
 using IndieKit;
 using MoreMountains.Tools;
@@ -8,6 +10,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
+
+
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -95,6 +99,31 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private UnityEngine.UI.Image _star2;
         [SerializeField] private UnityEngine.UI.Image _star3;
 
+        [SerializeField] private AccuracyMeterCashPreviewExample accuracyCashPreview;
+
+        [Header("Phase 2 Ruthless Timer UI")]
+        [SerializeField] private GameObject ruthlessTimerRoot;       // whole bar object
+        [SerializeField] private UnityEngine.UI.Slider ruthlessTimerSlider;            // fill image (type = Filled)
+        [SerializeField] private TextMeshProUGUI ruthlessTimerText;  // center text on bar
+        [SerializeField] private CanvasGroup ruthlessTimerCanvasGroup;
+        [SerializeField] private float ruthlessTimerFadeOutDuration = 0.25f;
+
+        [Header("Phase 2 +Seconds Popup / Fly")]
+        [SerializeField] private RectTransform timePopupAnchor;      // near the power meter
+        [SerializeField] private TextMeshProUGUI flyTextPrefab;      // lightweight TMP fly text
+        [SerializeField] private float popupHoldBeforeFly = 0.20f;
+        [SerializeField] private float flyDuration = 0.35f;
+        [SerializeField] private Vector2 popupAnchorOffset = new Vector2(40f, 20f);
+        [SerializeField] private RectTransform ruthlessTimerFillRect;
+        [SerializeField] private CanvasGroup ruthlessTimerTextCanvasGroup;
+        [SerializeField] private float ruthlessTimerTextFadeInDuration = 0.12f;
+
+        public float FlyDuration => flyDuration;
+        private Tween _ruthlessFadeTween;
+        private Coroutine _ruthlessCountdownCo;
+        private float _ruthlessCountdownTotal;
+        public bool LastLevelSuccess { get; private set; }
+
         // Phase 2 Timeout Guards
         private bool _phase2DownslamButtonPressed;   // latch: once true, never kill on timeout
         private bool _phase2BossResolved;            // latch: once resolved, ignore further timeout/result triggers
@@ -154,6 +183,17 @@ namespace MoreMountains.InfiniteRunnerEngine
                 cashPopupPrefab.PrewarmPool();
             }
         }
+        //private void ShowRuthlessTimerEmpty()
+        //{
+        //    if (ruthlessTimerRoot != null)
+        //        ruthlessTimerRoot.SetActive(true);
+
+        //    if (ruthlessTimerFill != null)
+        //        ruthlessTimerFill.fillAmount = 1f;
+
+        //    if (ruthlessTimerText != null)
+        //        ruthlessTimerText.text = "";
+        //}
 
         private IEnumerator CachePhase2EventsWhenReadyCo()
         {
@@ -429,13 +469,41 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void RestartPhase2PowerMeter()
         {
+            // IMPORTANT: reset Phase2 resolution latches for the retry
+            _phase2BossResolved = false;
+            _phase2DownslamButtonPressed = false;
+            _phase2SimInProgress = false;
+
             if (powerMeter == null)
                 return;
 
+            // Make sure the UI is usable again
             powerMeter.gameObject.SetActive(true);
-            powerMeter.ResetTickerTo(Random.value); // or 0.5f if you want consistency
+
+            CacheSlamHUDReferencesIfNeeded();
+            if (DownslamButton != null)
+            {
+                DownslamButton.gameObject.SetActive(true);
+                DownslamButton.interactable = true;
+            }
+
+            // Optional: bring meter back visually if it was faded out
+            CachePowerMeterGroupIfNeeded();
+            if (_powerMeterGroup != null)
+            {
+                _powerMeterGroup.alpha = 1f;
+                _powerMeterGroup.interactable = false;   // meter shouldn't block clicks
+                _powerMeterGroup.blocksRaycasts = false;
+            }
+            if (SlamButtonGroup != null)
+            {
+                SlamButtonGroup.interactable = true;
+                SlamButtonGroup.blocksRaycasts = true;
+            }
+            powerMeter.ResetTickerTo(Random.value); // or 0.5f if you want consistent retries
             powerMeter.StartMeter();
         }
+
 
         private void OnPowerMeterResult(PowerMeter.ZoneResult result, float normalized)
         {
@@ -445,6 +513,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             {
                 case PowerMeter.ZoneResult.Red:
                 {
+                    DisableSlamButtonForPhase2Death();
                     var player = FindFirstObjectByType<PlayerPhase2Controller>();
                     if (player != null)
                     {
@@ -464,6 +533,10 @@ namespace MoreMountains.InfiniteRunnerEngine
                     //Sanity check
                     if (phase2PowerSlamFrameEvents == null) BindPhase2FrameEvents();
                     if (phase2PowerSlamFrameEvents == null) { Debug.LogError("Phase2PowerSlamFrameEvents missing"); return; }
+                    
+                    phase2PowerSlamFrameEvents.SetPhase2PowerMeterResult(result);
+                    float awarded = phase2PowerSlamFrameEvents.PeekRewardedSlowMoDuration();
+                    Phase2ShowRuthlessTimeAward(awarded);
 
                     // Trigger the arm flip + launch sequence
                     SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor.Phase2CarImpulse.ArmFlipOnce();
@@ -472,10 +545,82 @@ namespace MoreMountains.InfiniteRunnerEngine
                     StartCoroutine(SimulateDoubleJumpThenDownAttack());
                     // success path (already working / later work)
                     FadeOutSlamHUD();
+
                     break;
                 }
             }
         }
+
+        public void Phase2ShowRuthlessTimeAward(float secondsAwarded)
+        {
+            Phase2ShowRuthlessTimerEmpty(secondsAwarded);
+
+            if (timePopupAnchor == null || flyTextPrefab == null || ruthlessTimerText == null)
+                return;
+
+            // Spawn under the same parent as the anchor (your PowerMeterUI/Ticker chain)
+            var fly = Instantiate(flyTextPrefab, timePopupAnchor.parent);
+            fly.gameObject.SetActive(true);
+            fly.text = $"+{secondsAwarded:0.0}s";
+
+            RectTransform flyRt = fly.rectTransform;
+
+            // IMPORTANT: use WORLD positions (shared space across UI subtrees)
+            // Start at the anchor position + offset in the anchor's local space
+            Vector3 startWorld = timePopupAnchor.TransformPoint(new Vector3(popupAnchorOffset.x, popupAnchorOffset.y, 0f));
+            Vector3 targetWorld = ruthlessTimerFillRect != null
+                ? ruthlessTimerFillRect.position
+                : ruthlessTimerText.rectTransform.position; // fallback
+
+            flyRt.position = startWorld;
+
+            // Pop (unscaled)
+            flyRt.localScale = Vector3.one * 0.9f;
+            flyRt.DOScale(1.1f, 0.12f)
+                 .SetEase(Ease.OutBack)
+                 .SetUpdate(true);
+
+            // Fly in WORLD space (unscaled)
+            flyRt.DOMove(targetWorld, flyDuration)
+                 .SetDelay(popupHoldBeforeFly)
+                 .SetEase(Ease.InOutQuad)
+                 .SetUpdate(true)
+                 .OnComplete(() =>
+                 {
+                     Destroy(fly.gameObject);
+
+                     // Set text
+                     ruthlessTimerText.text = $"{secondsAwarded:0.0}s";
+
+                     // Fade in (unscaled), no movement
+                     if (ruthlessTimerTextCanvasGroup != null)
+                     {
+                         ruthlessTimerTextCanvasGroup.DOKill();
+                         ruthlessTimerTextCanvasGroup.alpha = 0f;
+                         ruthlessTimerTextCanvasGroup
+                             .DOFade(1f, ruthlessTimerTextFadeInDuration)
+                             .SetEase(Ease.OutQuad)
+                             .SetUpdate(true);
+                     }
+
+                     // Pulse scale only (unscaled)
+                     var t = ruthlessTimerText.rectTransform;
+                     t.DOKill();
+                     t.localScale = Vector3.one;
+
+                     t.DOScale(1.18f, 0.08f)
+                      .SetEase(Ease.OutQuad)
+                      .SetUpdate(true)
+                      .OnComplete(() =>
+                          t.DOScale(1f, 0.10f)
+                           .SetEase(Ease.InQuad)
+                           .SetUpdate(true)
+                      );
+                 });
+        }
+
+
+
 
         public void OnPhase2BossCountdownFinished()
         {
@@ -827,6 +972,9 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             SkateRunnerDestructibleObject.OnDestroyed += HandleDestroyedForCash;
             SkateRunnerDestructibleObject.OnEnemyKilled += HandleEnemyKilledForSlam;
+
+            //SkateAssassinRunnerLevelManager.OnPhase2LifeLost += HandlePhase2LifeLost;
+
             base.OnEnable();
         }
 
@@ -834,7 +982,35 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             SkateRunnerDestructibleObject.OnDestroyed -= HandleDestroyedForCash;
             SkateRunnerDestructibleObject.OnEnemyKilled -= HandleEnemyKilledForSlam;
+
+            //SkateAssassinRunnerLevelManager.OnPhase2LifeLost -= HandlePhase2LifeLost;
+
             base.OnDisable();
+        }
+
+        private void HandlePhase2LifeLost()
+        {
+            // Only matters during Phase 2 boss/QTE. Phase 1 untouched.
+            if (SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor == null ||
+                !SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor.IsPhase2BossActive)
+            {
+                return;
+            }
+
+            // Disable Slam button completely during death/respawn window
+            if (DownslamButton != null)
+            {
+                DownslamButton.interactable = false;
+                DownslamButton.gameObject.SetActive(false);
+            }
+
+            // Also ensure CanvasGroup doesn't eat clicks if it exists
+            CacheSlamHUDReferencesIfNeeded();
+            if (SlamButtonGroup != null)
+            {
+                SlamButtonGroup.interactable = false;
+                SlamButtonGroup.blocksRaycasts = false;
+            }
         }
 
         private void HandleDestroyedForCash(SkateRunnerDestructibleObject obj)
@@ -860,6 +1036,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void ShowLevelEndScreen(bool success)
         {
+            LastLevelSuccess = success;
             if (_levelEndShown) return;
             _levelEndShown = true;
             MissionSystem.MissionSystemAccessor?.OnLevelEnd(success);
@@ -905,6 +1082,10 @@ namespace MoreMountains.InfiniteRunnerEngine
                 {
                     LevelEndCashEarnedText.text =
                         SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel().ToString("0");
+                    int earnedCash = Mathf.RoundToInt(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel());
+
+                    accuracyCashPreview?.UnlockPreview();
+                    accuracyCashPreview?.SetEarnedCash(earnedCash);
                 }
 
                 if (LevelEndGemsEarnedText != null)
@@ -912,8 +1093,6 @@ namespace MoreMountains.InfiniteRunnerEngine
                     LevelEndGemsEarnedText.text =
                         SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetGemsEarnedThisLevel().ToString("0");
                 }
-                // TEMP: saving immediately for now (replace with callback after ad returns)
-                SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.SaveAfterLevelEnd(success);
             }
         }
         private void SetStars(int stars)
@@ -935,6 +1114,138 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             // Player declined revive -> show end screen as failure
             ShowLevelEndScreen(false);
+        }
+        public void DisableSlamButtonForPhase2Death()
+        {
+            // Only matters during Phase 2 boss/QTE. Phase 1 untouched.
+            if (SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor == null ||
+                !SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor.IsPhase2BossActive)
+            {
+                return;
+            }
+
+            // Disable Slam button completely during death/respawn window
+            if (DownslamButton != null)
+            {
+                DownslamButton.interactable = false;
+                DownslamButton.gameObject.SetActive(false);
+            }
+
+            // Also ensure CanvasGroup doesn't eat clicks if it exists
+            CacheSlamHUDReferencesIfNeeded();
+            if (SlamButtonGroup != null)
+            {
+                SlamButtonGroup.interactable = false;
+                SlamButtonGroup.blocksRaycasts = false;
+            }
+        }
+        public void Phase2ShowRuthlessTimerEmpty(float awardedSeconds)
+        {
+            if (ruthlessTimerRoot != null && !ruthlessTimerRoot.activeSelf)
+                ruthlessTimerRoot.SetActive(true);
+
+            if (ruthlessTimerSlider != null)
+            {
+                ruthlessTimerSlider.minValue = 0f;
+                ruthlessTimerSlider.maxValue = Mathf.Max(0.01f, awardedSeconds);
+                ruthlessTimerSlider.value = ruthlessTimerSlider.maxValue; // starts full
+            }
+
+            if (ruthlessTimerText != null)
+                ruthlessTimerText.text = ""; // we’ll set it after fly animation later
+
+            if (ruthlessTimerCanvasGroup != null)
+            {
+                _ruthlessFadeTween?.Kill();
+                ruthlessTimerCanvasGroup.DOKill();
+                ruthlessTimerCanvasGroup.alpha = 1f;
+            }
+            if (ruthlessTimerTextCanvasGroup != null)
+            {
+                ruthlessTimerTextCanvasGroup.DOKill();
+                ruthlessTimerTextCanvasGroup.alpha = 0f; // start invisible
+            }
+        }
+
+        public void Phase2BeginRuthlessTapCountdown(float totalAwardedSeconds, float remainingSeconds)
+        {
+            if (ruthlessTimerRoot != null && !ruthlessTimerRoot.activeSelf)
+                ruthlessTimerRoot.SetActive(true);
+
+            float total = Mathf.Max(0.01f, totalAwardedSeconds);
+            float remaining = Mathf.Clamp(remainingSeconds, 0f, total);
+
+            if (ruthlessTimerSlider != null)
+            {
+                ruthlessTimerSlider.minValue = 0f;
+                ruthlessTimerSlider.maxValue = total;
+                ruthlessTimerSlider.value = remaining;
+            }
+
+            if (_ruthlessCountdownCo != null)
+                StopCoroutine(_ruthlessCountdownCo);
+
+            _ruthlessCountdownCo = StartCoroutine(CoRuthlessCountdown(total, remaining));
+        }
+
+        private IEnumerator CoRuthlessCountdown(float total, float startRemaining)
+        {
+            float t = startRemaining;
+
+            while (t > 0f)
+            {
+                t -= Time.unscaledDeltaTime;
+                float clamped = Mathf.Max(0f, t);
+
+                if (ruthlessTimerSlider != null)
+                    ruthlessTimerSlider.value = clamped;
+
+                if (ruthlessTimerText != null)
+                    ruthlessTimerText.text = $"{clamped:0.0}s";
+
+                yield return null;
+            }
+
+            if (ruthlessTimerSlider != null)
+                ruthlessTimerSlider.value = 0f;
+
+            if (ruthlessTimerText != null)
+                ruthlessTimerText.text = "0.0s";
+
+            Phase2FadeOutRuthlessTimer();
+            _ruthlessCountdownCo = null;
+
+        }
+
+        private void Phase2FadeOutRuthlessTimer()
+        {
+            if (ruthlessTimerRoot == null) return;
+
+            // Ensure it’s active so the fade can be visible
+            if (!ruthlessTimerRoot.activeSelf)
+                ruthlessTimerRoot.SetActive(true);
+
+            if (ruthlessTimerCanvasGroup == null)
+            {
+                // fallback: can't fade without CanvasGroup
+                ruthlessTimerRoot.SetActive(false);
+                return;
+            }
+
+            // Kill any previous fade tween
+            _ruthlessFadeTween?.Kill();
+            ruthlessTimerCanvasGroup.DOKill();
+
+            // Start from current alpha (don’t force 1.0 here)
+            _ruthlessFadeTween = ruthlessTimerCanvasGroup
+                .DOFade(0f, ruthlessTimerFadeOutDuration)
+                .SetEase(DG.Tweening.Ease.OutQuad)
+                .SetUpdate(true) // unscaled (immune to slowmo)
+                .OnComplete(() =>
+                {
+                    ruthlessTimerRoot.SetActive(false);
+                    ruthlessTimerCanvasGroup.alpha = 1f; // reset for next time
+                });
         }
 
 
