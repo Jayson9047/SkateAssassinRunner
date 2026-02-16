@@ -102,6 +102,12 @@ public abstract class EnemyBase : MonoBehaviour
 
         StartCoroutine(EnableSwordAtFrameRoutine());
     }
+    public void NotifyPlayerExitedReach(Collider playerCollider)
+    {
+        OnPlayerExitReach(playerCollider);
+    }
+
+    protected virtual void OnPlayerExitReach(Collider playerCollider) { }
 
     private System.Collections.IEnumerator EnableSwordAtFrameRoutine()
     {
@@ -156,6 +162,15 @@ public abstract class EnemyBase : MonoBehaviour
                 return;
 
             owner.NotifyPlayerEnteredReach(other);
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            if (owner == null) return;
+
+            if (!string.IsNullOrEmpty(playerTag) && !other.CompareTag(playerTag))
+                return;
+
+            owner.NotifyPlayerExitedReach(other);
         }
     }
 
