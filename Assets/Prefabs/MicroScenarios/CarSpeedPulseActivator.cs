@@ -10,6 +10,7 @@ public class CarSpeedPulseActivator : MonoBehaviour
     [Header("Pulse")]
     [SerializeField] private float activeSpeed = 6f;
     [SerializeField] private float activeDuration = 2f;
+    [SerializeField] private float defaultSpeed = 0f;
 
     private Vector3 initialLocalPos;
     private Quaternion initialLocalRot;
@@ -29,7 +30,7 @@ public class CarSpeedPulseActivator : MonoBehaviour
         CacheInitialLocalTransform();
 
         if (carMovingObject != null)
-            carMovingObject.Speed = 0f;
+            carMovingObject.Speed = defaultSpeed;
     }
 
     private void OnEnable()
@@ -44,7 +45,7 @@ public class CarSpeedPulseActivator : MonoBehaviour
         }
 
         if (carMovingObject != null)
-            carMovingObject.Speed = 0f;
+            carMovingObject.Speed = defaultSpeed;
 
         RestoreInitialLocalTransform();
     }

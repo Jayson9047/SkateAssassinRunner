@@ -2,6 +2,7 @@ using IndieKit;
 using MoreMountains.InfiniteRunnerEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SwipeRightAttackDetector : MonoBehaviour
@@ -64,7 +65,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [Header("Attack Hit (Pass-to-Destroy)")]
     [Tooltip("Only colliders on these layers are hittable targets (hurtboxes / barrels). IMPORTANT: exclude detection-trigger layers.")]
     [SerializeField] private LayerMask damageableMask = ~0;
-
+    [SerializeField] private LayerMask obstacleMask = ~0;
+    
     [Tooltip("Max allowed Z separation (2.5D). Tighten if you ever hit things behind/in front.")]
     [SerializeField] private float depthWindow = 0.60f;
 
@@ -585,9 +587,19 @@ public class SwipeRightAttackDetector : MonoBehaviour
             damageableMask,
             QueryTriggerInteraction.Collide
         );
+        //Collider[] cols1 = Physics.OverlapCapsule(
+        //    fromPos,
+        //    toPos,
+        //    sweepRadius+50f,
+        //    obstacleMask,
+        //    QueryTriggerInteraction.Collide
+        //);
 
+        //if(cols1 != null && cols1.Length != 0)
+        //{
+        //    Debug.Log($"AAAA Hit obstacle {cols1[0].name}");
+        //}
         if (cols == null || cols.Length == 0) return;
-
         Vector3 playerPos = toPos;
 
         for (int i = 0; i < cols.Length; i++)
