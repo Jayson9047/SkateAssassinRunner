@@ -52,10 +52,13 @@ public class SimpleProjectile : MonoBehaviour
         if (t != null) _hit = t.gameObject;
     }
 
-    public void Init(Vector3 direction, Transform ownerRoot)
+    public void Init(Vector3 direction, Transform ownerRoot, float? overrideShotSpeed = null)
     {
         _shotDirection = direction.normalized;
         _ownerRoot = ownerRoot;
+
+        if (overrideShotSpeed.HasValue)
+            shotSpeed = overrideShotSpeed.Value;
 
         _hasHit = false;
 
@@ -94,6 +97,10 @@ public class SimpleProjectile : MonoBehaviour
 
         // Ensure travel visual is visible
         if (_travelVisual != null) _travelVisual.SetActive(true);
+    }
+    public void SetShotSpeed(float newSpeed)
+    {
+        shotSpeed = newSpeed;
     }
 
     private void Update()
