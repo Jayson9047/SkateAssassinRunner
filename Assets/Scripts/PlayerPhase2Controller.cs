@@ -9,6 +9,11 @@ public class PlayerPhase2Controller : MonoBehaviour
     [SerializeField] private float deathDelay = 1f;
     [SerializeField] private string phase2DeadTriggerName = "Phase2Dead";
 
+    [Header("Phase 2 Execution (Bullet-driven)")]
+    [SerializeField] private float executionFailsafeSeconds = 0f; // set 0 to disable
+    public bool Phase2ExecutionPending { get; private set; }
+    private Coroutine _executionFailsafeCo;
+
     private Animator _animator;
     private PlayableCharacter _playableCharacter;
     private bool _phase2DeathInProgress;
@@ -23,6 +28,62 @@ public class PlayerPhase2Controller : MonoBehaviour
             Debug.LogError("[PlayerPhase2Controller] Animator not found in children.");
         }
     }
+
+    private void OnEnable()
+    {
+        _phase2DeathInProgress = false;
+        Phase2ExecutionPending = false;
+
+        if (_executionFailsafeCo != null)
+        {
+            StopCoroutine(_executionFailsafeCo);
+            _executionFailsafeCo = null;
+        }
+    }
+
+    public void BeginPhase2ExecutionPending()
+    {
+        // Don’t start it twice
+        if (Phase2ExecutionPending) return;
+
+        Phase2ExecutionPending = true;
+
+        // Optional failsafe to avoid soft-lock if bullet misses (0 disables)
+        if (executionFailsafeSeconds > 0f)
+        {
+            if (_executionFailsafeCo != null) StopCoroutine(_executionFailsafeCo);
+            _executionFailsafeCo = StartCoroutine(ExecutionFailsafeCo());
+        }
+    }
+
+    public void OnHitByPhase2ExecutionBullet()
+    {
+        if (!Phase2ExecutionPending) return;
+
+        Phase2ExecutionPending = false;
+
+        if (_executionFailsafeCo != null)
+        {
+            StopCoroutine(_executionFailsafeCo);
+            _executionFailsafeCo = null;
+        }
+
+        TriggerPhase2RedFail();
+    }
+
+    private IEnumerator ExecutionFailsafeCo()
+    {
+        yield return new WaitForSeconds(executionFailsafeSeconds);
+        _executionFailsafeCo = null;
+
+        // If still pending, force the death to avoid hanging the run.
+        if (Phase2ExecutionPending)
+        {
+            Phase2ExecutionPending = false;
+            TriggerPhase2RedFail();
+        }
+    }
+
 
     /// <summary>
     /// Called when PowerMeter result is RED during Phase 2.

@@ -529,16 +529,18 @@ namespace MoreMountains.InfiniteRunnerEngine
                 case PowerMeter.ZoneResult.Red:
                 {
                     DisableSlamButtonForPhase2Death();
-                    FindFirstObjectByType<EnemyType3>()?.ShootKillShot();
+
                     var player = FindFirstObjectByType<PlayerPhase2Controller>();
                     if (player != null)
                     {
-                        player.TriggerPhase2RedFail();
+                        player.BeginPhase2ExecutionPending();
+                        FindFirstObjectByType<EnemyType3>()?.ShootKillShot();
                     }
                     else
                     {
                         Debug.LogError("[Phase2] PlayerPhase2Controller not found.");
                     }
+
                     break;
                 }
 
@@ -651,8 +653,8 @@ namespace MoreMountains.InfiniteRunnerEngine
             var player = FindFirstObjectByType<PlayerPhase2Controller>();
             if (player != null)
             {
+                player.BeginPhase2ExecutionPending();
                 FindFirstObjectByType<EnemyType3>()?.ShootKillShot();
-                player.TriggerPhase2RedFail();
             }
             else
             {

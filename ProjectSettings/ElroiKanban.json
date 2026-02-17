@@ -1,7 +1,7 @@
 {
     "schemaVersion": 5,
-    "selectedMilestoneId": "d6812a1b0c8f418f9f14aed3502c0d4d",
-    "selectedFeatureId": "1e25eefed9564be6be77324edc36accf",
+    "selectedMilestoneId": "8d5c6b8900fc461e88bd59fae1b81eba",
+    "selectedFeatureId": "4b791b3cb5484fadbb930600da42533c",
     "columnNames": [
         "Backlog",
         "In Progress",
@@ -592,6 +592,13 @@
                     "description": "",
                     "createdUtcTicks": 639064700160965639,
                     "updatedUtcTicks": 639064700510169552
+                },
+                {
+                    "id": "7dc7a2ce24eb4577bc880eee8ae8064e",
+                    "name": "During Phase 1 and Phase 2 starting there shall be headlines fade in",
+                    "description": "",
+                    "createdUtcTicks": 639068941560780457,
+                    "updatedUtcTicks": 639068942023430676
                 }
             ],
             "tasks": [
