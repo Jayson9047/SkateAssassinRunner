@@ -3,7 +3,7 @@
 using UnityEngine.UI;
 #endif
 using System.Collections;
-#if (MM_TEXTMESHPRO || MM_UGUI2)
+#if MM_UGUI2
 using TMPro;
 #endif
 using UnityEngine.Events;
@@ -219,7 +219,7 @@ namespace MoreMountains.Tools
 		/// a Text object to update with the bar's value
 		[Tooltip("a Text object to update with the bar's value")]
 		public Text PercentageText;
-		#if (MM_TEXTMESHPRO || MM_UGUI2)
+		#if MM_UGUI2
 		/// a TMPro text object to update with the bar's value
 		[Tooltip("a TMPro text object to update with the bar's value")]
 		public TMP_Text PercentageTextMeshPro;
@@ -236,7 +236,7 @@ namespace MoreMountains.Tools
 		public float TextValueMultiplier = 1f;
 		/// the format in which the text should display
 		[Tooltip("the format in which the text should display")]
-		public string TextFormat = "{000}";
+		public string TextFormat = "000";
 		/// whether or not to display the total after the current value 
 		[Tooltip("whether or not to display the total after the current value")]
 		public bool DisplayTotal = false;
@@ -490,7 +490,7 @@ namespace MoreMountains.Tools
 			_isDelayedBarDecreasingNotNull = DelayedBarDecreasing != null;
 			_isDelayedBarIncreasingNotNull = DelayedBarIncreasing != null;
 			_isPercentageTextNotNull = PercentageText != null;
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
 			_isPercentageTextMeshProNotNull = PercentageTextMeshPro != null;
 			#endif
 			_initialScale = this.transform.localScale;
@@ -519,6 +519,15 @@ namespace MoreMountains.Tools
 			{
 				SetBar01(InitialFillValue);
 			}
+		}
+
+		/// <summary>
+		/// Call this method to set a new initial color at runtime, which will be used as a base for the bump color changes
+		/// </summary>
+		/// <param name="newInitialColor"></param>
+		public virtual void SetInitialColor(Color newInitialColor)
+		{
+			_initialColor = newInitialColor;
 		}
 
 		protected virtual void StoreInitialColor()
@@ -606,7 +615,7 @@ namespace MoreMountains.Tools
 			{
 				PercentageText.text = _updatedText;
 			}
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
 			if (_isPercentageTextMeshProNotNull)
 			{
 				PercentageTextMeshPro.text = _updatedText;

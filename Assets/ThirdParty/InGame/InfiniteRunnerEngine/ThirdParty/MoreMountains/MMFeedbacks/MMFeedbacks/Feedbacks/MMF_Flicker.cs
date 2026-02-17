@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using MoreMountains.Tools;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback lets you flicker the color of a specified renderer (sprite, mesh, etc) for a certain duration, at the specified octave, and with the specified color. Useful when a character gets hit, for example (but so much more!).")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("Renderer/Flicker")]
 	public class MMF_Flicker : MMF_Feedback
 	{
@@ -99,6 +101,15 @@ namespace MoreMountains.Feedbacks
 		/// <param name="owner"></param>
 		protected override void CustomInitialization(MMF_Player owner)
 		{
+			if (MaterialIndexes == null)
+			{
+				MaterialIndexes = Array.Empty<int>();
+			}
+			if (ExtraBoundRenderers == null)
+			{
+				ExtraBoundRenderers = new List<Renderer>();
+			}
+			
 			// init material indexes
 			if (MaterialIndexes.Length == 0)
 			{
@@ -175,10 +186,14 @@ namespace MoreMountains.Feedbacks
 			}
 			if (BoundRenderer == null)
 			{
-				Debug.LogWarning("[MMFeedbackFlicker] The flicker feedback on "+Owner.name+" doesn't have a bound renderer, it won't work. You need to specify a renderer to flicker in its inspector.");
+				Debug.LogWarning("[Flicker Feedback] The flicker feedback on "+Owner.name+" doesn't have a bound renderer, it won't work. You need to specify a renderer to flicker in its inspector.");
+			}
+
+			if (BoundRenderer != null)
+			{
+				_spriteRenderer = BoundRenderer.GetComponent<SpriteRenderer>();	
 			}
 			
-			_spriteRenderer = BoundRenderer.GetComponent<SpriteRenderer>();
 			_spriteRenderers = new List<SpriteRenderer>();
 			foreach (Renderer renderer in ExtraBoundRenderers)
 			{

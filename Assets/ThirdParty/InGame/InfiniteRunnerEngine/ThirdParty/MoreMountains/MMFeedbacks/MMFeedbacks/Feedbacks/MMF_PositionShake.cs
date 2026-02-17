@@ -9,6 +9,7 @@ namespace MoreMountains.Feedbacks
 	/// </summary>
 	[AddComponentMenu("")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("Transform/Position Shake")]
 	[FeedbackHelp("This feedback lets you emit a PositionShake event. This will be caught by MMPositionShakers (on the specified channel)." +
 	              " Position shakers, as the name suggests, are used to shake the position of a transform, along a direction, with optional noise and other fine control options.")]
@@ -123,7 +124,7 @@ namespace MoreMountains.Feedbacks
 
 			if (TargetShaker == null)
 			{
-				MMPositionShakeEvent.Trigger(Duration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
+				MMPositionShakeEvent.Trigger(FeedbackDuration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
 					RandomizeDirectionX, RandomizeDirectionY, RandomizeDirectionZ, AddDirectionalNoise, 
 					DirectionalNoiseStrengthMin,  DirectionalNoiseStrengthMax,  RandomnessSeed,  RandomizeSeedOnShake,  UseAttenuation,  AttenuationCurve,
 					UseRange, RangeDistance, UseRangeFalloff, RangeFalloff, RemapRangeFalloff, position,
@@ -131,7 +132,7 @@ namespace MoreMountains.Feedbacks
 			}
 			else
 			{
-				TargetShaker?.OnMMPositionShakeEvent(Duration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
+				TargetShaker?.OnMMPositionShakeEvent(FeedbackDuration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
 					RandomizeDirectionX, RandomizeDirectionY, RandomizeDirectionZ, AddDirectionalNoise, 
 					DirectionalNoiseStrengthMin,  DirectionalNoiseStrengthMax,  RandomnessSeed,  RandomizeSeedOnShake,  UseAttenuation,  AttenuationCurve,
 					UseRange, RangeDistance, UseRangeFalloff, RangeFalloff, RemapRangeFalloff, position,
@@ -154,13 +155,13 @@ namespace MoreMountains.Feedbacks
 
 			if (TargetShaker == null)
 			{
-				MMPositionShakeEvent.Trigger(Duration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
+				MMPositionShakeEvent.Trigger(FeedbackDuration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
 					RandomizeDirectionX, RandomizeDirectionY, RandomizeDirectionZ, AddDirectionalNoise, 
 					DirectionalNoiseStrengthMin,  DirectionalNoiseStrengthMax,  RandomnessSeed,  RandomizeSeedOnShake,  UseAttenuation,  AttenuationCurve, stop:true);	
 			}
 			else
 			{
-				TargetShaker?.OnMMPositionShakeEvent(Duration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
+				TargetShaker?.OnMMPositionShakeEvent(FeedbackDuration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
 					RandomizeDirectionX, RandomizeDirectionY, RandomizeDirectionZ, AddDirectionalNoise, 
 					DirectionalNoiseStrengthMin,  DirectionalNoiseStrengthMax,  RandomnessSeed,  RandomizeSeedOnShake,  UseAttenuation,  AttenuationCurve, channelData:TargetShaker.ChannelData, stop:true);	
 			}
@@ -178,13 +179,13 @@ namespace MoreMountains.Feedbacks
 
 			if (TargetShaker == null)
 			{
-				MMPositionShakeEvent.Trigger(Duration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
+				MMPositionShakeEvent.Trigger(FeedbackDuration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
 					RandomizeDirectionX, RandomizeDirectionY, RandomizeDirectionZ, AddDirectionalNoise, 
 					DirectionalNoiseStrengthMin,  DirectionalNoiseStrengthMax,  RandomnessSeed,  RandomizeSeedOnShake,  UseAttenuation,  AttenuationCurve, restore:true);	
 			}
 			else
 			{
-				TargetShaker?.OnMMPositionShakeEvent(Duration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
+				TargetShaker?.OnMMPositionShakeEvent(FeedbackDuration, ShakeSpeed,  ShakeRange,  ShakeMainDirection,  RandomizeDirection,  ShakeAltDirection,  RandomizeDirectionOnPlay,  
 					RandomizeDirectionX, RandomizeDirectionY, RandomizeDirectionZ, AddDirectionalNoise, 
 					DirectionalNoiseStrengthMin,  DirectionalNoiseStrengthMax,  RandomnessSeed,  RandomizeSeedOnShake,  UseAttenuation,  AttenuationCurve, channelData:TargetShaker.ChannelData, restore:true);	
 			}

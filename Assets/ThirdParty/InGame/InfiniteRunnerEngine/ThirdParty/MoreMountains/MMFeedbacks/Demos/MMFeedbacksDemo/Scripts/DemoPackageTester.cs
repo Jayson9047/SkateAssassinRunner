@@ -47,7 +47,7 @@ namespace MoreMountains.Feedbacks
 			cinemachineFound = true;
 			#endif
                         
-			/*#if (MM_TEXTMESHPRO || MM_UGUI2)
+			/*#if MM_UGUI2
 			tmpFound = true;
 			#endif*/
                         

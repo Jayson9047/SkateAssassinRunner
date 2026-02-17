@@ -39,7 +39,7 @@ namespace MoreMountains.Tools
 
 		[Header("Binding")]
 		/// The name of the scene to load while the actual target scene is loading (usually a loading screen)
-		public static string LoadingScreenSceneName= "SkateRunnerLoadingScreen";
+		public static string LoadingScreenSceneName="SkateRunnerLoadingScreen";
 
 		[Header("GameObjects")]
 		#if MM_UI
@@ -137,7 +137,7 @@ namespace MoreMountains.Tools
 
 			// we fade from black
 			MMFadeOutEvent.Trigger(StartFadeDuration, _tween);
-			yield return new WaitForSeconds(StartFadeDuration);
+			yield return MMCoroutine.WaitFor(StartFadeDuration);
             
 			// we start loading the scene
 			_asyncOperation = SceneManager.LoadSceneAsync(_sceneToLoad,LoadSceneMode.Single );
@@ -154,7 +154,7 @@ namespace MoreMountains.Tools
 
 			// we wait for the bar to be visually filled to continue
 			#if MM_UI
-			while (_progressBarImage.fillAmount != _fillTarget)
+			while (!Mathf.Approximately(_progressBarImage.fillAmount, _fillTarget))
 			{
 				yield return null;
 			}
@@ -162,11 +162,11 @@ namespace MoreMountains.Tools
 
 			// the load is now complete, we replace the bar with the complete animation
 			LoadingComplete();
-			yield return new WaitForSeconds(LoadCompleteDelay);
+			yield return MMCoroutine.WaitFor(LoadCompleteDelay);
 
 			// we fade to black
 			MMFadeInEvent.Trigger(ExitFadeDuration, _tween);
-			yield return new WaitForSeconds(ExitFadeDuration);
+			yield return MMCoroutine.WaitFor(ExitFadeDuration);
 
 			// we switch to the new scene
 			_asyncOperation.allowSceneActivation = true;

@@ -230,7 +230,10 @@ namespace MoreMountains.Tools
 				return;
 			}
 
-			string callerObjectName = new StackTrace().GetFrame(1).GetMethod().ReflectedType.Name;
+			string callerObjectName = "";
+			#if !UNITY_WEBGL
+			 callerObjectName = new StackTrace().GetFrame(1).GetMethod().ReflectedType.Name;
+			#endif
 			color = (color == "") ? "#00FFFF" : color;
             
 			// colors
@@ -403,6 +406,8 @@ namespace MoreMountains.Tools
 
 		#region Casts
 
+		#if MM_PHYSICS2D
+		
 		/// <summary>
 		/// Draws a debug ray in 2D and does the actual raycast
 		/// </summary>
@@ -497,6 +502,8 @@ namespace MoreMountains.Tools
 			}
 			return new RaycastHit2D();        	
 		}
+
+		#endif
 
 		/// <summary>
 		/// Draws a debug ray in 3D and does the actual raycast

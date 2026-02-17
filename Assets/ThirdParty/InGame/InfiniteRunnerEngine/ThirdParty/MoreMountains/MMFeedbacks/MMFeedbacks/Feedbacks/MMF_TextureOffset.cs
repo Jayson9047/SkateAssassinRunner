@@ -11,6 +11,7 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will let you control the texture offset of a target material over time.")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("Renderer/Texture Offset")]
 	public class MMF_TextureOffset : MMF_Feedback
 	{
@@ -93,6 +94,12 @@ namespace MoreMountains.Feedbacks
 		protected override void CustomInitialization(MMF_Player owner)
 		{
 			base.CustomInitialization(owner);
+			
+			if (TargetRenderer == null)
+			{
+				Debug.LogWarning("[Texture Offset Feedback] The texture offset feedback on "+Owner.name+" doesn't have a target renderer, it won't work. You need to specify a renderer in its inspector.");
+				return;
+			}
             
 			if (UseMaterialPropertyBlocks)
 			{
@@ -117,6 +124,11 @@ namespace MoreMountains.Feedbacks
 		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
 			if (!Active || !FeedbackTypeAuthorized)
+			{
+				return;
+			}
+
+			if (TargetRenderer == null)
 			{
 				return;
 			}

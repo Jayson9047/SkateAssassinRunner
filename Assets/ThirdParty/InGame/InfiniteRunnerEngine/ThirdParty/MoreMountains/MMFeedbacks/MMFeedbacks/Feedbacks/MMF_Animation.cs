@@ -11,6 +11,7 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will allow you to send to an animator (bound in its inspector) a bool, int, float or trigger parameter, allowing you to trigger an animation, with or without randomness.")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("Animation/Animation Parameter")]
 	public class MMF_Animation : MMF_Feedback 
 	{
@@ -156,6 +157,9 @@ namespace MoreMountains.Feedbacks
 		[Tooltip("the index of the layer to target when changing layer weights")]
 		[MMFCondition("SetLayerWeight", true)]
 		public int TargetLayerIndex = 1;
+		/// the name of the Animator layer you want the layer weight change to occur on. This is optional. If left empty, the layer ID above will be used, if not empty, the Layer id specified above will be ignored.
+		[Tooltip("the name of the Animator layer you want the layer weight change to occur on. This is optional. If left empty, the layer ID above will be used, if not empty, the Layer id specified above will be ignored.")]
+		public string LayerName = "";
 		/// the new weight to set on the target animator layer
 		[Tooltip("the new weight to set on the target animator layer")]
 		[MMFCondition("SetLayerWeight", true)]
@@ -167,6 +171,7 @@ namespace MoreMountains.Feedbacks
 		protected int _floatParameter;
 		protected List<int> _randomTriggerParameters;
 		protected List<int> _randomBoolParameters;
+		protected int _layerID;
 
 		/// <summary>
 		/// Custom Init
@@ -175,12 +180,23 @@ namespace MoreMountains.Feedbacks
 		protected override void CustomInitialization(MMF_Player owner)
 		{
 			base.CustomInitialization(owner);
+			
 			_triggerParameter = Animator.StringToHash(TriggerParameterName);
 			_boolParameter = Animator.StringToHash(BoolParameterName);
 			_intParameter = Animator.StringToHash(IntParameterName);
 			_floatParameter = Animator.StringToHash(FloatParameterName);
+			
+			if (RandomTriggerParameterNames == null)
+			{
+				RandomTriggerParameterNames = new List<string>();
+			}
+			if (RandomBoolParameterNames == null)
+			{
+				RandomBoolParameterNames = new List<string>();
+			}
 
 			_randomTriggerParameters = new List<int>();
+			
 			foreach (string name in RandomTriggerParameterNames)
 			{
 				_randomTriggerParameters.Add(Animator.StringToHash(name));
@@ -190,6 +206,12 @@ namespace MoreMountains.Feedbacks
 			foreach (string name in RandomBoolParameterNames)
 			{
 				_randomBoolParameters.Add(Animator.StringToHash(name));
+			}
+			
+			_layerID = TargetLayerIndex;
+			if ((LayerName != "") && (BoundAnimator != null))
+			{
+				_layerID = BoundAnimator.GetLayerIndex(LayerName);
 			}
 		}
 
@@ -207,7 +229,7 @@ namespace MoreMountains.Feedbacks
 
 			if (BoundAnimator == null)
 			{
-				Debug.LogWarning("No animator was set for " + Owner.name);
+				Debug.LogWarning("[Animation Feedback] The animation feedback on "+Owner.name+" doesn't have a BoundAnimator, it won't work. You need to specify one in its inspector.");
 				return;
 			}
 
@@ -297,7 +319,7 @@ namespace MoreMountains.Feedbacks
 
 			if (SetLayerWeight)
 			{
-				targetAnimator.SetLayerWeight(TargetLayerIndex, NewWeight);
+				targetAnimator.SetLayerWeight(_layerID, NewWeight);
 			}
 		}
         

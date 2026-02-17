@@ -15,6 +15,7 @@ namespace MoreMountains.Feedbacks
 	              "It also works on scriptable objects. Drag an object, select a property, and setup your feedback " +
 	              "to update that property over time.")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks.MMTools")]
+	[System.Serializable]
 	[FeedbackPath("GameObject/Property")]
 	public class MMF_Property : MMF_Feedback
 	{
@@ -26,6 +27,7 @@ namespace MoreMountains.Feedbacks
 		#if UNITY_EDITOR
 		public override Color FeedbackColor { get { return MMFeedbacksInspectorColors.GameObjectColor; } }
 		public override bool EvaluateRequiresSetup() { return (Target == null); }
+		public override string RequiredTargetText { get { return Target != null ? Target.TargetObject.name+" - "+Target.TargetPropertyName : "";  } }
 		public override string RequiresSetupText { get { return "This feedback requires that a Target be set to be able to work properly. You can set one below."; } }
 		#endif
 		public override bool HasRandomness => true;
@@ -93,6 +95,12 @@ namespace MoreMountains.Feedbacks
 		protected override void CustomInitialization(MMF_Player owner)
 		{
 			base.CustomInitialization(owner);
+			
+			if (Target == null)
+			{
+				Debug.LogWarning("[Property Feedback] The property feedback on "+Owner.name+" doesn't have a Target, it won't work. You need to specify one in its inspector.");
+				return;
+			}
 
 			Target.Initialization(Owner.gameObject);
 			GetInitialIntensity(); 
@@ -121,7 +129,7 @@ namespace MoreMountains.Feedbacks
 		/// <param name="feedbacksIntensity"></param>
 		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
-			if (!Active || !FeedbackTypeAuthorized)
+			if (!Active || !FeedbackTypeAuthorized || (Target == null))
 			{
 				return;
 			}

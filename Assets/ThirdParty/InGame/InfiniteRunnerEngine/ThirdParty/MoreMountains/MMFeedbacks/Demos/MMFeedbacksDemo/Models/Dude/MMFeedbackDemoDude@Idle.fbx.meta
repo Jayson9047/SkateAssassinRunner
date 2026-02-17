@@ -1,14 +1,7 @@
 fileFormatVersion: 2
 guid: b2fccabcb9892894a8720b37575d77ad
-AssetOrigin:
-  serializedVersion: 1
-  productId: 51328
-  packageName: 2D+3D Infinite Runner Engine
-  packageVersion: 2.1
-  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/Demos/MMFeedbacksDemo/Models/Dude/MMFeedbackDemoDude@Idle.fbx
-  uploadId: 713751
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: 7266397459403805639
@@ -24,13 +17,14 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    removeConstantScaleCurves: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    importAnimatedCustomProperties: 1
+    importAnimatedCustomProperties: 0
     importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
@@ -77,35 +71,26 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
-    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    nodeNameCollisionStrategy: 0
-    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
-    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
-    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
-    secondaryUVMarginMethod: 0
-    secondaryUVMinLightmapResolution: 40
-    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -353,10 +338,14 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 2
-  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
-  importBlendShapeDeformPercent: 0
-  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 183370
+  packageName: Feel
+  packageVersion: 5.9.1
+  assetPath: Assets/ThirdParty/InGame/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/Demos/MMFeedbacksDemo/Models/Dude/MMFeedbackDemoDude@Idle.fbx
+  uploadId: 830868

@@ -1,5 +1,5 @@
 using UnityEngine;
-#if (MM_TEXTMESHPRO || MM_UGUI2)
+#if MM_UGUI2
 using TMPro;
 
 namespace MoreMountains.Feedbacks

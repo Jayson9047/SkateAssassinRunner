@@ -18,7 +18,8 @@ namespace MoreMountains.Tools
 		/// <param name="seed"></param>
 		/// <param name="fillPercentage"></param>
 		/// <returns></returns>
-		public static int[,] Generate(int width, int height, int seed,  int fillPercentage, Vector2Int startingPoint, int maxIterations)
+		public static int[,] Generate(int width, int height, int seed,  int fillPercentage, Vector2Int startingPoint, int maxIterations, 
+			bool boundsTop = false, bool boundsBottom = false, bool boundsLeft = false, bool boundsRight = false)
 		{
 			int[,] grid = PrepareGrid(ref width, ref height);
 			grid = MMGridGeneratorFull.Generate(width, height, true);
@@ -32,6 +33,11 @@ namespace MoreMountains.Tools
 			grid[currentX, currentY] = 0;
 			fillCounter++;
 			int iterationsCounter = 0;
+			
+			int minX = boundsLeft ? 2 : 1;
+			int maxX = boundsRight ? width - 1 : width;
+			int minY = boundsBottom ? 2 : 1;
+			int maxY = boundsTop ? height - 1 : height;
             
 			while ((fillCounter < requiredFillQuantity) && (iterationsCounter < maxIterations))
 			{ 
@@ -40,28 +46,28 @@ namespace MoreMountains.Tools
 				switch (direction)
 				{
 					case 0: 
-						if ((currentY + 1) < height) 
+						if ((currentY + 1) < maxY) 
 						{
 							currentY++;
 							grid = Carve(grid, currentX, currentY, ref fillCounter);
 						}
 						break;
 					case 1: 
-						if ((currentY - 1) > 1)
+						if ((currentY - 1) > minY)
 						{ 
 							currentY--;
 							grid = Carve(grid, currentX, currentY, ref fillCounter);
 						}
 						break;
 					case 2: 
-						if ((currentX - 1) > 1)
+						if ((currentX - 1) > minX)
 						{
 							currentX--;
 							grid = Carve(grid, currentX, currentY, ref fillCounter);
 						}
 						break;
 					case 3: 
-						if ((currentX + 1) < width)
+						if ((currentX + 1) < maxX)
 						{
 							currentX++;
 							grid = Carve(grid, currentX, currentY, ref fillCounter);

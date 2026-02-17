@@ -8,9 +8,50 @@ using Random = UnityEngine.Random;
 
 namespace MoreMountains.Feedbacks
 {
+	public struct MMF_PlayerEvent
+	{
+		public enum Modes
+		{
+			PlayFeedbacks,
+			StopFeedbacks,
+			PauseFeedbacks,
+			ResumeFeedbacks,
+			Initialization,
+			PlayFeedbacksInReverse,
+			PlayFeedbacksOnlyIfReversed,
+			PlayFeedbacksOnlyIfNormalDirection,
+			ResetFeedbacks,
+			ChangeDirection,
+			SetDirectionTopToBottom,
+			SetDirectionBottomToTop,
+			RestoreInitialValues,
+			SkipToTheEnd,
+			RefreshCache
+		}
+		
+		static MMF_PlayerEvent e;
+		public MMChannelData ChannelData;
+		public bool UsePosition;
+		public Vector3 Position;
+		public Modes Mode;
+		public float FeedbacksIntensity;
+		public bool ForceChangeDirection;
+		
+		public static void Trigger(MMChannelData channelData, bool usePosition, Vector3 position, Modes mode = Modes.PlayFeedbacks, float feedbacksIntensity = 1.0f, bool forceChangeDirection = false)
+		{
+			e.ChannelData = channelData;
+			e.UsePosition = usePosition;
+			e.Position = position;
+			e.Mode = mode;
+			e.FeedbacksIntensity = feedbacksIntensity;
+			e.ForceChangeDirection = forceChangeDirection;
+			MMEventManager.TriggerEvent(e);
+		}
+	}
+	
 	[AddComponentMenu("More Mountains/Feedbacks/MMF Player")]
 	[DisallowMultipleComponent] 
-	public class MMF_Player : MMFeedbacks
+	public class MMF_Player : MMFeedbacks, MMEventListener<MMF_PlayerEvent>
 	{
 		#region PROPERTIES
         
@@ -39,12 +80,33 @@ namespace MoreMountains.Feedbacks
 		[Tooltip("how many times this player has started playing")]
 		[MMReadOnly]
 		public int PlayCount = 0;
+		/// you can use MMF_PlayerEvents to trigger any MMF Player listening on the corresponding MMChannel
+		/// This field lets you define whether this MMF Player should listen on a channel defined by an int or by a MMChannel scriptable object.
+		/// Ints are simple to setup but can get messy and make it harder to remember what int corresponds to what.
+		/// MMChannel scriptable objects require you to create them in advance, but come with a readable name and are more scalable
+		[Tooltip("you can use MMF_PlayerEvents to trigger any MMF Player listening on the corresponding MMChannel. " +
+		         "This field lets you define whether this MMF Player should listen on a channel defined by an int or by a MMChannel scriptable object." +
+		         "Ints are simple to setup but can get messy and make it harder to remember what int corresponds to what." +
+		         "MMChannel scriptable objects require you to create them in advance, but come with a readable name and are more scalable")]
+		public MMChannelModes MMF_ChannelMode = MMChannelModes.Int;
+		/// the channel to listen to - has to match the one on the feedback/event you use to trigger it
+		[Tooltip("the channel to listen to - has to match the one on the feedback/event you use to trigger it")]
+		[MMEnumCondition("MMF_ChannelMode", (int)MMChannelModes.Int)]
+		public int MMF_Channel = 0;
+		/// the MMChannel definition asset to use to listen for events. The feedbacks targeting this shaker will have to reference that same MMChannel definition to receive events - to create a MMChannel,
+		/// right click anywhere in your project (usually in a Data folder) and go MoreMountains > MMChannel, then name it with some unique name
+		[Tooltip("the MMChannel definition asset to use to listen for events. The feedbacks targeting this shaker will have to reference that same MMChannel definition to receive events - to create a MMChannel, " +
+		         "right click anywhere in your project (usually in a Data folder) and go MoreMountains > MMChannel, then name it with some unique name")]
+		[MMEnumCondition("MMF_ChannelMode", (int)MMChannelModes.MMChannel)]
+		public MMChannel MMF_ChannelDefinition = null;
 
 		public virtual bool SkippingToTheEnd { get; protected set; }
         
 		protected Type _t;
 		protected float _cachedTotalDuration;
 		protected bool _initialized = false;
+		protected Coroutine _pausedFeedbacksCo;
+		protected bool _listening = false;
         
 		#endregion
         
@@ -55,6 +117,8 @@ namespace MoreMountains.Feedbacks
 		/// </summary>
 		protected override void Awake()
 		{
+			this.MMEventStartListening<MMF_PlayerEvent>();
+			
 			if (AutoInitialization && (AutoPlayOnEnable || AutoPlayOnStart))
 			{
 				InitializationMode = InitializationModes.Awake;
@@ -331,6 +395,24 @@ namespace MoreMountains.Feedbacks
 			}
 		}
 
+		/// <summary>
+		/// Plays all feedbacks in the sequence from top to bottom
+		/// </summary>
+		public virtual void PlayFeedbacksTopToBottom()
+		{
+			SetDirectionTopToBottom();
+			PlayFeedbacks();
+		}
+		
+		/// <summary>
+		/// Plays all feedbacks in the sequence from bottom to top
+		/// </summary>
+		public virtual void PlayFeedbacksBottomToTop()
+		{
+			SetDirectionBottomToTop();
+			PlayFeedbacks();
+		}
+
 		#endregion
 
 		#region SEQUENCE
@@ -490,7 +572,7 @@ namespace MoreMountains.Feedbacks
 			else
 			{
 				// if at least one pause was found
-				StartCoroutine(PausedFeedbacksCo(position, feedbacksIntensity));
+				_pausedFeedbacksCo = StartCoroutine(PausedFeedbacksCo(position, feedbacksIntensity));
 			}
 		}
 		
@@ -602,6 +684,7 @@ namespace MoreMountains.Feedbacks
 				if (((FeedbacksList[i].Active) && (FeedbacksList[i].ScriptDrivenPause)) || InScriptDrivenPause)
 				{
 					InScriptDrivenPause = true;
+					Events.TriggerOnPause(this);
 
 					bool inAutoResume = (FeedbacksList[i].ScriptDrivenPauseAutoResume > 0f); 
 					float scriptDrivenPauseStartedAt = GetTime();
@@ -622,7 +705,6 @@ namespace MoreMountains.Feedbacks
 				    && ((FeedbacksList[i].HoldingPause == true) || (FeedbacksList[i].LooperPause == true))
 				    && (FeedbacksList[i].ShouldPlayInThisSequenceDirection))
 				{
-					Events.TriggerOnPause(this);
 					// we stay here until all previous feedbacks have finished
 					while ((GetTime() - _lastStartAt < _holdingMax / TimescaleMultiplier) && !SkippingToTheEnd)
 					{
@@ -792,6 +874,7 @@ namespace MoreMountains.Feedbacks
 		/// <param name="feedbacksIntensity"></param>
 		public override void StopFeedbacks(Vector3 position, float feedbacksIntensity = 1.0f, bool stopAllFeedbacks = true)
 		{
+			Events.TriggerOnStop(this);
 			if (stopAllFeedbacks)
 			{
 				int count = FeedbacksList.Count;
@@ -799,6 +882,10 @@ namespace MoreMountains.Feedbacks
 				{
 					FeedbacksList[i].Stop(position, feedbacksIntensity);
 				}    
+			}
+			if (_pausedFeedbacksCo != null)
+			{
+				StopCoroutine(_pausedFeedbacksCo);
 			}
 			IsPlaying = false;
 		}
@@ -976,13 +1063,16 @@ namespace MoreMountains.Feedbacks
 		/// Adds the specified MMF_Feedback to the player
 		/// </summary>
 		/// <param name="newFeedback"></param>
-		public virtual void AddFeedback(MMF_Feedback newFeedback)
+		public virtual void AddFeedback(MMF_Feedback newFeedback, bool copy = false)
 		{
 			InitializeFeedbackList();
 			newFeedback.Owner = this;
 			newFeedback.UniqueID = Guid.NewGuid().GetHashCode();
 			FeedbacksList.Add(newFeedback);
-			newFeedback.OnAddFeedback();
+			if (!copy)
+			{
+				newFeedback.OnAddFeedback();
+			}
 			newFeedback.CacheRequiresSetup();
 			newFeedback.InitializeCustomAttributes();
 		}
@@ -1137,10 +1227,12 @@ namespace MoreMountains.Feedbacks
 			int count = FeedbacksList.Count;
 			for (int i = 0; i < count; i++)
 			{
-				if ((FeedbacksList[i].IsPlaying
-				     && !FeedbacksList[i].Timing.ExcludeFromHoldingPauses)
+				if (FeedbacksList[i].Active
+				    && ((FeedbacksList[i].IsPlaying
+				                            && !FeedbacksList[i].Timing.ExcludeFromHoldingPauses)
 				    || FeedbacksList[i].Timing.RepeatForever
-				    || ((FeedbacksList[i].Timing.NumberOfRepeats > 0) && (FeedbacksList[i].PlaysLeft > 0)))
+				    || FeedbacksList[i].InInitialDelay
+				    || (FeedbacksList[i].IsPlaying && (FeedbacksList[i].Timing.NumberOfRepeats > 0) && (FeedbacksList[i].PlaysLeft > 0))))
 				{
 					return true;
 				}
@@ -1398,9 +1490,9 @@ namespace MoreMountains.Feedbacks
 			_t = typeof(T);
 			foreach (MMF_Feedback feedback in FeedbacksList)
 			{
-				if (feedback.GetType() == _t)
+				if (feedback is T typedFeedback)
 				{
-					return (T)feedback;
+					return typedFeedback;
 				}
 			}
 			return null;
@@ -1413,13 +1505,12 @@ namespace MoreMountains.Feedbacks
 		/// <returns></returns>
 		public virtual List<T> GetFeedbacksOfType<T>() where T:MMF_Feedback
 		{
-			_t = typeof(T);
 			List<T> list = new List<T>();
 			foreach (MMF_Feedback feedback in FeedbacksList)
 			{
-				if (feedback.GetType() == _t)
+				if (feedback is T typedFeedback)
 				{
-					list.Add((T)feedback);
+					list.Add(typedFeedback);
 				}
 			}
 			return list;
@@ -1465,6 +1556,77 @@ namespace MoreMountains.Feedbacks
 		#endregion
         
 		#region EVENTS
+		
+		/// <summary>
+		/// Catches MMF_PlayerEvents and plays this MMF Player if the channel matches
+		/// </summary>
+		/// <param name="mmfPlayerEvent"></param>
+		public void OnMMEvent(MMF_PlayerEvent mmfPlayerEvent)
+		{
+			bool eventMatch = mmfPlayerEvent.ChannelData != null && MMChannel.Match(mmfPlayerEvent.ChannelData, MMF_ChannelMode, MMF_Channel, MMF_ChannelDefinition);
+			if (!eventMatch)
+			{
+				return;
+			}
+
+			switch (mmfPlayerEvent.Mode)
+			{
+				case MMF_PlayerEvent.Modes.PlayFeedbacks:
+					if (mmfPlayerEvent.UsePosition)
+					{
+						PlayFeedbacks(mmfPlayerEvent.Position, mmfPlayerEvent.FeedbacksIntensity, mmfPlayerEvent.ForceChangeDirection);
+					}
+					else
+					{
+						PlayFeedbacks(this.transform.position, mmfPlayerEvent.FeedbacksIntensity);
+					}
+					break;
+				case MMF_PlayerEvent.Modes.StopFeedbacks:
+					StopFeedbacks();
+					break;
+				case MMF_PlayerEvent.Modes.PauseFeedbacks:
+					PauseFeedbacks();
+					break;
+				case MMF_PlayerEvent.Modes.ResumeFeedbacks:
+					ResumeFeedbacks();
+					break;
+				case MMF_PlayerEvent.Modes.Initialization:
+					Initialization();
+					break;
+				case MMF_PlayerEvent.Modes.PlayFeedbacksInReverse:
+					PlayFeedbacksInReverse(mmfPlayerEvent.Position, mmfPlayerEvent.FeedbacksIntensity, mmfPlayerEvent.ForceChangeDirection);
+					break;
+				case MMF_PlayerEvent.Modes.PlayFeedbacksOnlyIfReversed:
+					PlayFeedbacksOnlyIfReversed(mmfPlayerEvent.Position, mmfPlayerEvent.FeedbacksIntensity, mmfPlayerEvent.ForceChangeDirection);
+					break;
+				case MMF_PlayerEvent.Modes.PlayFeedbacksOnlyIfNormalDirection:
+					PlayFeedbacksOnlyIfNormalDirection(mmfPlayerEvent.Position, mmfPlayerEvent.FeedbacksIntensity, mmfPlayerEvent.ForceChangeDirection);
+					break;
+				case MMF_PlayerEvent.Modes.ResetFeedbacks:
+					ResetFeedbacks();
+					break;
+				case MMF_PlayerEvent.Modes.ChangeDirection:
+					ChangeDirection();
+					break;
+				case MMF_PlayerEvent.Modes.SetDirectionTopToBottom:
+					SetDirection(Directions.TopToBottom);
+					break;
+				case MMF_PlayerEvent.Modes.SetDirectionBottomToTop:
+					SetDirection(Directions.BottomToTop);
+					break;
+				case MMF_PlayerEvent.Modes.RestoreInitialValues:
+					RestoreInitialValues();
+					break;
+				case MMF_PlayerEvent.Modes.SkipToTheEnd:
+					SkipToTheEnd();
+					break;
+				case MMF_PlayerEvent.Modes.RefreshCache:
+					RefreshCache();
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
 
 		/// <summary>
 		/// When we get a MMSetFeedbackRangeCenterEvent, we set our new range center
@@ -1491,15 +1653,16 @@ namespace MoreMountains.Feedbacks
 				MMSetFeedbackRangeCenterEvent.Unregister(OnMMSetFeedbackRangeCenterEvent);	
 			}
 			
+			if (RestoreInitialValuesOnDisable)
+			{
+				RestoreInitialValues();
+			}
+			
 			if (IsPlaying)
 			{
 				if (StopFeedbacksOnDisable)
 				{
 					StopFeedbacks();    
-				}
-				if (RestoreInitialValuesOnDisable)
-				{
-					RestoreInitialValues();
 				}
 				StopAllCoroutines();
 				for (int i = FeedbacksList.Count - 1; i >= 0; i--)
@@ -1701,6 +1864,7 @@ namespace MoreMountains.Feedbacks
 		/// </summary>
 		protected override void OnDestroy()
 		{
+			this.MMEventStopListening<MMF_PlayerEvent>();
 			IsPlaying = false;
             
 			foreach (MMF_Feedback feedback in FeedbacksList)

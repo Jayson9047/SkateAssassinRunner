@@ -18,11 +18,11 @@ namespace MoreMountains.Feedbacks
 		static public void Unregister(Delegate callback) { OnEvent -= callback; }
 
 		public delegate void Delegate(MMChannelData channelData, Vector3 spawnPosition, string value, Vector3 direction, float intensity,
-			bool forceLifetime = false, float lifetime = 1f, bool forceColor = false, Gradient animateColorGradient = null, bool useUnscaledTime = false);
+			bool forceLifetime = false, float lifetime = 1f, bool forceColor = false, Gradient animateColorGradient = null, bool useUnscaledTime = false, Transform attachmentTransform = null);
 		static public void Trigger(MMChannelData channelData, Vector3 spawnPosition, string value, Vector3 direction, float intensity,
-			bool forceLifetime = false, float lifetime = 1f, bool forceColor = false, Gradient animateColorGradient = null, bool useUnscaledTime = false)
+			bool forceLifetime = false, float lifetime = 1f, bool forceColor = false, Gradient animateColorGradient = null, bool useUnscaledTime = false, Transform attachmentTransform = null)
 		{
-			OnEvent?.Invoke(channelData, spawnPosition, value, direction, intensity, forceLifetime, lifetime, forceColor, animateColorGradient, useUnscaledTime);
+			OnEvent?.Invoke(channelData, spawnPosition, value, direction, intensity, forceLifetime, lifetime, forceColor, animateColorGradient, useUnscaledTime, attachmentTransform);
 		} 
 	}
 	#endregion
@@ -403,8 +403,9 @@ namespace MoreMountains.Feedbacks
 		/// <param name="lifetime"></param>
 		/// <param name="forceColor"></param>
 		/// <param name="animateColorGradient"></param>
-		protected virtual void Spawn(string value, Vector3 position, Vector3 direction, float intensity = 1f,
-			bool forceLifetime = false, float lifetime = 1f, bool forceColor = false, Gradient animateColorGradient = null)
+		public virtual void Spawn(string value, Vector3 position, Vector3 direction, float intensity = 1f,
+			bool forceLifetime = false, float lifetime = 1f, bool forceColor = false, Gradient animateColorGradient = null, 
+			Transform attachmentTransform = null)
 		{
 			if (!CanSpawn)
 			{
@@ -454,11 +455,14 @@ namespace MoreMountains.Feedbacks
 			// we activate the object
 			nextGameObject.gameObject.SetActive(true);
 			nextGameObject.gameObject.MMGetComponentNoAlloc<MMPoolableObject>().TriggerOnSpawnComplete();
-
+			
 			// we position the object
 			nextGameObject.transform.position = this.transform.position + _spawnOffset;
 
 			_floatingText = nextGameObject.MMGetComponentNoAlloc<MMFloatingText>();
+
+			_floatingText.FollowTarget.Target = attachmentTransform;
+			
 			_floatingText.SetUseUnscaledTime(UseUnscaledTime, true);
 			_floatingText.ResetPosition();
 			_floatingText.SetProperties(value, _lifetime, _direction, AnimateMovement, 
@@ -484,7 +488,7 @@ namespace MoreMountains.Feedbacks
 		/// <param name="forceColor"></param>
 		/// <param name="animateColorGradient"></param>
 		public virtual void OnMMFloatingTextSpawnEvent(MMChannelData channelData, Vector3 spawnPosition, string value, Vector3 direction, float intensity,
-			bool forceLifetime = false, float lifetime = 1f, bool forceColor = false, Gradient animateColorGradient = null, bool useUnscaledTime = false)
+			bool forceLifetime = false, float lifetime = 1f, bool forceColor = false, Gradient animateColorGradient = null, bool useUnscaledTime = false, Transform attachmentTransform = null)
 		{
 			if (!MMChannel.Match(channelData, ChannelMode, Channel, MMChannelDefinition))
 			{
@@ -492,7 +496,7 @@ namespace MoreMountains.Feedbacks
 			}
 
 			UseUnscaledTime = useUnscaledTime;
-			Spawn(value, spawnPosition, direction, intensity, forceLifetime, lifetime, forceColor, animateColorGradient);
+			Spawn(value, spawnPosition, direction, intensity, forceLifetime, lifetime, forceColor, animateColorGradient, attachmentTransform);
 		}
     
 		/// <summary>

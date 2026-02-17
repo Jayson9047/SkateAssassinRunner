@@ -64,6 +64,11 @@ namespace MoreMountains.FeedbacksForThirdParty
 		/// </summary>
 		protected virtual void PerformQuery()
 		{
+			if (TargetDocument == null)
+			{
+				Debug.LogWarning("[UI Toolkit] The UI Toolkit feedback on "+Owner.name+" doesn't have a TargetDocument, it won't work. You need to specify one in its inspector.");
+				return;
+			}
 			switch (QueryMode)
 			{
 				case QueryModes.Name:

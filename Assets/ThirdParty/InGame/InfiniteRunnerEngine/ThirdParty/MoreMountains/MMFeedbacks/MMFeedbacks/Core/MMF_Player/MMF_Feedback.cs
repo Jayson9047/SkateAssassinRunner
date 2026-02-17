@@ -144,7 +144,7 @@ namespace MoreMountains.Feedbacks
 		/// if this is true, this feedback will wait until all previous feedbacks have run, then run all previous feedbacks again
 		public virtual bool LooperPause => false;
 
-		/// if this is true, this feedback will pause and wait until Resume() is called on its parent MMFeedbacks to resume execution
+		/// if this is true, this feedback will pause and wait until ResumeFeedbacks() is called on its parent MMF_Player to resume execution
 		public virtual bool ScriptDrivenPause { get; set; }
 
 		/// if this is a positive value, the feedback will auto resume after that duration if it hasn't been resumed via script already
@@ -423,6 +423,8 @@ namespace MoreMountains.Feedbacks
 
 		/// a ChannelData object, ready to pass to an event
 		public virtual MMChannelData ChannelData => _channelData.Set(ChannelMode, Channel, MMChannelDefinition);
+		
+		public virtual bool InInitialDelay { get; set; }
 
 		protected float _lastPlayTimestamp = -float.MaxValue;
 		protected int _playsLeft;
@@ -474,6 +476,7 @@ namespace MoreMountains.Feedbacks
 
 			SetIndexInFeedbacksList(index);
 			ResetCooldown();
+			InInitialDelay = false;
 			Timing.PlayCount = 0;
 			_initialized = true;
 			Owner = owner;
@@ -616,7 +619,9 @@ namespace MoreMountains.Feedbacks
 		/// <returns></returns>
 		protected virtual IEnumerator PlayCoroutine(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
+			InInitialDelay = true;
 			yield return WaitFor(ApplyTimeMultiplier(Timing.InitialDelay));
+			InInitialDelay = false;
 			RegularPlay(position, feedbacksIntensity);
 		}
 
@@ -727,18 +732,20 @@ namespace MoreMountains.Feedbacks
 		{
 			if (Timing.Sequence == null)
 			{
+				float time = InScaledTimescaleMode ? Time.time : Time.unscaledTime;
 				TriggerCustomPlay(position, feedbacksIntensity);
-				float repeatStartTime = Time.time;
+				float repeatStartTime = time;
 					
 				float repeatDuration = Timing.DelayBetweenRepeats + FeedbackDuration;
 				if (_repeatOffset <= Timing.DelayBetweenRepeats)
 				{
 					repeatDuration = Timing.DelayBetweenRepeats + FeedbackDuration - _repeatOffset;	
 				}
-					
+				
 				yield return WaitFor(repeatDuration);
 				yield return null;
-				_repeatOffset = (Time.time - repeatStartTime - repeatDuration);
+				time = InScaledTimescaleMode ? Time.time : Time.unscaledTime;
+				_repeatOffset = (time - repeatStartTime - (Timing.DelayBetweenRepeats + FeedbackDuration));
 			}
 			else
 			{
@@ -865,6 +872,8 @@ namespace MoreMountains.Feedbacks
 			}
 
 			_playsLeft = Timing.NumberOfRepeats + 1;
+			_lastPlayTimestamp = -1f;
+			
 			if (Timing.InterruptsOnStop)
 			{
 				CustomStopFeedback(position, feedbacksIntensity);
@@ -1069,7 +1078,7 @@ namespace MoreMountains.Feedbacks
 			{
 				float delayBetweenRepeats = ApplyTimeMultiplier(Timing.DelayBetweenRepeats);
 
-				totalTime += (Timing.NumberOfRepeats * delayBetweenRepeats);
+				totalTime += Timing.NumberOfRepeats * (FeedbackDuration + delayBetweenRepeats);
 			}
 				
 			_totalDuration = totalTime;

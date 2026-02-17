@@ -37,6 +37,9 @@ namespace MoreMountains.FeedbacksForThirdParty
 		         "right click anywhere in your project (usually in a Data folder) and go MoreMountains > MMChannel, then name it with some unique name")]
 		[MMFEnumCondition("ChannelMode", (int)MMChannelModes.MMChannel)]
 		public MMChannel MMChannelDefinition = null;
+		/// if this is true, triggering a new zoom event will interrupt any transition that may be in progress
+		[Tooltip("if this is true, triggering a new zoom event will interrupt any transition that may be in progress")]
+		public bool Interruptable = false;
 
 		[Header("Transition Speed")]
 		/// the animation curve to apply to the zoom transition
@@ -73,7 +76,6 @@ namespace MoreMountains.FeedbacksForThirdParty
 		#endif
 		protected float _initialFieldOfView;
 		protected MMCameraZoomModes _mode;
-		protected bool _zooming = false;
 		protected float _startFieldOfView;
 		protected float _transitionDuration;
 		protected float _duration;
@@ -96,6 +98,8 @@ namespace MoreMountains.FeedbacksForThirdParty
 			_virtualCamera = this.gameObject.GetComponent<CinemachineCamera>();
 			_initialFieldOfView = _virtualCamera.Lens.FieldOfView;
 			#endif
+			MMCameraZoomEvent.Register(OnCameraZoomEvent);
+			this.enabled = false;
 		}	
         
 		/// <summary>
@@ -103,11 +107,6 @@ namespace MoreMountains.FeedbacksForThirdParty
 		/// </summary>
 		protected virtual void Update()
 		{
-			if (!_zooming)
-			{
-				return;
-			}
-
 			_elapsedTime = GetTime() - _zoomStartedAt;
 			if (_elapsedTime <= _transitionDuration)
 			{
@@ -137,7 +136,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 				}
 				else
 				{
-					_zooming = false;
+					this.enabled = false;
 				}   
 			}
 		}
@@ -151,12 +150,12 @@ namespace MoreMountains.FeedbacksForThirdParty
 		/// <param name="duration"></param>
 		public virtual void Zoom(MMCameraZoomModes mode, float newFieldOfView, float transitionDuration, float duration, bool useUnscaledTime, bool relative = false, MMTweenType tweenType = null)
 		{
-			if (_zooming)
+			if (this.enabled && !Interruptable)
 			{
 				return;
 			}
 
-			_zooming = true;
+			this.enabled = true;
 			_elapsedTime = 0f;
 			_mode = mode;
 
@@ -220,7 +219,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 			}
 			if (stop)
 			{
-				_zooming = false;
+				this.enabled = false;
 				return;
 			}
 			if (restore)
@@ -236,17 +235,9 @@ namespace MoreMountains.FeedbacksForThirdParty
 		}
 
 		/// <summary>
-		/// Starts listening for MMCameraZoomEvents
-		/// </summary>
-		protected virtual void OnEnable()
-		{
-			MMCameraZoomEvent.Register(OnCameraZoomEvent);
-		}
-
-		/// <summary>
 		/// Stops listening for MMCameraZoomEvents
 		/// </summary>
-		protected virtual void OnDisable()
+		protected virtual void OnDestroy()
 		{
 			MMCameraZoomEvent.Unregister(OnCameraZoomEvent);
 		}

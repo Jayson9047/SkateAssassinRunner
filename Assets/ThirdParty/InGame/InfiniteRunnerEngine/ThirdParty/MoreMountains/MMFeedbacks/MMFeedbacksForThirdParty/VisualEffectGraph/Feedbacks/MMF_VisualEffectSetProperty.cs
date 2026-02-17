@@ -13,6 +13,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 	/// This feedback will let you set a property on a target VisualEffect
 	/// </summary>
 	[AddComponentMenu("")]
+	[System.Serializable]
 	[FeedbackHelp("This feedback will let you set a property on a target VisualEffect")]
 	#if MM_VISUALEFFECTGRAPH
 	[FeedbackPath("Particles/VisualEffectSetProperty")]
@@ -127,6 +128,11 @@ namespace MoreMountains.FeedbacksForThirdParty
 		/// </summary>
 		protected virtual void GetInitialValue()
 		{
+			if (TargetVisualEffect == null)
+			{
+				return;
+			}
+			
 			switch (PropertyType)
 			{
 				case PropertyTypes.AnimationCurve:

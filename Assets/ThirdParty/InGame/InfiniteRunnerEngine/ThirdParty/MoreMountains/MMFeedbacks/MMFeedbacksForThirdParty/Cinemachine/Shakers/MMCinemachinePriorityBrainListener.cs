@@ -90,6 +90,8 @@ namespace MoreMountains.FeedbacksForThirdParty
 		/// <returns></returns>
 		protected virtual IEnumerator ResetBlendDefinition(float delay)
 		{
+			yield return null;
+			yield return null;
 			for (float timer = 0; timer < delay; timer += GetDeltaTime())
 			{
 				yield return null;

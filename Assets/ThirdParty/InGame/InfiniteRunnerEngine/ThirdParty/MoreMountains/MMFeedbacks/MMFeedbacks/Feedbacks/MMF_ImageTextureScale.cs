@@ -15,6 +15,7 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will let you control the texture scale of a target UI Image over time.")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("UI/Image Texture Scale")]
 	public class MMF_ImageTextureScale : MMF_Feedback
 	{
@@ -96,6 +97,12 @@ namespace MoreMountains.Feedbacks
 		protected override void CustomInitialization(MMF_Player owner)
 		{
 			base.CustomInitialization(owner);
+			
+			if (TargetImage == null)
+			{
+				Debug.LogWarning("[Image Texture Scale Feedback] The image texture scale feedback on "+Owner.name+" doesn't have a TargetImage, it won't work. You need to specify an Image in its inspector.");
+				return;
+			}
 
 			_material = TargetImage.material;
 
@@ -117,7 +124,7 @@ namespace MoreMountains.Feedbacks
 		/// <param name="feedbacksIntensity"></param>
 		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
-			if (!Active || !FeedbackTypeAuthorized)
+			if (!Active || !FeedbackTypeAuthorized || (TargetImage == null))
 			{
 				return;
 			}

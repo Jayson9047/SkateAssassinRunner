@@ -11,6 +11,7 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will 'hold', or wait, until all previous feedbacks have been executed, and will then pause the execution of your MMFeedbacks sequence, for the specified duration.")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("Pause/Holding Pause")]
 	public class MMF_HoldingPause : MMF_Pause
 	{
@@ -23,7 +24,7 @@ namespace MoreMountains.Feedbacks
 
 		/// the duration of this feedback is the duration of the pause
 		public override float FeedbackDuration { get { return ApplyTimeMultiplier(PauseDuration); } set { PauseDuration = value; } }
-        
+		
 		/// <summary>
 		/// On custom play we just play our pause
 		/// </summary>
@@ -34,7 +35,25 @@ namespace MoreMountains.Feedbacks
 			if (Active)
 			{
 				ProcessNewPauseDuration();
-				Owner.StartCoroutine(PlayPause());
+				_pauseCoroutine = Owner.StartCoroutine(PlayPause());
+			}
+		}
+
+		/// <summary>
+		/// On Stop, we stop our pause
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="feedbacksIntensity"></param>
+		protected override void CustomStopFeedback(Vector3 position, float feedbacksIntensity = 1)
+		{
+			if (!Active || !FeedbackTypeAuthorized)
+			{
+				return;
+			}
+            
+			if (_pauseCoroutine != null)
+			{
+				Owner.StopCoroutine(_pauseCoroutine);
 			}
 		}
 	}

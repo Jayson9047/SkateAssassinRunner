@@ -11,8 +11,11 @@ namespace MoreMountains.Feedbacks
 {
 	public class MMFInspectorDrawData
 	{
+		public int Index;
+		public Foldout FeedbackFoldout;
 		public SerializedProperty CurrentProperty;
 		public MMF_Feedback Feedback;
+		public MMF_PlayerEditorUITK PlayerEditor;
 		public Action<SerializedProperty> OnAnyValueChanged;
 		public Action<SerializedProperty, MMFInspectorGroupData, MMF_Feedback> OnFeedbackFieldValueChanged;
 		public Dictionary<MMFInspectorGroupData, MMF_PlayerEditorUITK.MMFFeedbackGroupExtrasContainerData> FeedbackGroupsDictionary;
@@ -298,6 +301,15 @@ namespace MoreMountains.Feedbacks
 					field.AddToClassList(_mmfFieldClassName);
 					field.Bind(groupData.PropertiesList[i].serializedObject);
 					field.TrackPropertyValue(groupData.PropertiesList[i], drawData.OnAnyValueChanged);
+
+					if (field.name == "Label")
+					{
+						field?.RegisterCallback<ChangeEvent<string>>(evt =>
+						{
+							drawData.FeedbackFoldout.text = drawData.PlayerEditor.DetermineFeedbackLabel(drawData.Index, drawData.Feedback.GetType());
+						});
+					}
+					
 					field.RegisterValueChangeCallback(evt =>
 					{
 						if (groupData.Initialized)

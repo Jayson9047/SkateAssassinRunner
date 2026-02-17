@@ -11,7 +11,8 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will let you change the material on a target UI Image")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
-	[FeedbackPath("Renderer/Image Material")]
+	[System.Serializable]
+	[FeedbackPath("UI/Image Material")]
 	public class MMF_ImageMaterial : MMF_Feedback
 	{
 		/// a static bool used to disable all feedbacks of this type at once

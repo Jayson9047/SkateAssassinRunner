@@ -83,6 +83,12 @@ namespace MoreMountains.FeedbacksForThirdParty
 			base.CustomInitialization(owner);
 
 			HandleApplyInitialColors();
+        
+			if ((_visualElements == null) || (_visualElements.Count == 0))
+			{
+				return;
+			}
+			
 			_initialInstantColor = GetInitialColor();
 		}
 
@@ -128,6 +134,11 @@ namespace MoreMountains.FeedbacksForThirdParty
 		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
 			if (!Active || !FeedbackTypeAuthorized)
+			{
+				return;
+			}
+			
+			if ((_visualElements == null) || (_visualElements.Count == 0))
 			{
 				return;
 			}

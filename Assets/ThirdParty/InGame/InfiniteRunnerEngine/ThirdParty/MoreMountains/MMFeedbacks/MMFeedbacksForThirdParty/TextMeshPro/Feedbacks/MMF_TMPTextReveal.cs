@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
-#if (MM_TEXTMESHPRO || MM_UGUI2)
+#if MM_UGUI2
 using MoreMountains.Tools;
 using TMPro;
 #endif
@@ -17,8 +17,9 @@ namespace MoreMountains.Feedbacks
 	/// This feedback will let you reveal words, lines, or characters in a target TMP, one at a time
 	/// </summary>
 	[AddComponentMenu("")]
+	[System.Serializable]
 	[FeedbackHelp("This feedback will let you reveal words, lines, or characters in a target TMP, one at a time")]
-	#if (MM_TEXTMESHPRO || MM_UGUI2)
+	#if MM_UGUI2
 	[FeedbackPath("TextMesh Pro/TMP Text Reveal")]
 	#endif
 	[MovedFrom(false, null, "MoreMountains.Feedbacks.TextMeshPro")]
@@ -30,14 +31,14 @@ namespace MoreMountains.Feedbacks
 		public override Color FeedbackColor { get { return MMFeedbacksInspectorColors.TMPColor; } }
 		public override string RequiresSetupText { get { return "This feedback requires that a TargetTMPText be set to be able to work properly. You can set one below."; } }
 		#endif
-		#if UNITY_EDITOR && (MM_TEXTMESHPRO || MM_UGUI2)
+		#if UNITY_EDITOR && MM_UGUI2
 		public override bool EvaluateRequiresSetup() { return (TargetTMPText == null); }
 		public override string RequiredTargetText { get { return TargetTMPText != null ? TargetTMPText.name : "";  } }
 		#endif
 
 		protected string _originalText;
 		
-		#if (MM_TEXTMESHPRO || MM_UGUI2)
+		#if MM_UGUI2
 		public override bool HasAutomatedTargetAcquisition => true;
 		protected override void AutomateTargetAcquisition() => TargetTMPText = FindAutomatedTarget<TMP_Text>();
 
@@ -177,7 +178,7 @@ namespace MoreMountains.Feedbacks
 		/// whether to define duration by the time interval between two unit reveals, or by the total duration the reveal should take
 		public enum DurationModes { Interval, TotalDuration }
 
-		#if (MM_TEXTMESHPRO || MM_UGUI2)
+		#if MM_UGUI2
 		[MMFInspectorGroup("Target", true, 12, true)]
 		/// the target TMP_Text component we want to change the text on
 		[Tooltip("the target TMP_Text component we want to change the text on")]
@@ -241,7 +242,7 @@ namespace MoreMountains.Feedbacks
 				return;
 			}
 
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
             
 			if (TargetTMPText == null)
 			{
@@ -279,7 +280,7 @@ namespace MoreMountains.Feedbacks
 				return;
 			}
 
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
             
 			if (TargetTMPText == null)
 			{
@@ -322,7 +323,7 @@ namespace MoreMountains.Feedbacks
 			#endif
 		}
 
-		#if (MM_TEXTMESHPRO || MM_UGUI2)
+		#if MM_UGUI2
 
 		/// <summary>
 		/// Reveals characters one at a time
@@ -333,51 +334,38 @@ namespace MoreMountains.Feedbacks
 			float startTime = FeedbackTime;
 			_totalCharacters = _richTextLength;
 			int visibleCharacters = 0;
-			float lastCharAt = FeedbackTime;
-	            
+
 			IsPlaying = true;
-			while ((visibleCharacters <= _totalCharacters) && !Owner.SkippingToTheEnd)
+			TargetTMPText.maxVisibleCharacters = 0;
+
+			while ((visibleCharacters < _totalCharacters) && !Owner.SkippingToTheEnd)
 			{
-				float time = FeedbackTime;
+				float currentTime = FeedbackTime;
+				float elapsed = currentTime - startTime;
 
-				if (time - lastCharAt < IntervalBetweenReveals)
-				{
-					yield return null;
-				}
-		            
-				TargetTMPText.maxVisibleCharacters = visibleCharacters;
-				InvokeRevealEvents();
+				int expectedVisibleCharacters = 0;
 
-				float timeSinceLastChar = time - lastCharAt;
-				int numberOfIntervals = (int)Mathf.Round(timeSinceLastChar / IntervalBetweenReveals);
-				for (int i = 0; i < numberOfIntervals; i++)
-				{
-					visibleCharacters++;
-				}            
-				lastCharAt = time;
-
-				// we adjust our delay
-	                
-				float delay = 0f;
-	                
 				if (DurationMode == DurationModes.Interval)
 				{
-					_delay = Mathf.Max(IntervalBetweenReveals, FeedbackDeltaTime);
-					delay = _delay - FeedbackDeltaTime;
+					expectedVisibleCharacters = Mathf.FloorToInt(elapsed / IntervalBetweenReveals);
 				}
-				else
+				else 
 				{
-					int remainingCharacters = _totalCharacters - visibleCharacters;
-					float elapsedTime = time - startTime;
-					if (remainingCharacters != 0)
-					{
-						_delay = (RevealDuration - elapsedTime) / remainingCharacters;   
-					}
-					delay = _delay - FeedbackDeltaTime;
+					expectedVisibleCharacters = Mathf.FloorToInt((_totalCharacters * elapsed) / RevealDuration);
 				}
-	                
-				yield return WaitFor(delay);
+
+				expectedVisibleCharacters = Mathf.Clamp(expectedVisibleCharacters, 0, _totalCharacters);
+
+				if (expectedVisibleCharacters > visibleCharacters)
+				{
+					visibleCharacters = expectedVisibleCharacters;
+					TargetTMPText.maxVisibleCharacters = visibleCharacters;
+					InvokeRevealEvents();
+				}
+
+				yield return null;
 			}
+
 			TargetTMPText.maxVisibleCharacters = _richTextLength;
 			IsPlaying = false;
 		}
@@ -565,7 +553,7 @@ namespace MoreMountains.Feedbacks
 			{
 				return;
 			}
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
 			TargetTMPText.text = _initialText;
 			#endif
 		}

@@ -14,6 +14,7 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will let you change the alpha of a target Image over time.")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks.MMTools")]
+	[System.Serializable]
 	[FeedbackPath("UI/Image Alpha")]
 	public class MMF_ImageAlpha : MMF_Feedback
 	{
@@ -85,6 +86,12 @@ namespace MoreMountains.Feedbacks
 		protected override void CustomInitialization(MMF_Player owner)
 		{
 			base.CustomInitialization(owner);
+			
+			if (BoundImage == null)
+			{
+				Debug.LogWarning("[Image Alpha Feedback] The image alpha feedback on "+Owner.name+" doesn't have a bound image, it won't work. You need to specify an image in its inspector.");
+				return;
+			}
 
 			if (Active)
 			{
@@ -99,7 +106,7 @@ namespace MoreMountains.Feedbacks
 		/// <param name="feedbacksIntensity"></param>
 		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
-			if (!Active || !FeedbackTypeAuthorized)
+			if (!Active || !FeedbackTypeAuthorized || (BoundImage == null))
 			{
 				return;
 			}

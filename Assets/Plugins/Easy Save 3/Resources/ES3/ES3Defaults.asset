@@ -44,6 +44,8 @@ MonoBehaviour:
     - Boxophobic.Utils.Scripts
     - DamageNumbersPro
     - Kamgam.MeshExtractor
+    - Lofelt.NiceVibrations
+    - Lofelt.NiceVibrations.Demo
     - MoreMountains.Interface
     - MoreMountains.Tools
     - Unified.Universal.Blur

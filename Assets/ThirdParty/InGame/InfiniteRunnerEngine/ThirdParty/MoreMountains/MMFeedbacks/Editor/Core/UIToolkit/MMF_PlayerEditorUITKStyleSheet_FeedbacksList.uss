@@ -60,6 +60,70 @@
     background-color: rgba(220, 220, 220, .3);
 }
 
+.mm-feedback-edit-script-button-container { /* edit script button container */
+    margin-left: -51px;
+    margin-right: -6px;
+    padding-left: 10px;
+    -unity-text-align: upper-left;
+    border-left-width: 0px;
+    margin-top: -1px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding-top: 5px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-color: black;
+    flex-direction: row;
+    margin-bottom: 1px;
+    -unity-text-align: middle-left; 
+    align-items: flex-start;
+}
+
+.mm-feedback-edit-script-button-label {
+    white-space: normal;
+    -unity-font-style: normal;
+    color: rgba(140, 140, 140, 1);
+    padding: 5px;
+    padding-left: 8px;
+    border-bottom-width: 0px;
+    flex-grow: 0.46;
+    min-width: 104px;
+    padding-top: 2px;
+}
+
+.mm-feedback-edit-script-button-box
+{
+    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 5px;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.mm-feedback-edit-script-button-box .mm-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.5;
+    margin-top: 2px;
+    margin-left: 2px;
+    margin-right: 0px;    
+} 
+
+.mm-feedback-edit-script-button-box .unity-object-field__selector {
+    position: absolute;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0.5;
+}
+
+.mm-feedback-edit-script-button-box Button {
+    flex-grow: 1;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(255, 255, 255, 0.5);
+    -unity-text-align: middle-left;
+    padding-left: 0px;
+}
+
 .mm-feedback-help-box { /* help box */
     margin-left: -51px;
     margin-right: -6px; 
@@ -67,7 +131,7 @@
     -unity-text-align: upper-left; 
     border-left-width: 0px;
     margin-top: -1px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
     padding-top: 5px;
     border-top-width: 1px;
     border-color: black;

@@ -12,8 +12,9 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will will force a break, pausing the editor")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks.MMTools")]
+	[System.Serializable]
 	[FeedbackPath("Debug/Break")]
-	public class MMF_DebugLBreak : MMF_Feedback
+	public class MMF_DebugBreak : MMF_Feedback
 	{
 		/// a static bool used to disable all feedbacks of this type at once
 		public static bool FeedbackTypeAuthorized = true;

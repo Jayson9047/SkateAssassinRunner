@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-#if (MM_TEXTMESHPRO || MM_UGUI2)
+#if MM_UGUI2
 using TMPro;
 #endif
 using UnityEngine.Scripting.APIUpdating;
@@ -11,8 +11,9 @@ namespace MoreMountains.Feedbacks
 	/// This feedback lets you control the color of a target TMP's outline over time
 	/// </summary>
 	[AddComponentMenu("")]
+	[System.Serializable]
 	[FeedbackHelp("This feedback lets you control the color of a target TMP's outline over time.")]
-	#if (MM_TEXTMESHPRO || MM_UGUI2)
+	#if MM_UGUI2
 	[FeedbackPath("TextMesh Pro/TMP Outline Color")]
 	#endif
 	[MovedFrom(false, null, "MoreMountains.Feedbacks.TextMeshPro")]
@@ -23,7 +24,7 @@ namespace MoreMountains.Feedbacks
 		public override Color FeedbackColor { get { return MMFeedbacksInspectorColors.TMPColor; } }
 		public override string RequiresSetupText { get { return "This feedback requires that a TargetTMPText be set to be able to work properly. You can set one below."; } }
 		#endif
-		#if UNITY_EDITOR && (MM_TEXTMESHPRO || MM_UGUI2)
+		#if UNITY_EDITOR && MM_UGUI2
 		public override bool EvaluateRequiresSetup() { return (TargetTMPText == null); }
 		public override string RequiredTargetText { get { return TargetTMPText != null ? TargetTMPText.name : "";  } }
 		#endif
@@ -35,7 +36,7 @@ namespace MoreMountains.Feedbacks
 		/// the duration of this feedback is the duration of the color transition, or 0 if instant
 		public override float FeedbackDuration { get { return (ColorMode == ColorModes.Instant) ? 0f : ApplyTimeMultiplier(Duration); } set { Duration = value; } }
 
-		#if (MM_TEXTMESHPRO || MM_UGUI2)
+		#if MM_UGUI2
 		public override bool HasAutomatedTargetAcquisition => true;
 		protected override void AutomateTargetAcquisition() => TargetTMPText = FindAutomatedTarget<TMP_Text>();
 
@@ -91,7 +92,7 @@ namespace MoreMountains.Feedbacks
 		{
 			base.CustomInitialization(owner);
 
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
 			if (TargetTMPText == null)
 			{
 				return;
@@ -111,7 +112,7 @@ namespace MoreMountains.Feedbacks
 			{
 				return;
 			}
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
 			if (TargetTMPText == null)
 			{
 				return;
@@ -170,7 +171,7 @@ namespace MoreMountains.Feedbacks
 		/// <param name="time"></param>
 		protected virtual void SetColor(float time)
 		{
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
 			if (ColorMode == ColorModes.Gradient)
 			{
 				// we set our object inactive then active, otherwise for some reason outline color isn't applied.
@@ -217,7 +218,7 @@ namespace MoreMountains.Feedbacks
 			{
 				return;
 			}
-			#if (MM_TEXTMESHPRO || MM_UGUI2)
+			#if MM_UGUI2
 				TargetTMPText.gameObject.SetActive(false);
 				TargetTMPText.outlineColor = _initialColor;
 				TargetTMPText.gameObject.SetActive(true);

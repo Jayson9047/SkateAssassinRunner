@@ -1,12 +1,5 @@
 fileFormatVersion: 2
 guid: a3216307bd8ac5442b178c78ea978e2f
-AssetOrigin:
-  serializedVersion: 1
-  productId: 51328
-  packageName: 2D+3D Infinite Runner Engine
-  packageVersion: 2.1
-  assetPath: Assets/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/Demos/MMFeedbacksDemo/Lighting/ReflectionProbe-0.exr
-  uploadId: 713751
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -100,45 +93,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 100
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 100
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 100
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -161,3 +115,10 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 183370
+  packageName: Feel
+  packageVersion: 5.9.1
+  assetPath: Assets/ThirdParty/InGame/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMFeedbacks/Demos/MMFeedbacksDemo/Lighting/ReflectionProbe-0.exr
+  uploadId: 830868

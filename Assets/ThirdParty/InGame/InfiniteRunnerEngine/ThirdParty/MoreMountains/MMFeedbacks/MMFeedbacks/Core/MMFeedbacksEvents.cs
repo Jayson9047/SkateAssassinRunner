@@ -40,7 +40,7 @@ namespace  MoreMountains.Feedbacks
 		static public void Register(Delegate callback) { OnEvent += callback; }
 		static public void Unregister(Delegate callback) { OnEvent -= callback; }
 
-		public enum EventTypes { Play, Pause, Resume, ChangeDirection, Complete, SkipToTheEnd, RestoreInitialValues, Loop, Enable, Disable, InitializationComplete }
+		public enum EventTypes { Play, Pause, Resume, ChangeDirection, Complete, SkipToTheEnd, RestoreInitialValues, Loop, Enable, Disable, InitializationComplete, Stop }
 		public delegate void Delegate(MMFeedbacks source, EventTypes type);
 		static public void Trigger(MMFeedbacks source, EventTypes type)
 		{
@@ -84,6 +84,9 @@ namespace  MoreMountains.Feedbacks
 		/// This event will fire every time this MMFeedbacks starts a holding pause
 		[Tooltip("This event will fire every time this MMFeedbacks starts a holding pause")]
 		public UnityEvent OnPause;
+		/// This event will fire every time this MMFeedbacks gets stopped via a call to the StopFeedbacks method
+		[Tooltip("This event will fire every time this MMFeedbacks gets stopped via a call to the StopFeedbacks method")]
+		public UnityEvent OnStop;
 		/// This event will fire every time this MMFeedbacks resumes after a holding pause
 		[Tooltip("This event will fire every time this MMFeedbacks resumes after a holding pause")]
 		public UnityEvent OnResume;
@@ -120,6 +123,7 @@ namespace  MoreMountains.Feedbacks
 		public virtual bool OnInitializationCompleteIsNull { get; protected set; }
 		public virtual bool OnEnableIsNull { get; protected set; }
 		public virtual bool OnDisableIsNull { get; protected set; }
+		public virtual bool OnStopIsNull { get; protected set; }
 
 		/// <summary>
 		/// On init we store for each event whether or not we have one to invoke
@@ -136,6 +140,7 @@ namespace  MoreMountains.Feedbacks
 			OnInitializationCompleteIsNull = OnInitializationComplete == null;
 			OnEnableIsNull = OnEnable == null;
 			OnDisableIsNull = OnDisable == null;
+			OnStopIsNull = OnStop == null;
 		}
 
 		/// <summary>
@@ -301,6 +306,23 @@ namespace  MoreMountains.Feedbacks
 			if (TriggerMMFeedbacksEvents)
 			{
 				MMFeedbacksEvent.Trigger(source, MMFeedbacksEvent.EventTypes.Disable);
+			}
+		}
+
+		/// <summary>
+		/// Fires stop events if needed
+		/// </summary>
+		/// <param name="source"></param>
+		public virtual void TriggerOnStop(MMF_Player source)
+		{
+			if (!OnDisableIsNull && TriggerUnityEvents)
+			{
+				OnStop.Invoke();
+			}
+
+			if (TriggerMMFeedbacksEvents)
+			{
+				MMFeedbacksEvent.Trigger(source, MMFeedbacksEvent.EventTypes.Stop);
 			}
 		}
 	}

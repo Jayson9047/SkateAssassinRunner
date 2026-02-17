@@ -15,6 +15,7 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will let you control the texture offset of a target UI Image over time.")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("UI/Image Texture Offset")]
 	public class MMF_ImageTextureOffset : MMF_Feedback
 	{
@@ -96,6 +97,12 @@ namespace MoreMountains.Feedbacks
 		protected override void CustomInitialization(MMF_Player owner)
 		{
 			base.CustomInitialization(owner);
+			
+			if (TargetImage == null)
+			{
+				Debug.LogWarning("[Image Texture Offset Feedback] The image texture offset feedback on "+Owner.name+" doesn't have a TargetImage, it won't work. You need to specify an Image in its inspector.");
+				return;
+			}
 
 			_material = TargetImage.materialForRendering;
 
@@ -117,7 +124,7 @@ namespace MoreMountains.Feedbacks
 		/// <param name="feedbacksIntensity"></param>
 		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
-			if (!Active || !FeedbackTypeAuthorized)
+			if (!Active || !FeedbackTypeAuthorized || (TargetImage == null))
 			{
 				return;
 			}

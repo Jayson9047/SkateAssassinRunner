@@ -48,3 +48,35 @@
     padding-right: 6px;
     margin-top: 0px;
 }
+
+.mm-add-feedback-search-field { /* add feedback search field */
+    width: 45%;
+    transition: width 0.1s ease-in-out; 
+}
+
+.mm-add-feedback-search-field-placeholder {
+    width: 20%
+}
+
+.mm-add-feedback-search-field Label {
+    display: none;
+    background-color: yellow;
+}
+
+.mm-add-feedback-search-field-placeholder TextInput { /* add feedback search field placeholder */
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.mm-search-add-feedback-button { /* search add feedback button */
+    width: 60%;
+    margin-left: 40%;
+    -unity-text-align: middle-left;
+}
+
+.mm-search-results-row {
+    flex-direction: column;
+}
+
+.mm-search-results-row Button:focus {
+    background-color: rgba(83,191,255,0.3);
+}

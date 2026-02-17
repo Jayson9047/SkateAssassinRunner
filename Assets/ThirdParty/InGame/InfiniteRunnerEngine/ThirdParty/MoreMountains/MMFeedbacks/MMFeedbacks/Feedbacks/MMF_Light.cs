@@ -13,6 +13,7 @@ namespace MoreMountains.Feedbacks
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback lets you control the color and intensity of a Light in your scene for a certain duration (or instantly).")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("Lights/Light")]
 	public class MMF_Light : MMF_Feedback
 	{
@@ -192,6 +193,16 @@ namespace MoreMountains.Feedbacks
 		{
 			base.CustomInitialization(owner);
 
+			if (ExtraLights == null)
+			{
+				ExtraLights = new List<Light>();
+			}
+
+			if (ColorOverTime == null)
+			{
+				ColorOverTime = new Gradient();
+			}
+
 			if (BoundLight == null)
 			{
 				return;
@@ -341,7 +352,10 @@ namespace MoreMountains.Feedbacks
 
 			if (ModifyIntensity)
 			{
-				BoundLight.intensity = intensity * intensityMultiplier;	
+				if (BoundLight != null)
+				{
+					BoundLight.intensity = intensity * intensityMultiplier;	
+				}
 				foreach (Light light in ExtraLights)
 				{
 					light.intensity = intensity * intensityMultiplier;
@@ -349,7 +363,10 @@ namespace MoreMountains.Feedbacks
 			}
 			if (ModifyRange)
 			{
-				BoundLight.range = range;	
+				if (BoundLight != null)
+				{
+					BoundLight.range = range;	
+				}
 				foreach (Light light in ExtraLights)
 				{
 					light.range = range;
@@ -357,7 +374,10 @@ namespace MoreMountains.Feedbacks
 			}
 			if (ModifyShadowStrength)
 			{
-				BoundLight.shadowStrength = Mathf.Clamp01(shadowStrength);	
+				if (BoundLight != null)
+				{
+					BoundLight.shadowStrength = Mathf.Clamp01(shadowStrength);	
+				}
 				foreach (Light light in ExtraLights)
 				{
 					light.shadowStrength = Mathf.Clamp01(shadowStrength);
@@ -365,7 +385,10 @@ namespace MoreMountains.Feedbacks
 			}
 			if (ModifyColor)
 			{
-				BoundLight.color = _targetColor;
+				if (BoundLight != null)
+				{
+					BoundLight.color = _targetColor;
+				}
 				foreach (Light light in ExtraLights)
 				{
 					light.color = _targetColor;
@@ -404,7 +427,10 @@ namespace MoreMountains.Feedbacks
 		/// <param name="status"></param>
 		protected virtual void Turn(bool status)
 		{
-			BoundLight.enabled = status;
+			if (BoundLight != null)
+			{
+				BoundLight.enabled = status;	
+			}
 			foreach (Light light in ExtraLights)
 			{
 				light.enabled = status;

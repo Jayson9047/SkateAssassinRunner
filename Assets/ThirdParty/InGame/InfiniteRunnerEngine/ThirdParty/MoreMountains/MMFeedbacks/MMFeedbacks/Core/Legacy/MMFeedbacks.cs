@@ -86,7 +86,7 @@ namespace MoreMountains.Feedbacks
 		public bool DisplayFullDurationDetails = false;
 		/// the timescale at which the player itself will operate. This notably impacts sequencing and pauses duration evaluation.
 		[Tooltip("the timescale at which the player itself will operate. This notably impacts sequencing and pauses duration evaluation.")]
-		public TimescaleModes PlayerTimescaleMode = TimescaleModes.Unscaled;
+		public TimescaleModes PlayerTimescaleMode = TimescaleModes.Scaled;
 
 		/// if this is true, this feedback will only play if its distance to RangeCenter is lower or equal to RangeDistance
 		[Tooltip("if this is true, this feedback will only play if its distance to RangeCenter is lower or equal to RangeDistance")]
@@ -336,7 +336,7 @@ namespace MoreMountains.Feedbacks
 		}
 
 		/// <summary>
-		/// Plays all feedbacks using the MMFeedbacks' position as reference, and no attenuation, and in reverse (from bottom to top)
+		/// Changes the player's direction (inverting it - top to bottom becomes bottom to top, top to bottom becomes bottom to top) then plays all feedbacks using the MMFeedbacks' position as reference, and no attenuation
 		/// </summary>
 		public virtual void PlayFeedbacksInReverse()
 		{
@@ -344,7 +344,7 @@ namespace MoreMountains.Feedbacks
 		}
 
 		/// <summary>
-		/// Plays all feedbacks using the MMFeedbacks' position as reference, and no attenuation, and in reverse (from bottom to top)
+		/// Changes the player's direction (inverting it - top to bottom becomes bottom to top, top to bottom becomes bottom to top) then plays all feedbacks
 		/// </summary>
 		public virtual void PlayFeedbacksInReverse(Vector3 position, float feedbacksIntensity = 1.0f, bool forceChangeDirection = false)
 		{

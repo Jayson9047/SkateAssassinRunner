@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using MoreMountains.Tools;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Scripting.APIUpdating;
 using Random = UnityEngine.Random;
 
@@ -14,6 +11,7 @@ namespace MoreMountains.Feedbacks
 	/// </summary>
 	[AddComponentMenu("")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("Transform/Position Spring")]
 	[FeedbackHelp("This feedback will let you animate the position of the target object over time, with a spring effect.")]
 	public class MMF_PositionSpring : MMF_Feedback
@@ -84,6 +82,12 @@ namespace MoreMountains.Feedbacks
 		[Tooltip("the max value from which to pick a random target value when in MoveTo or MoveToAdditive modes")]
 		[MMFEnumCondition("Mode", (int)Modes.MoveTo, (int)Modes.MoveToAdditive)]
 		public Vector3 MoveToPositionMax = new Vector3(2f, 2f, 2f);
+		
+		/// an optional transform you can use to determine the target position. If this is set, the MoveToPositionMin and MoveToPositionMax values will be used as offsets from this transform's position in Additive mode
+		[Tooltip("an optional transform you can use to determine the target position. If this is set, the MoveToPositionMin and MoveToPositionMax values will be used as offsets from this transform's position in Additive mode")]
+		[MMFEnumCondition("Mode", (int)Modes.MoveTo, (int)Modes.MoveToAdditive)]
+		public Transform MoveToTransform;
+		
 		/// the min value from which to pick a random bump amount when in Bump mode
 		[Tooltip("the min value from which to pick a random bump amount when in Bump mode")]
 		[MMFEnumCondition("Mode", (int)Modes.Bump)]
@@ -98,6 +102,7 @@ namespace MoreMountains.Feedbacks
 		protected Vector3 _currentValue = Vector3.zero;
 		protected Vector3 _targetValue = Vector3.zero;
 		protected Vector3 _velocity = Vector3.zero;
+		protected Vector3 _initialTargetValue = Vector3.zero;
 		
 		protected Vector3 _initialPosition;
 		protected virtual bool LowVelocity => (Mathf.Abs(_velocity.x) + Mathf.Abs(_velocity.y) + Mathf.Abs(_velocity.z)) < _velocityLowThreshold;
@@ -177,6 +182,8 @@ namespace MoreMountains.Feedbacks
 					_velocity.x *= intensityMultiplier;
 					break;
 			}
+
+			_initialTargetValue = _targetValue;
 			_coroutine = Owner.StartCoroutine(Spring());
 		}
 
@@ -209,6 +216,18 @@ namespace MoreMountains.Feedbacks
 		/// </summary>
 		protected virtual void UpdateSpring()
 		{
+			if (MoveToTransform != null)
+			{
+				if (Mode == Modes.MoveTo)
+				{
+					_targetValue = MoveToTransform.position;
+				}
+				else if (Mode == Modes.MoveToAdditive)
+				{
+					_targetValue = MoveToTransform.position + _initialTargetValue;
+				}
+			}
+			
 			MMMaths.Spring(ref _currentValue.x, _targetValue.x, ref _velocity.x, DampingX, FrequencyX, FeedbackDeltaTime);
 			MMMaths.Spring(ref _currentValue.y, _targetValue.y, ref _velocity.y, DampingY, FrequencyY, FeedbackDeltaTime);
 			MMMaths.Spring(ref _currentValue.z, _targetValue.z, ref _velocity.z, DampingZ, FrequencyZ, FeedbackDeltaTime);

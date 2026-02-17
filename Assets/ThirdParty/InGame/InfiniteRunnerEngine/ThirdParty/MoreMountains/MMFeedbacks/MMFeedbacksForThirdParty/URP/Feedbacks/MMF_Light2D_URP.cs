@@ -15,6 +15,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 	[AddComponentMenu("")]
 	[FeedbackHelp("This feedback will let you control a 2D light's intensity, color, falloff, shadow strength and volumetric intensity over time, or instantly.")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks")]
+	[System.Serializable]
 	[FeedbackPath("Lights/Light2D_URP")]
 	public class MMF_Light2D_URP : MMF_Feedback
 	{
@@ -220,6 +221,11 @@ namespace MoreMountains.FeedbacksForThirdParty
 			{
 				return;
 			}
+
+			if (ColorOverTime == null)
+			{
+				ColorOverTime = new Gradient();
+			}
             
 			_initialFalloff = BoundLight.shapeLightFalloffSize ;
 			_initialShadowStrength = BoundLight.shadowIntensity;
@@ -248,7 +254,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 		/// <param name="feedbacksIntensity"></param>
 		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
-			if (!Active || !FeedbackTypeAuthorized)
+			if (!Active || !FeedbackTypeAuthorized || (BoundLight == null))
 			{
 				return;
 			}

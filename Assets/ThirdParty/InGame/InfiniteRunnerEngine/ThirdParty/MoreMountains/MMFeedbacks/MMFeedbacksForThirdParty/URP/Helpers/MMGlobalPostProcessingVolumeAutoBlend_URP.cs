@@ -67,6 +67,9 @@ namespace MoreMountains.FeedbacksForThirdParty
 		public bool Interruptable = true;
 		/// whether or not this blender should pick the current value as its starting point
 		public bool StartFromCurrentValue = true;
+		/// reset to initial value on end 
+		[Tooltip("reset to initial value on end ")]
+		public bool ResetToInitialValueOnEnd = false;
 
 		[Header("Tests")]
 		/// test blend button
@@ -190,7 +193,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 			else
 			{
 				// after end is reached
-				_volume.weight = _destination;
+				_volume.weight = ResetToInitialValueOnEnd ? _initial : _destination;
 				_blending = false;
 				if (DisableVolumeOnZeroWeight && (_volume.weight == 0f))
 				{
@@ -279,6 +282,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 					InitialWeight = shakeEvent.InitialWeight;
 					FinalWeight = shakeEvent.FinalWeight;    
 				}
+				ResetToInitialValueOnEnd = shakeEvent.ResetToInitialValueOnEnd;
 				Blend();
 			}
 			#endif
@@ -308,6 +312,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 		public AnimationCurve BlendCurve;
 		public float InitialWeight;
 		public float FinalWeight;
+		public bool ResetToInitialValueOnEnd;
 		public bool NormalPlayDirection;
 		public MMGlobalPostProcessingVolumeAutoBlend_URP.TimeScales TimeScale;
 
@@ -320,6 +325,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 			AnimationCurve blendCurve,
 			float initialWeight,
 			float finalWeight,
+			bool resetToInitialValueOnEnd,
 			bool normalPlayDirection,
 			MMGlobalPostProcessingVolumeAutoBlend_URP.TimeScales timeScale)
 		{
@@ -331,6 +337,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 			e.BlendCurve = blendCurve;
 			e.InitialWeight = initialWeight;
 			e.FinalWeight = finalWeight;
+			e.ResetToInitialValueOnEnd = resetToInitialValueOnEnd;
 			e.NormalPlayDirection = normalPlayDirection;
 			e.TimeScale = timeScale;
 			MMEventManager.TriggerEvent(e);

@@ -167,11 +167,8 @@ namespace MoreMountains.Tools
 			{
 				return null;
 			}
-
-			bool initialStatus = typeOfObject.activeSelf;
-			typeOfObject.SetActive(false);
-			GameObject newGameObject = (GameObject)Instantiate(typeOfObject);
-			typeOfObject.SetActive(initialStatus);
+			
+			GameObject newGameObject = (GameObject)MMGameObjectExtensions.MMInstantiateDisabled(typeOfObject);
 			SceneManager.MoveGameObjectToScene(newGameObject, this.gameObject.scene);
 			if (NestWaitingPool)
 			{
@@ -234,7 +231,22 @@ namespace MoreMountains.Tools
 			MMMultipleObjectPoolerObject searchedObject = GetPoolObject(Pool[_currentIndex].GameObjectToPool);
 
 			if (_currentIndex >= _objectPool.PooledGameObjects.Count) { return null; }
-			if (!searchedObject.Enabled) { _currentIndex++; return null; }
+
+			int searchIterations = 0;
+			while (!searchedObject.Enabled)
+			{
+				_currentIndex++;
+				searchIterations++;
+				if (_currentIndex >= Pool.Count)
+				{
+					ResetCurrentIndex ();
+				}
+				if (searchIterations > Pool.Count)
+				{
+					return null;
+				}
+				searchedObject = GetPoolObject(Pool[_currentIndex].GameObjectToPool);
+			}
 
 			// if the object is already active, we need to find another one
 			if (_objectPool.PooledGameObjects[_currentIndex].gameObject.activeInHierarchy)
@@ -285,7 +297,23 @@ namespace MoreMountains.Tools
 			MMMultipleObjectPoolerObject searchedObject = GetPoolObject(Pool[_currentIndex].GameObjectToPool);
 
 			if (_currentIndex >= _objectPool.PooledGameObjects.Count) { return null; }
-			if (!searchedObject.Enabled) { _currentIndex++; _currentCount = 0; return null; }
+			
+			int searchIterations = 0;
+			while (!searchedObject.Enabled)
+			{
+				_currentIndex++;
+				searchIterations++;
+				if (_currentIndex >= Pool.Count)
+				{
+					ResetCurrentIndex ();
+				}
+				if (searchIterations > Pool.Count)
+				{
+					_currentCount = 0;
+					return null;
+				}
+				searchedObject = GetPoolObject(Pool[_currentIndex].GameObjectToPool);
+			}
 
 
 			// if the object is already active, we need to find another one
@@ -413,6 +441,22 @@ namespace MoreMountains.Tools
 			// we pick one of the objects in the original pool at random
 			int randomIndex = UnityEngine.Random.Range(0, Pool.Count);
 			
+			int searchIterations = 0;
+			while (!PoolObjectEnabled(Pool[randomIndex].GameObjectToPool))
+			{
+				randomIndex++;
+				searchIterations++;
+				if (randomIndex >= Pool.Count)
+				{
+					randomIndex = 0;
+				}
+				if (searchIterations > Pool.Count)
+				{
+					_currentCount = 0;
+					return null;
+				}
+			}
+			
 			int overflowCounter=0;
 
 			// if we can't pool the same object twice, we'll loop for a while to try and get another one
@@ -519,7 +563,8 @@ namespace MoreMountains.Tools
 
 				if (GetPoolObject(FindObject(searchedName,_objectPool.PooledGameObjects)).PoolCanExpand)
 				{
-					return AddOneObjectToThePool(searchedObject);
+					GameObject addObject = GetPoolObject(Pool[_currentIndex].GameObjectToPool).GameObjectToPool;
+					return AddOneObjectToThePool(addObject);
 				}
 			}
 

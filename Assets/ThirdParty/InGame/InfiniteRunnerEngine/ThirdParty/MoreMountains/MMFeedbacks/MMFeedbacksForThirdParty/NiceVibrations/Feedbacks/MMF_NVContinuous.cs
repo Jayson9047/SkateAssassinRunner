@@ -12,6 +12,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 	/// Add this feedback to play a continuous haptic of the specified amplitude and frequency over a certain duration. This feedback will also let you randomize these, and modulate them over time.
 	/// </summary>
 	[AddComponentMenu("")]
+	[System.Serializable]
 	#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
 	[FeedbackPath("Haptics/Haptic Continuous")]
 	#endif
@@ -83,7 +84,7 @@ namespace MoreMountains.FeedbacksForThirdParty
 		/// <param name="feedbacksIntensity"></param>
 		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
 		{
-			if (!Active || !FeedbackTypeAuthorized || !HapticSettings.CanPlay())
+			if (!Active || !FeedbackTypeAuthorized || HapticSettings == null || !HapticSettings.CanPlay())
 			{
 				return;
 			}

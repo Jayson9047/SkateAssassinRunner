@@ -4,7 +4,7 @@ using MoreMountains.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using MoreMountains.Feedbacks;
 public class SwipeDownDetector : MonoBehaviour
 {
     [Header("Swipe Settings")]
@@ -38,6 +38,11 @@ public class SwipeDownDetector : MonoBehaviour
 
     [Header("DownAttack Filters")]
     [SerializeField] private string ignoreDownAttackTag = "IgnoreDownAttack";
+
+    [Header("FEEL - Down Slam")]
+    [SerializeField] private MMF_Player downSlamFeel;
+    [SerializeField] private float downSlamIntensity = 1f;
+    [SerializeField] private float powerSlamIntensity = 1.35f;
 
     private bool downAttackFrozen;
 
@@ -394,6 +399,19 @@ public class SwipeDownDetector : MonoBehaviour
         if (triggerImpactOncePerDownAttack && impactTriggeredThisDownAttack)
             return;
 
+        if (downSlamFeel != null)
+        {
+            bool slamReady =
+                debug_StartWithPowerSlam ||
+                (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
+                 && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
+
+            float intensity = slamReady ? powerSlamIntensity : downSlamIntensity;
+
+            // position matters for impulses if you ever use spatial falloff
+            downSlamFeel.PlayFeedbacks(hitPoint, intensity);
+        }
+        DownSlamKillFlashManager.Instance?.ArmKillWindow();
         // Trigger slam on ANY collision (ground, wall, enemy, obstacle, etc.)
         DoGroundImpactAOE(hitPoint);
 
@@ -462,6 +480,7 @@ public class SwipeDownDetector : MonoBehaviour
                     damagedThisImpact.Add(key);
 
                     dmg.ApplyDamage(slamDamage, hitPoint);
+                    DownSlamKillFlashManager.Instance?.NotifyEnemyDied();
                 }
             }
         }
