@@ -9,6 +9,7 @@ TagManager:
   - CarAccelerationCollider
   - StartDriftMarker
   - CarSlotMarker
+  - IgnoreDownAttack
   layers:
   - Default
   - TransparentFX

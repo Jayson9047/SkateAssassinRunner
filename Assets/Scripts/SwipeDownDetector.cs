@@ -36,6 +36,9 @@ public class SwipeDownDetector : MonoBehaviour
     [SerializeField] private string downAttackStateName = "DownAttack";
     [SerializeField] private float downAttackHoldNormalizedTime = 0.36f;
 
+    [Header("DownAttack Filters")]
+    [SerializeField] private string ignoreDownAttackTag = "IgnoreDownAttack";
+
     private bool downAttackFrozen;
 
     private int katanaLayerIndex = -1;
@@ -440,6 +443,12 @@ public class SwipeDownDetector : MonoBehaviour
                 {
                     Collider col = hits[i];
                     if (col == null) continue;
+
+                    if (!string.IsNullOrEmpty(ignoreDownAttackTag) && col.transform.root.CompareTag(ignoreDownAttackTag))
+                        continue;
+
+                    if (col.GetComponentInParent<EnemyTypeDrone>() != null)
+                        continue;
 
                     var dmg = col.GetComponentInParent<IDamageable>();
                     if (dmg == null) continue;
