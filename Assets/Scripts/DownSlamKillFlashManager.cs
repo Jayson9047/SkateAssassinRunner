@@ -22,18 +22,22 @@ public class DownSlamKillFlashManager : MonoBehaviour
     }
 
     /// Call this exactly when downslam impact happens.
-    public void ArmKillWindow()
+    private bool _isPowerSlamWindow = false;
+
+    public void ArmKillWindow(bool isPowerSlam)
     {
+        _isPowerSlamWindow = isPowerSlam;
         _windowEndsAt = Time.unscaledTime + killWindowSeconds;
     }
 
-    /// Call this when any enemy dies.
     public void NotifyEnemyDied()
     {
+        if (!_isPowerSlamWindow) return;
         if (Time.unscaledTime > _windowEndsAt) return;
         if (Time.unscaledTime < _nextFlashAllowedAt) return;
 
         _nextFlashAllowedAt = Time.unscaledTime + flashCooldownSeconds;
         if (downKillFlash != null) downKillFlash.PlayFeedbacks();
     }
+
 }

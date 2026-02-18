@@ -1,10 +1,11 @@
 using IndieKit;
+using Lofelt.NiceVibrations;
+using MoreMountains.Feedbacks;
 using MoreMountains.InfiniteRunnerEngine;
 using MoreMountains.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MoreMountains.Feedbacks;
 public class SwipeDownDetector : MonoBehaviour
 {
     [Header("Swipe Settings")]
@@ -40,9 +41,12 @@ public class SwipeDownDetector : MonoBehaviour
     [SerializeField] private string ignoreDownAttackTag = "IgnoreDownAttack";
 
     [Header("FEEL - Down Slam")]
-    [SerializeField] private MMF_Player downSlamFeel;
-    [SerializeField] private float downSlamIntensity = 1f;
+    [SerializeField] private MMF_Player normalSlamFeel;
+    [SerializeField] private float normalSlamIntensity = 1f;
+
+    [SerializeField] private MMF_Player powerSlamFeel;
     [SerializeField] private float powerSlamIntensity = 1.35f;
+
 
     private bool downAttackFrozen;
 
@@ -399,19 +403,26 @@ public class SwipeDownDetector : MonoBehaviour
         if (triggerImpactOncePerDownAttack && impactTriggeredThisDownAttack)
             return;
 
-        if (downSlamFeel != null)
+        bool slamReady =
+            debug_StartWithPowerSlam ||
+            (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
+             && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
+
+        // Normal slam FEEL (no vibration, lighter impulse/FOV)
+        if (!slamReady && normalSlamFeel != null)
         {
-            bool slamReady =
-                debug_StartWithPowerSlam ||
-                (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
-                 && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
-
-            float intensity = slamReady ? powerSlamIntensity : downSlamIntensity;
-
-            // position matters for impulses if you ever use spatial falloff
-            downSlamFeel.PlayFeedbacks(hitPoint, intensity);
+            normalSlamFeel.PlayFeedbacks(hitPoint, normalSlamIntensity);
         }
-        DownSlamKillFlashManager.Instance?.ArmKillWindow();
+
+        // Power slam FEEL (full juice)
+        if (slamReady && powerSlamFeel != null)
+        {
+            powerSlamFeel.PlayFeedbacks(hitPoint, powerSlamIntensity);
+        }
+
+        // Kill flash window should be powerslam-only
+        DownSlamKillFlashManager.Instance?.ArmKillWindow(slamReady);
+
         // Trigger slam on ANY collision (ground, wall, enemy, obstacle, etc.)
         DoGroundImpactAOE(hitPoint);
 
@@ -422,7 +433,7 @@ public class SwipeDownDetector : MonoBehaviour
     private void DoGroundImpactAOE(Vector3 hitPoint)
     {
         // Decide radius from the REAL source of truth (slam charge number)
-
+        bool damagedAnyEnemy = false;
         if (LevelManager.Instance != null)
         {
             var skateLM = LevelManager.Instance as SkateAssassinRunnerLevelManager;
@@ -479,6 +490,7 @@ public class SwipeDownDetector : MonoBehaviour
 
                     damagedThisImpact.Add(key);
 
+                    damagedAnyEnemy = true;
                     dmg.ApplyDamage(slamDamage, hitPoint);
                     DownSlamKillFlashManager.Instance?.NotifyEnemyDied();
                 }
@@ -508,7 +520,7 @@ public class SwipeDownDetector : MonoBehaviour
                 // prevent double-processing same enemy (multiple colliders)
                 if (damagedThisImpact.Contains(type2)) continue;
                 damagedThisImpact.Add(type2);
-
+                damagedAnyEnemy = true;
                 if (slamReady)
                 {
                     type2.PowerSlamKill(hitPoint, center.x);
@@ -525,7 +537,7 @@ public class SwipeDownDetector : MonoBehaviour
         }
         else
         {
-            return; // no hits at all, skip the powered slam logic
+            // no non-damageable hits; continue (we may still have damaged enemies via damageableMask loop)
         }
 
         // If we used the big slam (radius 5), consume it and reset UI back to empty
@@ -533,6 +545,10 @@ public class SwipeDownDetector : MonoBehaviour
         {
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.ConsumeSlamIfReady();
             // After this, shards become empty + button becomes disabled via RefreshSlamShards()
+        }
+        if (!damagedAnyEnemy && SystemInfo.supportsVibration)
+        {
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
         }
     }
 

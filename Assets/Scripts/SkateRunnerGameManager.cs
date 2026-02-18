@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using MoreMountains.Tools;
+using Lofelt.NiceVibrations;
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -53,10 +54,17 @@ namespace MoreMountains.InfiniteRunnerEngine
         public virtual void AddCash(float cashToAdd)
         {
             Cash += cashToAdd;
+
+            // HAPTICS: cash pickup / gain
+            if (cashToAdd > 0f && SystemInfo.supportsVibration)
+            {
+                HapticPatterns.PlayPreset(HapticPatterns.PresetType.Selection);
+            }
+
             OnCashAdded?.Invoke(cashToAdd);
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();
-            
         }
+
 
         /// <summary>
         /// this method resets the whole game manager

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Lofelt.NiceVibrations;
 
 namespace IndieKit
 {
@@ -72,7 +73,12 @@ namespace IndieKit
             // Only enemies count for enemy-kill systems (slam meter, missions, etc.)
             if (countsAsEnemyKill)
             {
-                // Capture cause-of-kill at the moment the enemy dies
+                // HAPTICS: enemy kill feedback (any attack)
+                if (SystemInfo.supportsVibration)
+                {
+                    HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
+                }
+
                 LastKillCause = KillContext.Current;
 
                 OnEnemyKilled?.Invoke(this);
