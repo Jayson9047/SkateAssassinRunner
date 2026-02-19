@@ -51,7 +51,7 @@ public class SwipeDownDetector : MonoBehaviour
     private bool downAttackFrozen;
 
     private int katanaLayerIndex = -1;
-
+    private int _downAttackImpactId = 0;
     private Vector2 startPos;
     private float startTime;
     private bool tracking;
@@ -346,7 +346,14 @@ public class SwipeDownDetector : MonoBehaviour
             }
 
             if (animator != null && katanaLayerIndex >= 0)
-                animator.SetLayerWeight(katanaLayerIndex, 1f);
+            {
+                // If a dash attack is happening, do NOT re-enable KatanaLayer here,
+                // because dash needs KatanaLayer at 0 so the hand attack animation works.
+                if (swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashMovementInProgress)
+                    animator.SetLayerWeight(katanaLayerIndex, 0f);
+                else
+                    animator.SetLayerWeight(katanaLayerIndex, 1f);
+            }
         }
         finally
         {
@@ -461,7 +468,8 @@ public class SwipeDownDetector : MonoBehaviour
         float effectiveRadius = slamReady ? poweredImpactRadius : normalImpactRadius;
 
         // Tag kills caused by this impact as DownAttack
-        KillContext.Set(KillCause.DownAttack);
+        _downAttackImpactId++;
+        KillContext.Set(KillCause.DownAttack, _downAttackImpactId);
 
         try
         {

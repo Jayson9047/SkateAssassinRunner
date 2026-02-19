@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using MoreMountains.Feedbacks;
+using IndieKit;
 
 public class SkateRunnerGameFeel : MonoBehaviour
 {
@@ -10,6 +12,14 @@ public class SkateRunnerGameFeel : MonoBehaviour
     private float _defaultFixedDeltaTime;
     private bool _slowMoActive;
     private Coroutine _restoreRoutine;
+
+    [Header("FEEL - Hit Stop On Enemy Kill")]
+    [SerializeField] private MMF_Player enemyKillHitStopFeel;
+    [SerializeField] private float hitStopMinIntervalRealtime = 0.10f; // safety: never spam hitstop faster than this
+
+    private int _lastHitStopAttackId = -1;
+    private KillCause _lastHitStopCause = KillCause.Unknown;
+    private float _lastHitStopTime = -999f;
 
     private void Awake()
     {
@@ -83,6 +93,30 @@ public class SkateRunnerGameFeel : MonoBehaviour
         _restoreRoutine = null;
     }
 
+    public static void TriggerEnemyKillHitStopStatic(KillCause cause, int attackId)
+    {
+        Ensure();
+        _instance.TriggerEnemyKillHitStop(cause, attackId);
+    }
+
+    private void TriggerEnemyKillHitStop(KillCause cause, int attackId)
+    {
+        if (enemyKillHitStopFeel == null) return;
+
+        // Gate: one hit stop per attack instance
+        if (attackId != 0 && attackId == _lastHitStopAttackId && cause == _lastHitStopCause)
+            return;
+
+        // Extra safety: never allow hit stop spam even if attackId isn't set somewhere
+        if (Time.unscaledTime - _lastHitStopTime < hitStopMinIntervalRealtime)
+            return;
+
+        _lastHitStopAttackId = attackId;
+        _lastHitStopCause = cause;
+        _lastHitStopTime = Time.unscaledTime;
+
+        enemyKillHitStopFeel.PlayFeedbacks();
+    }
 
     // --- Public API (static convenience) ---
     public static void TriggerSlowMoStatic(float slowMoScale, float slowMoDurationRealtime, bool affectsPhysicsOverride = true)

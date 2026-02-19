@@ -215,8 +215,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
         if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking && !swipeDownDetector.DownAttackDashWindowOpen)
             return;
 
-        if (animator != null && katanaLayerIndex >= 0)
-            animator.SetLayerWeight(katanaLayerIndex, 0f);
+        ForceKatanaLayer(0f);
 
         if (animator != null)
         {
@@ -322,6 +321,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
             }
 
             isDashMovementInProgress = true;
+            ForceKatanaLayer(0f);
 
             if (dashAbortRequested)
             {
@@ -432,6 +432,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
         _isReturningFromDash = false;
     }
 
+    private void ForceKatanaLayer(float weight)
+    {
+        if (animator == null || katanaLayerIndex < 0) return;
+        animator.SetLayerWeight(katanaLayerIndex, weight);
+    }
 
     private IEnumerator WaitForFreshAttackStateStart()
     {
@@ -639,7 +644,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
             if (zDelta > depthWindow)
                 continue;
 
-            KillContext.Set(KillCause.DashAttack);
+            KillContext.Set(KillCause.DashAttack, attackId);
             try
             {
                 // Apply damage at the closest point

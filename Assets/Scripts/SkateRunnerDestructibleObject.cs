@@ -73,6 +73,13 @@ namespace IndieKit
             // Only enemies count for enemy-kill systems (slam meter, missions, etc.)
             if (countsAsEnemyKill)
             {
+                // HIT STOP (gated: one per attack)
+                bool isEnemyType3 = GetComponentInParent<EnemyType3>() != null;
+                if (!isEnemyType3)
+                {
+                    SkateRunnerGameFeel.TriggerEnemyKillHitStopStatic(KillContext.Current, KillContext.CurrentAttackId);
+                }
+
                 // HAPTICS: enemy kill feedback (any attack)
                 if (SystemInfo.supportsVibration)
                 {
@@ -84,7 +91,6 @@ namespace IndieKit
                 OnEnemyKilled?.Invoke(this);
                 OnEnemyKilledWithCause?.Invoke(this, LastKillCause);
             }
-
 
             gameObject.SetActive(false);
         }
