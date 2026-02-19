@@ -27,9 +27,16 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     [Header("FEEL - Ruthless Tap FOV Punch (Code)")]
     [SerializeField] private CinemachineCamera vcamCollision;
     [SerializeField] private CinemachineCamera vcamOther; // whichever is used sometimes
+
+    [SerializeField] private float fovPunchMin = 0.5f;
+    [SerializeField] private float fovPunchMax = 4f;
+    [SerializeField] private float fovPunchStep = 0.25f;
+
+    // current punch amount used by PlayFovPunch()
     [SerializeField] private float fovPunchAmount = 1.5f;
-    [SerializeField] private float fovPunchIn = 0.02f;
-    [SerializeField] private float fovPunchOut = 0.06f;
+
+    [SerializeField] private float fovPunchIn = 0.01f;
+    [SerializeField] private float fovPunchOut = 0.07f;
 
     private Coroutine _fovCo;
 
@@ -223,6 +230,9 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
         {
             // Mode ended -> fade out combo
             FadeOutCombo();
+
+            // Reset FOV punch ramp for next time
+            fovPunchAmount = fovPunchMin;
         }
 
         _lastRuthlessState = ruthless;
@@ -249,9 +259,15 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
             if (lm.GameplayInputsLocked && lm.RuthlessTapModeEntered)
             {
                 lm.RuthlessTapCount++;
+                // First tap of a ruthless sequence: ensure we start from min
+                if (lm.RuthlessTapCount == 1)
+                    fovPunchAmount = fovPunchMin;
                 ShowCombo(lm.RuthlessTapCount);
                 PlayRuthlessDirectionalRecoil();
                 PlayFovPunch();
+                // Ramp up for the NEXT tap (cap at max)
+                if (fovPunchAmount < fovPunchMax)
+                    fovPunchAmount = Mathf.Min(fovPunchAmount + fovPunchStep, fovPunchMax);
                 OnPhase2ComboUpdated?.Invoke(lm.RuthlessTapCount);
                 if (awardCashOnRuthlessTap)
                 {
