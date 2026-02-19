@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Elroi.Missions;
+using Lofelt.NiceVibrations;
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -295,12 +296,15 @@ namespace MoreMountains.InfiniteRunnerEngine
         }
         public void OnPhase2SlamImpact()
         {
+            if (SystemInfo.supportsVibration)
+            {
+                HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
+            }
             if (_phase2CarImpulse == null)
             {
                 Debug.LogError("[Phase2] phase2CarImpulse is not assigned (drag carBody with CarImpulseTest).");
                 return;
             }
-
             _phase2CarImpulse.BlowRearUp();
             _enemyLaunch?.Launch();
         }

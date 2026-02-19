@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using MoreMountains.InfiniteRunnerEngine;
 using TMPro; // add this
+using Unity.Cinemachine;
+using System.Collections;
+
 
 public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
@@ -16,6 +19,22 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     [SerializeField] private int maxCashPerTap = 7;
     [SerializeField] private SwipeRightAttackDetector swipeRightAttackDetector;
     [SerializeField] private GUIPulse comboPulse;
+
+    [Header("FEEL - Phase 2 Ruthless Tap Recoil")]
+    [SerializeField] private CinemachineImpulseSource ruthlessTapImpulseSource;
+    [SerializeField] private float ruthlessTapImpulseAmplitude = 1f;
+
+    [Header("FEEL - Ruthless Tap FOV Punch (Code)")]
+    [SerializeField] private CinemachineCamera vcamCollision;
+    [SerializeField] private CinemachineCamera vcamOther; // whichever is used sometimes
+    [SerializeField] private float fovPunchAmount = 1.5f;
+    [SerializeField] private float fovPunchIn = 0.02f;
+    [SerializeField] private float fovPunchOut = 0.06f;
+
+    private Coroutine _fovCo;
+
+    private int _ruthlessTapRecoilIndex = 0;
+
     // Missions hooks (Phase 2 / Ruthless Tap Mode)
     public static System.Action<int> OnPhase2ComboUpdated; // sends current combo count
     public static System.Action<int> OnPhase2CashEarned;   // sends cash earned (delta)
@@ -39,6 +58,74 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
         _downPos = eventData.position;
         _downTime = Time.unscaledTime;
         _isTapCandidate = true;
+    }
+    private void PlayRuthlessDirectionalRecoil()
+    {
+        if (ruthlessTapImpulseSource == null) return;
+
+        Vector3 dir;
+        int idx = _ruthlessTapRecoilIndex % 4;
+        _ruthlessTapRecoilIndex++;
+
+        switch (idx)
+        {
+            case 0: dir = new Vector3(-1f, -0.35f, 0f); break; // 
+            case 1: dir = new Vector3(1f, -0.35f, 0f); break; // 
+            case 2: dir = new Vector3(1f, 0.35f, 0f); break; // 
+            default: dir = new Vector3(-1f, 0.35f, 0f); break; // 
+        }
+        dir += new Vector3(
+            Random.Range(-0.15f, 0.15f),
+            Random.Range(-0.15f, 0.15f),
+            0f
+        );
+        dir.Normalize();
+        ruthlessTapImpulseSource.GenerateImpulse(dir * ruthlessTapImpulseAmplitude);
+    }
+
+    private CinemachineCamera GetActiveVcam()
+    {
+        // simplest: choose whichever has higher Priority at runtime
+        if (vcamCollision != null && vcamOther != null)
+            return (vcamCollision.Priority >= vcamOther.Priority) ? vcamCollision : vcamOther;
+
+        return vcamCollision != null ? vcamCollision : vcamOther;
+    }
+    private void PlayFovPunch()
+    {
+        var vcam = GetActiveVcam();
+        if (vcam == null) return;
+
+        if (_fovCo != null) StopCoroutine(_fovCo);
+        _fovCo = StartCoroutine(FovPunchRoutine(vcam));
+    }
+
+    private IEnumerator FovPunchRoutine(CinemachineCamera vcam)
+    {
+        float baseFov = vcam.Lens.FieldOfView;
+        float target = baseFov + fovPunchAmount;
+
+        // in
+        float t = 0f;
+        while (t < fovPunchIn)
+        {
+            t += Time.unscaledDeltaTime;
+            float a = (fovPunchIn <= 0.0001f) ? 1f : Mathf.Clamp01(t / fovPunchIn);
+            vcam.Lens.FieldOfView = Mathf.Lerp(baseFov, target, a);
+            yield return null;
+        }
+
+        // out
+        t = 0f;
+        while (t < fovPunchOut)
+        {
+            t += Time.unscaledDeltaTime;
+            float a = (fovPunchOut <= 0.0001f) ? 1f : Mathf.Clamp01(t / fovPunchOut);
+            vcam.Lens.FieldOfView = Mathf.Lerp(target, baseFov, a);
+            yield return null;
+        }
+
+        vcam.Lens.FieldOfView = baseFov;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -163,6 +250,8 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
             {
                 lm.RuthlessTapCount++;
                 ShowCombo(lm.RuthlessTapCount);
+                PlayRuthlessDirectionalRecoil();
+                PlayFovPunch();
                 OnPhase2ComboUpdated?.Invoke(lm.RuthlessTapCount);
                 if (awardCashOnRuthlessTap)
                 {
