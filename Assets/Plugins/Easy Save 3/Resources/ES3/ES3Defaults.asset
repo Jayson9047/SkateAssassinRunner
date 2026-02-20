@@ -42,8 +42,11 @@ MonoBehaviour:
     - Boxophobic.PolyverseSkies.Runtime
     - Boxophobic.PolyverseSkies.Scripts
     - Boxophobic.Utils.Scripts
+    - CFXRDemo
+    - CFXRRuntime
     - DamageNumbersPro
     - Kamgam.MeshExtractor
+    - KinoBloom.Runtime
     - Lofelt.NiceVibrations
     - Lofelt.NiceVibrations.Demo
     - MoreMountains.Interface

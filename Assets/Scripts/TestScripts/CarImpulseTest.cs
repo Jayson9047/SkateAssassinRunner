@@ -20,6 +20,7 @@ public class CarImpulseTest : MonoBehaviour
     // Optional: add some roll for drama
     [SerializeField] private float rollAngVelChange = 0.0f;
 
+    [SerializeField] private GameObject explosionObject;
     // If you zero velocity every time, you’ll never “carry” motion from before the blast.
     [Header("Debug")]
     [SerializeField] private bool clearVelocitiesFirst = true;
@@ -46,7 +47,7 @@ public class CarImpulseTest : MonoBehaviour
         if (rb == null || rearPoint == null) return;
 
         rb.WakeUp();
-
+        explosionObject?.SetActive(true);
         if (clearVelocitiesFirst)
         {
             rb.linearVelocity = Vector3.zero;
