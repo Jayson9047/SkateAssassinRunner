@@ -29,6 +29,18 @@ public class CarImpulseTest : MonoBehaviour
 
     private bool _flipArmed;
 
+    private bool _explosionDetached;
+
+    public void DetachExplosionFromRearImpactPoint()
+    {
+        if (_explosionDetached) return;
+        if (explosionObject == null) return;
+
+        // Keep the same world position/rotation, just stop following the car.
+        explosionObject.transform.SetParent(null, true);
+
+        _explosionDetached = true;
+    }
     public void ArmFlipOnce()
     {
         _flipArmed = true;

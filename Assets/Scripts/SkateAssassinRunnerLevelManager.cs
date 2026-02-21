@@ -383,7 +383,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             _phase2BossQTEActive = true;
             OnPhase2Started?.Invoke();
-
+            _phase2CarImpulse?.DetachExplosionFromRearImpactPoint();
             // 1) Stop all gameplay controls (swipes/tap zone, etc.)
             // Your detectors already early-return when GameplayInputsLocked is true.
             if (LevelManager.Instance != null)
