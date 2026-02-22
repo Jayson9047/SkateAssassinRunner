@@ -132,6 +132,24 @@ MonoBehaviour:
       isFolder: 1
       isAsset: 0
       _id: 1046450282
+    - globalId:
+        globalObjectIdString: GlobalObjectId_V1-1-d067a485f93a7b64c855907991a07ec3-102900000-0
+      _typeString: UnityEditor.DefaultAsset, UnityEditor.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      _obj: {fileID: 102900000, guid: d067a485f93a7b64c855907991a07ec3, type: 3}
+      isSceneGameObject: 0
+      isFolder: 1
+      isAsset: 0
+      _id: 1063419054
+    - globalId:
+        globalObjectIdString: GlobalObjectId_V1-1-f5f6d467e5b904a419b2194c57bb02e3-102900000-0
+      _typeString: UnityEditor.DefaultAsset, UnityEditor.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      _obj: {fileID: 102900000, guid: f5f6d467e5b904a419b2194c57bb02e3, type: 3}
+      isSceneGameObject: 0
+      isFolder: 1
+      isAsset: 0
+      _id: 1057155805
     name: Folders 2
     _id: 1051024297
   - items: []

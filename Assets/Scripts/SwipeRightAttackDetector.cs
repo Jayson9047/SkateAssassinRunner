@@ -49,6 +49,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private MovingObject _playerMovingObject;
     private bool _isReturningFromDash;
     public bool IsReturningFromDashOnGround => _isReturningFromDash;
+    private WeaponPowerEquipper _weaponPowerEquipper;
 
     // Assumption you already made: 36 frames total in the clip.
 
@@ -134,6 +135,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
                 }
             }
         }
+        _weaponPowerEquipper = GetComponent<WeaponPowerEquipper>();
     }
     private void OnEnable()
     {
@@ -322,6 +324,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
             isDashMovementInProgress = true;
             ForceKatanaLayer(0f);
+            // Spawn the equipped WeaponPower slash VFX at dash start
+            _weaponPowerEquipper?.SpawnSlashFx();
 
             if (dashAbortRequested)
             {
