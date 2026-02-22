@@ -47,6 +47,13 @@ public class SwipeDownDetector : MonoBehaviour
     [SerializeField] private MMF_Player powerSlamFeel;
     [SerializeField] private float powerSlamIntensity = 1.35f;
 
+    [Header("VFX - Down Slam Shockwave (Distortion Shockwaves VFX)")]
+    [SerializeField] private GameObject downSlamShockwavePrefab;
+
+    // Most ring FX scale by diameter (radius*2). If your prefab doesn't match, tweak this.
+    [SerializeField] private float shockwaveScaleMultiplier = 1f;
+    [SerializeField] private float normalShockwaveRadius = 4f;
+    [SerializeField] private float poweredShockwaveRadius = 7f;
 
     private bool downAttackFrozen;
 
@@ -91,8 +98,8 @@ public class SwipeDownDetector : MonoBehaviour
     [SerializeField] private bool triggerImpactOncePerDownAttack = true;
 
     [Header("DownAttack Slam Radius")]
-    [SerializeField] private float normalImpactRadius = 2f;
-    [SerializeField] private float poweredImpactRadius = 5f;
+    [SerializeField] private float normalImpactRadius = 4f;
+    [SerializeField] private float poweredImpactRadius = 7f;
     private bool downAttackHasGroundedOnce;
     public bool DownAttackDashWindowOpen => isDownAttacking && downAttackHasGroundedOnce && !downAttackCancelledIntoSlide;
 
@@ -271,7 +278,38 @@ public class SwipeDownDetector : MonoBehaviour
         }
     }
 
+    private void SpawnDownSlamShockwave(Vector3 hitPoint, float targetRadius)
+    {
+        if (downSlamShockwavePrefab == null)
+            return;
 
+        // tiny lift to avoid z-fighting
+        Vector3 pos = hitPoint;
+        pos.y += 0.02f;
+
+        GameObject go = Instantiate(downSlamShockwavePrefab, pos, Quaternion.identity);
+
+        // Scale so visual reaches gameplay radius.
+        // Most ring effects want diameter scaling -> radius*2.
+        float diameter = targetRadius * 2f * shockwaveScaleMultiplier;
+        go.transform.localScale = new Vector3(diameter, diameter, diameter);
+
+        // If it has particles, play + auto-destroy when done.
+        // (If your prefab uses VFX Graph instead, this will just fall back to a fixed destroy.)
+        var ps = go.GetComponentInChildren<ParticleSystem>(true);
+        if (ps != null)
+        {
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            ps.Play(true);
+
+            float lifetime = ps.main.duration + ps.main.startLifetime.constantMax;
+            Destroy(go, lifetime + 0.1f);
+        }
+        else
+        {
+            Destroy(go, 2f);
+        }
+    }
 
     private IEnumerator DownAttackRoutine()
     {
@@ -414,6 +452,13 @@ public class SwipeDownDetector : MonoBehaviour
             debug_StartWithPowerSlam ||
             (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
              && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
+
+        float shockwaveRadius = slamReady ? poweredShockwaveRadius : normalShockwaveRadius;
+        RaycastHit groundHit;
+        if (Physics.Raycast(transform.position, Vector3.down, out groundHit, 5f))
+        {
+            SpawnDownSlamShockwave(groundHit.point, normalShockwaveRadius);
+        }
 
         // Normal slam FEEL (no vibration, lighter impulse/FOV)
         if (!slamReady && normalSlamFeel != null)
