@@ -103,6 +103,7 @@ public enum WeaponPowerId
     Fire = 2,
     Electricity = 3,
     Poison = 4,
+    Magic = 5,
     // add more later
 }
 

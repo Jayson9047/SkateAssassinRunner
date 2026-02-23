@@ -12,12 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7679e706d742a46970523c61dd1c77, type: 3}
   m_Name: WP_Electricity
   m_EditorClassIdentifier: 
-  powerId: 
-  weaponAuraPrefab: {fileID: 0}
-  slashFxPrefab: {fileID: 0}
+  powerId: WP_Electricity
+  weaponAuraPrefab: {fileID: 4764904639598273419, guid: 8143ebde60aae6443a7f39e57720649b,
+    type: 3}
+  slashFxPrefab: {fileID: 1105761162065845526, guid: 45e910d8f1d110045833a88dbece3f5e,
+    type: 3}
   auraLocalPositionOffset: {x: 0, y: 0, z: 0}
   auraLocalRotationOffset: {x: 0, y: 0, z: 0}
   auraLocalScale: {x: 1, y: 1, z: 1}
   slashPositionOffset: {x: 0, y: 0, z: 0}
   slashRotationOffset: {x: 0, y: 0, z: 0}
   slashScale: {x: 1, y: 1, z: 1}
+  weaponPowerId: 0
+  perWeaponOverrides:
+  - weaponId: Katana_Default
+    weaponPrefab: {fileID: 6413440490822234159, guid: 4947116d07a94624aaa3d403b18bada4,
+      type: 3}
+    auraLocalPositionOffset: {x: 0.003, y: -0.042, z: -0.01}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0.4571681, y: 0.5270277, z: 0.5142927}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}

@@ -12,12 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7679e706d742a46970523c61dd1c77, type: 3}
   m_Name: WP_None
   m_EditorClassIdentifier: 
-  powerId: 
+  powerId: WP_None
   weaponAuraPrefab: {fileID: 0}
-  slashFxPrefab: {fileID: 0}
+  slashFxPrefab: {fileID: 1872147318604286, guid: dd9f3fdbc79689141b11eb39afb75527,
+    type: 3}
   auraLocalPositionOffset: {x: 0, y: 0, z: 0}
   auraLocalRotationOffset: {x: 0, y: 0, z: 0}
   auraLocalScale: {x: 1, y: 1, z: 1}
   slashPositionOffset: {x: 0, y: 0, z: 0}
   slashRotationOffset: {x: 0, y: 0, z: 0}
   slashScale: {x: 1, y: 1, z: 1}
+  weaponPowerId: 0
+  perWeaponOverrides:
+  - weaponId: Katana_Default
+    weaponPrefab: {fileID: 6413440490822234159, guid: 4947116d07a94624aaa3d403b18bada4,
+      type: 3}
+    auraLocalPositionOffset: {x: 0, y: 0, z: 0}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0, y: 0, z: 0}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}

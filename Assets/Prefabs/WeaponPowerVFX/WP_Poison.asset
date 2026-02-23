@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f7679e706d742a46970523c61dd1c77, type: 3}
-  m_Name: WP_Ice
+  m_Name: WP_Poison
   m_EditorClassIdentifier: 
-  powerId: WP_Ice
-  weaponAuraPrefab: {fileID: 2675810060133489140, guid: 53b244d4c0048c84484a21824366fff1,
+  powerId: WP_Poison
+  weaponAuraPrefab: {fileID: 406713684743686908, guid: cc3d025f4b1552a4dbdde05431d90b48,
     type: 3}
-  slashFxPrefab: {fileID: 1789270911803724, guid: 0a337c9c238460541a5e0bf41b6211b0,
+  slashFxPrefab: {fileID: 1485466043327710, guid: 26868ddd142f7054c9f33485dac4fc75,
     type: 3}
   auraLocalPositionOffset: {x: 0, y: 0, z: 0}
   auraLocalRotationOffset: {x: 0, y: 0, z: 0}

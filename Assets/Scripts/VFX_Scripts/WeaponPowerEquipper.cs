@@ -14,7 +14,14 @@ public class WeaponPowerEquipper : MonoBehaviour
 
     [Header("Weapon Power Registry (enum -> definition)")]
     [SerializeField] private WeaponPowerEntry[] weaponPowers;
-    [SerializeField] public WeaponPowerId EquippedPowerId = WeaponPowerId.None;
+    [SerializeField] private WeaponPowerId EquippedPowerId = WeaponPowerId.None;
+
+    [Header("Pooling - Slash FX")]
+    [SerializeField] private bool poolSlashFx = true;
+    [SerializeField] private int slashPoolSize = 8;
+
+    private readonly System.Collections.Generic.Dictionary<GameObject, System.Collections.Generic.Queue<GameObject>> _slashPools
+        = new System.Collections.Generic.Dictionary<GameObject, System.Collections.Generic.Queue<GameObject>>();
 
     private GameObject _currentAuraInstance;
     private WeaponIdentity _weaponIdentityCached;
@@ -23,8 +30,9 @@ public class WeaponPowerEquipper : MonoBehaviour
 
     private void OnEnable()
     {
-        CacheWeaponIdentity();
-        EquipWeaponPower(EquippedPowerId);
+        CacheWeaponIdentity(); 
+        var saved = WeaponPowerSave.TryLoad(out var id) ? id : EquippedPowerId;
+        EquipWeaponPower(saved);
     }
 
     private void CacheWeaponIdentity()
@@ -158,8 +166,17 @@ public class WeaponPowerEquipper : MonoBehaviour
         Quaternion rot = slashFxSpawnAnchor.rotation * Quaternion.Euler(slashRotOffset);
 
         // Parent it so it doesn't drift and you can see it under VFXSlashSpawn
-        var go = Instantiate(equippedWeaponPower.slashFxPrefab, pos, rot, slashFxSpawnAnchor);
+        var prefab = equippedWeaponPower.slashFxPrefab;
+        var go = GetSlashInstance(prefab);
+
+        // parent + set transform (don’t rely on Instantiate overload anymore)
+        go.transform.SetParent(slashFxSpawnAnchor, false);
+        go.transform.position = pos;
+        go.transform.rotation = rot;
         go.transform.localScale = slashScale;
+
+        if (!go.activeSelf)
+            go.SetActive(true);
 
         // Force non-looping + play (prevents “why is it looping??” forever)
         float lifetime = 1.5f;
@@ -190,7 +207,7 @@ public class WeaponPowerEquipper : MonoBehaviour
                       $"pos={pos} rot={rot.eulerAngles} scale={slashScale}", this);
         }
 
-        Destroy(go, Mathf.Max(0.25f, lifetime + 0.1f));
+        StartCoroutine(ReturnSlashAfter(prefab, go, 0.4f));
     }
 
     // ---- Helpers ----
@@ -286,7 +303,59 @@ public class WeaponPowerEquipper : MonoBehaviour
 
         ApplyEquippedPower();
     }
+    private GameObject GetSlashInstance(GameObject prefab)
+    {
+        if (!poolSlashFx || prefab == null)
+            return Instantiate(prefab);
 
+        if (!_slashPools.TryGetValue(prefab, out var q) || q == null)
+        {
+            q = new System.Collections.Generic.Queue<GameObject>();
+            _slashPools[prefab] = q;
+
+            for (int i = 0; i < slashPoolSize; i++)
+            {
+                var go = Instantiate(prefab);
+                go.SetActive(false);
+                q.Enqueue(go);
+            }
+        }
+
+        if (q.Count > 0)
+            return q.Dequeue();
+
+        // Pool exhausted (spam). Expand by 1.
+        var extra = Instantiate(prefab);
+        extra.SetActive(false);
+        return extra;
+    }
+
+    private void ReturnSlashInstance(GameObject prefab, GameObject instance)
+    {
+        if (instance == null) return;
+
+        instance.SetActive(false);
+
+        if (!poolSlashFx || prefab == null)
+        {
+            Destroy(instance);
+            return;
+        }
+
+        if (!_slashPools.TryGetValue(prefab, out var q) || q == null)
+        {
+            q = new System.Collections.Generic.Queue<GameObject>();
+            _slashPools[prefab] = q;
+        }
+
+        q.Enqueue(instance);
+    }
+
+    private IEnumerator ReturnSlashAfter(GameObject prefab, GameObject instance, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ReturnSlashInstance(prefab, instance);
+    }
     public WeaponPowerId GetEquippedWeaponPowerId()
     {
         // If you keep equippedWeaponPower.weaponPowerId accurate, return it:
@@ -300,4 +369,31 @@ public class WeaponPowerEquipper : MonoBehaviour
         public WeaponPowerDefinition definition;
     }
 }
+
+public static class WeaponPowerSave
+{
+    private const string Key = "EquippedWeaponPowerId";
+
+    public static void Save(WeaponPowerId id)
+    {
+        PlayerPrefs.SetInt(Key, (int)id);
+        PlayerPrefs.Save();
+    }
+
+    public static bool TryLoad(out WeaponPowerId id)
+    {
+        if (!PlayerPrefs.HasKey(Key))
+        {
+            id = WeaponPowerId.None;
+            return false;
+        }
+
+        id = (WeaponPowerId)PlayerPrefs.GetInt(Key, (int)WeaponPowerId.None);
+        return true;
+    }
+}
+
+//TODO: for saving from inventory equipment, just do the following and you're good:
+//WeaponPowerSave.Save(id);
+//weaponPowerEquipper.EquipWeaponPower(id);
 
