@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using AfterimageFX;
 public class SwipeRightAttackDetector : MonoBehaviour
 {
     [Header("Swipe Settings")]
@@ -43,6 +43,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     [SerializeField] private float returnSpeed = 5f;
 
+    [SerializeField] private VFXEffectTest dashTrail;
     private ReturnHomeTrigger _returnHomeTrigger;
     private float _startX;
 
@@ -50,7 +51,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private bool _isReturningFromDash;
     public bool IsReturningFromDashOnGround => _isReturningFromDash;
     private WeaponPowerEquipper _weaponPowerEquipper;
-
+    private CharacterPowerEquipper _characterPowerEquipper;
     // Assumption you already made: 36 frames total in the clip.
 
     private float attackMoveStartNormalizedTime => AttackStartFrame / 36f;
@@ -136,6 +137,9 @@ public class SwipeRightAttackDetector : MonoBehaviour
             }
         }
         _weaponPowerEquipper = GetComponent<WeaponPowerEquipper>();
+        _characterPowerEquipper = GetComponentInChildren<CharacterPowerEquipper>(true);
+        if (dashTrail == null)
+            dashTrail = GetComponentInChildren<VFXEffectTest>(true);
     }
     private void OnEnable()
     {

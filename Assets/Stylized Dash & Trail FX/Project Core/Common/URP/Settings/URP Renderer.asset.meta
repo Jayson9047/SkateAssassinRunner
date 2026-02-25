@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: adbf8bb3839ecdc4f82573338a3cf4f7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 314877
+  packageName: "Ultimate Movement FX \u2013 Dash, Blink & Speed Trails"
+  packageVersion: 1.1
+  assetPath: Assets/Stylized Dash & Trail FX/Project Core/Common/URP/Settings/URP
+    Renderer.asset
+  uploadId: 779795

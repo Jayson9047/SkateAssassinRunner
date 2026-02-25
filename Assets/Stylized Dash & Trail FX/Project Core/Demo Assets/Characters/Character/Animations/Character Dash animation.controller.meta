@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ef45bfae30abc4747867562c0b66c682
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 314877
+  packageName: "Ultimate Movement FX \u2013 Dash, Blink & Speed Trails"
+  packageVersion: 1.1
+  assetPath: Assets/Stylized Dash & Trail FX/Project Core/Demo Assets/Characters/Character/Animations/Character
+    Dash animation.controller
+  uploadId: 779795
