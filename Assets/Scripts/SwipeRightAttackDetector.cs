@@ -42,8 +42,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [SerializeField] private float dashStartExtraDelay = 0f;
 
     [SerializeField] private float returnSpeed = 5f;
+    [Header("Return Safety Clamp")]
+    [SerializeField] private bool clampReturnByX = true;
+    [SerializeField] private float returnStopTolerance = 0.0001f; // tiny epsilon
+    [SerializeField] private float maxReturnSeconds = 1.5f;        // prevent deadlock
 
-    [SerializeField] private VFXEffectTest dashTrail;
     private ReturnHomeTrigger _returnHomeTrigger;
     private float _startX;
 
@@ -138,8 +141,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
         }
         _weaponPowerEquipper = GetComponent<WeaponPowerEquipper>();
         _characterPowerEquipper = GetComponentInChildren<CharacterPowerEquipper>(true);
-        if (dashTrail == null)
-            dashTrail = GetComponentInChildren<VFXEffectTest>(true);
+
     }
     private void OnEnable()
     {
@@ -420,11 +422,48 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private IEnumerator WaitUntilReturnComplete()
     {
-        // If return never started, don’t deadlock.
         if (!_isReturningFromDash)
             yield break;
 
-        yield return new WaitUntil(() => !_isReturningFromDash);
+        float homeX = _startX;
+        float startTime = Time.time;
+
+        while (_isReturningFromDash)
+        {
+            // SAFETY: Stop as soon as we reach/past home X on the X axis.
+            // Your rule: if target is 10 and we went to 9.9, stop immediately.
+            if (clampReturnByX)
+            {
+                float currentX = transform.position.x;
+                if (currentX <= homeX + returnStopTolerance)
+                {
+                    // Disable the trigger collider so it doesn't fire later unexpectedly
+                    if (_returnHomeTrigger != null)
+                    {
+                        var col = _returnHomeTrigger.GetComponent<Collider>();
+                        if (col != null) col.enabled = false;
+                    }
+
+                    OnReturnHomeReached(homeX);
+                    yield break;
+                }
+            }
+
+            // SAFETY: Timeout — if anything weird happens, force-stop.
+            if (Time.time - startTime >= maxReturnSeconds)
+            {
+                if (_returnHomeTrigger != null)
+                {
+                    var col = _returnHomeTrigger.GetComponent<Collider>();
+                    if (col != null) col.enabled = false;
+                }
+
+                OnReturnHomeReached(homeX);
+                yield break;
+            }
+
+            yield return null;
+        }
     }
     public void OnReturnHomeReached(float homeX)
     {
@@ -436,6 +475,13 @@ public class SwipeRightAttackDetector : MonoBehaviour
         // Stop movement
         if (_playerMovingObject != null)
             _playerMovingObject.Speed = 0f;
+
+        // Make sure trigger doesn't fire after we've already snapped
+        if (_returnHomeTrigger != null)
+        {
+            var col = _returnHomeTrigger.GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+        }
 
         _isReturningFromDash = false;
     }
@@ -686,11 +732,9 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private IEnumerator MoveXOverTime(float duration)
     {
-        if (startingPosition == null)
-            yield break;
 
         float fromX = transform.position.x;
-        float targetX = startingPosition.position.x;
+        float targetX = _startX;
         float t = 0f;
 
         while (t < duration)

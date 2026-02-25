@@ -10,6 +10,7 @@ public class DashVfxRuntimeBinder : MonoBehaviour
 
     [Header("Player hierarchy names")]
     [SerializeField] private string bodyName = "Body";
+    [SerializeField] private string trailFxAnchorName = "TrailFxAnchor";
     [SerializeField] private string preferSmrNameContains = "Torso";
 
     [Header("VFX exposed property names (must match VFX Graph Blackboard)")]
@@ -42,6 +43,7 @@ public class DashVfxRuntimeBinder : MonoBehaviour
 
         // 1) Find Body transform
         Transform body = FindDeepChild(transform, bodyName);
+        Transform trailFxAnchor = FindDeepChild(transform, trailFxAnchorName);
         if (body == null)
         {
             Debug.LogError($"[DashVfxRuntimeBinder] Could not find '{bodyName}' under '{name}'.", this);
@@ -68,8 +70,19 @@ public class DashVfxRuntimeBinder : MonoBehaviour
             yield break;
         }
 
-        // Bind SkinnedMeshRenderer into VFX exposed property
-        _vfx.SetSkinnedMeshRenderer(smrPropertyName, smr);
+        // Bind SkinnedMeshRenderer into VFX exposed property (ONLY if present)
+        if (_vfx.HasSkinnedMeshRenderer(smrPropertyName))
+        {
+            _vfx.SetSkinnedMeshRenderer(smrPropertyName, smr);
+        }
+        else
+        {
+            Debug.LogWarning(
+                $"[DashVfxRuntimeBinder] VFX property '{smrPropertyName}' not found on asset '{_vfx.visualEffectAsset?.name}'. " +
+                $"Skipping binding. Check the exposed property name in the VFX Graph Blackboard.",
+                _vfx
+            );
+        }
 
         // Force CanDrawTrail true for now
         if (forceCanDrawTrailTrueOnStart)
@@ -81,7 +94,7 @@ public class DashVfxRuntimeBinder : MonoBehaviour
         }
 
         // Configure the VFXTransformBinder via reflection (since you can't reference its type)
-        bool bound = TryBindTransformBinderTarget(_dashVfxInstance, transformBinderTypeName, body);
+        bool bound = TryBindTransformBinderTarget(_dashVfxInstance, transformBinderTypeName, trailFxAnchor);
         if (!bound)
         {
             Debug.LogError("[DashVfxRuntimeBinder] Could not bind Body to VFXTransformBinder.Target. Check binder exists on prefab.", this);
@@ -91,8 +104,9 @@ public class DashVfxRuntimeBinder : MonoBehaviour
         _vfx.Reinit();
         _vfx.Play();
 
-        Debug.Log($"[DashVfxRuntimeBinder] Bound dash trail. SMR='{smr.name}', Body='{body.name}', VFX='{_vfx.visualEffectAsset?.name}'", this);
+        Debug.Log($"[DashVfxRuntimeBinder] Bound dash trail. SMR='{smr.name}', Body='{trailFxAnchor.name}', VFX='{_vfx.visualEffectAsset?.name}'", this);
     }
+
 
     // Call these later from your right-swipe dash start/end
     public void StartTrail()
@@ -234,5 +248,19 @@ public class DashVfxRuntimeBinder : MonoBehaviour
     {
         if (_dashVfxInstance != null)
             Destroy(_dashVfxInstance);
+    }
+}
+
+public static class VisualEffectExtensions
+{
+    public static bool HasSkinnedMeshRenderer(this VisualEffect vfx, string name)
+    {
+        // Newer versions have HasSkinnedMeshRenderer, but not all.
+        // We fall back to HasObject if needed.
+#if UNITY_2022_2_OR_NEWER
+        return vfx.HasSkinnedMeshRenderer(name);
+#else
+        return vfx.HasObject(name);
+#endif
     }
 }
