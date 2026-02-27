@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3f55349ace29b624fa44519c8397c7e9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/VFX/Void/Particles/VFX_Void_Burst_01.prefab
+  uploadId: 806904

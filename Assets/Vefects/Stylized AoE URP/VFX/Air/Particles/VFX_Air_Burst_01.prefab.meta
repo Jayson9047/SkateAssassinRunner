@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ba4b50191cd913444be00efbdb61b163
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/VFX/Air/Particles/VFX_Air_Burst_01.prefab
+  uploadId: 806904

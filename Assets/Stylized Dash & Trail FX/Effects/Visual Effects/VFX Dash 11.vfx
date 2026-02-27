@@ -14964,7 +14964,8 @@ MonoBehaviour:
     - rid: 1001
       type: {class: ParticleShadingShaderGraph, ns: UnityEditor.VFX, asm: Unity.VisualEffectGraph.Editor}
       data:
-        shaderGraph: {fileID: 4333940904281232215, guid: 8a4aa76d051101247bf3ea4b0b5876ab, type: 3}
+        shaderGraph: {fileID: 4333940904281232215, guid: 8a4aa76d051101247bf3ea4b0b5876ab,
+          type: 3}
         materialSettings:
           m_PropertyNames: []
           m_PropertyValues: []

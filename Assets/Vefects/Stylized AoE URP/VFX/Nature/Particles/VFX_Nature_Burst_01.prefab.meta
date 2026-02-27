@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: dfac40a2496ec884db9bfb00effcc974
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/VFX/Nature/Particles/VFX_Nature_Burst_01.prefab
+  uploadId: 806904

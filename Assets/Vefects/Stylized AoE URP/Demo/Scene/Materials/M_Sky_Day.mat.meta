@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 823adc0be2065be4389ea2cc6f7c5093
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/Demo/Scene/Materials/M_Sky_Day.mat
+  uploadId: 806904

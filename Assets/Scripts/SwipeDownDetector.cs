@@ -49,11 +49,13 @@ public class SwipeDownDetector : MonoBehaviour
 
     [Header("VFX - Down Slam Shockwave (Distortion Shockwaves VFX)")]
     [SerializeField] private GameObject downSlamShockwavePrefab;
-
     // Most ring FX scale by diameter (radius*2). If your prefab doesn't match, tweak this.
     [SerializeField] private float shockwaveScaleMultiplier = 1f;
     [SerializeField] private float normalShockwaveRadius = 4f;
     [SerializeField] private float poweredShockwaveRadius = 7f;
+
+    [Header("VFX - Down Attack Power (Equippable + Pooled)")]
+    [SerializeField] private DownAttackPowerEquipper downAttackPowerEquipper;
 
     private bool downAttackFrozen;
 
@@ -315,6 +317,9 @@ public class SwipeDownDetector : MonoBehaviour
     {
         downAttackHasGroundedOnce = false;
         isDownAttacking = true;
+        // Spawn equippable "air" down attack FX immediately when slam is triggered
+        downAttackPowerEquipper?.SpawnAirDownAttackFx();
+
         downAttackArmed = false;
         downAttackFrozen = false;
         downAttackCancelledIntoSlide = false;
@@ -453,12 +458,7 @@ public class SwipeDownDetector : MonoBehaviour
             (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
              && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
 
-        float shockwaveRadius = slamReady ? poweredShockwaveRadius : normalShockwaveRadius;
-        RaycastHit groundHit;
-        if (Physics.Raycast(transform.position, Vector3.down, out groundHit, 5f))
-        {
-            SpawnDownSlamShockwave(groundHit.point, normalShockwaveRadius);
-        }
+
 
         // Normal slam FEEL (no vibration, lighter impulse/FOV)
         if (!slamReady && normalSlamFeel != null)
@@ -472,10 +472,20 @@ public class SwipeDownDetector : MonoBehaviour
             powerSlamFeel.PlayFeedbacks(hitPoint, powerSlamIntensity);
         }
 
-        // Kill flash window should be powerslam-only
-        DownSlamKillFlashManager.Instance?.ArmKillWindow(slamReady);
+        float shockwaveRadius = slamReady ? poweredShockwaveRadius : normalShockwaveRadius;
+        RaycastHit groundHit;
+        if (Physics.Raycast(transform.position, Vector3.down, out groundHit, 5f))
+        {
+            SpawnDownSlamShockwave(groundHit.point, normalShockwaveRadius);
+            // Kill flash window should be powerslam-only
+            DownSlamKillFlashManager.Instance?.ArmKillWindow(slamReady);
 
-        // Trigger slam on ANY collision (ground, wall, enemy, obstacle, etc.)
+            downAttackPowerEquipper?.StopAirDownAttackFxImmediate();
+            // Trigger slam on ANY collision (ground, wall, enemy, obstacle, etc.)
+            float aoeRadius = slamReady ? poweredImpactRadius : normalImpactRadius;
+            downAttackPowerEquipper?.SpawnGroundImpactAoeFx(groundHit.point, aoeRadius, transform);
+        }
+
         DoGroundImpactAOE(hitPoint);
 
         impactTriggeredThisDownAttack = true;

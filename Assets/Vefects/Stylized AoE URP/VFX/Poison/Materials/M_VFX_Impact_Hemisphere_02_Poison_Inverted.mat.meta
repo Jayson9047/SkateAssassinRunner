@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5197e2efa33bd0b44b31f71b526a439a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/VFX/Poison/Materials/M_VFX_Impact_Hemisphere_02_Poison_Inverted.mat
+  uploadId: 806904

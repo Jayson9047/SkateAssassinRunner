@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 222180e5347717f4092d917a0844f2c7
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/VFX/Electric/Particles/VFX_Electric_Area_01.prefab
+  uploadId: 806904

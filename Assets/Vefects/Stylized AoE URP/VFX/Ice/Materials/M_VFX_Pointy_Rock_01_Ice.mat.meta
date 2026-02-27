@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7982d165dcd857941ac2ea0decd12020
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/VFX/Ice/Materials/M_VFX_Pointy_Rock_01_Ice.mat
+  uploadId: 806904

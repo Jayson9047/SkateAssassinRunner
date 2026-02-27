@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8abd2534334de4b47b6426b5056e2c8a
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/VFX/Earth/Particles/VFX_Earth_Area_01.prefab
+  uploadId: 806904

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0f52833361325834ea371e4d9fe10933
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/Demo/Scene/Settings/PostProProfileStyAoE.asset
+  uploadId: 806904

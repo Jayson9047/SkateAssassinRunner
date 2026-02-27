@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a13b086d797a9d143a55325c32d5c780
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/Shared/Shaders/SH_Vefects_URP_Distortion_01.shader
+  uploadId: 806904

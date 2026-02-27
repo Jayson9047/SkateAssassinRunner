@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 63c6762772bc3634eb648f0a6b6c37a9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303485
+  packageName: Stylized AoE VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Stylized AoE URP/Shared/Prefabs/VFX Point Light.prefab
+  uploadId: 806904
