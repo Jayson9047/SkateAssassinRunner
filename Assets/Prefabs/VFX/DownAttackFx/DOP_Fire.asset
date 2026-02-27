@@ -16,7 +16,7 @@ MonoBehaviour:
   downAttackPowerId: 3
   downAttackAirFxPrefab: {fileID: 3881367521351184733, guid: dbd38c6e758d241438b9e4f1be148993,
     type: 3}
-  groundImpactAoeFxPrefab: {fileID: 641516565063249010, guid: c8aa793ec06682d46b37a10cb3dc0fd3,
+  groundImpactAoeFxPrefab: {fileID: 4748681987041982144, guid: 04b114f85dfdb9048b76a83cac790a94,
     type: 3}
   airFxLocalPositionOffset: {x: 0, y: 0, z: 0}
   airFxLocalRotationOffset: {x: 90, y: 180, z: 0}
@@ -27,5 +27,5 @@ MonoBehaviour:
   useFixedGroundRotation: 1
   groundFxFixedEulerRotation: {x: -90, y: 0, z: 0}
   matchPlayerYawIfNotFixed: 0
-  groundFxRadiusToScaleMultiplier: 0.3
+  groundFxRadiusToScaleMultiplier: 0.1
   groundFxScaleMultiplier: 1

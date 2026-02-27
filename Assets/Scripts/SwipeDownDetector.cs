@@ -57,6 +57,13 @@ public class SwipeDownDetector : MonoBehaviour
     [Header("VFX - Down Attack Power (Equippable + Pooled)")]
     [SerializeField] private DownAttackPowerEquipper downAttackPowerEquipper;
 
+    [Header("VFX - Regular Slam Ground Impact (Always Used When NOT PowerSlam)")]
+    [SerializeField] private GameObject regularSlamGroundImpactPrefab;
+    [SerializeField] private float regularGroundImpactScaleMultiplier = 1f;
+    [SerializeField] private bool useFixedRegularGroundRotation = true;
+    [SerializeField] private Vector3 regularGroundFixedEulerRotation = new Vector3(-90f, 0f, 0f);
+    [SerializeField] private bool matchPlayerYawForRegular = false;
+
     private bool downAttackFrozen;
 
     private int katanaLayerIndex = -1;
@@ -483,7 +490,17 @@ public class SwipeDownDetector : MonoBehaviour
             downAttackPowerEquipper?.StopAirDownAttackFxImmediate();
             // Trigger slam on ANY collision (ground, wall, enemy, obstacle, etc.)
             float aoeRadius = slamReady ? poweredImpactRadius : normalImpactRadius;
-            downAttackPowerEquipper?.SpawnGroundImpactAoeFx(groundHit.point, aoeRadius, transform);
+
+            if (slamReady)
+            {
+                // PowerSlam -> use equipped FX
+                downAttackPowerEquipper?.SpawnGroundImpactAoeFx(groundHit.point, aoeRadius, transform);
+            }
+            else
+            {
+                // Regular slam -> use fixed prefab always
+                SpawnRegularSlamGroundImpact(groundHit.point, aoeRadius);
+            }
         }
 
         DoGroundImpactAOE(hitPoint);
@@ -491,7 +508,53 @@ public class SwipeDownDetector : MonoBehaviour
         impactTriggeredThisDownAttack = true;
     }
 
+    private void SpawnRegularSlamGroundImpact(Vector3 hitPoint, float radius)
+    {
+        if (regularSlamGroundImpactPrefab == null)
+            return;
 
+        Vector3 pos = hitPoint;
+        pos.y += 0.02f;
+
+        Quaternion rotation = Quaternion.identity;
+
+        if (useFixedRegularGroundRotation)
+        {
+            rotation = Quaternion.Euler(regularGroundFixedEulerRotation);
+        }
+        else if (matchPlayerYawForRegular)
+        {
+            Vector3 e = regularGroundFixedEulerRotation;
+            e.y = transform.eulerAngles.y;
+            rotation = Quaternion.Euler(e);
+        }
+
+        GameObject go = Instantiate(regularSlamGroundImpactPrefab, pos, rotation);
+
+        // Scale by diameter if ring-style
+        float diameter = radius * 2f * regularGroundImpactScaleMultiplier;
+        go.transform.localScale = new Vector3(diameter, diameter, diameter);
+
+        var psList = go.GetComponentsInChildren<ParticleSystem>(true);
+        float max = 0.35f;
+
+        for (int i = 0; i < psList.Length; i++)
+        {
+            var ps = psList[i];
+            if (ps == null) continue;
+
+            var main = ps.main;
+            main.loop = false;
+
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            ps.Play(true);
+
+            float est = main.startDelay.constantMax + main.duration + main.startLifetime.constantMax;
+            if (est > max) max = est;
+        }
+
+        Destroy(go, max + 0.1f);
+    }
     private void DoGroundImpactAOE(Vector3 hitPoint)
     {
         // Decide radius from the REAL source of truth (slam charge number)
