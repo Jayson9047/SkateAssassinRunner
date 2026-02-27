@@ -62,7 +62,11 @@ Shader "Vefects/SH_Vefects_URP_Disc_Windup_01"
 		
 
 		HLSLINCLUDE
-		#pragma target 4.5
+		#if defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE) || defined(SHADER_API_WEBGL)
+			#pragma target 3.5
+		#else
+			#pragma target 4.5
+		#endif
 		#pragma prefer_hlslcc gles
 		// ensure rendering platforms toggle list is visible
 
