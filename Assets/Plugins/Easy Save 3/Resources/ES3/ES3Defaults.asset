@@ -49,6 +49,7 @@ MonoBehaviour:
     - KinoBloom.Runtime
     - Lofelt.NiceVibrations
     - Lofelt.NiceVibrations.Demo
+    - MCPForUnity.Runtime
     - MoreMountains.Interface
     - MoreMountains.Tools
     - Unified.Universal.Blur

@@ -1,0 +1,292 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [ 3 0 R 5 0 R 7 0 R ] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 2936 >>
+stream
+BT
+/F1 10 Tf
+50 748 Td
+13 TL
+/F2 18 Tf
+(Skate Assassin Runner - Project Summary) Tj
+/F1 10 Tf
+T*
+(Generated: May 9, 2026) Tj
+T*
+(Workspace: C:\\Git\\SkateAssassinRunner_UnityMCP) Tj
+T*
+() Tj
+T*
+T*
+/F2 12 Tf
+(Unity MCP / Editor) Tj
+/F1 10 Tf
+T*
+(- Unity MCP is connected to one live editor instance:) Tj
+T*
+(  SkateAssassinRunner_UnityMCP@164bd6139f58240e.) Tj
+T*
+(- Unity version: 6000.0.67f1. Project platform reported by Unity MCP: Android. Editor is) Tj
+T*
+(  idle and not in play mode.) Tj
+T*
+(- Active scene signals differed slightly between calls: manage_scene reported) Tj
+T*
+(  SkateRunnerLoadingScreen, while editor state reported SkateRunnerStartScreen shortly) Tj
+T*
+(  after. Both are project scenes and likely reflect a recent editor scene switch or stale) Tj
+T*
+(  status snapshot.) Tj
+T*
+(- Console query returned 0 log entries at the time of inspection.) Tj
+T*
+() Tj
+T*
+T*
+/F2 12 Tf
+(Project Identity) Tj
+/F1 10 Tf
+T*
+(- Product name in PlayerSettings: SkateAssassinRunner.) Tj
+T*
+(- The project is a mobile-oriented Unity runner/action game built around skating, enemy) Tj
+T*
+(  encounters, cash/gem rewards, missions, and a second-phase cinematic challenge/fail state.) Tj
+T*
+(- The repository contains Unity project folders, generated C# project files, an Android APK,) Tj
+T*
+(  keystore, mapping file, Packages, ProjectSettings, Assets, Library, Logs, Temp, and) Tj
+T*
+(  UserSettings.) Tj
+T*
+() Tj
+T*
+T*
+/F2 12 Tf
+(Build Scenes) Tj
+/F1 10 Tf
+T*
+(- Enabled build scenes are Assets/Scenes/SkateRunnerStartScreen.unity,) Tj
+T*
+(  Assets/Scenes/SkateRunnerLoadingScreen.unity, and Assets/Scenes/SkateRunner.unity.) Tj
+T*
+(- Disabled imported/demo scenes from More Mountains Infinite Runner Engine remain in build) Tj
+T*
+(  settings, including StartScreen, LevelSelection, Minimal demos, LaneRunner, JellyForest,) Tj
+T*
+(  BackwardsDragon, FlappyCloud, SkyTheory, Vertical, and Downhill scenes.) Tj
+T*
+(- Assets/Scenes also contains ArcMeterDemo, CharacterCreation, LinearMeter, TestAssets, and) Tj
+T*
+(  shared lighting settings.) Tj
+T*
+() Tj
+T*
+(Current Start Screen Scene Snapshot) Tj
+T*
+(- Root objects observed: Main Camera, SoundManager, StartScreenCanvas, and EventSystem.) Tj
+T*
+(- StartScreenCanvas uses Canvas, CanvasScaler, GraphicRaycaster, and HomeUIBinder.) Tj
+T*
+(- EventSystem includes TouchInputModule and InputSystemUIInputModule, indicating) Tj
+T*
+(  touch/mobile input plus Unity Input System UI support.) Tj
+T*
+() Tj
+T*
+T*
+/F2 12 Tf
+(Gameplay Architecture) Tj
+/F1 10 Tf
+T*
+(- The project extends More Mountains Infinite Runner Engine rather than building runner) Tj
+T*
+(  fundamentals from scratch.) Tj
+T*
+(- SkateRunnerGameManager extends GameManager and adds cash, gems, persistent profile totals,) Tj
+T*
+(  level number, ES3 save/load, haptic feedback on cash gain, and GUI refresh hooks.) Tj
+T*
+(- SkateAssassinRunnerLevelManager appears to coordinate the main level flow, while custom) Tj
+T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 3039 >>
+stream
+BT
+/F1 10 Tf
+50 748 Td
+13 TL
+(  enemy, camera, mission, UI, and VFX scripts add the game-specific layer.) Tj
+T*
+(- PlayerPhase2Controller manages Phase 2 failure execution: it can mark a pending execution,) Tj
+T*
+(  react to a bullet hit, play a Phase2Dead animation trigger, then kill the character) Tj
+T*
+(  through LevelManager.) Tj
+T*
+(- Input includes tap-only main action, swipe-right attack detection, swipe-down detection,) Tj
+T*
+(  ruthless tap mode/overlay, and accuracy/power meter UI scripts.) Tj
+T*
+() Tj
+T*
+T*
+/F2 12 Tf
+(Missions and Progression) Tj
+/F1 10 Tf
+T*
+(- MissionSystem assigns up to two distinct missions per level from configured) Tj
+T*
+(  MissionDefinition entries, supports level-banded targets, and emits UI events for) Tj
+T*
+(  assignment, progress, and completion.) Tj
+T*
+(- Mission types include kill enemies, kill via dash attack, kill via down attack, earn cash,) Tj
+T*
+(  earn Phase 2 cash, survive seconds, reach Phase 2 combo, use power slam, and finish Phase) Tj
+T*
+(  2 with no fail.) Tj
+T*
+(- Star rewards are level completion plus completed missions, clamped to 0-3 stars.) Tj
+T*
+(- HomeUIBinder reads ES3 totals for cash, gems, and level number, then updates home/start) Tj
+T*
+(  screen labels.) Tj
+T*
+() Tj
+T*
+T*
+/F2 12 Tf
+(Content and Assets) Tj
+/F1 10 Tf
+T*
+(- Assets includes about 79 custom/script files under Assets/Scripts and about 110 prefabs) Tj
+T*
+(  under Assets/Prefabs.) Tj
+T*
+(- Key prefab groups: player/enemy characters, drones, EnemyType3 projectiles, LevelManager,) Tj
+T*
+(  ObstacleSpawner, micro-scenarios, roads, vehicles, cash, UI widgets, weapon prefabs,) Tj
+T*
+(  weapon VFX, down-attack VFX, and particle effects.) Tj
+T*
+(- The custom tags include Enemy, CarAccelerationCollider, StartDriftMarker, CarSlotMarker,) Tj
+T*
+(  and IgnoreDownAttack.) Tj
+T*
+(- Custom layers include Damageable, Obstacle, Player, Ground, LevelBounds, NoCollisions,) Tj
+T*
+(  Wall, PlayerInvincible, Phase2Car, and CinematicFx.) Tj
+T*
+() Tj
+T*
+T*
+/F2 12 Tf
+(Technology Stack) Tj
+/F1 10 Tf
+T*
+(- Unity packages include URP 17.0.4, Shader Graph 17.0.4, VFX Graph 17.0.4, Cinemachine) Tj
+T*
+(  3.1.5, Input System 1.18.0, AI Navigation, Timeline, UGUI, TextMesh Pro via project) Tj
+T*
+(  assets, and Unity MCP from CoplayDev.) Tj
+T*
+(- Third-party/project assets visible in the repo include More Mountains Infinite Runner) Tj
+T*
+(  Engine/MMTools, Nice Vibrations, Damage Numbers Pro, DOTween/DOTween Pro, Easy Save 3) Tj
+T*
+(  usage, Synty/Polygon assets, Cartoon FX, mesh slicing/combining tools, Polyverse Skies,) Tj
+T*
+(  and multiple stylized character/VFX packs.) Tj
+T*
+() Tj
+T*
+T*
+/F2 12 Tf
+(Likely Game Loop) Tj
+/F1 10 Tf
+T*
+(1. Player starts from SkateRunnerStartScreen, where saved cash/gems/level are displayed.) Tj
+T*
+(2. Loading transitions into SkateRunner.unity.) Tj
+T*
+(3. The runner moves through road/urban obstacle prefabs and micro-scenario chunks.) Tj
+T*
+(4. Player uses tap/swipe actions to jump, dash, down-attack, and fight enemies while) Tj
+T*
+(  collecting cash.) Tj
+T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 995 >>
+stream
+BT
+/F1 10 Tf
+50 748 Td
+13 TL
+(5. Missions track performance and award stars on successful completion.) Tj
+T*
+(6. Phase 2 introduces a more cinematic timing/execution sequence with power meter and) Tj
+T*
+(  fail/death behavior.) Tj
+T*
+(7. Level end saves cash/gems/level progress through ES3 and returns progress to the home UI.) Tj
+T*
+() Tj
+T*
+(Observations / Next Useful Checks) Tj
+T*
+(- Verify the active scene discrepancy by refreshing editor state before any scene editing.) Tj
+T*
+(- Review SkateAssassinRunnerLevelManager, PowerMeter, enemy controllers, and micro-scenario) Tj
+T*
+(  prefabs for exact runtime flow.) Tj
+T*
+(- Consider pruning disabled demo scenes from build settings before release if they are not) Tj
+T*
+(  intentionally kept.) Tj
+T*
+(- The Android APK and mapping file in the project root suggest a previous Android build) Tj
+T*
+(  exists; confirm whether these binaries should be versioned.) Tj
+T*
+(- No Unity console errors were present during this inspection.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000129 00000 n 
+0000000368 00000 n 
+0000003356 00000 n 
+0000003595 00000 n 
+0000006686 00000 n 
+0000006925 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R >>
+startxref
+7971
+%%EOF
