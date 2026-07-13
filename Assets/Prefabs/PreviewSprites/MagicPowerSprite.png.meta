@@ -1,0 +1,780 @@
+fileFormatVersion: 2
+guid: c595dcf115d956d4cbfd11b45fb170ca
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7293471098757533105
+    second: SpriteForge_Verification_Cube_Turntable_0
+  - first:
+      213: 2777517086709521921
+    second: SpriteForge_Verification_Cube_Turntable_1
+  - first:
+      213: 1890862445236752848
+    second: SpriteForge_Verification_Cube_Turntable_2
+  - first:
+      213: -4325620414429732694
+    second: SpriteForge_Verification_Cube_Turntable_3
+  - first:
+      213: 5171907387614007817
+    second: SpriteForge_Verification_Cube_Turntable_4
+  - first:
+      213: -5588956407226685903
+    second: SpriteForge_Verification_Cube_Turntable_5
+  - first:
+      213: 3789600394517287606
+    second: SpriteForge_Verification_Cube_Turntable_6
+  - first:
+      213: 6717713596424377791
+    second: SpriteForge_Verification_Cube_Turntable_7
+  - first:
+      213: -8842381883011403976
+    second: SpriteForge_Verification_Cube_Turntable_8
+  - first:
+      213: 4437450684876780068
+    second: SpriteForge_Verification_Cube_Turntable_9
+  - first:
+      213: -4803960153470606167
+    second: SpriteForge_Verification_Cube_Turntable_10
+  - first:
+      213: -9075551758913921559
+    second: SpriteForge_Verification_Cube_Turntable_11
+  - first:
+      213: 3262634547040074476
+    second: SpriteForge_Verification_Cube_Turntable_12
+  - first:
+      213: 9035599951113293189
+    second: SpriteForge_Verification_Cube_Turntable_13
+  - first:
+      213: -3837504480902679524
+    second: SpriteForge_Verification_Cube_Turntable_14
+  - first:
+      213: 7117075252439447402
+    second: SpriteForge_Verification_Cube_Turntable_15
+  - first:
+      213: 2193560250726295555
+    second: SpriteForge_Verification_Cube_Turntable_16
+  - first:
+      213: -2209266714143239162
+    second: SpriteForge_Verification_Cube_Turntable_17
+  - first:
+      213: 5969684098498894025
+    second: SpriteForge_Verification_Cube_Turntable_18
+  - first:
+      213: -1515024222026989023
+    second: SpriteForge_Verification_Cube_Turntable_19
+  - first:
+      213: 4195377509147307124
+    second: SpriteForge_Verification_Cube_Turntable_20
+  - first:
+      213: -1176271308028059055
+    second: SpriteForge_Verification_Cube_Turntable_21
+  - first:
+      213: -6783199673339618657
+    second: SpriteForge_Verification_Cube_Turntable_22
+  - first:
+      213: -8765495217375752361
+    second: SpriteForge_Verification_Cube_Turntable_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_0
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 1719
+        width: 174
+        height: 174
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f42bafa9da268ca90800000000000000
+      internalID: -7293471098757533105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_1
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 1711
+        width: 226
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10e16ee0319bb8620800000000000000
+      internalID: 2777517086709521921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_2
+      rect:
+        serializedVersion: 2
+        x: 1159
+        y: 1702
+        width: 262
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d1967f2061bd3a10800000000000000
+      internalID: 1890862445236752848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_3
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 1693
+        width: 280
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa0ecb4b62f48f3c0800000000000000
+      internalID: -4325620414429732694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_4
+      rect:
+        serializedVersion: 2
+        x: 2182
+        y: 1685
+        width: 280
+        height: 242
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90293f9fd5e46c740800000000000000
+      internalID: 5171907387614007817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_5
+      rect:
+        serializedVersion: 2
+        x: 2708
+        y: 1677
+        width: 260
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1362c1a52c90072b0800000000000000
+      internalID: -5588956407226685903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_6
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 1156
+        width: 222
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b212eb0b7d579430800000000000000
+      internalID: 3789600394517287606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_7
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 1152
+        width: 260
+        height: 276
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb5dfa98cec1a3d50800000000000000
+      internalID: 6717713596424377791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_8
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 1151
+        width: 280
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83f61ceb68c894580800000000000000
+      internalID: -8842381883011403976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_9
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 1152
+        width: 280
+        height: 276
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 422f46423edf49d30800000000000000
+      internalID: 4437450684876780068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_10
+      rect:
+        serializedVersion: 2
+        x: 2191
+        y: 1155
+        width: 262
+        height: 270
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a4e04161b7e45db0800000000000000
+      internalID: -4803960153470606167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_11
+      rect:
+        serializedVersion: 2
+        x: 2725
+        y: 1161
+        width: 226
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ed934572c92d0280800000000000000
+      internalID: -9075551758913921559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_12
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 652
+        width: 174
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ceabd3895d4374d20800000000000000
+      internalID: 3262634547040074476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_13
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 645
+        width: 226
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58d05aa6846e46d70800000000000000
+      internalID: 9035599951113293189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_14
+      rect:
+        serializedVersion: 2
+        x: 1159
+        y: 639
+        width: 262
+        height: 270
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1473dfa1027ebac0800000000000000
+      internalID: -3837504480902679524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_15
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 636
+        width: 280
+        height: 276
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a677065fb3ee4c260800000000000000
+      internalID: 7117075252439447402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_16
+      rect:
+        serializedVersion: 2
+        x: 2182
+        y: 635
+        width: 280
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30825f11d67117e10800000000000000
+      internalID: 2193560250726295555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_17
+      rect:
+        serializedVersion: 2
+        x: 2708
+        y: 636
+        width: 260
+        height: 276
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 604d561f0ab1751e0800000000000000
+      internalID: -2209266714143239162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_18
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 124
+        width: 222
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c813501f0498d250800000000000000
+      internalID: 5969684098498894025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_19
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 129
+        width: 260
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12208fb3f7d89fae0800000000000000
+      internalID: -1515024222026989023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_20
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 137
+        width: 280
+        height: 242
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47c6363dd99f83a30800000000000000
+      internalID: 4195377509147307124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_21
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 145
+        width: 280
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 152e08d3a7b0dafe0800000000000000
+      internalID: -1176271308028059055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_22
+      rect:
+        serializedVersion: 2
+        x: 2191
+        y: 154
+        width: 262
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9adb0606db3dd1a0800000000000000
+      internalID: -6783199673339618657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteForge_Verification_Cube_Turntable_23
+      rect:
+        serializedVersion: 2
+        x: 2725
+        y: 163
+        width: 226
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75fcee79a84ba5680800000000000000
+      internalID: -8765495217375752361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
+      SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
+      SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167
+      SpriteForge_Verification_Cube_Turntable_11: -9075551758913921559
+      SpriteForge_Verification_Cube_Turntable_12: 3262634547040074476
+      SpriteForge_Verification_Cube_Turntable_13: 9035599951113293189
+      SpriteForge_Verification_Cube_Turntable_14: -3837504480902679524
+      SpriteForge_Verification_Cube_Turntable_15: 7117075252439447402
+      SpriteForge_Verification_Cube_Turntable_16: 2193560250726295555
+      SpriteForge_Verification_Cube_Turntable_17: -2209266714143239162
+      SpriteForge_Verification_Cube_Turntable_18: 5969684098498894025
+      SpriteForge_Verification_Cube_Turntable_19: -1515024222026989023
+      SpriteForge_Verification_Cube_Turntable_2: 1890862445236752848
+      SpriteForge_Verification_Cube_Turntable_20: 4195377509147307124
+      SpriteForge_Verification_Cube_Turntable_21: -1176271308028059055
+      SpriteForge_Verification_Cube_Turntable_22: -6783199673339618657
+      SpriteForge_Verification_Cube_Turntable_23: -8765495217375752361
+      SpriteForge_Verification_Cube_Turntable_3: -4325620414429732694
+      SpriteForge_Verification_Cube_Turntable_4: 5171907387614007817
+      SpriteForge_Verification_Cube_Turntable_5: -5588956407226685903
+      SpriteForge_Verification_Cube_Turntable_6: 3789600394517287606
+      SpriteForge_Verification_Cube_Turntable_7: 6717713596424377791
+      SpriteForge_Verification_Cube_Turntable_8: -8842381883011403976
+      SpriteForge_Verification_Cube_Turntable_9: 4437450684876780068
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
