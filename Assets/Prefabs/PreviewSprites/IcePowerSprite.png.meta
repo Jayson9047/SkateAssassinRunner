@@ -74,6 +74,78 @@ TextureImporter:
   - first:
       213: -8765495217375752361
     second: SpriteForge_Verification_Cube_Turntable_23
+  - first:
+      213: 2440280927441232175
+    second: IcePowerSprite_00
+  - first:
+      213: 6619324941616189507
+    second: IcePowerSprite_01
+  - first:
+      213: -6030702442552192474
+    second: IcePowerSprite_02
+  - first:
+      213: 8148151478365828164
+    second: IcePowerSprite_03
+  - first:
+      213: -888686818926139168
+    second: IcePowerSprite_04
+  - first:
+      213: 5977075737363976007
+    second: IcePowerSprite_05
+  - first:
+      213: -405232853232881128
+    second: IcePowerSprite_06
+  - first:
+      213: 1981492653357347971
+    second: IcePowerSprite_07
+  - first:
+      213: -2718557207821974465
+    second: IcePowerSprite_08
+  - first:
+      213: 7103047402981106316
+    second: IcePowerSprite_09
+  - first:
+      213: 2129367655565049080
+    second: IcePowerSprite_10
+  - first:
+      213: -8682185985848770297
+    second: IcePowerSprite_11
+  - first:
+      213: 5677125743233900317
+    second: IcePowerSprite_12
+  - first:
+      213: 1755581603287601245
+    second: IcePowerSprite_13
+  - first:
+      213: 4699513852268985459
+    second: IcePowerSprite_14
+  - first:
+      213: -1088630513234115740
+    second: IcePowerSprite_15
+  - first:
+      213: 1697894545876967631
+    second: IcePowerSprite_16
+  - first:
+      213: 4186148143968065859
+    second: IcePowerSprite_17
+  - first:
+      213: 892391159406216148
+    second: IcePowerSprite_18
+  - first:
+      213: -8532229017912226889
+    second: IcePowerSprite_19
+  - first:
+      213: 2468178571365791887
+    second: IcePowerSprite_20
+  - first:
+      213: 3382190053896026064
+    second: IcePowerSprite_21
+  - first:
+      213: 8917021435950251230
+    second: IcePowerSprite_22
+  - first:
+      213: -1679637982288815211
+    second: IcePowerSprite_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -117,7 +189,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -208,529 +280,529 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_0
+      name: IcePowerSprite_00
       rect:
         serializedVersion: 2
-        x: 171
-        y: 1719
-        width: 174
-        height: 174
+        x: 0
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f42bafa9da268ca90800000000000000
-      internalID: -7293471098757533105
+      spriteID: f21ab48039e9dd120800000000000000
+      internalID: 2440280927441232175
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_1
+      name: IcePowerSprite_01
       rect:
         serializedVersion: 2
-        x: 661
-        y: 1711
-        width: 226
-        height: 190
+        x: 516
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10e16ee0319bb8620800000000000000
-      internalID: 2777517086709521921
+      spriteID: 3409ae5b6f09cdb50800000000000000
+      internalID: 6619324941616189507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_2
+      name: IcePowerSprite_02
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 1702
-        width: 262
-        height: 208
+        x: 1032
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0d1967f2061bd3a10800000000000000
-      internalID: 1890862445236752848
+      spriteID: 622989d9414ae4ca0800000000000000
+      internalID: -6030702442552192474
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_3
+      name: IcePowerSprite_03
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 1693
-        width: 280
-        height: 226
+        x: 1548
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa0ecb4b62f48f3c0800000000000000
-      internalID: -4325620414429732694
+      spriteID: 444b11c499c041170800000000000000
+      internalID: 8148151478365828164
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_4
+      name: IcePowerSprite_04
       rect:
         serializedVersion: 2
-        x: 2182
-        y: 1685
-        width: 280
-        height: 242
+        x: 2064
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90293f9fd5e46c740800000000000000
-      internalID: 5171907387614007817
+      spriteID: 0e8e551fb00caa3f0800000000000000
+      internalID: -888686818926139168
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_5
+      name: IcePowerSprite_05
       rect:
         serializedVersion: 2
-        x: 2708
-        y: 1677
-        width: 260
-        height: 258
+        x: 2580
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1362c1a52c90072b0800000000000000
-      internalID: -5588956407226685903
+      spriteID: 74f8f2917b6d2f250800000000000000
+      internalID: 5977075737363976007
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_6
+      name: IcePowerSprite_06
       rect:
         serializedVersion: 2
-        x: 147
-        y: 1156
-        width: 222
-        height: 268
+        x: 0
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b212eb0b7d579430800000000000000
-      internalID: 3789600394517287606
+      spriteID: 8127cb3fdd2506af0800000000000000
+      internalID: -405232853232881128
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_7
+      name: IcePowerSprite_07
       rect:
         serializedVersion: 2
-        x: 644
-        y: 1152
-        width: 260
-        height: 276
+        x: 516
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fb5dfa98cec1a3d50800000000000000
-      internalID: 6717713596424377791
+      spriteID: 3843960e11daf7b10800000000000000
+      internalID: 1981492653357347971
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_8
+      name: IcePowerSprite_08
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 1151
-        width: 280
-        height: 278
+        x: 1032
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83f61ceb68c894580800000000000000
-      internalID: -8842381883011403976
+      spriteID: f34813e7f9eb54ad0800000000000000
+      internalID: -2718557207821974465
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_9
+      name: IcePowerSprite_09
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 1152
-        width: 280
-        height: 276
+        x: 1548
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 422f46423edf49d30800000000000000
-      internalID: 4437450684876780068
+      spriteID: c82237dbaf7139260800000000000000
+      internalID: 7103047402981106316
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_10
+      name: IcePowerSprite_10
       rect:
         serializedVersion: 2
-        x: 2191
-        y: 1155
-        width: 262
-        height: 270
+        x: 2064
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9a4e04161b7e45db0800000000000000
-      internalID: -4803960153470606167
+      spriteID: 8fc3922d9980d8d10800000000000000
+      internalID: 2129367655565049080
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_11
+      name: IcePowerSprite_11
       rect:
         serializedVersion: 2
-        x: 2725
-        y: 1161
-        width: 226
-        height: 258
+        x: 2580
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9ed934572c92d0280800000000000000
-      internalID: -9075551758913921559
+      spriteID: 7010c9798dda28780800000000000000
+      internalID: -8682185985848770297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_12
+      name: IcePowerSprite_12
       rect:
         serializedVersion: 2
-        x: 171
-        y: 652
-        width: 174
-        height: 244
+        x: 0
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ceabd3895d4374d20800000000000000
-      internalID: 3262634547040074476
+      spriteID: d1f9ea6e8c339ce40800000000000000
+      internalID: 5677125743233900317
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_13
+      name: IcePowerSprite_13
       rect:
         serializedVersion: 2
-        x: 661
-        y: 645
-        width: 226
-        height: 258
+        x: 516
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58d05aa6846e46d70800000000000000
-      internalID: 9035599951113293189
+      spriteID: d501b2eaa241d5810800000000000000
+      internalID: 1755581603287601245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_14
+      name: IcePowerSprite_14
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 639
-        width: 262
-        height: 270
+        x: 1032
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1473dfa1027ebac0800000000000000
-      internalID: -3837504480902679524
+      spriteID: 37c358513f6083140800000000000000
+      internalID: 4699513852268985459
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_15
+      name: IcePowerSprite_15
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 636
-        width: 280
-        height: 276
+        x: 1548
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a677065fb3ee4c260800000000000000
-      internalID: 7117075252439447402
+      spriteID: 4638707e05864e0f0800000000000000
+      internalID: -1088630513234115740
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_16
+      name: IcePowerSprite_16
       rect:
         serializedVersion: 2
-        x: 2182
-        y: 635
-        width: 280
-        height: 278
+        x: 2064
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 30825f11d67117e10800000000000000
-      internalID: 2193560250726295555
+      spriteID: fc0e119f712209710800000000000000
+      internalID: 1697894545876967631
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_17
+      name: IcePowerSprite_17
       rect:
         serializedVersion: 2
-        x: 2708
-        y: 636
-        width: 260
-        height: 276
+        x: 2580
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 604d561f0ab1751e0800000000000000
-      internalID: -2209266714143239162
+      spriteID: 349906ace8f281a30800000000000000
+      internalID: 4186148143968065859
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_18
+      name: IcePowerSprite_18
       rect:
         serializedVersion: 2
-        x: 147
-        y: 124
-        width: 222
-        height: 268
+        x: 0
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c813501f0498d250800000000000000
-      internalID: 5969684098498894025
+      spriteID: 4d34b190809626c00800000000000000
+      internalID: 892391159406216148
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_19
+      name: IcePowerSprite_19
       rect:
         serializedVersion: 2
-        x: 644
-        y: 129
-        width: 260
-        height: 258
+        x: 516
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 12208fb3f7d89fae0800000000000000
-      internalID: -1515024222026989023
+      spriteID: 7bbcf05f9ee679980800000000000000
+      internalID: -8532229017912226889
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_20
+      name: IcePowerSprite_20
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 137
-        width: 280
-        height: 242
+        x: 1032
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 47c6363dd99f83a30800000000000000
-      internalID: 4195377509147307124
+      spriteID: f883d7c655bb04220800000000000000
+      internalID: 2468178571365791887
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_21
+      name: IcePowerSprite_21
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 145
-        width: 280
-        height: 226
+        x: 1548
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 152e08d3a7b0dafe0800000000000000
-      internalID: -1176271308028059055
+      spriteID: 0d7f4553fe3ffee20800000000000000
+      internalID: 3382190053896026064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_22
+      name: IcePowerSprite_22
       rect:
         serializedVersion: 2
-        x: 2191
-        y: 154
-        width: 262
-        height: 208
+        x: 2064
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f9adb0606db3dd1a0800000000000000
-      internalID: -6783199673339618657
+      spriteID: edcbb5860cf9fbb70800000000000000
+      internalID: 8917021435950251230
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_23
+      name: IcePowerSprite_23
       rect:
         serializedVersion: 2
-        x: 2725
-        y: 163
-        width: 226
-        height: 190
+        x: 2580
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75fcee79a84ba5680800000000000000
-      internalID: -8765495217375752361
+      spriteID: 59bdb6a772ab0b8e0800000000000000
+      internalID: -1679637982288815211
       vertices: []
       indices: 
       edges: []
@@ -749,6 +821,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      IcePowerSprite_00: 2440280927441232175
+      IcePowerSprite_01: 6619324941616189507
+      IcePowerSprite_02: -6030702442552192474
+      IcePowerSprite_03: 8148151478365828164
+      IcePowerSprite_04: -888686818926139168
+      IcePowerSprite_05: 5977075737363976007
+      IcePowerSprite_06: -405232853232881128
+      IcePowerSprite_07: 1981492653357347971
+      IcePowerSprite_08: -2718557207821974465
+      IcePowerSprite_09: 7103047402981106316
+      IcePowerSprite_10: 2129367655565049080
+      IcePowerSprite_11: -8682185985848770297
+      IcePowerSprite_12: 5677125743233900317
+      IcePowerSprite_13: 1755581603287601245
+      IcePowerSprite_14: 4699513852268985459
+      IcePowerSprite_15: -1088630513234115740
+      IcePowerSprite_16: 1697894545876967631
+      IcePowerSprite_17: 4186148143968065859
+      IcePowerSprite_18: 892391159406216148
+      IcePowerSprite_19: -8532229017912226889
+      IcePowerSprite_20: 2468178571365791887
+      IcePowerSprite_21: 3382190053896026064
+      IcePowerSprite_22: 8917021435950251230
+      IcePowerSprite_23: -1679637982288815211
       SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
       SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
       SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167

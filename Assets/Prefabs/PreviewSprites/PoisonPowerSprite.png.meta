@@ -74,6 +74,78 @@ TextureImporter:
   - first:
       213: -8765495217375752361
     second: SpriteForge_Verification_Cube_Turntable_23
+  - first:
+      213: 1427359488504613165
+    second: PoisonPowerSprite_00
+  - first:
+      213: -5830861190743750943
+    second: PoisonPowerSprite_01
+  - first:
+      213: 3570386562289128681
+    second: PoisonPowerSprite_02
+  - first:
+      213: -639691863711573428
+    second: PoisonPowerSprite_03
+  - first:
+      213: -3728955083584129707
+    second: PoisonPowerSprite_04
+  - first:
+      213: 5582431845140073829
+    second: PoisonPowerSprite_05
+  - first:
+      213: 7682368613603444380
+    second: PoisonPowerSprite_06
+  - first:
+      213: -6402381151682515698
+    second: PoisonPowerSprite_07
+  - first:
+      213: 815622602410388532
+    second: PoisonPowerSprite_08
+  - first:
+      213: -1715772191531688380
+    second: PoisonPowerSprite_09
+  - first:
+      213: 2693044387158849037
+    second: PoisonPowerSprite_10
+  - first:
+      213: -5465484959579615105
+    second: PoisonPowerSprite_11
+  - first:
+      213: -8225262217728383240
+    second: PoisonPowerSprite_12
+  - first:
+      213: -8220631509871795206
+    second: PoisonPowerSprite_13
+  - first:
+      213: -5161317753161101112
+    second: PoisonPowerSprite_14
+  - first:
+      213: -210850229608276447
+    second: PoisonPowerSprite_15
+  - first:
+      213: -5011841229583249657
+    second: PoisonPowerSprite_16
+  - first:
+      213: 755240084820084119
+    second: PoisonPowerSprite_17
+  - first:
+      213: -7336437828597645380
+    second: PoisonPowerSprite_18
+  - first:
+      213: 5719684458036507353
+    second: PoisonPowerSprite_19
+  - first:
+      213: 8134532954638129279
+    second: PoisonPowerSprite_20
+  - first:
+      213: -4081569344390466739
+    second: PoisonPowerSprite_21
+  - first:
+      213: 2168702492018132300
+    second: PoisonPowerSprite_22
+  - first:
+      213: -5437996368500719677
+    second: PoisonPowerSprite_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -117,7 +189,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -208,529 +280,529 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_0
+      name: PoisonPowerSprite_00
       rect:
         serializedVersion: 2
-        x: 171
-        y: 1719
-        width: 174
-        height: 174
+        x: 0
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f42bafa9da268ca90800000000000000
-      internalID: -7293471098757533105
+      spriteID: d29c91f64effec310800000000000000
+      internalID: 1427359488504613165
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_1
+      name: PoisonPowerSprite_01
       rect:
         serializedVersion: 2
-        x: 661
-        y: 1711
-        width: 226
-        height: 190
+        x: 516
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10e16ee0319bb8620800000000000000
-      internalID: 2777517086709521921
+      spriteID: 1e68b17e3ae941fa0800000000000000
+      internalID: -5830861190743750943
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_2
+      name: PoisonPowerSprite_02
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 1702
-        width: 262
-        height: 208
+        x: 1032
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0d1967f2061bd3a10800000000000000
-      internalID: 1890862445236752848
+      spriteID: 9e4521469af8c8130800000000000000
+      internalID: 3570386562289128681
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_3
+      name: PoisonPowerSprite_03
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 1693
-        width: 280
-        height: 226
+        x: 1548
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa0ecb4b62f48f3c0800000000000000
-      internalID: -4325620414429732694
+      spriteID: c4a93c1a3ab5f17f0800000000000000
+      internalID: -639691863711573428
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_4
+      name: PoisonPowerSprite_04
       rect:
         serializedVersion: 2
-        x: 2182
-        y: 1685
-        width: 280
-        height: 242
+        x: 2064
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90293f9fd5e46c740800000000000000
-      internalID: 5171907387614007817
+      spriteID: 555b49bbb17104cc0800000000000000
+      internalID: -3728955083584129707
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_5
+      name: PoisonPowerSprite_05
       rect:
         serializedVersion: 2
-        x: 2708
-        y: 1677
-        width: 260
-        height: 258
+        x: 2580
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1362c1a52c90072b0800000000000000
-      internalID: -5588956407226685903
+      spriteID: 56d0768af28c87d40800000000000000
+      internalID: 5582431845140073829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_6
+      name: PoisonPowerSprite_06
       rect:
         serializedVersion: 2
-        x: 147
-        y: 1156
-        width: 222
-        height: 268
+        x: 0
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b212eb0b7d579430800000000000000
-      internalID: 3789600394517287606
+      spriteID: c9681771d814d9a60800000000000000
+      internalID: 7682368613603444380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_7
+      name: PoisonPowerSprite_07
       rect:
         serializedVersion: 2
-        x: 644
-        y: 1152
-        width: 260
-        height: 276
+        x: 516
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fb5dfa98cec1a3d50800000000000000
-      internalID: 6717713596424377791
+      spriteID: e0dae49834c2627a0800000000000000
+      internalID: -6402381151682515698
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_8
+      name: PoisonPowerSprite_08
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 1151
-        width: 280
-        height: 278
+        x: 1032
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83f61ceb68c894580800000000000000
-      internalID: -8842381883011403976
+      spriteID: 43c637f7f6ca15b00800000000000000
+      internalID: 815622602410388532
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_9
+      name: PoisonPowerSprite_09
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 1152
-        width: 280
-        height: 276
+        x: 1548
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 422f46423edf49d30800000000000000
-      internalID: 4437450684876780068
+      spriteID: 44e9248484a5038e0800000000000000
+      internalID: -1715772191531688380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_10
+      name: PoisonPowerSprite_10
       rect:
         serializedVersion: 2
-        x: 2191
-        y: 1155
-        width: 262
-        height: 270
+        x: 2064
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9a4e04161b7e45db0800000000000000
-      internalID: -4803960153470606167
+      spriteID: d0676fc0a9d9f5520800000000000000
+      internalID: 2693044387158849037
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_11
+      name: PoisonPowerSprite_11
       rect:
         serializedVersion: 2
-        x: 2725
-        y: 1161
-        width: 226
-        height: 258
+        x: 2580
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9ed934572c92d0280800000000000000
-      internalID: -9075551758913921559
+      spriteID: f70540bf262b624b0800000000000000
+      internalID: -5465484959579615105
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_12
+      name: PoisonPowerSprite_12
       rect:
         serializedVersion: 2
-        x: 171
-        y: 652
-        width: 174
-        height: 244
+        x: 0
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ceabd3895d4374d20800000000000000
-      internalID: 3262634547040074476
+      spriteID: 8f6abdf979ff9dd80800000000000000
+      internalID: -8225262217728383240
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_13
+      name: PoisonPowerSprite_13
       rect:
         serializedVersion: 2
-        x: 661
-        y: 645
-        width: 226
-        height: 258
+        x: 516
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58d05aa6846e46d70800000000000000
-      internalID: 9035599951113293189
+      spriteID: af365b052337aed80800000000000000
+      internalID: -8220631509871795206
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_14
+      name: PoisonPowerSprite_14
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 639
-        width: 262
-        height: 270
+        x: 1032
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1473dfa1027ebac0800000000000000
-      internalID: -3837504480902679524
+      spriteID: 8c05aed69d05f58b0800000000000000
+      internalID: -5161317753161101112
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_15
+      name: PoisonPowerSprite_15
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 636
-        width: 280
-        height: 276
+        x: 1548
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a677065fb3ee4c260800000000000000
-      internalID: 7117075252439447402
+      spriteID: 12e936355d8e21df0800000000000000
+      internalID: -210850229608276447
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_16
+      name: PoisonPowerSprite_16
       rect:
         serializedVersion: 2
-        x: 2182
-        y: 635
-        width: 280
-        height: 278
+        x: 2064
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 30825f11d67117e10800000000000000
-      internalID: 2193560250726295555
+      spriteID: 70f8800a4fc527ab0800000000000000
+      internalID: -5011841229583249657
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_17
+      name: PoisonPowerSprite_17
       rect:
         serializedVersion: 2
-        x: 2708
-        y: 636
-        width: 260
-        height: 276
+        x: 2580
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 604d561f0ab1751e0800000000000000
-      internalID: -2209266714143239162
+      spriteID: 79546df0bd62b7a00800000000000000
+      internalID: 755240084820084119
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_18
+      name: PoisonPowerSprite_18
       rect:
         serializedVersion: 2
-        x: 147
-        y: 124
-        width: 222
-        height: 268
+        x: 0
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c813501f0498d250800000000000000
-      internalID: 5969684098498894025
+      spriteID: cbff2bd3aacbf2a90800000000000000
+      internalID: -7336437828597645380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_19
+      name: PoisonPowerSprite_19
       rect:
         serializedVersion: 2
-        x: 644
-        y: 129
-        width: 260
-        height: 258
+        x: 516
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 12208fb3f7d89fae0800000000000000
-      internalID: -1515024222026989023
+      spriteID: 9d2b69cd5b6606f40800000000000000
+      internalID: 5719684458036507353
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_20
+      name: PoisonPowerSprite_20
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 137
-        width: 280
-        height: 242
+        x: 1032
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 47c6363dd99f83a30800000000000000
-      internalID: 4195377509147307124
+      spriteID: f781ae6af9aa3e070800000000000000
+      internalID: 8134532954638129279
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_21
+      name: PoisonPowerSprite_21
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 145
-        width: 280
-        height: 226
+        x: 1548
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 152e08d3a7b0dafe0800000000000000
-      internalID: -1176271308028059055
+      spriteID: d437b7d6e4a5b57c0800000000000000
+      internalID: -4081569344390466739
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_22
+      name: PoisonPowerSprite_22
       rect:
         serializedVersion: 2
-        x: 2191
-        y: 154
-        width: 262
-        height: 208
+        x: 2064
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f9adb0606db3dd1a0800000000000000
-      internalID: -6783199673339618657
+      spriteID: c45ce3c1d67c81e10800000000000000
+      internalID: 2168702492018132300
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_23
+      name: PoisonPowerSprite_23
       rect:
         serializedVersion: 2
-        x: 2725
-        y: 163
-        width: 226
-        height: 190
+        x: 2580
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75fcee79a84ba5680800000000000000
-      internalID: -8765495217375752361
+      spriteID: 3cf76a55d1b5884b0800000000000000
+      internalID: -5437996368500719677
       vertices: []
       indices: 
       edges: []
@@ -749,6 +821,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      PoisonPowerSprite_00: 1427359488504613165
+      PoisonPowerSprite_01: -5830861190743750943
+      PoisonPowerSprite_02: 3570386562289128681
+      PoisonPowerSprite_03: -639691863711573428
+      PoisonPowerSprite_04: -3728955083584129707
+      PoisonPowerSprite_05: 5582431845140073829
+      PoisonPowerSprite_06: 7682368613603444380
+      PoisonPowerSprite_07: -6402381151682515698
+      PoisonPowerSprite_08: 815622602410388532
+      PoisonPowerSprite_09: -1715772191531688380
+      PoisonPowerSprite_10: 2693044387158849037
+      PoisonPowerSprite_11: -5465484959579615105
+      PoisonPowerSprite_12: -8225262217728383240
+      PoisonPowerSprite_13: -8220631509871795206
+      PoisonPowerSprite_14: -5161317753161101112
+      PoisonPowerSprite_15: -210850229608276447
+      PoisonPowerSprite_16: -5011841229583249657
+      PoisonPowerSprite_17: 755240084820084119
+      PoisonPowerSprite_18: -7336437828597645380
+      PoisonPowerSprite_19: 5719684458036507353
+      PoisonPowerSprite_20: 8134532954638129279
+      PoisonPowerSprite_21: -4081569344390466739
+      PoisonPowerSprite_22: 2168702492018132300
+      PoisonPowerSprite_23: -5437996368500719677
       SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
       SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
       SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167

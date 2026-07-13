@@ -74,6 +74,78 @@ TextureImporter:
   - first:
       213: -8765495217375752361
     second: SpriteForge_Verification_Cube_Turntable_23
+  - first:
+      213: -4335051323751936731
+    second: DefaultPowerSprite_00
+  - first:
+      213: 3869108824837050864
+    second: DefaultPowerSprite_01
+  - first:
+      213: -3659546727977755413
+    second: DefaultPowerSprite_02
+  - first:
+      213: -2137988311765291219
+    second: DefaultPowerSprite_03
+  - first:
+      213: -994957523729706336
+    second: DefaultPowerSprite_04
+  - first:
+      213: -5447580372685169299
+    second: DefaultPowerSprite_05
+  - first:
+      213: -5654818330248004379
+    second: DefaultPowerSprite_06
+  - first:
+      213: -8663415688346546757
+    second: DefaultPowerSprite_07
+  - first:
+      213: 2382802650016566518
+    second: DefaultPowerSprite_08
+  - first:
+      213: 8678631028839749374
+    second: DefaultPowerSprite_09
+  - first:
+      213: -5549379627112548905
+    second: DefaultPowerSprite_10
+  - first:
+      213: 5460347562965566162
+    second: DefaultPowerSprite_11
+  - first:
+      213: 5139231141780027067
+    second: DefaultPowerSprite_12
+  - first:
+      213: 6111066973456772273
+    second: DefaultPowerSprite_13
+  - first:
+      213: 8273535134516776660
+    second: DefaultPowerSprite_14
+  - first:
+      213: -6698055352372753496
+    second: DefaultPowerSprite_15
+  - first:
+      213: 6414113556508589597
+    second: DefaultPowerSprite_16
+  - first:
+      213: 9184309777990117971
+    second: DefaultPowerSprite_17
+  - first:
+      213: -8967113033252230409
+    second: DefaultPowerSprite_18
+  - first:
+      213: 1498035534628285936
+    second: DefaultPowerSprite_19
+  - first:
+      213: -2659517180549718366
+    second: DefaultPowerSprite_20
+  - first:
+      213: -5856431858405824114
+    second: DefaultPowerSprite_21
+  - first:
+      213: 4918781483205800253
+    second: DefaultPowerSprite_22
+  - first:
+      213: 1907025611071257748
+    second: DefaultPowerSprite_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -117,7 +189,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -208,529 +280,529 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_0
+      name: DefaultPowerSprite_00
       rect:
         serializedVersion: 2
-        x: 171
-        y: 1719
-        width: 174
-        height: 174
+        x: 0
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f42bafa9da268ca90800000000000000
-      internalID: -7293471098757533105
+      spriteID: 52dcda40acdc6d3c0800000000000000
+      internalID: -4335051323751936731
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_1
+      name: DefaultPowerSprite_01
       rect:
         serializedVersion: 2
-        x: 661
-        y: 1711
-        width: 226
-        height: 190
+        x: 516
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10e16ee0319bb8620800000000000000
-      internalID: 2777517086709521921
+      spriteID: 0f1ddbd0af5d1b530800000000000000
+      internalID: 3869108824837050864
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_2
+      name: DefaultPowerSprite_02
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 1702
-        width: 262
-        height: 208
+        x: 1032
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0d1967f2061bd3a10800000000000000
-      internalID: 1890862445236752848
+      spriteID: bec51f7d3ada63dc0800000000000000
+      internalID: -3659546727977755413
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_3
+      name: DefaultPowerSprite_03
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 1693
-        width: 280
-        height: 226
+        x: 1548
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa0ecb4b62f48f3c0800000000000000
-      internalID: -4325620414429732694
+      spriteID: d2fea4f35f65452e0800000000000000
+      internalID: -2137988311765291219
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_4
+      name: DefaultPowerSprite_04
       rect:
         serializedVersion: 2
-        x: 2182
-        y: 1685
-        width: 280
-        height: 242
+        x: 2064
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90293f9fd5e46c740800000000000000
-      internalID: 5171907387614007817
+      spriteID: 0a21d7757633132f0800000000000000
+      internalID: -994957523729706336
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_5
+      name: DefaultPowerSprite_05
       rect:
         serializedVersion: 2
-        x: 2708
-        y: 1677
-        width: 260
-        height: 258
+        x: 2580
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1362c1a52c90072b0800000000000000
-      internalID: -5588956407226685903
+      spriteID: d6dd5b8738e4664b0800000000000000
+      internalID: -5447580372685169299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_6
+      name: DefaultPowerSprite_06
       rect:
         serializedVersion: 2
-        x: 147
-        y: 1156
-        width: 222
-        height: 268
+        x: 0
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b212eb0b7d579430800000000000000
-      internalID: 3789600394517287606
+      spriteID: 5ec333c60bc0681b0800000000000000
+      internalID: -5654818330248004379
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_7
+      name: DefaultPowerSprite_07
       rect:
         serializedVersion: 2
-        x: 644
-        y: 1152
-        width: 260
-        height: 276
+        x: 516
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fb5dfa98cec1a3d50800000000000000
-      internalID: 6717713596424377791
+      spriteID: bbdce8a055d55c780800000000000000
+      internalID: -8663415688346546757
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_8
+      name: DefaultPowerSprite_08
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 1151
-        width: 280
-        height: 278
+        x: 1032
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83f61ceb68c894580800000000000000
-      internalID: -8842381883011403976
+      spriteID: 6fcc814b26a611120800000000000000
+      internalID: 2382802650016566518
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_9
+      name: DefaultPowerSprite_09
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 1152
-        width: 280
-        height: 276
+        x: 1548
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 422f46423edf49d30800000000000000
-      internalID: 4437450684876780068
+      spriteID: ef61daa70f0b07870800000000000000
+      internalID: 8678631028839749374
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_10
+      name: DefaultPowerSprite_10
       rect:
         serializedVersion: 2
-        x: 2191
-        y: 1155
-        width: 262
-        height: 270
+        x: 2064
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9a4e04161b7e45db0800000000000000
-      internalID: -4803960153470606167
+      spriteID: 7d5ba2a81a4acf2b0800000000000000
+      internalID: -5549379627112548905
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_11
+      name: DefaultPowerSprite_11
       rect:
         serializedVersion: 2
-        x: 2725
-        y: 1161
-        width: 226
-        height: 258
+        x: 2580
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9ed934572c92d0280800000000000000
-      internalID: -9075551758913921559
+      spriteID: 2d28bb8ad2d07cb40800000000000000
+      internalID: 5460347562965566162
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_12
+      name: DefaultPowerSprite_12
       rect:
         serializedVersion: 2
-        x: 171
-        y: 652
-        width: 174
-        height: 244
+        x: 0
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ceabd3895d4374d20800000000000000
-      internalID: 3262634547040074476
+      spriteID: bb67c60ae77325740800000000000000
+      internalID: 5139231141780027067
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_13
+      name: DefaultPowerSprite_13
       rect:
         serializedVersion: 2
-        x: 661
-        y: 645
-        width: 226
-        height: 258
+        x: 516
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58d05aa6846e46d70800000000000000
-      internalID: 9035599951113293189
+      spriteID: 1bc2387d80fdec450800000000000000
+      internalID: 6111066973456772273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_14
+      name: DefaultPowerSprite_14
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 639
-        width: 262
-        height: 270
+        x: 1032
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1473dfa1027ebac0800000000000000
-      internalID: -3837504480902679524
+      spriteID: 4de0699ae5081d270800000000000000
+      internalID: 8273535134516776660
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_15
+      name: DefaultPowerSprite_15
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 636
-        width: 280
-        height: 276
+        x: 1548
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a677065fb3ee4c260800000000000000
-      internalID: 7117075252439447402
+      spriteID: 8ab0be3152abb03a0800000000000000
+      internalID: -6698055352372753496
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_16
+      name: DefaultPowerSprite_16
       rect:
         serializedVersion: 2
-        x: 2182
-        y: 635
-        width: 280
-        height: 278
+        x: 2064
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 30825f11d67117e10800000000000000
-      internalID: 2193560250726295555
+      spriteID: d1e36b4db42830950800000000000000
+      internalID: 6414113556508589597
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_17
+      name: DefaultPowerSprite_17
       rect:
         serializedVersion: 2
-        x: 2708
-        y: 636
-        width: 260
-        height: 276
+        x: 2580
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 604d561f0ab1751e0800000000000000
-      internalID: -2209266714143239162
+      spriteID: 35a6f302519357f70800000000000000
+      internalID: 9184309777990117971
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_18
+      name: DefaultPowerSprite_18
       rect:
         serializedVersion: 2
-        x: 147
-        y: 124
-        width: 222
-        height: 268
+        x: 0
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c813501f0498d250800000000000000
-      internalID: 5969684098498894025
+      spriteID: 7faa930c43a6e8380800000000000000
+      internalID: -8967113033252230409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_19
+      name: DefaultPowerSprite_19
       rect:
         serializedVersion: 2
-        x: 644
-        y: 129
-        width: 260
-        height: 258
+        x: 516
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 12208fb3f7d89fae0800000000000000
-      internalID: -1515024222026989023
+      spriteID: 0fd6e6eb1671ac410800000000000000
+      internalID: 1498035534628285936
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_20
+      name: DefaultPowerSprite_20
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 137
-        width: 280
-        height: 242
+        x: 1032
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 47c6363dd99f83a30800000000000000
-      internalID: 4195377509147307124
+      spriteID: 2ae194b073f771bd0800000000000000
+      internalID: -2659517180549718366
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_21
+      name: DefaultPowerSprite_21
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 145
-        width: 280
-        height: 226
+        x: 1548
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 152e08d3a7b0dafe0800000000000000
-      internalID: -1176271308028059055
+      spriteID: e89a074e046c9bea0800000000000000
+      internalID: -5856431858405824114
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_22
+      name: DefaultPowerSprite_22
       rect:
         serializedVersion: 2
-        x: 2191
-        y: 154
-        width: 262
-        height: 208
+        x: 2064
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f9adb0606db3dd1a0800000000000000
-      internalID: -6783199673339618657
+      spriteID: d31304ab2b5034440800000000000000
+      internalID: 4918781483205800253
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_23
+      name: DefaultPowerSprite_23
       rect:
         serializedVersion: 2
-        x: 2725
-        y: 163
-        width: 226
-        height: 190
+        x: 2580
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75fcee79a84ba5680800000000000000
-      internalID: -8765495217375752361
+      spriteID: 49c797d70bd177a10800000000000000
+      internalID: 1907025611071257748
       vertices: []
       indices: 
       edges: []
@@ -749,6 +821,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      DefaultPowerSprite_00: -4335051323751936731
+      DefaultPowerSprite_01: 3869108824837050864
+      DefaultPowerSprite_02: -3659546727977755413
+      DefaultPowerSprite_03: -2137988311765291219
+      DefaultPowerSprite_04: -994957523729706336
+      DefaultPowerSprite_05: -5447580372685169299
+      DefaultPowerSprite_06: -5654818330248004379
+      DefaultPowerSprite_07: -8663415688346546757
+      DefaultPowerSprite_08: 2382802650016566518
+      DefaultPowerSprite_09: 8678631028839749374
+      DefaultPowerSprite_10: -5549379627112548905
+      DefaultPowerSprite_11: 5460347562965566162
+      DefaultPowerSprite_12: 5139231141780027067
+      DefaultPowerSprite_13: 6111066973456772273
+      DefaultPowerSprite_14: 8273535134516776660
+      DefaultPowerSprite_15: -6698055352372753496
+      DefaultPowerSprite_16: 6414113556508589597
+      DefaultPowerSprite_17: 9184309777990117971
+      DefaultPowerSprite_18: -8967113033252230409
+      DefaultPowerSprite_19: 1498035534628285936
+      DefaultPowerSprite_20: -2659517180549718366
+      DefaultPowerSprite_21: -5856431858405824114
+      DefaultPowerSprite_22: 4918781483205800253
+      DefaultPowerSprite_23: 1907025611071257748
       SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
       SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
       SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167

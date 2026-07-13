@@ -74,6 +74,78 @@ TextureImporter:
   - first:
       213: -8765495217375752361
     second: SpriteForge_Verification_Cube_Turntable_23
+  - first:
+      213: 872108633671307960
+    second: ElectricityPowerSprite_00
+  - first:
+      213: -1127675597682235722
+    second: ElectricityPowerSprite_01
+  - first:
+      213: -5041854251632475787
+    second: ElectricityPowerSprite_02
+  - first:
+      213: 5974323204042986123
+    second: ElectricityPowerSprite_03
+  - first:
+      213: -6944852261466062299
+    second: ElectricityPowerSprite_04
+  - first:
+      213: 5558446460492558221
+    second: ElectricityPowerSprite_05
+  - first:
+      213: 4479307945831584588
+    second: ElectricityPowerSprite_06
+  - first:
+      213: 291479217260916195
+    second: ElectricityPowerSprite_07
+  - first:
+      213: -6470283257909939829
+    second: ElectricityPowerSprite_08
+  - first:
+      213: -5315789635836837105
+    second: ElectricityPowerSprite_09
+  - first:
+      213: -1399816125610960827
+    second: ElectricityPowerSprite_10
+  - first:
+      213: -347670166283678597
+    second: ElectricityPowerSprite_11
+  - first:
+      213: 7680655614144464603
+    second: ElectricityPowerSprite_12
+  - first:
+      213: 3723615939238886897
+    second: ElectricityPowerSprite_13
+  - first:
+      213: -7976873401787477409
+    second: ElectricityPowerSprite_14
+  - first:
+      213: -3330576819147624391
+    second: ElectricityPowerSprite_15
+  - first:
+      213: 756854713261587371
+    second: ElectricityPowerSprite_16
+  - first:
+      213: -3790430803364821203
+    second: ElectricityPowerSprite_17
+  - first:
+      213: -1658875428231477272
+    second: ElectricityPowerSprite_18
+  - first:
+      213: 5896824543896954117
+    second: ElectricityPowerSprite_19
+  - first:
+      213: -1672834335456091752
+    second: ElectricityPowerSprite_20
+  - first:
+      213: 3365305504904915887
+    second: ElectricityPowerSprite_21
+  - first:
+      213: 7360688075647461326
+    second: ElectricityPowerSprite_22
+  - first:
+      213: -4597972145139650767
+    second: ElectricityPowerSprite_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -117,7 +189,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -208,529 +280,529 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_0
+      name: ElectricityPowerSprite_00
       rect:
         serializedVersion: 2
-        x: 171
-        y: 1719
-        width: 174
-        height: 174
+        x: 0
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f42bafa9da268ca90800000000000000
-      internalID: -7293471098757533105
+      spriteID: 8b297838e2a5a1c00800000000000000
+      internalID: 872108633671307960
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_1
+      name: ElectricityPowerSprite_01
       rect:
         serializedVersion: 2
-        x: 661
-        y: 1711
-        width: 226
-        height: 190
+        x: 516
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10e16ee0319bb8620800000000000000
-      internalID: 2777517086709521921
+      spriteID: 6b62642c401b950f0800000000000000
+      internalID: -1127675597682235722
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_2
+      name: ElectricityPowerSprite_02
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 1702
-        width: 262
-        height: 208
+        x: 1032
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0d1967f2061bd3a10800000000000000
-      internalID: 1890862445236752848
+      spriteID: 5714722654cb70ab0800000000000000
+      internalID: -5041854251632475787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_3
+      name: ElectricityPowerSprite_03
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 1693
-        width: 280
-        height: 226
+        x: 1548
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa0ecb4b62f48f3c0800000000000000
-      internalID: -4325620414429732694
+      spriteID: b821b5efc4f09e250800000000000000
+      internalID: 5974323204042986123
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_4
+      name: ElectricityPowerSprite_04
       rect:
         serializedVersion: 2
-        x: 2182
-        y: 1685
-        width: 280
-        height: 242
+        x: 2064
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90293f9fd5e46c740800000000000000
-      internalID: 5171907387614007817
+      spriteID: 5224fb1e9adee9f90800000000000000
+      internalID: -6944852261466062299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_5
+      name: ElectricityPowerSprite_05
       rect:
         serializedVersion: 2
-        x: 2708
-        y: 1677
-        width: 260
-        height: 258
+        x: 2580
+        y: 1548
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1362c1a52c90072b0800000000000000
-      internalID: -5588956407226685903
+      spriteID: d8fafac1b91932d40800000000000000
+      internalID: 5558446460492558221
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_6
+      name: ElectricityPowerSprite_06
       rect:
         serializedVersion: 2
-        x: 147
-        y: 1156
-        width: 222
-        height: 268
+        x: 0
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b212eb0b7d579430800000000000000
-      internalID: 3789600394517287606
+      spriteID: c4350e628d2b92e30800000000000000
+      internalID: 4479307945831584588
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_7
+      name: ElectricityPowerSprite_07
       rect:
         serializedVersion: 2
-        x: 644
-        y: 1152
-        width: 260
-        height: 276
+        x: 516
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fb5dfa98cec1a3d50800000000000000
-      internalID: 6717713596424377791
+      spriteID: 3edee34cdca8b0400800000000000000
+      internalID: 291479217260916195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_8
+      name: ElectricityPowerSprite_08
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 1151
-        width: 280
-        height: 278
+        x: 1032
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83f61ceb68c894580800000000000000
-      internalID: -8842381883011403976
+      spriteID: b81fe1078afe436a0800000000000000
+      internalID: -6470283257909939829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_9
+      name: ElectricityPowerSprite_09
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 1152
-        width: 280
-        height: 276
+        x: 1548
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 422f46423edf49d30800000000000000
-      internalID: 4437450684876780068
+      spriteID: f030e3f8d758a36b0800000000000000
+      internalID: -5315789635836837105
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_10
+      name: ElectricityPowerSprite_10
       rect:
         serializedVersion: 2
-        x: 2191
-        y: 1155
-        width: 262
-        height: 270
+        x: 2064
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9a4e04161b7e45db0800000000000000
-      internalID: -4803960153470606167
+      spriteID: 548581a76aad29ce0800000000000000
+      internalID: -1399816125610960827
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_11
+      name: ElectricityPowerSprite_11
       rect:
         serializedVersion: 2
-        x: 2725
-        y: 1161
-        width: 226
-        height: 258
+        x: 2580
+        y: 1032
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9ed934572c92d0280800000000000000
-      internalID: -9075551758913921559
+      spriteID: b7c09a763d3dc2bf0800000000000000
+      internalID: -347670166283678597
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_12
+      name: ElectricityPowerSprite_12
       rect:
         serializedVersion: 2
-        x: 171
-        y: 652
-        width: 174
-        height: 244
+        x: 0
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ceabd3895d4374d20800000000000000
-      internalID: 3262634547040074476
+      spriteID: bd6c033569b279a60800000000000000
+      internalID: 7680655614144464603
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_13
+      name: ElectricityPowerSprite_13
       rect:
         serializedVersion: 2
-        x: 661
-        y: 645
-        width: 226
-        height: 258
+        x: 516
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58d05aa6846e46d70800000000000000
-      internalID: 9035599951113293189
+      spriteID: 1fdf05ad7f0fca330800000000000000
+      internalID: 3723615939238886897
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_14
+      name: ElectricityPowerSprite_14
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 639
-        width: 262
-        height: 270
+        x: 1032
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1473dfa1027ebac0800000000000000
-      internalID: -3837504480902679524
+      spriteID: f52123487e37c4190800000000000000
+      internalID: -7976873401787477409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_15
+      name: ElectricityPowerSprite_15
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 636
-        width: 280
-        height: 276
+        x: 1548
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a677065fb3ee4c260800000000000000
-      internalID: 7117075252439447402
+      spriteID: 9303e85770a67c1d0800000000000000
+      internalID: -3330576819147624391
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_16
+      name: ElectricityPowerSprite_16
       rect:
         serializedVersion: 2
-        x: 2182
-        y: 635
-        width: 280
-        height: 278
+        x: 2064
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 30825f11d67117e10800000000000000
-      internalID: 2193560250726295555
+      spriteID: bab798a0a53e08a00800000000000000
+      internalID: 756854713261587371
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_17
+      name: ElectricityPowerSprite_17
       rect:
         serializedVersion: 2
-        x: 2708
-        y: 636
-        width: 260
-        height: 276
+        x: 2580
+        y: 516
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 604d561f0ab1751e0800000000000000
-      internalID: -2209266714143239162
+      spriteID: d27cdb3544fa56bc0800000000000000
+      internalID: -3790430803364821203
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_18
+      name: ElectricityPowerSprite_18
       rect:
         serializedVersion: 2
-        x: 147
-        y: 124
-        width: 222
-        height: 268
+        x: 0
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c813501f0498d250800000000000000
-      internalID: 5969684098498894025
+      spriteID: 8e783ad469d7af8e0800000000000000
+      internalID: -1658875428231477272
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_19
+      name: ElectricityPowerSprite_19
       rect:
         serializedVersion: 2
-        x: 644
-        y: 129
-        width: 260
-        height: 258
+        x: 516
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 12208fb3f7d89fae0800000000000000
-      internalID: -1515024222026989023
+      spriteID: 50568c11eaab5d150800000000000000
+      internalID: 5896824543896954117
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_20
+      name: ElectricityPowerSprite_20
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 137
-        width: 280
-        height: 242
+        x: 1032
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 47c6363dd99f83a30800000000000000
-      internalID: 4195377509147307124
+      spriteID: 8912013f806e8c8e0800000000000000
+      internalID: -1672834335456091752
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_21
+      name: ElectricityPowerSprite_21
       rect:
         serializedVersion: 2
-        x: 1666
-        y: 145
-        width: 280
-        height: 226
+        x: 1548
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 152e08d3a7b0dafe0800000000000000
-      internalID: -1176271308028059055
+      spriteID: fab268cc687f3be20800000000000000
+      internalID: 3365305504904915887
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_22
+      name: ElectricityPowerSprite_22
       rect:
         serializedVersion: 2
-        x: 2191
-        y: 154
-        width: 262
-        height: 208
+        x: 2064
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f9adb0606db3dd1a0800000000000000
-      internalID: -6783199673339618657
+      spriteID: ec7ab636eca662660800000000000000
+      internalID: 7360688075647461326
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteForge_Verification_Cube_Turntable_23
+      name: ElectricityPowerSprite_23
       rect:
         serializedVersion: 2
-        x: 2725
-        y: 163
-        width: 226
-        height: 190
+        x: 2580
+        y: 0
+        width: 516
+        height: 516
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75fcee79a84ba5680800000000000000
-      internalID: -8765495217375752361
+      spriteID: 13f6fc1f1b8b030c0800000000000000
+      internalID: -4597972145139650767
       vertices: []
       indices: 
       edges: []
@@ -749,6 +821,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      ElectricityPowerSprite_00: 872108633671307960
+      ElectricityPowerSprite_01: -1127675597682235722
+      ElectricityPowerSprite_02: -5041854251632475787
+      ElectricityPowerSprite_03: 5974323204042986123
+      ElectricityPowerSprite_04: -6944852261466062299
+      ElectricityPowerSprite_05: 5558446460492558221
+      ElectricityPowerSprite_06: 4479307945831584588
+      ElectricityPowerSprite_07: 291479217260916195
+      ElectricityPowerSprite_08: -6470283257909939829
+      ElectricityPowerSprite_09: -5315789635836837105
+      ElectricityPowerSprite_10: -1399816125610960827
+      ElectricityPowerSprite_11: -347670166283678597
+      ElectricityPowerSprite_12: 7680655614144464603
+      ElectricityPowerSprite_13: 3723615939238886897
+      ElectricityPowerSprite_14: -7976873401787477409
+      ElectricityPowerSprite_15: -3330576819147624391
+      ElectricityPowerSprite_16: 756854713261587371
+      ElectricityPowerSprite_17: -3790430803364821203
+      ElectricityPowerSprite_18: -1658875428231477272
+      ElectricityPowerSprite_19: 5896824543896954117
+      ElectricityPowerSprite_20: -1672834335456091752
+      ElectricityPowerSprite_21: 3365305504904915887
+      ElectricityPowerSprite_22: 7360688075647461326
+      ElectricityPowerSprite_23: -4597972145139650767
       SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
       SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
       SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167
