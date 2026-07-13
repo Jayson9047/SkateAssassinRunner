@@ -65,7 +65,18 @@ public class LuckySpinWheel : MonoBehaviour
     [SerializeField] private TMP_Text spinsLeftText;
     [SerializeField] private TMP_Text dailySpinCountText;
 
+    [Header("Reward Popup")]
+    [SerializeField] private GameObject rewardPopup;
+    [SerializeField] private Image rewardPopupIcon;
+    [SerializeField] private TMP_Text rewardPopupText;
+    [SerializeField] private Button rewardPopupOkButton;
+
     private bool isSpinning;
+
+    private void OnDisable()
+    {
+        CloseRewardPopup();
+    }
 
     private void Awake()
     {
@@ -76,6 +87,8 @@ public class LuckySpinWheel : MonoBehaviour
 
         if (dailySpinButton != null)
             dailySpinButton.onClick.AddListener(EarnSpinFromAd);
+
+        BindRewardPopup();
 
         RefreshCurrencyUI();
         RefreshSpinUI();
@@ -280,7 +293,73 @@ public class LuckySpinWheel : MonoBehaviour
         if (rewardResultText != null)
             rewardResultText.text = $"+{reward.amount} {reward.rewardType}";
 
+        ShowRewardPopup(reward);
+
         Debug.Log($"Lucky Spin Saved Reward: {reward.rewardType} +{reward.amount}");
+    }
+
+    private void BindRewardPopup()
+    {
+        if (rewardPopup != null)
+            rewardPopup.SetActive(false);
+
+        if (rewardPopupOkButton != null)
+        {
+            rewardPopupOkButton.onClick.RemoveListener(CloseRewardPopup);
+            rewardPopupOkButton.onClick.AddListener(CloseRewardPopup);
+        }
+    }
+
+    private void ShowRewardPopup(SpinReward reward)
+    {
+        if (rewardPopup == null || reward == null)
+            return;
+
+        if (rewardPopupIcon != null)
+        {
+            rewardPopupIcon.sprite = FindRewardSprite(reward);
+            rewardPopupIcon.enabled = rewardPopupIcon.sprite != null;
+            rewardPopupIcon.preserveAspect = true;
+        }
+
+        if (rewardPopupText != null)
+        {
+            string currencyName = reward.rewardType == RewardType.Gem ? "GEMS" : "CASH";
+            rewardPopupText.text = $"YOU WON\n+{reward.amount:N0} {currencyName}!";
+        }
+
+        rewardPopup.SetActive(true);
+        rewardPopup.transform.SetAsLastSibling();
+    }
+
+    private Sprite FindRewardSprite(SpinReward reward)
+    {
+        if (reward.slotObject == null)
+            return null;
+
+        Image fallback = null;
+        Image[] images = reward.slotObject.GetComponentsInChildren<Image>(true);
+
+        for (int i = 0; i < images.Length; i++)
+        {
+            Image image = images[i];
+            if (image == null || image.sprite == null)
+                continue;
+
+            if (image.name == "Item")
+                return image.sprite;
+
+            if (fallback == null)
+                fallback = image;
+        }
+
+        return fallback != null ? fallback.sprite : null;
+    }
+
+    private void CloseRewardPopup()
+    {
+        if (rewardPopup != null)
+            rewardPopup.SetActive(false);
     }
 
     private void RefreshCurrencyUI()

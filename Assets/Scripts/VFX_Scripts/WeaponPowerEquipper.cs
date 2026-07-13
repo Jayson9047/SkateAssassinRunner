@@ -30,8 +30,15 @@ public class WeaponPowerEquipper : MonoBehaviour
 
     private void OnEnable()
     {
-        CacheWeaponIdentity(); 
+        CacheWeaponIdentity();
         var saved = WeaponPowerSave.TryLoad(out var id) ? id : EquippedPowerId;
+
+        if (!WeaponPowerOwnershipSave.IsOwned(saved))
+        {
+            saved = WeaponPowerId.None;
+            WeaponPowerSave.Save(saved);
+        }
+
         EquipWeaponPower(saved);
     }
 

@@ -57,12 +57,16 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
         }
 
         WeaponPowerId savedId;
-        equippedPowerId = WeaponPowerSave.TryLoad(out savedId) && HasConfiguredPreview(savedId)
-            ? savedId
-            : WeaponPowerId.None;
+        bool hasSavedPower = WeaponPowerSave.TryLoad(out savedId);
+        bool savedPowerIsUsable = hasSavedPower &&
+                                  WeaponPowerOwnershipSave.IsOwned(savedId) &&
+                                  HasConfiguredPreview(savedId) &&
+                                  IsPowerAvailable(savedId);
 
-        if (!IsPowerAvailable(equippedPowerId))
-            equippedPowerId = WeaponPowerId.None;
+        equippedPowerId = savedPowerIsUsable ? savedId : WeaponPowerId.None;
+
+        if (hasSavedPower && !savedPowerIsUsable)
+            WeaponPowerSave.Save(WeaponPowerId.None);
 
         SelectPowerInternal(equippedPowerId, true);
     }
@@ -149,7 +153,9 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
 
     private void EquipSelectedPower()
     {
-        if (!IsPowerAvailable(selectedPowerId) || !HasConfiguredPreview(selectedPowerId))
+        if (!WeaponPowerOwnershipSave.IsOwned(selectedPowerId) ||
+            !IsPowerAvailable(selectedPowerId) ||
+            !HasConfiguredPreview(selectedPowerId))
             return;
 
         WeaponPowerSave.Save(selectedPowerId);
@@ -182,11 +188,8 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
     {
         BuildMaps();
 
-        // Future Shop/ownership integration:
-        // Query the ownership backend by WeaponPowerId here,
-        // then call slot.SetAvailable(isOwned).
         foreach (KeyValuePair<WeaponPowerId, WeaponPowerInventorySlot> pair in slotsById)
-            pair.Value.SetAvailable(true);
+            pair.Value.SetAvailable(WeaponPowerOwnershipSave.IsOwned(pair.Key));
     }
 
     public void SetPowerAvailable(WeaponPowerId id, bool available)
@@ -197,7 +200,8 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
         if (!slotsById.TryGetValue(id, out slot) || slot == null)
             return;
 
-        slot.SetAvailable(id == WeaponPowerId.None || available);
+        slot.SetAvailable(id == WeaponPowerId.None ||
+                          (available && WeaponPowerOwnershipSave.IsOwned(id)));
 
         if (!slot.IsAvailable && selectedPowerId == id)
         {

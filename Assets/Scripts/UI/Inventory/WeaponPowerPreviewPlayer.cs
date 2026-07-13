@@ -18,6 +18,7 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
 
     private AnimationClip currentClip;
     private AnimatorOverrideController overrideController;
+    private bool hasStarted;
     private readonly List<KeyValuePair<AnimationClip, AnimationClip>> clipOverrides =
         new List<KeyValuePair<AnimationClip, AnimationClip>>(1);
 
@@ -30,13 +31,36 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
 
         if (previewAnimator == null)
             previewAnimator = GetComponent<Animator>();
+    }
 
-        ConfigureAnimator();
+    private void Start()
+    {
+        hasStarted = true;
+        ApplyCurrentClip();
+    }
+
+    private void OnEnable()
+    {
+        if (hasStarted)
+            ApplyCurrentClip();
     }
 
     public void Play(AnimationClip clip)
     {
         currentClip = clip;
+
+        // InventoryPage's parent OnEnable can run before this child's Animator
+        // has completed its first Awake/Start cycle. Keep the requested clip and
+        // let Start apply it safely on that first activation.
+        if (!hasStarted || !isActiveAndEnabled || !gameObject.activeInHierarchy)
+            return;
+
+        ApplyCurrentClip();
+    }
+
+    private void ApplyCurrentClip()
+    {
+        AnimationClip clip = currentClip;
 
         if (previewImage == null)
             previewImage = GetComponent<Image>();
@@ -80,7 +104,6 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
         previewAnimator.enabled = true;
         previewAnimator.Rebind();
         previewAnimator.Play("Turntable", 0, 0f);
-        previewAnimator.Update(0f);
     }
 
     private void ConfigureAnimator()
