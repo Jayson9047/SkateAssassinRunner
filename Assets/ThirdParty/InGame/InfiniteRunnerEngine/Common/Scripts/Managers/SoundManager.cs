@@ -190,6 +190,14 @@ namespace MoreMountains.InfiniteRunnerEngine
 		{
 			Settings.SfxOn = status;
 			SaveSoundSettings();
+			if (status)
+			{
+				UnmuteAllSfx();
+			}
+			else
+			{
+				MuteAllSfx();
+			}
 		}
 
 		public virtual void MusicOn()

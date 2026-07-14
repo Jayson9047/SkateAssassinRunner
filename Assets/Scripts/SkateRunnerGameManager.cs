@@ -56,9 +56,9 @@ namespace MoreMountains.InfiniteRunnerEngine
             Cash += cashToAdd;
 
             // HAPTICS: cash pickup / gain
-            if (cashToAdd > 0f && SystemInfo.supportsVibration)
+            if (cashToAdd > 0f)
             {
-                HapticPatterns.PlayPreset(HapticPatterns.PresetType.Selection);
+                SkateRunnerHaptics.PlayPreset(HapticPatterns.PresetType.Selection);
             }
 
             OnCashAdded?.Invoke(cashToAdd);

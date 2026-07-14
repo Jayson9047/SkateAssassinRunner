@@ -296,10 +296,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         }
         public void OnPhase2SlamImpact()
         {
-            if (SystemInfo.supportsVibration)
-            {
-                HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
-            }
+            SkateRunnerHaptics.PlayPreset(HapticPatterns.PresetType.MediumImpact);
             if (_phase2CarImpulse == null)
             {
                 Debug.LogError("[Phase2] phase2CarImpulse is not assigned (drag carBody with CarImpulseTest).");
@@ -427,7 +424,7 @@ namespace MoreMountains.InfiniteRunnerEngine
                 yield return null;
             }
 
-            // Time’s up — ask GUI to resolve timeout safely
+            // Time's up - ask GUI to resolve timeout safely
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor
                 ?.OnPhase2BossCountdownFinished();
 

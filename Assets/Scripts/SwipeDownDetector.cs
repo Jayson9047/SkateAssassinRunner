@@ -442,7 +442,7 @@ public class SwipeDownDetector : MonoBehaviour
     {
         if (!isDownAttacking) return;
         if (!downAttackArmed) return;
-        // ClosestPoint gives a decent “impact point” even for triggers
+        // ClosestPoint gives a decent "impact point" even for triggers
         Vector3 hitPoint = other.ClosestPoint(transform.position);
 
         TryTriggerGroundImpactFromCollider(other, hitPoint);
@@ -672,9 +672,9 @@ public class SwipeDownDetector : MonoBehaviour
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.ConsumeSlamIfReady();
             // After this, shards become empty + button becomes disabled via RefreshSlamShards()
         }
-        if (!damagedAnyEnemy && SystemInfo.supportsVibration)
+        if (!damagedAnyEnemy)
         {
-            HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
+            SkateRunnerHaptics.PlayPreset(HapticPatterns.PresetType.LightImpact);
         }
     }
 

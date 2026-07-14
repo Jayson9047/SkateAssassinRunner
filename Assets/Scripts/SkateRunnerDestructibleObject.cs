@@ -81,10 +81,7 @@ namespace IndieKit
                 }
 
                 // HAPTICS: enemy kill feedback (any attack)
-                if (SystemInfo.supportsVibration)
-                {
-                    HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
-                }
+                SkateRunnerHaptics.PlayPreset(HapticPatterns.PresetType.MediumImpact);
 
                 LastKillCause = KillContext.Current;
 
