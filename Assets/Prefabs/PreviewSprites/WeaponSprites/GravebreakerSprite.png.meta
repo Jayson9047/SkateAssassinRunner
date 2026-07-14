@@ -1,0 +1,876 @@
+fileFormatVersion: 2
+guid: 0e43df648d78ffb429dd8ea40a8c272d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7293471098757533105
+    second: SpriteForge_Verification_Cube_Turntable_0
+  - first:
+      213: 2777517086709521921
+    second: SpriteForge_Verification_Cube_Turntable_1
+  - first:
+      213: 1890862445236752848
+    second: SpriteForge_Verification_Cube_Turntable_2
+  - first:
+      213: -4325620414429732694
+    second: SpriteForge_Verification_Cube_Turntable_3
+  - first:
+      213: 5171907387614007817
+    second: SpriteForge_Verification_Cube_Turntable_4
+  - first:
+      213: -5588956407226685903
+    second: SpriteForge_Verification_Cube_Turntable_5
+  - first:
+      213: 3789600394517287606
+    second: SpriteForge_Verification_Cube_Turntable_6
+  - first:
+      213: 6717713596424377791
+    second: SpriteForge_Verification_Cube_Turntable_7
+  - first:
+      213: -8842381883011403976
+    second: SpriteForge_Verification_Cube_Turntable_8
+  - first:
+      213: 4437450684876780068
+    second: SpriteForge_Verification_Cube_Turntable_9
+  - first:
+      213: -4803960153470606167
+    second: SpriteForge_Verification_Cube_Turntable_10
+  - first:
+      213: -9075551758913921559
+    second: SpriteForge_Verification_Cube_Turntable_11
+  - first:
+      213: 3262634547040074476
+    second: SpriteForge_Verification_Cube_Turntable_12
+  - first:
+      213: 9035599951113293189
+    second: SpriteForge_Verification_Cube_Turntable_13
+  - first:
+      213: -3837504480902679524
+    second: SpriteForge_Verification_Cube_Turntable_14
+  - first:
+      213: 7117075252439447402
+    second: SpriteForge_Verification_Cube_Turntable_15
+  - first:
+      213: 2193560250726295555
+    second: SpriteForge_Verification_Cube_Turntable_16
+  - first:
+      213: -2209266714143239162
+    second: SpriteForge_Verification_Cube_Turntable_17
+  - first:
+      213: 5969684098498894025
+    second: SpriteForge_Verification_Cube_Turntable_18
+  - first:
+      213: -1515024222026989023
+    second: SpriteForge_Verification_Cube_Turntable_19
+  - first:
+      213: 4195377509147307124
+    second: SpriteForge_Verification_Cube_Turntable_20
+  - first:
+      213: -1176271308028059055
+    second: SpriteForge_Verification_Cube_Turntable_21
+  - first:
+      213: -6783199673339618657
+    second: SpriteForge_Verification_Cube_Turntable_22
+  - first:
+      213: -8765495217375752361
+    second: SpriteForge_Verification_Cube_Turntable_23
+  - first:
+      213: 1427359488504613165
+    second: PoisonPowerSprite_00
+  - first:
+      213: -5830861190743750943
+    second: PoisonPowerSprite_01
+  - first:
+      213: 3570386562289128681
+    second: PoisonPowerSprite_02
+  - first:
+      213: -639691863711573428
+    second: PoisonPowerSprite_03
+  - first:
+      213: -3728955083584129707
+    second: PoisonPowerSprite_04
+  - first:
+      213: 5582431845140073829
+    second: PoisonPowerSprite_05
+  - first:
+      213: 7682368613603444380
+    second: PoisonPowerSprite_06
+  - first:
+      213: -6402381151682515698
+    second: PoisonPowerSprite_07
+  - first:
+      213: 815622602410388532
+    second: PoisonPowerSprite_08
+  - first:
+      213: -1715772191531688380
+    second: PoisonPowerSprite_09
+  - first:
+      213: 2693044387158849037
+    second: PoisonPowerSprite_10
+  - first:
+      213: -5465484959579615105
+    second: PoisonPowerSprite_11
+  - first:
+      213: -8225262217728383240
+    second: PoisonPowerSprite_12
+  - first:
+      213: -8220631509871795206
+    second: PoisonPowerSprite_13
+  - first:
+      213: -5161317753161101112
+    second: PoisonPowerSprite_14
+  - first:
+      213: -210850229608276447
+    second: PoisonPowerSprite_15
+  - first:
+      213: -5011841229583249657
+    second: PoisonPowerSprite_16
+  - first:
+      213: 755240084820084119
+    second: PoisonPowerSprite_17
+  - first:
+      213: -7336437828597645380
+    second: PoisonPowerSprite_18
+  - first:
+      213: 5719684458036507353
+    second: PoisonPowerSprite_19
+  - first:
+      213: 8134532954638129279
+    second: PoisonPowerSprite_20
+  - first:
+      213: -4081569344390466739
+    second: PoisonPowerSprite_21
+  - first:
+      213: 2168702492018132300
+    second: PoisonPowerSprite_22
+  - first:
+      213: -5437996368500719677
+    second: PoisonPowerSprite_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: PoisonPowerSprite_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1548
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d29c91f64effec310800000000000000
+      internalID: 1427359488504613165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_01
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 1548
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e68b17e3ae941fa0800000000000000
+      internalID: -5830861190743750943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_02
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 1548
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e4521469af8c8130800000000000000
+      internalID: 3570386562289128681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_03
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 1548
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4a93c1a3ab5f17f0800000000000000
+      internalID: -639691863711573428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_04
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 1548
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 555b49bbb17104cc0800000000000000
+      internalID: -3728955083584129707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_05
+      rect:
+        serializedVersion: 2
+        x: 2580
+        y: 1548
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56d0768af28c87d40800000000000000
+      internalID: 5582431845140073829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_06
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1032
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9681771d814d9a60800000000000000
+      internalID: 7682368613603444380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_07
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 1032
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0dae49834c2627a0800000000000000
+      internalID: -6402381151682515698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_08
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 1032
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43c637f7f6ca15b00800000000000000
+      internalID: 815622602410388532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_09
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 1032
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44e9248484a5038e0800000000000000
+      internalID: -1715772191531688380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_10
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 1032
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0676fc0a9d9f5520800000000000000
+      internalID: 2693044387158849037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_11
+      rect:
+        serializedVersion: 2
+        x: 2580
+        y: 1032
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f70540bf262b624b0800000000000000
+      internalID: -5465484959579615105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 516
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f6abdf979ff9dd80800000000000000
+      internalID: -8225262217728383240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_13
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 516
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af365b052337aed80800000000000000
+      internalID: -8220631509871795206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_14
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 516
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c05aed69d05f58b0800000000000000
+      internalID: -5161317753161101112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_15
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 516
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12e936355d8e21df0800000000000000
+      internalID: -210850229608276447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_16
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 516
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70f8800a4fc527ab0800000000000000
+      internalID: -5011841229583249657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_17
+      rect:
+        serializedVersion: 2
+        x: 2580
+        y: 516
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79546df0bd62b7a00800000000000000
+      internalID: 755240084820084119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbff2bd3aacbf2a90800000000000000
+      internalID: -7336437828597645380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_19
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 0
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d2b69cd5b6606f40800000000000000
+      internalID: 5719684458036507353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_20
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 0
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f781ae6af9aa3e070800000000000000
+      internalID: 8134532954638129279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_21
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 0
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d437b7d6e4a5b57c0800000000000000
+      internalID: -4081569344390466739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_22
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 0
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c45ce3c1d67c81e10800000000000000
+      internalID: 2168702492018132300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSprite_23
+      rect:
+        serializedVersion: 2
+        x: 2580
+        y: 0
+        width: 516
+        height: 516
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cf76a55d1b5884b0800000000000000
+      internalID: -5437996368500719677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      PoisonPowerSprite_00: 1427359488504613165
+      PoisonPowerSprite_01: -5830861190743750943
+      PoisonPowerSprite_02: 3570386562289128681
+      PoisonPowerSprite_03: -639691863711573428
+      PoisonPowerSprite_04: -3728955083584129707
+      PoisonPowerSprite_05: 5582431845140073829
+      PoisonPowerSprite_06: 7682368613603444380
+      PoisonPowerSprite_07: -6402381151682515698
+      PoisonPowerSprite_08: 815622602410388532
+      PoisonPowerSprite_09: -1715772191531688380
+      PoisonPowerSprite_10: 2693044387158849037
+      PoisonPowerSprite_11: -5465484959579615105
+      PoisonPowerSprite_12: -8225262217728383240
+      PoisonPowerSprite_13: -8220631509871795206
+      PoisonPowerSprite_14: -5161317753161101112
+      PoisonPowerSprite_15: -210850229608276447
+      PoisonPowerSprite_16: -5011841229583249657
+      PoisonPowerSprite_17: 755240084820084119
+      PoisonPowerSprite_18: -7336437828597645380
+      PoisonPowerSprite_19: 5719684458036507353
+      PoisonPowerSprite_20: 8134532954638129279
+      PoisonPowerSprite_21: -4081569344390466739
+      PoisonPowerSprite_22: 2168702492018132300
+      PoisonPowerSprite_23: -5437996368500719677
+      SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
+      SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
+      SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167
+      SpriteForge_Verification_Cube_Turntable_11: -9075551758913921559
+      SpriteForge_Verification_Cube_Turntable_12: 3262634547040074476
+      SpriteForge_Verification_Cube_Turntable_13: 9035599951113293189
+      SpriteForge_Verification_Cube_Turntable_14: -3837504480902679524
+      SpriteForge_Verification_Cube_Turntable_15: 7117075252439447402
+      SpriteForge_Verification_Cube_Turntable_16: 2193560250726295555
+      SpriteForge_Verification_Cube_Turntable_17: -2209266714143239162
+      SpriteForge_Verification_Cube_Turntable_18: 5969684098498894025
+      SpriteForge_Verification_Cube_Turntable_19: -1515024222026989023
+      SpriteForge_Verification_Cube_Turntable_2: 1890862445236752848
+      SpriteForge_Verification_Cube_Turntable_20: 4195377509147307124
+      SpriteForge_Verification_Cube_Turntable_21: -1176271308028059055
+      SpriteForge_Verification_Cube_Turntable_22: -6783199673339618657
+      SpriteForge_Verification_Cube_Turntable_23: -8765495217375752361
+      SpriteForge_Verification_Cube_Turntable_3: -4325620414429732694
+      SpriteForge_Verification_Cube_Turntable_4: 5171907387614007817
+      SpriteForge_Verification_Cube_Turntable_5: -5588956407226685903
+      SpriteForge_Verification_Cube_Turntable_6: 3789600394517287606
+      SpriteForge_Verification_Cube_Turntable_7: 6717713596424377791
+      SpriteForge_Verification_Cube_Turntable_8: -8842381883011403976
+      SpriteForge_Verification_Cube_Turntable_9: 4437450684876780068
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
