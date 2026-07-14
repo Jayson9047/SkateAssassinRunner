@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee486f21108aa9b4bb898e86cc055b55, type: 3}
+  m_Name: Bloodreaver
+  m_EditorClassIdentifier: 
+  swordId: 1
+  swordPrefab: {fileID: 3689515951906905501, guid: b0dfdc1b913462c488649051b70db3af,
+    type: 3}
+  weaponId: Bloodreaver
+  localPosition: {x: 0, y: 0, z: 0}
+  localEulerAngles: {x: 0, y: 0, z: 0}
+  localScale: {x: 1, y: 1, z: 1}

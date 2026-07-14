@@ -1,21 +1,25 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Presentation and button forwarding for the permanent scene-authored purchase
-/// popup. Purchase validation remains in WeaponPowerShopController.
+/// Neutral presentation/callback host for the permanent scene-authored purchase
+/// popup shared by Ability and Sword Shop controllers.
 /// </summary>
 [DisallowMultipleComponent]
 public sealed class WeaponPowerPurchasePopup : MonoBehaviour
 {
-    [SerializeField] private WeaponPowerShopController controller;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text messageText;
     [SerializeField] private Button yesButton;
     [SerializeField] private TMP_Text yesButtonLabel;
     [SerializeField] private Button noButton;
     [SerializeField] private TMP_Text noButtonLabel;
+
+    private Action confirmCallback;
+    private Action cancelCallback;
+    private Action closeCallback;
 
     public bool IsOpen => gameObject.activeSelf;
 
@@ -42,12 +46,18 @@ public sealed class WeaponPowerPurchasePopup : MonoBehaviour
         if (noButton != null)
             noButton.onClick.RemoveListener(HandleNoOrOk);
 
-        if (controller != null)
-            controller.NotifyPopupClosed();
+        ClearCallbacks();
     }
 
-    public void ShowConfirmation(string title, string message)
+    public void ShowConfirmation(
+        string title,
+        string message,
+        Action onConfirm,
+        Action onCancel)
     {
+        ClearCallbacks();
+        confirmCallback = onConfirm;
+        cancelCallback = onCancel;
         ResetButtonState();
 
         if (titleText != null)
@@ -59,8 +69,11 @@ public sealed class WeaponPowerPurchasePopup : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void ShowInformation(string title, string message)
+    public void ShowInformation(string title, string message, Action onClose = null)
     {
+        ClearCallbacks();
+        closeCallback = onClose;
+
         if (titleText != null)
             titleText.text = title;
 
@@ -87,7 +100,10 @@ public sealed class WeaponPowerPurchasePopup : MonoBehaviour
         if (gameObject.activeSelf)
             gameObject.SetActive(false);
         else
+        {
+            ClearCallbacks();
             ResetButtonState();
+        }
     }
 
     private void ResetButtonState()
@@ -116,17 +132,28 @@ public sealed class WeaponPowerPurchasePopup : MonoBehaviour
         if (yesButton != null)
             yesButton.interactable = false;
 
-        if (controller != null)
-            controller.ConfirmPendingPurchase();
+        Action callback = confirmCallback;
+        ClearCallbacks();
+
+        if (callback != null)
+            callback.Invoke();
         else
             Close();
     }
 
     private void HandleNoOrOk()
     {
-        if (controller != null)
-            controller.CancelPendingPurchase();
-        else
-            Close();
+        Action callback = cancelCallback ?? closeCallback;
+        Close();
+
+        if (callback != null)
+            callback.Invoke();
+    }
+
+    private void ClearCallbacks()
+    {
+        confirmCallback = null;
+        cancelCallback = null;
+        closeCallback = null;
     }
 }

@@ -69,6 +69,27 @@ public class WeaponPowerEquipper : MonoBehaviour
         return _weaponIdentityCached != null ? _weaponIdentityCached.weaponId : null;
     }
 
+/// <summary>
+/// Rebinds the existing Weapon Power system after SwordEquipper replaces the
+/// runtime Sword. The player-level slash anchor intentionally remains unchanged.
+/// </summary>
+public void BindActiveWeapon(WeaponIdentity weaponIdentity, Transform activeAuraAnchor)
+{
+    if (_currentAuraInstance != null)
+    {
+        DestroyImmediateSafe(_currentAuraInstance);
+        _currentAuraInstance = null;
+    }
+
+    _weaponIdentityCached = weaponIdentity;
+    weaponAuraAnchor = activeAuraAnchor;
+
+    // Handles either component initialization order: the serialized/default
+    // id is used before OnEnable, and the saved id is loaded by OnEnable later.
+    EquipWeaponPower(EquippedPowerId);
+}
+
+
 #if UNITY_EDITOR
     private void OnValidate()
     {
@@ -122,7 +143,7 @@ public class WeaponPowerEquipper : MonoBehaviour
         _currentAuraInstance.transform.localRotation = Quaternion.Euler(rot);
         _currentAuraInstance.transform.localScale = scl;
 
-        // Make sure it’s active
+        // Make sure itï¿½s active
         if (!_currentAuraInstance.activeSelf)
             _currentAuraInstance.SetActive(true);
 
@@ -176,7 +197,7 @@ public class WeaponPowerEquipper : MonoBehaviour
         var prefab = equippedWeaponPower.slashFxPrefab;
         var go = GetSlashInstance(prefab);
 
-        // parent + set transform (don’t rely on Instantiate overload anymore)
+        // parent + set transform (donï¿½t rely on Instantiate overload anymore)
         go.transform.SetParent(slashFxSpawnAnchor, false);
         go.transform.position = pos;
         go.transform.rotation = rot;
@@ -185,7 +206,7 @@ public class WeaponPowerEquipper : MonoBehaviour
         if (!go.activeSelf)
             go.SetActive(true);
 
-        // Force non-looping + play (prevents “why is it looping??” forever)
+        // Force non-looping + play (prevents ï¿½why is it looping??ï¿½ forever)
         float lifetime = 1.5f;
 
         var psList = go.GetComponentsInChildren<ParticleSystem>(true);
@@ -264,17 +285,20 @@ public class WeaponPowerEquipper : MonoBehaviour
         return maxLifetime + 0.1f;
     }
 
-    private void DestroyImmediateSafe(GameObject go)
-    {
-        if (go == null) return;
+private void DestroyImmediateSafe(GameObject go)
+{
+    if (go == null) return;
+
+    // Hide old aura immediately even though runtime destruction is deferred.
+    go.SetActive(false);
 
 #if UNITY_EDITOR
-        if (!Application.isPlaying) DestroyImmediate(go);
-        else Destroy(go);
+    if (!Application.isPlaying) DestroyImmediate(go);
+    else Destroy(go);
 #else
-        Destroy(go);
+    Destroy(go);
 #endif
-    }
+}
 
 
     private System.Collections.Generic.Dictionary<WeaponPowerId, WeaponPowerDefinition> _powerMap;

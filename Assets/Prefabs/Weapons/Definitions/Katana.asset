@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee486f21108aa9b4bb898e86cc055b55, type: 3}
+  m_Name: Katana
+  m_EditorClassIdentifier: 
+  swordId: 0
+  swordPrefab: {fileID: 6413440490822234159, guid: 4947116d07a94624aaa3d403b18bada4,
+    type: 3}
+  weaponId: Katana_Default
+  localPosition: {x: 0, y: 0, z: 0}
+  localEulerAngles: {x: 0, y: 0, z: 0}
+  localScale: {x: 1, y: 1, z: 1}

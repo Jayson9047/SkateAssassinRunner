@@ -50,6 +50,9 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
         BuildMaps();
         RefreshAvailability();
 
+        if (previewPlayer != null)
+            previewPlayer.RestoreDefaultPlayback();
+
         if (equipButton != null)
         {
             equipButton.onClick.RemoveListener(EquipSelectedPower);

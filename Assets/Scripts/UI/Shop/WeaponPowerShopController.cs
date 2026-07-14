@@ -76,7 +76,11 @@ public sealed class WeaponPowerShopController : MonoBehaviour
 
         if (purchasePopup != null)
         {
-            purchasePopup.ShowConfirmation("CONFIRM PURCHASE", item.BuildConfirmationMessage());
+            purchasePopup.ShowConfirmation(
+                "CONFIRM PURCHASE",
+                item.BuildConfirmationMessage(),
+                ConfirmPendingPurchase,
+                CancelPendingPurchase);
         }
         else
         {
@@ -129,11 +133,6 @@ public sealed class WeaponPowerShopController : MonoBehaviour
 
         pendingItem = null;
         CloseAndResetPopup();
-    }
-
-    public void NotifyPopupClosed()
-    {
-        pendingItem = null;
     }
 
     private void CompleteGemPurchase(WeaponPowerShopItem item)

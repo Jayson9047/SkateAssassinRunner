@@ -15,10 +15,15 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
     [SerializeField] private Animator previewAnimator;
     [SerializeField] private RuntimeAnimatorController turntableController;
     [SerializeField] private AnimationClip turntableTemplate;
+    [SerializeField] private string turntableStateName = "Turntable";
 
     private AnimationClip currentClip;
     private AnimatorOverrideController overrideController;
     private bool hasStarted;
+    private bool defaultPlaybackCached;
+    private RuntimeAnimatorController defaultController;
+    private AnimationClip defaultTemplate;
+    private string defaultStateName;
     private readonly List<KeyValuePair<AnimationClip, AnimationClip>> clipOverrides =
         new List<KeyValuePair<AnimationClip, AnimationClip>>(1);
 
@@ -26,6 +31,8 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
 
     private void Awake()
     {
+        CacheDefaultPlayback();
+
         if (previewImage == null)
             previewImage = GetComponent<Image>();
 
@@ -56,6 +63,34 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
             return;
 
         ApplyCurrentClip();
+    }
+
+    /// <summary>
+    /// Switches the shared Image/Animator to another category's controller and
+    /// template without creating another preview object or Animator.
+    /// </summary>
+    public void ConfigurePlayback(
+        RuntimeAnimatorController controller,
+        AnimationClip template,
+        string stateName)
+    {
+        CacheDefaultPlayback();
+
+        if (turntableController != controller || turntableTemplate != template)
+            overrideController = null;
+
+        turntableController = controller;
+        turntableTemplate = template;
+        turntableStateName = string.IsNullOrEmpty(stateName) ? "Turntable" : stateName;
+
+        if (hasStarted && isActiveAndEnabled && gameObject.activeInHierarchy)
+            ApplyCurrentClip();
+    }
+
+    public void RestoreDefaultPlayback()
+    {
+        CacheDefaultPlayback();
+        ConfigurePlayback(defaultController, defaultTemplate, defaultStateName);
     }
 
     private void ApplyCurrentClip()
@@ -103,7 +138,7 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
         previewImage.enabled = true;
         previewAnimator.enabled = true;
         previewAnimator.Rebind();
-        previewAnimator.Play("Turntable", 0, 0f);
+        previewAnimator.Play(turntableStateName, 0, 0f);
     }
 
     private void ConfigureAnimator()
@@ -134,5 +169,18 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
             previewImage.sprite = null;
             previewImage.enabled = false;
         }
+    }
+
+    private void CacheDefaultPlayback()
+    {
+        if (defaultPlaybackCached)
+            return;
+
+        defaultPlaybackCached = true;
+        defaultController = turntableController;
+        defaultTemplate = turntableTemplate;
+        defaultStateName = string.IsNullOrEmpty(turntableStateName)
+            ? "Turntable"
+            : turntableStateName;
     }
 }
