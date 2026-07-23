@@ -37,19 +37,25 @@ public class DailyRewardsPage : MonoBehaviour
     [SerializeField] private TMP_Text popupRewardText;
     [SerializeField] private Button popupOkButton;
 
+    [Header("Currency Display")]
+    [SerializeField] private HomeUIBinder homeUIBinder;
+
     private readonly List<RewardDay> rewardDays = new();
+    private bool claimProcessing;
 
     private void Awake()
     {
         BuildRewardDays();
         BindButtons();
         BindPopup();
+        ResolveHomeUIBinder();
         EnsureRewardState();
         RefreshState();
     }
 
     private void OnEnable()
     {
+        ResolveHomeUIBinder();
         EnsureRewardState();
         RefreshState();
     }
@@ -58,12 +64,12 @@ public class DailyRewardsPage : MonoBehaviour
     {
         rewardDays.Clear();
 
-        AddRewardDay("Day1_List", 0, 5);
+        AddRewardDay("Day1_List", 0, 50);
         AddRewardDay("Day2_List", 500, 0);
         AddRewardDay("Day3_List", 0, 10);
         AddRewardDay("Day4_List", 0, 50);
         AddRewardDay("Day5_List", 1000, 0);
-        AddRewardDay("Day6_List", 0, 100);
+        AddRewardDay("Day6_List", 0, 20);
         AddRewardDay("Reward_Day7", 5000, 150);
     }
 
@@ -273,7 +279,10 @@ public class DailyRewardsPage : MonoBehaviour
 
             if (rewardDays[i].button != null)
             {
-                rewardDays[i].button.interactable = !claimed;
+                rewardDays[i].button.interactable =
+                    !claimProcessing &&
+                    !claimed &&
+                    i == currentClaimableDay;
             }
         }
     }
@@ -389,7 +398,9 @@ public class DailyRewardsPage : MonoBehaviour
 
     private void ClaimReward(int dayIndex)
     {
-        if (dayIndex < 0 || dayIndex >= rewardDays.Count)
+        if (claimProcessing ||
+            dayIndex < 0 ||
+            dayIndex >= rewardDays.Count)
         {
             return;
         }
@@ -403,31 +414,74 @@ public class DailyRewardsPage : MonoBehaviour
         }
 
         RewardDay day = rewardDays[dayIndex];
+        claimProcessing = true;
 
-        if (day.cash > 0)
+        if (!TryCompleteRewardTransaction(dayIndex, day))
         {
-            float currentCash = ES3.Load(CashSaveKey, 0f);
-            ES3.Save(CashSaveKey, currentCash + day.cash);
+            claimProcessing = false;
+            RefreshState();
+            return;
         }
 
-        if (day.gems > 0)
-        {
-            float currentGems = ES3.Load(GemsSaveKey, 0f);
-            ES3.Save(GemsSaveKey, currentGems + day.gems);
-        }
+        claimProcessing = false;
 
-        ES3.Save(GetClaimedSaveKey(dayIndex), true);
-
-        ES3.Save(LastClaimedUtcSaveKey, DateTime.UtcNow.ToString("O"));
-
-        HomeUIBinder homeUi = GetComponentInParent<HomeUIBinder>();
-        if (homeUi != null)
-        {
-            homeUi.RefreshFromSave();
-        }
+        if (homeUIBinder != null)
+            homeUIBinder.RefreshFromSave();
 
         RefreshState();
         OpenRewardPopup(day);
+    }
+
+    private bool TryCompleteRewardTransaction(int dayIndex, RewardDay day)
+    {
+        float previousCash = ES3.Load<float>(CashSaveKey, 0f);
+        float previousGems = ES3.Load<float>(GemsSaveKey, 0f);
+        bool previousClaimed = ES3.Load(GetClaimedSaveKey(dayIndex), false);
+        string previousClaimedUtc = ES3.Load<string>(
+            LastClaimedUtcSaveKey,
+            defaultValue: string.Empty);
+
+        float newCash = Mathf.Max(0f, previousCash) + Mathf.Max(0, day.cash);
+        float newGems = Mathf.Max(0f, previousGems) + Mathf.Max(0, day.gems);
+        string claimedUtc = DateTime.UtcNow.ToString("O");
+
+        try
+        {
+            // Save both balances for every day. This keeps mixed rewards such as
+            // Day 7 in one guarded transaction instead of independent partial grants.
+            ES3.Save(CashSaveKey, newCash);
+            ES3.Save(GemsSaveKey, newGems);
+            ES3.Save(GetClaimedSaveKey(dayIndex), true);
+            ES3.Save(LastClaimedUtcSaveKey, claimedUtc);
+            return true;
+        }
+        catch (Exception exception)
+        {
+            try
+            {
+                ES3.Save(CashSaveKey, previousCash);
+                ES3.Save(GemsSaveKey, previousGems);
+                ES3.Save(GetClaimedSaveKey(dayIndex), previousClaimed);
+                ES3.Save(LastClaimedUtcSaveKey, previousClaimedUtc);
+            }
+            catch
+            {
+                // The consolidated error below covers the best-effort rollback too.
+            }
+
+            Debug.LogError(
+                "DailyRewardsPage: Failed to save the Day " + (dayIndex + 1) +
+                " reward. Previous Cash, Gems, and claim state were restored when possible. " +
+                exception.Message,
+                this);
+            return false;
+        }
+    }
+
+    private void ResolveHomeUIBinder()
+    {
+        if (homeUIBinder == null)
+            homeUIBinder = GetComponentInParent<HomeUIBinder>();
     }
 
     private bool TryLoadUtcDate(string dateText, out DateTime utcDate)
