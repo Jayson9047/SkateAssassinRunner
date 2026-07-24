@@ -172,7 +172,7 @@ public sealed class CurrencyPackShopController : MonoBehaviour
         }
 
         if (homeUIBinder != null)
-            homeUIBinder.RefreshFromSave();
+            homeUIBinder.AnimateBalances(currentCash, newCash, currentGems, newGems);
 
         ResetTransaction(true);
     }
@@ -218,7 +218,13 @@ public sealed class CurrencyPackShopController : MonoBehaviour
         }
 
         if (homeUIBinder != null)
-            homeUIBinder.RefreshFromSave();
+        {
+            float finalCash = ES3.Load<float>(TotalCashKey, 0f);
+            float finalGems = ES3.Load<float>(TotalGemsKey, 0f);
+            homeUIBinder.AnimateBalances(
+                grantsCash ? previousBalance : finalCash, finalCash,
+                grantsGems ? previousBalance : finalGems, finalGems);
+        }
 
         ResetTransaction(true);
     }

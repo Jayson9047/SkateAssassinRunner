@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Elroi.DailyMissions;
 
 public class LuckySpinWheel : MonoBehaviour
 {
@@ -64,18 +66,36 @@ public class LuckySpinWheel : MonoBehaviour
     [SerializeField] private TMP_Text rewardResultText;
     [SerializeField] private TMP_Text spinsLeftText;
     [SerializeField] private TMP_Text dailySpinCountText;
+    [SerializeField] private TMP_Text dailySpinResetText;
 
     [Header("Reward Popup")]
     [SerializeField] private GameObject rewardPopup;
     [SerializeField] private Image rewardPopupIcon;
     [SerializeField] private TMP_Text rewardPopupText;
     [SerializeField] private Button rewardPopupOkButton;
+    [SerializeField] private HomeUIBinder homeUIBinder;
 
     private bool isSpinning;
+    private bool adRequestPending;
+    private float nextResetUiRefresh;
 
     private void OnDisable()
     {
         CloseRewardPopup();
+    }
+
+    private void OnEnable()
+    {
+        nextResetUiRefresh = 0f;
+    }
+
+    private void Update()
+    {
+        if (Time.unscaledTime < nextResetUiRefresh)
+            return;
+
+        nextResetUiRefresh = Time.unscaledTime + 1f;
+        RefreshSpinUI();
     }
 
     private void Awake()
@@ -96,7 +116,10 @@ public class LuckySpinWheel : MonoBehaviour
 
     private void CheckDailyReset()
     {
-        string today = DateTime.Now.ToString("yyyy-MM-dd");
+        string today = DateTime.UtcNow.ToString(
+            "yyyy-MM-dd",
+            CultureInfo.InvariantCulture
+        );
 
         string savedDate = ES3.Load<string>(
             dailyResetDateSaveKey,
@@ -126,23 +149,17 @@ public class LuckySpinWheel : MonoBehaviour
             return;
         }
 
-        // Adhook goes here.
-        // Show rewarded ad here. Only run the code below after the ad is successfully completed.
-
-        adsWatchedToday++;
-
-        int availableSpins = ES3.Load<int>(
-            availableSpinsSaveKey,
-            defaultValue: 0
-        );
-        availableSpins += spinsEarnedPerAd;
-
-        ES3.Save(dailyAdsWatchedSaveKey, adsWatchedToday);
-        ES3.Save(availableSpinsSaveKey, availableSpins);
-
-        RefreshSpinUI();
-
-        Debug.Log($"Lucky Spin: Earned {spinsEarnedPerAd} spin. Available spins: {availableSpins}");
+        if (adRequestPending) return;
+        adRequestPending = true;
+        if (!RewardedAdBridge.ShowRewardedAd("daily_spin", () =>
+        {
+            adRequestPending = false;
+            int currentAds = ES3.Load<int>(dailyAdsWatchedSaveKey,0)+1;
+            int availableSpins = ES3.Load<int>(availableSpinsSaveKey,0)+spinsEarnedPerAd;
+            ES3.Save(dailyAdsWatchedSaveKey,currentAds);
+            ES3.Save(availableSpinsSaveKey,availableSpins);
+            RefreshSpinUI();
+        }, () => {adRequestPending=false;RefreshSpinUI();})) adRequestPending=false;
     }
 
     public void Spin()
@@ -263,32 +280,11 @@ public class LuckySpinWheel : MonoBehaviour
 
     private void GiveReward(SpinReward reward)
     {
-        if (reward.rewardType == RewardType.Cash)
-        {
-            float currentCash = ES3.Load<float>(
-                cashSaveKey,
-                defaultValue: 0f
-            );
-            currentCash += reward.amount;
-
-            ES3.Save(cashSaveKey, currentCash);
-
-            if (cashText != null)
-                cashText.text = currentCash.ToString("N0");
-        }
-        else if (reward.rewardType == RewardType.Gem)
-        {
-            float currentGems = ES3.Load<float>(
-                gemSaveKey,
-                defaultValue: 0f
-            );
-            currentGems += reward.amount;
-
-            ES3.Save(gemSaveKey, currentGems);
-
-            if (gemText != null)
-                gemText.text = currentGems.ToString("N0");
-        }
+        int cash=reward.rewardType==RewardType.Cash?reward.amount:0;
+        int gems=reward.rewardType==RewardType.Gem?reward.amount:0;
+        if(!CurrencyRewardService.TryGrantCurrency(cash,gems,CurrencyGrantSource.LuckySpin,true,out var r))return;
+        if(homeUIBinder)homeUIBinder.AnimateBalances(r.previousCash,r.newCash,r.previousGems,r.newGems);
+        else RefreshCurrencyUI();
 
         if (rewardResultText != null)
             rewardResultText.text = $"+{reward.amount} {reward.rewardType}";
@@ -386,6 +382,18 @@ public class LuckySpinWheel : MonoBehaviour
 
         if (dailySpinCountText != null)
             dailySpinCountText.text = $"{maxDailyAdSpins - adsWatchedToday}/{maxDailyAdSpins}";
+
+        if (dailySpinResetText != null)
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            TimeSpan remaining = utcNow.Date.AddDays(1) - utcNow;
+
+            if (remaining < TimeSpan.Zero)
+                remaining = TimeSpan.Zero;
+
+            dailySpinResetText.text =
+                $"UTC RESET {(int)remaining.TotalHours:00}:{remaining.Minutes:00}:{remaining.Seconds:00}";
+        }
 
         if (spinButton != null)
             spinButton.interactable = !isSpinning && availableSpins > 0;

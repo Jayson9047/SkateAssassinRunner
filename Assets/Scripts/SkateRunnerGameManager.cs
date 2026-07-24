@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MoreMountains.Tools;
 using Lofelt.NiceVibrations;
+using Elroi.DailyMissions;
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -21,6 +22,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         // snapshots for "earned this level" on LevelEndScreen
         private float _cashAtLevelStart;
         private float _gemsAtLevelStart;
+        private bool _levelEndSaved;
 
         public static SkateRunnerGameManager SkateRunnerGameManagerAccessor { get; private set; }
         public static event System.Action<float> OnCashAdded;
@@ -90,6 +92,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void BeginLevelSession()
         {
+            _levelEndSaved = false;
             _cashAtLevelStart = Cash;
             Gems = 0f;                 // this level only
             _gemsAtLevelStart = 0f;    // optional, keeps your delta method consistent
@@ -124,6 +127,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         }
         public void SaveAfterLevelEnd(bool success)
         {
+            if (_levelEndSaved) return;
+            _levelEndSaved = true;
+            float bankedCash = Mathf.Max(0f, Cash);
+            float bankedGems = Mathf.Max(0f, Gems);
             // Accumulate totals
             TotalCash += Cash;
             TotalGems += Gems;
@@ -137,6 +144,9 @@ namespace MoreMountains.InfiniteRunnerEngine
             ES3.Save(ES3_TOTAL_CASH, TotalCash);
             ES3.Save(ES3_TOTAL_GEMS, TotalGems);
             ES3.Save(ES3_LEVEL_NUM, LevelNum);
+            DailyMissionProgress.ReportCashCollected(Mathf.RoundToInt(bankedCash));
+            DailyMissionProgress.ReportGemsCollected(Mathf.RoundToInt(bankedGems));
+            if (success) DailyMissionProgress.ReportLevelCompleted();
 
             Debug.Log(
                 $"[SAVE] Level={LevelNum}, +" +

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Elroi.DailyMissions;
 
 public class DailyRewardsPage : MonoBehaviour
 {
@@ -414,6 +415,8 @@ public class DailyRewardsPage : MonoBehaviour
         }
 
         RewardDay day = rewardDays[dayIndex];
+        float previousCash=ES3.Load<float>(CashSaveKey,0f);
+        float previousGems=ES3.Load<float>(GemsSaveKey,0f);
         claimProcessing = true;
 
         if (!TryCompleteRewardTransaction(dayIndex, day))
@@ -425,8 +428,11 @@ public class DailyRewardsPage : MonoBehaviour
 
         claimProcessing = false;
 
+        DailyMissionProgress.ReportCashCollected(day.cash);
+        DailyMissionProgress.ReportGemsCollected(day.gems);
         if (homeUIBinder != null)
-            homeUIBinder.RefreshFromSave();
+            homeUIBinder.AnimateBalances(previousCash,ES3.Load<float>(CashSaveKey,previousCash),
+                previousGems,ES3.Load<float>(GemsSaveKey,previousGems));
 
         RefreshState();
         OpenRewardPopup(day);

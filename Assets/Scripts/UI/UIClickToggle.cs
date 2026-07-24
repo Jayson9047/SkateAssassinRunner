@@ -23,6 +23,11 @@ public class UIClickToggle : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        ApplyToggle();
+    }
+
+    public void ApplyToggle()
+    {
         SetObjectsActive(objectsToEnable, true);
         SetObjectsActive(objectsToDisable, false);
 
