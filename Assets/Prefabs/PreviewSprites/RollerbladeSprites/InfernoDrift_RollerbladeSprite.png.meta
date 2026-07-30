@@ -1,151 +1,79 @@
 fileFormatVersion: 2
-guid: 6e5df26da40332146b1e136bf0ef2f27
+guid: 8e5f896e7f116d54598c71f73f4d0c91
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7293471098757533105
-    second: SpriteForge_Verification_Cube_Turntable_0
+      213: 5977315680470187590
+    second: 4.Fire_0
   - first:
-      213: 2777517086709521921
-    second: SpriteForge_Verification_Cube_Turntable_1
+      213: -5051091394881546124
+    second: 4.Fire_1
   - first:
-      213: 1890862445236752848
-    second: SpriteForge_Verification_Cube_Turntable_2
+      213: -6831059892326993435
+    second: 4.Fire_2
   - first:
-      213: -4325620414429732694
-    second: SpriteForge_Verification_Cube_Turntable_3
+      213: -4688170545838092537
+    second: 4.Fire_3
   - first:
-      213: 5171907387614007817
-    second: SpriteForge_Verification_Cube_Turntable_4
+      213: 7175861515500860295
+    second: 4.Fire_4
   - first:
-      213: -5588956407226685903
-    second: SpriteForge_Verification_Cube_Turntable_5
+      213: -2942232849019682148
+    second: 4.Fire_5
   - first:
-      213: 3789600394517287606
-    second: SpriteForge_Verification_Cube_Turntable_6
+      213: 7553800913992259438
+    second: 4.Fire_6
   - first:
-      213: 6717713596424377791
-    second: SpriteForge_Verification_Cube_Turntable_7
+      213: -3483821847065896199
+    second: 4.Fire_7
   - first:
-      213: -8842381883011403976
-    second: SpriteForge_Verification_Cube_Turntable_8
+      213: -5980667786464161690
+    second: 4.Fire_8
   - first:
-      213: 4437450684876780068
-    second: SpriteForge_Verification_Cube_Turntable_9
+      213: 7008221967876776408
+    second: 4.Fire_9
   - first:
-      213: -4803960153470606167
-    second: SpriteForge_Verification_Cube_Turntable_10
+      213: -2907429142818224087
+    second: 4.Fire_10
   - first:
-      213: -9075551758913921559
-    second: SpriteForge_Verification_Cube_Turntable_11
+      213: 5791088196599580104
+    second: 4.Fire_11
   - first:
-      213: 3262634547040074476
-    second: SpriteForge_Verification_Cube_Turntable_12
+      213: -1824691844392974250
+    second: 4.Fire_12
   - first:
-      213: 9035599951113293189
-    second: SpriteForge_Verification_Cube_Turntable_13
+      213: -7405788108290935773
+    second: 4.Fire_13
   - first:
-      213: -3837504480902679524
-    second: SpriteForge_Verification_Cube_Turntable_14
+      213: -3901966265839935491
+    second: 4.Fire_14
   - first:
-      213: 7117075252439447402
-    second: SpriteForge_Verification_Cube_Turntable_15
+      213: 64045076478820901
+    second: 4.Fire_15
   - first:
-      213: 2193560250726295555
-    second: SpriteForge_Verification_Cube_Turntable_16
+      213: 2038950148633030272
+    second: 4.Fire_16
   - first:
-      213: -2209266714143239162
-    second: SpriteForge_Verification_Cube_Turntable_17
+      213: 4424044346289052262
+    second: 4.Fire_17
   - first:
-      213: 5969684098498894025
-    second: SpriteForge_Verification_Cube_Turntable_18
+      213: -2461234191448971306
+    second: 4.Fire_18
   - first:
-      213: -1515024222026989023
-    second: SpriteForge_Verification_Cube_Turntable_19
+      213: -8364507087470276990
+    second: 4.Fire_19
   - first:
-      213: 4195377509147307124
-    second: SpriteForge_Verification_Cube_Turntable_20
+      213: -3790918828828470281
+    second: 4.Fire_20
   - first:
-      213: -1176271308028059055
-    second: SpriteForge_Verification_Cube_Turntable_21
+      213: -4762169375697297989
+    second: 4.Fire_21
   - first:
-      213: -6783199673339618657
-    second: SpriteForge_Verification_Cube_Turntable_22
+      213: -712686387046756754
+    second: 4.Fire_22
   - first:
-      213: -8765495217375752361
-    second: SpriteForge_Verification_Cube_Turntable_23
-  - first:
-      213: 1427359488504613165
-    second: PoisonPowerSprite_00
-  - first:
-      213: -5830861190743750943
-    second: PoisonPowerSprite_01
-  - first:
-      213: 3570386562289128681
-    second: PoisonPowerSprite_02
-  - first:
-      213: -639691863711573428
-    second: PoisonPowerSprite_03
-  - first:
-      213: -3728955083584129707
-    second: PoisonPowerSprite_04
-  - first:
-      213: 5582431845140073829
-    second: PoisonPowerSprite_05
-  - first:
-      213: 7682368613603444380
-    second: PoisonPowerSprite_06
-  - first:
-      213: -6402381151682515698
-    second: PoisonPowerSprite_07
-  - first:
-      213: 815622602410388532
-    second: PoisonPowerSprite_08
-  - first:
-      213: -1715772191531688380
-    second: PoisonPowerSprite_09
-  - first:
-      213: 2693044387158849037
-    second: PoisonPowerSprite_10
-  - first:
-      213: -5465484959579615105
-    second: PoisonPowerSprite_11
-  - first:
-      213: -8225262217728383240
-    second: PoisonPowerSprite_12
-  - first:
-      213: -8220631509871795206
-    second: PoisonPowerSprite_13
-  - first:
-      213: -5161317753161101112
-    second: PoisonPowerSprite_14
-  - first:
-      213: -210850229608276447
-    second: PoisonPowerSprite_15
-  - first:
-      213: -5011841229583249657
-    second: PoisonPowerSprite_16
-  - first:
-      213: 755240084820084119
-    second: PoisonPowerSprite_17
-  - first:
-      213: -7336437828597645380
-    second: PoisonPowerSprite_18
-  - first:
-      213: 5719684458036507353
-    second: PoisonPowerSprite_19
-  - first:
-      213: 8134532954638129279
-    second: PoisonPowerSprite_20
-  - first:
-      213: -4081569344390466739
-    second: PoisonPowerSprite_21
-  - first:
-      213: 2168702492018132300
-    second: PoisonPowerSprite_22
-  - first:
-      213: -5437996368500719677
-    second: PoisonPowerSprite_23
+      213: -8603627103732423943
+    second: 4.Fire_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -213,10 +141,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -280,7 +208,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PoisonPowerSprite_00
+      name: InfernoDrift_RollerbladeSprite_00
       rect:
         serializedVersion: 2
         x: 0
@@ -293,16 +221,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d29c91f64effec310800000000000000
-      internalID: 1427359488504613165
+      spriteID: 76c38d08fb5fea74a8dc781a352fcd5f
+      internalID: 389104117
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_01
+      name: InfernoDrift_RollerbladeSprite_01
       rect:
         serializedVersion: 2
         x: 516
@@ -315,16 +243,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1e68b17e3ae941fa0800000000000000
-      internalID: -5830861190743750943
+      spriteID: a7da34fd2183675479f4679736e14910
+      internalID: 919966504
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_02
+      name: InfernoDrift_RollerbladeSprite_02
       rect:
         serializedVersion: 2
         x: 1032
@@ -337,16 +265,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9e4521469af8c8130800000000000000
-      internalID: 3570386562289128681
+      spriteID: 935daf729f0726b40af53bd8559f4f33
+      internalID: -1088359543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_03
+      name: InfernoDrift_RollerbladeSprite_03
       rect:
         serializedVersion: 2
         x: 1548
@@ -359,16 +287,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c4a93c1a3ab5f17f0800000000000000
-      internalID: -639691863711573428
+      spriteID: 2d62b12d279fac1419ae5a868b167b41
+      internalID: -1968130707
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_04
+      name: InfernoDrift_RollerbladeSprite_04
       rect:
         serializedVersion: 2
         x: 2064
@@ -381,16 +309,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 555b49bbb17104cc0800000000000000
-      internalID: -3728955083584129707
+      spriteID: b25ef6ec31bdfda4c8df6cb10e896612
+      internalID: 60184288
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_05
+      name: InfernoDrift_RollerbladeSprite_05
       rect:
         serializedVersion: 2
         x: 2580
@@ -403,16 +331,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 56d0768af28c87d40800000000000000
-      internalID: 5582431845140073829
+      spriteID: c0ef132223d012640aa6b1b78f9cc259
+      internalID: -548474106
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_06
+      name: InfernoDrift_RollerbladeSprite_06
       rect:
         serializedVersion: 2
         x: 0
@@ -425,16 +353,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c9681771d814d9a60800000000000000
-      internalID: 7682368613603444380
+      spriteID: b09ab5e3be79473429b087bdb87d5a76
+      internalID: 114789829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_07
+      name: InfernoDrift_RollerbladeSprite_07
       rect:
         serializedVersion: 2
         x: 516
@@ -447,16 +375,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e0dae49834c2627a0800000000000000
-      internalID: -6402381151682515698
+      spriteID: 9825509a02cfb6c4fb6d0f25289297c3
+      internalID: 867684372
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_08
+      name: InfernoDrift_RollerbladeSprite_08
       rect:
         serializedVersion: 2
         x: 1032
@@ -469,16 +397,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 43c637f7f6ca15b00800000000000000
-      internalID: 815622602410388532
+      spriteID: c56ef5d9b3ef4d542ba6cc00ca197abf
+      internalID: 1443386089
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_09
+      name: InfernoDrift_RollerbladeSprite_09
       rect:
         serializedVersion: 2
         x: 1548
@@ -491,16 +419,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 44e9248484a5038e0800000000000000
-      internalID: -1715772191531688380
+      spriteID: d4cdbaf1bd82788458499331f0355bc9
+      internalID: 1901165516
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_10
+      name: InfernoDrift_RollerbladeSprite_10
       rect:
         serializedVersion: 2
         x: 2064
@@ -513,16 +441,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d0676fc0a9d9f5520800000000000000
-      internalID: 2693044387158849037
+      spriteID: 53b76c1aabc57e24186fecbca7a4cb50
+      internalID: 1994529228
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_11
+      name: InfernoDrift_RollerbladeSprite_11
       rect:
         serializedVersion: 2
         x: 2580
@@ -535,16 +463,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f70540bf262b624b0800000000000000
-      internalID: -5465484959579615105
+      spriteID: 842ff65db74e6be4292bbb8c9f6dee44
+      internalID: -945660136
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_12
+      name: InfernoDrift_RollerbladeSprite_12
       rect:
         serializedVersion: 2
         x: 0
@@ -557,16 +485,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8f6abdf979ff9dd80800000000000000
-      internalID: -8225262217728383240
+      spriteID: fc5a0487aafe5b64e8dc1b442af3c4a4
+      internalID: -119499267
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_13
+      name: InfernoDrift_RollerbladeSprite_13
       rect:
         serializedVersion: 2
         x: 516
@@ -579,16 +507,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: af365b052337aed80800000000000000
-      internalID: -8220631509871795206
+      spriteID: 920c84bcec51cfd4ba08735d236f8304
+      internalID: -1172157418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_14
+      name: InfernoDrift_RollerbladeSprite_14
       rect:
         serializedVersion: 2
         x: 1032
@@ -601,16 +529,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8c05aed69d05f58b0800000000000000
-      internalID: -5161317753161101112
+      spriteID: 5598ac662c9e3d44d878a31310814757
+      internalID: -767376205
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_15
+      name: InfernoDrift_RollerbladeSprite_15
       rect:
         serializedVersion: 2
         x: 1548
@@ -623,16 +551,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 12e936355d8e21df0800000000000000
-      internalID: -210850229608276447
+      spriteID: 0232b84715ebe1848ad5737676736bba
+      internalID: -1789242890
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_16
+      name: InfernoDrift_RollerbladeSprite_16
       rect:
         serializedVersion: 2
         x: 2064
@@ -645,16 +573,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 70f8800a4fc527ab0800000000000000
-      internalID: -5011841229583249657
+      spriteID: f1fc905575d7c6840a706c5d4c120ff3
+      internalID: -1266491136
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_17
+      name: InfernoDrift_RollerbladeSprite_17
       rect:
         serializedVersion: 2
         x: 2580
@@ -667,16 +595,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 79546df0bd62b7a00800000000000000
-      internalID: 755240084820084119
+      spriteID: 9fa436e857432384aa37e3258decf090
+      internalID: -725434966
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_18
+      name: InfernoDrift_RollerbladeSprite_18
       rect:
         serializedVersion: 2
         x: 0
@@ -689,16 +617,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cbff2bd3aacbf2a90800000000000000
-      internalID: -7336437828597645380
+      spriteID: 931ee4eeb9ce2ff40b91f26dc756372e
+      internalID: 843285794
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_19
+      name: InfernoDrift_RollerbladeSprite_19
       rect:
         serializedVersion: 2
         x: 516
@@ -711,16 +639,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9d2b69cd5b6606f40800000000000000
-      internalID: 5719684458036507353
+      spriteID: 5ab48dba5357d014cb98b1e53dcd4e79
+      internalID: -854561589
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_20
+      name: InfernoDrift_RollerbladeSprite_20
       rect:
         serializedVersion: 2
         x: 1032
@@ -733,16 +661,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f781ae6af9aa3e070800000000000000
-      internalID: 8134532954638129279
+      spriteID: 608088fb96c3b594c94102e5e645123f
+      internalID: -958089387
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_21
+      name: InfernoDrift_RollerbladeSprite_21
       rect:
         serializedVersion: 2
         x: 1548
@@ -755,16 +683,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d437b7d6e4a5b57c0800000000000000
-      internalID: -4081569344390466739
+      spriteID: 3b254786bbbf6ac4da4814dfbbfd9f1f
+      internalID: -1920289946
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_22
+      name: InfernoDrift_RollerbladeSprite_22
       rect:
         serializedVersion: 2
         x: 2064
@@ -777,16 +705,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c45ce3c1d67c81e10800000000000000
-      internalID: 2168702492018132300
+      spriteID: f78d7130eb9152041a5b6e6a1fab9109
+      internalID: 1186465241
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_23
+      name: InfernoDrift_RollerbladeSprite_23
       rect:
         serializedVersion: 2
         x: 2580
@@ -799,10 +727,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3cf76a55d1b5884b0800000000000000
-      internalID: -5437996368500719677
+      spriteID: b448bff0fa7bce946a1f1f99d6148098
+      internalID: -1953036445
       vertices: []
       indices: 
       edges: []
@@ -811,7 +739,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5027d25e08423af45b079f090e7a8ee9
     internalID: 0
     vertices: []
     indices: 
@@ -821,54 +749,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PoisonPowerSprite_00: 1427359488504613165
-      PoisonPowerSprite_01: -5830861190743750943
-      PoisonPowerSprite_02: 3570386562289128681
-      PoisonPowerSprite_03: -639691863711573428
-      PoisonPowerSprite_04: -3728955083584129707
-      PoisonPowerSprite_05: 5582431845140073829
-      PoisonPowerSprite_06: 7682368613603444380
-      PoisonPowerSprite_07: -6402381151682515698
-      PoisonPowerSprite_08: 815622602410388532
-      PoisonPowerSprite_09: -1715772191531688380
-      PoisonPowerSprite_10: 2693044387158849037
-      PoisonPowerSprite_11: -5465484959579615105
-      PoisonPowerSprite_12: -8225262217728383240
-      PoisonPowerSprite_13: -8220631509871795206
-      PoisonPowerSprite_14: -5161317753161101112
-      PoisonPowerSprite_15: -210850229608276447
-      PoisonPowerSprite_16: -5011841229583249657
-      PoisonPowerSprite_17: 755240084820084119
-      PoisonPowerSprite_18: -7336437828597645380
-      PoisonPowerSprite_19: 5719684458036507353
-      PoisonPowerSprite_20: 8134532954638129279
-      PoisonPowerSprite_21: -4081569344390466739
-      PoisonPowerSprite_22: 2168702492018132300
-      PoisonPowerSprite_23: -5437996368500719677
-      SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
-      SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
-      SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167
-      SpriteForge_Verification_Cube_Turntable_11: -9075551758913921559
-      SpriteForge_Verification_Cube_Turntable_12: 3262634547040074476
-      SpriteForge_Verification_Cube_Turntable_13: 9035599951113293189
-      SpriteForge_Verification_Cube_Turntable_14: -3837504480902679524
-      SpriteForge_Verification_Cube_Turntable_15: 7117075252439447402
-      SpriteForge_Verification_Cube_Turntable_16: 2193560250726295555
-      SpriteForge_Verification_Cube_Turntable_17: -2209266714143239162
-      SpriteForge_Verification_Cube_Turntable_18: 5969684098498894025
-      SpriteForge_Verification_Cube_Turntable_19: -1515024222026989023
-      SpriteForge_Verification_Cube_Turntable_2: 1890862445236752848
-      SpriteForge_Verification_Cube_Turntable_20: 4195377509147307124
-      SpriteForge_Verification_Cube_Turntable_21: -1176271308028059055
-      SpriteForge_Verification_Cube_Turntable_22: -6783199673339618657
-      SpriteForge_Verification_Cube_Turntable_23: -8765495217375752361
-      SpriteForge_Verification_Cube_Turntable_3: -4325620414429732694
-      SpriteForge_Verification_Cube_Turntable_4: 5171907387614007817
-      SpriteForge_Verification_Cube_Turntable_5: -5588956407226685903
-      SpriteForge_Verification_Cube_Turntable_6: 3789600394517287606
-      SpriteForge_Verification_Cube_Turntable_7: 6717713596424377791
-      SpriteForge_Verification_Cube_Turntable_8: -8842381883011403976
-      SpriteForge_Verification_Cube_Turntable_9: 4437450684876780068
+      InfernoDrift_RollerbladeSprite_00: 389104117
+      InfernoDrift_RollerbladeSprite_01: 919966504
+      InfernoDrift_RollerbladeSprite_02: -1088359543
+      InfernoDrift_RollerbladeSprite_03: -1968130707
+      InfernoDrift_RollerbladeSprite_04: 60184288
+      InfernoDrift_RollerbladeSprite_05: -548474106
+      InfernoDrift_RollerbladeSprite_06: 114789829
+      InfernoDrift_RollerbladeSprite_07: 867684372
+      InfernoDrift_RollerbladeSprite_08: 1443386089
+      InfernoDrift_RollerbladeSprite_09: 1901165516
+      InfernoDrift_RollerbladeSprite_10: 1994529228
+      InfernoDrift_RollerbladeSprite_11: -945660136
+      InfernoDrift_RollerbladeSprite_12: -119499267
+      InfernoDrift_RollerbladeSprite_13: -1172157418
+      InfernoDrift_RollerbladeSprite_14: -767376205
+      InfernoDrift_RollerbladeSprite_15: -1789242890
+      InfernoDrift_RollerbladeSprite_16: -1266491136
+      InfernoDrift_RollerbladeSprite_17: -725434966
+      InfernoDrift_RollerbladeSprite_18: 843285794
+      InfernoDrift_RollerbladeSprite_19: -854561589
+      InfernoDrift_RollerbladeSprite_20: -958089387
+      InfernoDrift_RollerbladeSprite_21: -1920289946
+      InfernoDrift_RollerbladeSprite_22: 1186465241
+      InfernoDrift_RollerbladeSprite_23: -1953036445
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

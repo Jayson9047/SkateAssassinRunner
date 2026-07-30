@@ -7,6 +7,7 @@ public sealed class SwordInventorySlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private SwordId swordId = SwordId.Katana;
     [SerializeField] private SwordInventoryController controller;
+    [SerializeField] private InventoryEquippedCardVisual equippedVisual;
 
     private bool isAvailable = true;
 
@@ -27,5 +28,11 @@ public sealed class SwordInventorySlot : MonoBehaviour, IPointerClickHandler
 
         if (gameObject.activeSelf != isAvailable)
             gameObject.SetActive(isAvailable);
+    }
+
+    public void SetEquipped(bool equipped)
+    {
+        if (equippedVisual != null)
+            equippedVisual.SetEquipped(equipped);
     }
 }

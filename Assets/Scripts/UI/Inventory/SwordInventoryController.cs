@@ -68,6 +68,7 @@ public sealed class SwordInventoryController : MonoBehaviour
         if (!hasSavedSword || !savedSwordIsUsable)
             SwordSave.Save(SwordId.Katana);
 
+        RefreshEquippedHighlights();
         SelectSwordInternal(equippedSwordId, true);
     }
 
@@ -137,7 +138,14 @@ public sealed class SwordInventoryController : MonoBehaviour
 
         SwordSave.Save(selectedSwordId);
         equippedSwordId = selectedSwordId;
+        RefreshEquippedHighlights();
         UpdateEquipButtonState();
+    }
+
+    private void RefreshEquippedHighlights()
+    {
+        foreach (KeyValuePair<SwordId, SwordInventorySlot> pair in slotsById)
+            pair.Value.SetEquipped(pair.Key == equippedSwordId);
     }
 
     private void UpdateEquipButtonState()

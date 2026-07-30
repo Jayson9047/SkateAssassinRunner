@@ -71,6 +71,7 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
         if (hasSavedPower && !savedPowerIsUsable)
             WeaponPowerSave.Save(WeaponPowerId.None);
 
+        RefreshEquippedHighlights();
         SelectPowerInternal(equippedPowerId, true);
     }
 
@@ -163,7 +164,14 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
 
         WeaponPowerSave.Save(selectedPowerId);
         equippedPowerId = selectedPowerId;
+        RefreshEquippedHighlights();
         UpdateEquipButtonState();
+    }
+
+    private void RefreshEquippedHighlights()
+    {
+        foreach (KeyValuePair<WeaponPowerId, WeaponPowerInventorySlot> pair in slotsById)
+            pair.Value.SetEquipped(pair.Key == equippedPowerId);
     }
 
     private void UpdateEquipButtonState()

@@ -11,6 +11,7 @@ public sealed class WeaponPowerInventorySlot : MonoBehaviour, IPointerClickHandl
 {
     [SerializeField] private WeaponPowerId powerId = WeaponPowerId.None;
     [SerializeField] private WeaponPowerInventoryController controller;
+    [SerializeField] private InventoryEquippedCardVisual equippedVisual;
 
     private bool isAvailable = true;
 
@@ -31,5 +32,11 @@ public sealed class WeaponPowerInventorySlot : MonoBehaviour, IPointerClickHandl
 
         if (gameObject.activeSelf != isAvailable)
             gameObject.SetActive(isAvailable);
+    }
+
+    public void SetEquipped(bool equipped)
+    {
+        if (equippedVisual != null)
+            equippedVisual.SetEquipped(equipped);
     }
 }

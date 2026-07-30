@@ -1,151 +1,79 @@
 fileFormatVersion: 2
-guid: 0e43df648d78ffb429dd8ea40a8c272d
+guid: db0531ed78c89c747aad248ac27a3e84
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7293471098757533105
-    second: SpriteForge_Verification_Cube_Turntable_0
+      213: -5075088477090060165
+    second: Sword10_Brown_Turntable_0
   - first:
-      213: 2777517086709521921
-    second: SpriteForge_Verification_Cube_Turntable_1
+      213: -2641394150585772556
+    second: Sword10_Brown_Turntable_1
   - first:
-      213: 1890862445236752848
-    second: SpriteForge_Verification_Cube_Turntable_2
+      213: 4479706309083884254
+    second: Sword10_Brown_Turntable_2
   - first:
-      213: -4325620414429732694
-    second: SpriteForge_Verification_Cube_Turntable_3
+      213: 1317201087285064382
+    second: Sword10_Brown_Turntable_3
   - first:
-      213: 5171907387614007817
-    second: SpriteForge_Verification_Cube_Turntable_4
+      213: -4044342081412417029
+    second: Sword10_Brown_Turntable_4
   - first:
-      213: -5588956407226685903
-    second: SpriteForge_Verification_Cube_Turntable_5
+      213: -531498763765787961
+    second: Sword10_Brown_Turntable_5
   - first:
-      213: 3789600394517287606
-    second: SpriteForge_Verification_Cube_Turntable_6
+      213: 2025693347265247490
+    second: Sword10_Brown_Turntable_6
   - first:
-      213: 6717713596424377791
-    second: SpriteForge_Verification_Cube_Turntable_7
+      213: -1615599031279073152
+    second: Sword10_Brown_Turntable_7
   - first:
-      213: -8842381883011403976
-    second: SpriteForge_Verification_Cube_Turntable_8
+      213: -6193124944418665358
+    second: Sword10_Brown_Turntable_8
   - first:
-      213: 4437450684876780068
-    second: SpriteForge_Verification_Cube_Turntable_9
+      213: -4985512621775446934
+    second: Sword10_Brown_Turntable_9
   - first:
-      213: -4803960153470606167
-    second: SpriteForge_Verification_Cube_Turntable_10
+      213: -2967604122878293491
+    second: Sword10_Brown_Turntable_10
   - first:
-      213: -9075551758913921559
-    second: SpriteForge_Verification_Cube_Turntable_11
+      213: -4355683318265534934
+    second: Sword10_Brown_Turntable_11
   - first:
-      213: 3262634547040074476
-    second: SpriteForge_Verification_Cube_Turntable_12
+      213: 3430046263641965219
+    second: Sword10_Brown_Turntable_12
   - first:
-      213: 9035599951113293189
-    second: SpriteForge_Verification_Cube_Turntable_13
+      213: 3940333258229741700
+    second: Sword10_Brown_Turntable_13
   - first:
-      213: -3837504480902679524
-    second: SpriteForge_Verification_Cube_Turntable_14
+      213: -2550215768781730372
+    second: Sword10_Brown_Turntable_14
   - first:
-      213: 7117075252439447402
-    second: SpriteForge_Verification_Cube_Turntable_15
+      213: -3632449895727208828
+    second: Sword10_Brown_Turntable_15
   - first:
-      213: 2193560250726295555
-    second: SpriteForge_Verification_Cube_Turntable_16
+      213: -7461048969249871115
+    second: Sword10_Brown_Turntable_16
   - first:
-      213: -2209266714143239162
-    second: SpriteForge_Verification_Cube_Turntable_17
+      213: -32014482693102270
+    second: Sword10_Brown_Turntable_17
   - first:
-      213: 5969684098498894025
-    second: SpriteForge_Verification_Cube_Turntable_18
+      213: -994634435758534134
+    second: Sword10_Brown_Turntable_18
   - first:
-      213: -1515024222026989023
-    second: SpriteForge_Verification_Cube_Turntable_19
+      213: 4540981554748522477
+    second: Sword10_Brown_Turntable_19
   - first:
-      213: 4195377509147307124
-    second: SpriteForge_Verification_Cube_Turntable_20
+      213: 5192636498344998661
+    second: Sword10_Brown_Turntable_20
   - first:
-      213: -1176271308028059055
-    second: SpriteForge_Verification_Cube_Turntable_21
+      213: -4074087158357604815
+    second: Sword10_Brown_Turntable_21
   - first:
-      213: -6783199673339618657
-    second: SpriteForge_Verification_Cube_Turntable_22
+      213: 3309060399986999301
+    second: Sword10_Brown_Turntable_22
   - first:
-      213: -8765495217375752361
-    second: SpriteForge_Verification_Cube_Turntable_23
-  - first:
-      213: 1427359488504613165
-    second: PoisonPowerSprite_00
-  - first:
-      213: -5830861190743750943
-    second: PoisonPowerSprite_01
-  - first:
-      213: 3570386562289128681
-    second: PoisonPowerSprite_02
-  - first:
-      213: -639691863711573428
-    second: PoisonPowerSprite_03
-  - first:
-      213: -3728955083584129707
-    second: PoisonPowerSprite_04
-  - first:
-      213: 5582431845140073829
-    second: PoisonPowerSprite_05
-  - first:
-      213: 7682368613603444380
-    second: PoisonPowerSprite_06
-  - first:
-      213: -6402381151682515698
-    second: PoisonPowerSprite_07
-  - first:
-      213: 815622602410388532
-    second: PoisonPowerSprite_08
-  - first:
-      213: -1715772191531688380
-    second: PoisonPowerSprite_09
-  - first:
-      213: 2693044387158849037
-    second: PoisonPowerSprite_10
-  - first:
-      213: -5465484959579615105
-    second: PoisonPowerSprite_11
-  - first:
-      213: -8225262217728383240
-    second: PoisonPowerSprite_12
-  - first:
-      213: -8220631509871795206
-    second: PoisonPowerSprite_13
-  - first:
-      213: -5161317753161101112
-    second: PoisonPowerSprite_14
-  - first:
-      213: -210850229608276447
-    second: PoisonPowerSprite_15
-  - first:
-      213: -5011841229583249657
-    second: PoisonPowerSprite_16
-  - first:
-      213: 755240084820084119
-    second: PoisonPowerSprite_17
-  - first:
-      213: -7336437828597645380
-    second: PoisonPowerSprite_18
-  - first:
-      213: 5719684458036507353
-    second: PoisonPowerSprite_19
-  - first:
-      213: 8134532954638129279
-    second: PoisonPowerSprite_20
-  - first:
-      213: -4081569344390466739
-    second: PoisonPowerSprite_21
-  - first:
-      213: 2168702492018132300
-    second: PoisonPowerSprite_22
-  - first:
-      213: -5437996368500719677
-    second: PoisonPowerSprite_23
+      213: 4508399686614008856
+    second: Sword10_Brown_Turntable_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -213,10 +141,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -280,7 +208,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PoisonPowerSprite_00
+      name: GravebreakerSprite_00
       rect:
         serializedVersion: 2
         x: 0
@@ -293,16 +221,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d29c91f64effec310800000000000000
-      internalID: 1427359488504613165
+      spriteID: 966be67a884db1e44a616cf8d2dd66cd
+      internalID: -291147692
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_01
+      name: GravebreakerSprite_01
       rect:
         serializedVersion: 2
         x: 516
@@ -315,16 +243,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1e68b17e3ae941fa0800000000000000
-      internalID: -5830861190743750943
+      spriteID: e78a0536d09ee7747a4d3cbf500ba222
+      internalID: 529321645
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_02
+      name: GravebreakerSprite_02
       rect:
         serializedVersion: 2
         x: 1032
@@ -337,16 +265,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9e4521469af8c8130800000000000000
-      internalID: 3570386562289128681
+      spriteID: ff1ca203f5ce81643982cdeae237dca9
+      internalID: 1446624333
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_03
+      name: GravebreakerSprite_03
       rect:
         serializedVersion: 2
         x: 1548
@@ -359,16 +287,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c4a93c1a3ab5f17f0800000000000000
-      internalID: -639691863711573428
+      spriteID: 358f6eff882afab429d058f1835d26b2
+      internalID: -1143231467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_04
+      name: GravebreakerSprite_04
       rect:
         serializedVersion: 2
         x: 2064
@@ -381,16 +309,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 555b49bbb17104cc0800000000000000
-      internalID: -3728955083584129707
+      spriteID: 6cf54131ff823c04196e11b6e2c201be
+      internalID: -693133038
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_05
+      name: GravebreakerSprite_05
       rect:
         serializedVersion: 2
         x: 2580
@@ -403,16 +331,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 56d0768af28c87d40800000000000000
-      internalID: 5582431845140073829
+      spriteID: e52df0e32e83d00459617f0031431e18
+      internalID: -2074560290
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_06
+      name: GravebreakerSprite_06
       rect:
         serializedVersion: 2
         x: 0
@@ -425,16 +353,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c9681771d814d9a60800000000000000
-      internalID: 7682368613603444380
+      spriteID: 9c8613c13cc7f0148b098d9c2561beaf
+      internalID: 1040991196
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_07
+      name: GravebreakerSprite_07
       rect:
         serializedVersion: 2
         x: 516
@@ -447,16 +375,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e0dae49834c2627a0800000000000000
-      internalID: -6402381151682515698
+      spriteID: 2fc86289af04d3540bf980b768c082fb
+      internalID: -1302046778
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_08
+      name: GravebreakerSprite_08
       rect:
         serializedVersion: 2
         x: 1032
@@ -469,16 +397,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 43c637f7f6ca15b00800000000000000
-      internalID: 815622602410388532
+      spriteID: d2bd72f1bc4b3ab47a732c8c5555e13c
+      internalID: 1833806924
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_09
+      name: GravebreakerSprite_09
       rect:
         serializedVersion: 2
         x: 1548
@@ -491,16 +419,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 44e9248484a5038e0800000000000000
-      internalID: -1715772191531688380
+      spriteID: 18bb982aecfc913408294f2f3893ebe3
+      internalID: -479419464
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_10
+      name: GravebreakerSprite_10
       rect:
         serializedVersion: 2
         x: 2064
@@ -513,16 +441,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d0676fc0a9d9f5520800000000000000
-      internalID: 2693044387158849037
+      spriteID: 8ca423e98eec9d543b2d4ed0770ba422
+      internalID: 2045006624
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_11
+      name: GravebreakerSprite_11
       rect:
         serializedVersion: 2
         x: 2580
@@ -535,16 +463,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f70540bf262b624b0800000000000000
-      internalID: -5465484959579615105
+      spriteID: 96e957c24f46868468b190e14f90e214
+      internalID: 1695253723
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_12
+      name: GravebreakerSprite_12
       rect:
         serializedVersion: 2
         x: 0
@@ -557,16 +485,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8f6abdf979ff9dd80800000000000000
-      internalID: -8225262217728383240
+      spriteID: be6f7cae73d566b4484894515c906f7f
+      internalID: 1110112265
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_13
+      name: GravebreakerSprite_13
       rect:
         serializedVersion: 2
         x: 516
@@ -579,16 +507,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: af365b052337aed80800000000000000
-      internalID: -8220631509871795206
+      spriteID: 09d69d6df2a319b4dbb0e381d43de9d9
+      internalID: 1378273979
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_14
+      name: GravebreakerSprite_14
       rect:
         serializedVersion: 2
         x: 1032
@@ -601,16 +529,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8c05aed69d05f58b0800000000000000
-      internalID: -5161317753161101112
+      spriteID: 9db3320427af5224198ede2a52296284
+      internalID: 1388573943
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_15
+      name: GravebreakerSprite_15
       rect:
         serializedVersion: 2
         x: 1548
@@ -623,16 +551,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 12e936355d8e21df0800000000000000
-      internalID: -210850229608276447
+      spriteID: 848510552963a5b4d8bbd54905ca1397
+      internalID: -1843330653
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_16
+      name: GravebreakerSprite_16
       rect:
         serializedVersion: 2
         x: 2064
@@ -645,16 +573,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 70f8800a4fc527ab0800000000000000
-      internalID: -5011841229583249657
+      spriteID: ecbe548e09baa3947879a27fee476cf5
+      internalID: 50937211
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_17
+      name: GravebreakerSprite_17
       rect:
         serializedVersion: 2
         x: 2580
@@ -667,16 +595,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 79546df0bd62b7a00800000000000000
-      internalID: 755240084820084119
+      spriteID: 82da677702db7eb409136acdcb7d18fb
+      internalID: -981291260
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_18
+      name: GravebreakerSprite_18
       rect:
         serializedVersion: 2
         x: 0
@@ -689,16 +617,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cbff2bd3aacbf2a90800000000000000
-      internalID: -7336437828597645380
+      spriteID: 4ec14de6eb7116f498c803e498221c39
+      internalID: 2108489382
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_19
+      name: GravebreakerSprite_19
       rect:
         serializedVersion: 2
         x: 516
@@ -711,16 +639,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9d2b69cd5b6606f40800000000000000
-      internalID: 5719684458036507353
+      spriteID: cb415435af5bf644a8070a85d89d2162
+      internalID: 154344041
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_20
+      name: GravebreakerSprite_20
       rect:
         serializedVersion: 2
         x: 1032
@@ -733,16 +661,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f781ae6af9aa3e070800000000000000
-      internalID: 8134532954638129279
+      spriteID: 21495deefef21904fa4feb7f59096411
+      internalID: 938524931
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_21
+      name: GravebreakerSprite_21
       rect:
         serializedVersion: 2
         x: 1548
@@ -755,16 +683,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d437b7d6e4a5b57c0800000000000000
-      internalID: -4081569344390466739
+      spriteID: 88a00b7665068e448b06b1d2ac5d7285
+      internalID: -2063202996
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_22
+      name: GravebreakerSprite_22
       rect:
         serializedVersion: 2
         x: 2064
@@ -777,16 +705,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c45ce3c1d67c81e10800000000000000
-      internalID: 2168702492018132300
+      spriteID: 3f744af278797ca499ef0374d5219874
+      internalID: -1636640728
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_23
+      name: GravebreakerSprite_23
       rect:
         serializedVersion: 2
         x: 2580
@@ -799,10 +727,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3cf76a55d1b5884b0800000000000000
-      internalID: -5437996368500719677
+      spriteID: 0678597eea3bdb142902dbc5e2a3621f
+      internalID: -796920518
       vertices: []
       indices: 
       edges: []
@@ -811,7 +739,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d88956ef81807774282108b8f5a0bfa6
     internalID: 0
     vertices: []
     indices: 
@@ -821,54 +749,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PoisonPowerSprite_00: 1427359488504613165
-      PoisonPowerSprite_01: -5830861190743750943
-      PoisonPowerSprite_02: 3570386562289128681
-      PoisonPowerSprite_03: -639691863711573428
-      PoisonPowerSprite_04: -3728955083584129707
-      PoisonPowerSprite_05: 5582431845140073829
-      PoisonPowerSprite_06: 7682368613603444380
-      PoisonPowerSprite_07: -6402381151682515698
-      PoisonPowerSprite_08: 815622602410388532
-      PoisonPowerSprite_09: -1715772191531688380
-      PoisonPowerSprite_10: 2693044387158849037
-      PoisonPowerSprite_11: -5465484959579615105
-      PoisonPowerSprite_12: -8225262217728383240
-      PoisonPowerSprite_13: -8220631509871795206
-      PoisonPowerSprite_14: -5161317753161101112
-      PoisonPowerSprite_15: -210850229608276447
-      PoisonPowerSprite_16: -5011841229583249657
-      PoisonPowerSprite_17: 755240084820084119
-      PoisonPowerSprite_18: -7336437828597645380
-      PoisonPowerSprite_19: 5719684458036507353
-      PoisonPowerSprite_20: 8134532954638129279
-      PoisonPowerSprite_21: -4081569344390466739
-      PoisonPowerSprite_22: 2168702492018132300
-      PoisonPowerSprite_23: -5437996368500719677
-      SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
-      SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
-      SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167
-      SpriteForge_Verification_Cube_Turntable_11: -9075551758913921559
-      SpriteForge_Verification_Cube_Turntable_12: 3262634547040074476
-      SpriteForge_Verification_Cube_Turntable_13: 9035599951113293189
-      SpriteForge_Verification_Cube_Turntable_14: -3837504480902679524
-      SpriteForge_Verification_Cube_Turntable_15: 7117075252439447402
-      SpriteForge_Verification_Cube_Turntable_16: 2193560250726295555
-      SpriteForge_Verification_Cube_Turntable_17: -2209266714143239162
-      SpriteForge_Verification_Cube_Turntable_18: 5969684098498894025
-      SpriteForge_Verification_Cube_Turntable_19: -1515024222026989023
-      SpriteForge_Verification_Cube_Turntable_2: 1890862445236752848
-      SpriteForge_Verification_Cube_Turntable_20: 4195377509147307124
-      SpriteForge_Verification_Cube_Turntable_21: -1176271308028059055
-      SpriteForge_Verification_Cube_Turntable_22: -6783199673339618657
-      SpriteForge_Verification_Cube_Turntable_23: -8765495217375752361
-      SpriteForge_Verification_Cube_Turntable_3: -4325620414429732694
-      SpriteForge_Verification_Cube_Turntable_4: 5171907387614007817
-      SpriteForge_Verification_Cube_Turntable_5: -5588956407226685903
-      SpriteForge_Verification_Cube_Turntable_6: 3789600394517287606
-      SpriteForge_Verification_Cube_Turntable_7: 6717713596424377791
-      SpriteForge_Verification_Cube_Turntable_8: -8842381883011403976
-      SpriteForge_Verification_Cube_Turntable_9: 4437450684876780068
+      GravebreakerSprite_00: -291147692
+      GravebreakerSprite_01: 529321645
+      GravebreakerSprite_02: 1446624333
+      GravebreakerSprite_03: -1143231467
+      GravebreakerSprite_04: -693133038
+      GravebreakerSprite_05: -2074560290
+      GravebreakerSprite_06: 1040991196
+      GravebreakerSprite_07: -1302046778
+      GravebreakerSprite_08: 1833806924
+      GravebreakerSprite_09: -479419464
+      GravebreakerSprite_10: 2045006624
+      GravebreakerSprite_11: 1695253723
+      GravebreakerSprite_12: 1110112265
+      GravebreakerSprite_13: 1378273979
+      GravebreakerSprite_14: 1388573943
+      GravebreakerSprite_15: -1843330653
+      GravebreakerSprite_16: 50937211
+      GravebreakerSprite_17: -981291260
+      GravebreakerSprite_18: 2108489382
+      GravebreakerSprite_19: 154344041
+      GravebreakerSprite_20: 938524931
+      GravebreakerSprite_21: -2063202996
+      GravebreakerSprite_22: -1636640728
+      GravebreakerSprite_23: -796920518
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

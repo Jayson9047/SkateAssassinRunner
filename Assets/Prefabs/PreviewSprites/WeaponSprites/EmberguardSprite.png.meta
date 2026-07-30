@@ -1,151 +1,139 @@
 fileFormatVersion: 2
-guid: b170a6dd939f90340ab8ae69bee0b7f5
+guid: 11b6db3a6dfcf3f4d89e85097f064560
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7293471098757533105
-    second: SpriteForge_Verification_Cube_Turntable_0
+      213: 1660467735596049472
+    second: Sword14_Red_Turntable_0
   - first:
-      213: 2777517086709521921
-    second: SpriteForge_Verification_Cube_Turntable_1
+      213: 8556570679635084009
+    second: Sword14_Red_Turntable_1
   - first:
-      213: 1890862445236752848
-    second: SpriteForge_Verification_Cube_Turntable_2
+      213: 2344554742828844340
+    second: Sword14_Red_Turntable_2
   - first:
-      213: -4325620414429732694
-    second: SpriteForge_Verification_Cube_Turntable_3
+      213: 7316481882011162092
+    second: Sword14_Red_Turntable_3
   - first:
-      213: 5171907387614007817
-    second: SpriteForge_Verification_Cube_Turntable_4
+      213: -3428744038897840592
+    second: Sword14_Red_Turntable_4
   - first:
-      213: -5588956407226685903
-    second: SpriteForge_Verification_Cube_Turntable_5
+      213: 7185904156253963795
+    second: Sword14_Red_Turntable_5
   - first:
-      213: 3789600394517287606
-    second: SpriteForge_Verification_Cube_Turntable_6
+      213: -7095649307096178698
+    second: Sword14_Red_Turntable_6
   - first:
-      213: 6717713596424377791
-    second: SpriteForge_Verification_Cube_Turntable_7
+      213: 2901091449403076348
+    second: Sword14_Red_Turntable_7
   - first:
-      213: -8842381883011403976
-    second: SpriteForge_Verification_Cube_Turntable_8
+      213: -7444049234816083256
+    second: Sword14_Red_Turntable_8
   - first:
-      213: 4437450684876780068
-    second: SpriteForge_Verification_Cube_Turntable_9
+      213: 2999483919821342695
+    second: Sword14_Red_Turntable_9
   - first:
-      213: -4803960153470606167
-    second: SpriteForge_Verification_Cube_Turntable_10
+      213: -1260812102284216389
+    second: Sword14_Red_Turntable_10
   - first:
-      213: -9075551758913921559
-    second: SpriteForge_Verification_Cube_Turntable_11
+      213: -6440727567697124400
+    second: Sword14_Red_Turntable_11
   - first:
-      213: 3262634547040074476
-    second: SpriteForge_Verification_Cube_Turntable_12
+      213: -7657526489084085579
+    second: Sword14_Red_Turntable_12
   - first:
-      213: 9035599951113293189
-    second: SpriteForge_Verification_Cube_Turntable_13
+      213: 1951744860715873674
+    second: Sword14_Red_Turntable_13
   - first:
-      213: -3837504480902679524
-    second: SpriteForge_Verification_Cube_Turntable_14
+      213: 3079175827570070699
+    second: Sword14_Red_Turntable_14
   - first:
-      213: 7117075252439447402
-    second: SpriteForge_Verification_Cube_Turntable_15
+      213: 6491935186774729876
+    second: Sword14_Red_Turntable_15
   - first:
-      213: 2193560250726295555
-    second: SpriteForge_Verification_Cube_Turntable_16
+      213: -6010250254617805541
+    second: Sword14_Red_Turntable_16
   - first:
-      213: -2209266714143239162
-    second: SpriteForge_Verification_Cube_Turntable_17
+      213: 2066281998385430366
+    second: Sword14_Red_Turntable_17
   - first:
-      213: 5969684098498894025
-    second: SpriteForge_Verification_Cube_Turntable_18
+      213: 7925211997863583823
+    second: Sword14_Red_Turntable_18
   - first:
-      213: -1515024222026989023
-    second: SpriteForge_Verification_Cube_Turntable_19
+      213: 4160411193587124082
+    second: Sword14_Red_Turntable_19
   - first:
-      213: 4195377509147307124
-    second: SpriteForge_Verification_Cube_Turntable_20
+      213: 2212646294284539797
+    second: Sword14_Red_Turntable_20
   - first:
-      213: -1176271308028059055
-    second: SpriteForge_Verification_Cube_Turntable_21
+      213: 5451257241594469598
+    second: Sword14_Red_Turntable_21
   - first:
-      213: -6783199673339618657
-    second: SpriteForge_Verification_Cube_Turntable_22
+      213: 2319830028065057694
+    second: Sword14_Red_Turntable_22
   - first:
-      213: -8765495217375752361
-    second: SpriteForge_Verification_Cube_Turntable_23
+      213: 150154202080628805
+    second: Sword14_Red_Turntable_23
   - first:
-      213: 1427359488504613165
-    second: PoisonPowerSprite_00
+      213: -8115985520669280869
+    second: Sword14_Red_Turntable_24
   - first:
-      213: -5830861190743750943
-    second: PoisonPowerSprite_01
+      213: 7766202433958002211
+    second: Sword14_Red_Turntable_25
   - first:
-      213: 3570386562289128681
-    second: PoisonPowerSprite_02
+      213: -6729700295414127279
+    second: Sword14_Red_Turntable_26
   - first:
-      213: -639691863711573428
-    second: PoisonPowerSprite_03
+      213: 4254120565049329153
+    second: Sword14_Red_Turntable_27
   - first:
-      213: -3728955083584129707
-    second: PoisonPowerSprite_04
+      213: 6485423534437117977
+    second: Sword14_Red_Turntable_28
   - first:
-      213: 5582431845140073829
-    second: PoisonPowerSprite_05
+      213: 7546728518216615632
+    second: Sword14_Red_Turntable_29
   - first:
-      213: 7682368613603444380
-    second: PoisonPowerSprite_06
+      213: 1086976554574305349
+    second: Sword14_Red_Turntable_30
   - first:
-      213: -6402381151682515698
-    second: PoisonPowerSprite_07
+      213: 5174518084623513913
+    second: Sword14_Red_Turntable_31
   - first:
-      213: 815622602410388532
-    second: PoisonPowerSprite_08
+      213: -5464758463960284395
+    second: Sword14_Red_Turntable_32
   - first:
-      213: -1715772191531688380
-    second: PoisonPowerSprite_09
+      213: -5649154002379809835
+    second: Sword14_Red_Turntable_33
   - first:
-      213: 2693044387158849037
-    second: PoisonPowerSprite_10
+      213: -401655636059468492
+    second: Sword14_Red_Turntable_34
   - first:
-      213: -5465484959579615105
-    second: PoisonPowerSprite_11
+      213: -7497214626713430790
+    second: Sword14_Red_Turntable_35
   - first:
-      213: -8225262217728383240
-    second: PoisonPowerSprite_12
+      213: -7780861229315317096
+    second: Sword14_Red_Turntable_36
   - first:
-      213: -8220631509871795206
-    second: PoisonPowerSprite_13
+      213: -437620615961589074
+    second: Sword14_Red_Turntable_37
   - first:
-      213: -5161317753161101112
-    second: PoisonPowerSprite_14
+      213: 3495601932345794248
+    second: Sword14_Red_Turntable_38
   - first:
-      213: -210850229608276447
-    second: PoisonPowerSprite_15
+      213: 8468165856860178292
+    second: Sword14_Red_Turntable_39
   - first:
-      213: -5011841229583249657
-    second: PoisonPowerSprite_16
+      213: 7653381980884585340
+    second: Sword14_Red_Turntable_40
   - first:
-      213: 755240084820084119
-    second: PoisonPowerSprite_17
+      213: 4981343632103420951
+    second: Sword14_Red_Turntable_41
   - first:
-      213: -7336437828597645380
-    second: PoisonPowerSprite_18
+      213: -7366374521243893699
+    second: Sword14_Red_Turntable_42
   - first:
-      213: 5719684458036507353
-    second: PoisonPowerSprite_19
-  - first:
-      213: 8134532954638129279
-    second: PoisonPowerSprite_20
-  - first:
-      213: -4081569344390466739
-    second: PoisonPowerSprite_21
-  - first:
-      213: 2168702492018132300
-    second: PoisonPowerSprite_22
-  - first:
-      213: -5437996368500719677
-    second: PoisonPowerSprite_23
+      213: 5091724330984611467
+    second: Sword14_Red_Turntable_43
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -213,10 +201,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -280,7 +268,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PoisonPowerSprite_00
+      name: EmberguardSprite_00
       rect:
         serializedVersion: 2
         x: 0
@@ -293,16 +281,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d29c91f64effec310800000000000000
-      internalID: 1427359488504613165
+      spriteID: 4d12263a1e9addd4baa90d5e55e123db
+      internalID: 678081047
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_01
+      name: EmberguardSprite_01
       rect:
         serializedVersion: 2
         x: 516
@@ -315,16 +303,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1e68b17e3ae941fa0800000000000000
-      internalID: -5830861190743750943
+      spriteID: 8d6121ce86bd45743a51df58eaff734e
+      internalID: -1855826823
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_02
+      name: EmberguardSprite_02
       rect:
         serializedVersion: 2
         x: 1032
@@ -337,16 +325,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9e4521469af8c8130800000000000000
-      internalID: 3570386562289128681
+      spriteID: cdf5ce6269ac3444aa7589353ee5a215
+      internalID: -49616613
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_03
+      name: EmberguardSprite_03
       rect:
         serializedVersion: 2
         x: 1548
@@ -359,16 +347,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c4a93c1a3ab5f17f0800000000000000
-      internalID: -639691863711573428
+      spriteID: bf649292a3ace984c8336fc091c93f82
+      internalID: -416795024
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_04
+      name: EmberguardSprite_04
       rect:
         serializedVersion: 2
         x: 2064
@@ -381,16 +369,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 555b49bbb17104cc0800000000000000
-      internalID: -3728955083584129707
+      spriteID: a75fefe564412204ba0586d002502b2b
+      internalID: -669454685
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_05
+      name: EmberguardSprite_05
       rect:
         serializedVersion: 2
         x: 2580
@@ -403,16 +391,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 56d0768af28c87d40800000000000000
-      internalID: 5582431845140073829
+      spriteID: dc711eeeda204e14fa322a7f3d215d65
+      internalID: -329414324
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_06
+      name: EmberguardSprite_06
       rect:
         serializedVersion: 2
         x: 0
@@ -425,16 +413,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c9681771d814d9a60800000000000000
-      internalID: 7682368613603444380
+      spriteID: 714fd6e19eed23f4c9447fa477dd3274
+      internalID: 391760761
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_07
+      name: EmberguardSprite_07
       rect:
         serializedVersion: 2
         x: 516
@@ -447,16 +435,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e0dae49834c2627a0800000000000000
-      internalID: -6402381151682515698
+      spriteID: 53ff14fbbce2fcd438bb4bf64f66be76
+      internalID: 1665590793
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_08
+      name: EmberguardSprite_08
       rect:
         serializedVersion: 2
         x: 1032
@@ -469,16 +457,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 43c637f7f6ca15b00800000000000000
-      internalID: 815622602410388532
+      spriteID: 391be20df17d1d24fbb905aa07c57fc6
+      internalID: -1601138181
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_09
+      name: EmberguardSprite_09
       rect:
         serializedVersion: 2
         x: 1548
@@ -491,16 +479,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 44e9248484a5038e0800000000000000
-      internalID: -1715772191531688380
+      spriteID: 006fe13ca72d87847908ef369c359c02
+      internalID: 804157224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_10
+      name: EmberguardSprite_10
       rect:
         serializedVersion: 2
         x: 2064
@@ -513,16 +501,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d0676fc0a9d9f5520800000000000000
-      internalID: 2693044387158849037
+      spriteID: e287451a675a14443b8ac12d4a5c4a04
+      internalID: 179481043
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_11
+      name: EmberguardSprite_11
       rect:
         serializedVersion: 2
         x: 2580
@@ -535,16 +523,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f70540bf262b624b0800000000000000
-      internalID: -5465484959579615105
+      spriteID: b526826a183f32947a9ac4ddc4da9542
+      internalID: -1015020319
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_12
+      name: EmberguardSprite_12
       rect:
         serializedVersion: 2
         x: 0
@@ -557,16 +545,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8f6abdf979ff9dd80800000000000000
-      internalID: -8225262217728383240
+      spriteID: 07f8051f7d22e7441aadf893ddee163c
+      internalID: -1287884401
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_13
+      name: EmberguardSprite_13
       rect:
         serializedVersion: 2
         x: 516
@@ -579,16 +567,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: af365b052337aed80800000000000000
-      internalID: -8220631509871795206
+      spriteID: 7deca54fd9fcd54449b14c21c3ed6867
+      internalID: -486712610
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_14
+      name: EmberguardSprite_14
       rect:
         serializedVersion: 2
         x: 1032
@@ -601,16 +589,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8c05aed69d05f58b0800000000000000
-      internalID: -5161317753161101112
+      spriteID: cc1c644df165f544bb651061f93f7028
+      internalID: -1495402189
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_15
+      name: EmberguardSprite_15
       rect:
         serializedVersion: 2
         x: 1548
@@ -623,16 +611,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 12e936355d8e21df0800000000000000
-      internalID: -210850229608276447
+      spriteID: 1b1cfb2b7baae744eb02f5b97965b70d
+      internalID: -2139529637
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_16
+      name: EmberguardSprite_16
       rect:
         serializedVersion: 2
         x: 2064
@@ -645,16 +633,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 70f8800a4fc527ab0800000000000000
-      internalID: -5011841229583249657
+      spriteID: 9cfb042fb633e2e449e70eeb23ddbdee
+      internalID: -232894056
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_17
+      name: EmberguardSprite_17
       rect:
         serializedVersion: 2
         x: 2580
@@ -667,16 +655,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 79546df0bd62b7a00800000000000000
-      internalID: 755240084820084119
+      spriteID: 381d1ea8eda61384a83c38b675dd9595
+      internalID: -1587855564
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_18
+      name: EmberguardSprite_18
       rect:
         serializedVersion: 2
         x: 0
@@ -689,16 +677,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cbff2bd3aacbf2a90800000000000000
-      internalID: -7336437828597645380
+      spriteID: 9ce2ce6691f9920478bddbe31eda3ad6
+      internalID: 916624286
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_19
+      name: EmberguardSprite_19
       rect:
         serializedVersion: 2
         x: 516
@@ -711,16 +699,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9d2b69cd5b6606f40800000000000000
-      internalID: 5719684458036507353
+      spriteID: 5dbb2a6bcb65f80458d974468b32b973
+      internalID: 1585907236
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_20
+      name: EmberguardSprite_20
       rect:
         serializedVersion: 2
         x: 1032
@@ -733,16 +721,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f781ae6af9aa3e070800000000000000
-      internalID: 8134532954638129279
+      spriteID: c150b44aa8e2396458604ef79a51c9a0
+      internalID: 356126470
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_21
+      name: EmberguardSprite_21
       rect:
         serializedVersion: 2
         x: 1548
@@ -755,16 +743,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d437b7d6e4a5b57c0800000000000000
-      internalID: -4081569344390466739
+      spriteID: 4251595d2abd1ef4a80582b3bfaa05ee
+      internalID: -1598020065
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_22
+      name: EmberguardSprite_22
       rect:
         serializedVersion: 2
         x: 2064
@@ -777,16 +765,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c45ce3c1d67c81e10800000000000000
-      internalID: 2168702492018132300
+      spriteID: 3efa7ff966f64fb4ab588c355492f1f8
+      internalID: 2019791150
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonPowerSprite_23
+      name: EmberguardSprite_23
       rect:
         serializedVersion: 2
         x: 2580
@@ -799,10 +787,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3cf76a55d1b5884b0800000000000000
-      internalID: -5437996368500719677
+      spriteID: 99fb8c6598038594d9a6642380ad9872
+      internalID: -27425979
       vertices: []
       indices: 
       edges: []
@@ -811,7 +799,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1016899d59d993c45a9dac95d0c6a38b
     internalID: 0
     vertices: []
     indices: 
@@ -821,54 +809,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PoisonPowerSprite_00: 1427359488504613165
-      PoisonPowerSprite_01: -5830861190743750943
-      PoisonPowerSprite_02: 3570386562289128681
-      PoisonPowerSprite_03: -639691863711573428
-      PoisonPowerSprite_04: -3728955083584129707
-      PoisonPowerSprite_05: 5582431845140073829
-      PoisonPowerSprite_06: 7682368613603444380
-      PoisonPowerSprite_07: -6402381151682515698
-      PoisonPowerSprite_08: 815622602410388532
-      PoisonPowerSprite_09: -1715772191531688380
-      PoisonPowerSprite_10: 2693044387158849037
-      PoisonPowerSprite_11: -5465484959579615105
-      PoisonPowerSprite_12: -8225262217728383240
-      PoisonPowerSprite_13: -8220631509871795206
-      PoisonPowerSprite_14: -5161317753161101112
-      PoisonPowerSprite_15: -210850229608276447
-      PoisonPowerSprite_16: -5011841229583249657
-      PoisonPowerSprite_17: 755240084820084119
-      PoisonPowerSprite_18: -7336437828597645380
-      PoisonPowerSprite_19: 5719684458036507353
-      PoisonPowerSprite_20: 8134532954638129279
-      PoisonPowerSprite_21: -4081569344390466739
-      PoisonPowerSprite_22: 2168702492018132300
-      PoisonPowerSprite_23: -5437996368500719677
-      SpriteForge_Verification_Cube_Turntable_0: -7293471098757533105
-      SpriteForge_Verification_Cube_Turntable_1: 2777517086709521921
-      SpriteForge_Verification_Cube_Turntable_10: -4803960153470606167
-      SpriteForge_Verification_Cube_Turntable_11: -9075551758913921559
-      SpriteForge_Verification_Cube_Turntable_12: 3262634547040074476
-      SpriteForge_Verification_Cube_Turntable_13: 9035599951113293189
-      SpriteForge_Verification_Cube_Turntable_14: -3837504480902679524
-      SpriteForge_Verification_Cube_Turntable_15: 7117075252439447402
-      SpriteForge_Verification_Cube_Turntable_16: 2193560250726295555
-      SpriteForge_Verification_Cube_Turntable_17: -2209266714143239162
-      SpriteForge_Verification_Cube_Turntable_18: 5969684098498894025
-      SpriteForge_Verification_Cube_Turntable_19: -1515024222026989023
-      SpriteForge_Verification_Cube_Turntable_2: 1890862445236752848
-      SpriteForge_Verification_Cube_Turntable_20: 4195377509147307124
-      SpriteForge_Verification_Cube_Turntable_21: -1176271308028059055
-      SpriteForge_Verification_Cube_Turntable_22: -6783199673339618657
-      SpriteForge_Verification_Cube_Turntable_23: -8765495217375752361
-      SpriteForge_Verification_Cube_Turntable_3: -4325620414429732694
-      SpriteForge_Verification_Cube_Turntable_4: 5171907387614007817
-      SpriteForge_Verification_Cube_Turntable_5: -5588956407226685903
-      SpriteForge_Verification_Cube_Turntable_6: 3789600394517287606
-      SpriteForge_Verification_Cube_Turntable_7: 6717713596424377791
-      SpriteForge_Verification_Cube_Turntable_8: -8842381883011403976
-      SpriteForge_Verification_Cube_Turntable_9: 4437450684876780068
+      EmberguardSprite_00: 678081047
+      EmberguardSprite_01: -1855826823
+      EmberguardSprite_02: -49616613
+      EmberguardSprite_03: -416795024
+      EmberguardSprite_04: -669454685
+      EmberguardSprite_05: -329414324
+      EmberguardSprite_06: 391760761
+      EmberguardSprite_07: 1665590793
+      EmberguardSprite_08: -1601138181
+      EmberguardSprite_09: 804157224
+      EmberguardSprite_10: 179481043
+      EmberguardSprite_11: -1015020319
+      EmberguardSprite_12: -1287884401
+      EmberguardSprite_13: -486712610
+      EmberguardSprite_14: -1495402189
+      EmberguardSprite_15: -2139529637
+      EmberguardSprite_16: -232894056
+      EmberguardSprite_17: -1587855564
+      EmberguardSprite_18: 916624286
+      EmberguardSprite_19: 1585907236
+      EmberguardSprite_20: 356126470
+      EmberguardSprite_21: -1598020065
+      EmberguardSprite_22: 2019791150
+      EmberguardSprite_23: -27425979
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

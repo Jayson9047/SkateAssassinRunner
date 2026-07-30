@@ -68,6 +68,7 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
         if (!hasSavedPair || !savedPairIsUsable)
             RollerbladeSave.Save(RollerbladeId.Default);
 
+        RefreshEquippedHighlights();
         SelectRollerbladeInternal(equippedRollerbladeId, true);
     }
 
@@ -143,7 +144,14 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
 
         RollerbladeSave.Save(selectedRollerbladeId);
         equippedRollerbladeId = selectedRollerbladeId;
+        RefreshEquippedHighlights();
         UpdateEquipButtonState();
+    }
+
+    private void RefreshEquippedHighlights()
+    {
+        foreach (KeyValuePair<RollerbladeId, RollerbladeInventorySlot> pair in slotsById)
+            pair.Value.SetEquipped(pair.Key == equippedRollerbladeId);
     }
 
     private void UpdateEquipButtonState()

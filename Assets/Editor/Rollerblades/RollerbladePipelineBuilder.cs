@@ -6,6 +6,7 @@ using TMPro;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEditor.SceneManagement;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,6 +22,10 @@ public static class RollerbladePipelineBuilder
     private const string TemplatePath = PreviewFolder + "/RollerbladesTurntable.anim";
     private const string ControllerPath = PreviewFolder + "/RollerbladeSpriteAnimationController.controller";
     private const string PlayerPrefabPath = "Assets/Prefabs/Characters/S_01_Male.prefab";
+    private const int PreviewColumns = 6;
+    private const int PreviewRows = 4;
+    private const int PreviewFrameCount = PreviewColumns * PreviewRows;
+    private const int PreviewMaxTextureSize = 4096;
 
     private const string ShopScrollPath =
         "StartScreenCanvas/Background/FullscreenPopupRoot/ShopPage/Shop/ScrollRect_Rollerblades";
@@ -153,6 +158,7 @@ public static class RollerbladePipelineBuilder
             throw new InvalidOperationException("Open the current Start Screen scene before building Rollerblades.");
 
         EnsureFolder("Assets/Prefabs/Rollerblades", "Definitions");
+        ConfigurePreviewSpriteSheets();
 
         AnimationClip template = BuildPreviewClip(
             TemplatePath,
@@ -184,6 +190,29 @@ public static class RollerbladePipelineBuilder
         Debug.Log(
             "Rollerblade pipeline built: " + definitions.Length +
             " definitions, " + clips.Count + " previews, Shop/Inventory UI, and gameplay pair sockets.");
+    }
+
+    [MenuItem("Tools/Skate Runner/Rebuild Rollerblade Inventory Previews")]
+    public static void RebuildInventoryPreviews()
+    {
+        ConfigurePreviewSpriteSheets();
+
+        AnimationClip template = BuildPreviewClip(
+            TemplatePath,
+            DefinitionSpecs[0].SpriteSheetPath,
+            true);
+        ConfigurePreviewController(template);
+
+        for (int i = 0; i < DefinitionSpecs.Length; i++)
+        {
+            DefinitionSpec spec = DefinitionSpecs[i];
+            BuildPreviewClip(spec.ClipPath, spec.SpriteSheetPath, false);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        Debug.Log(
+            "Rebuilt six Rollerblade Inventory previews from uniform 24-frame sprite sheets at 12 FPS.");
     }
 
     private static RollerbladeDefinition[] ConfigurePlayerPrefabAndDefinitions(
@@ -497,6 +526,121 @@ public static class RollerbladePipelineBuilder
         AnimationUtility.SetAnimationClipSettings(clip, settings);
         EditorUtility.SetDirty(clip);
         return clip;
+    }
+
+    private static void ConfigurePreviewSpriteSheets()
+    {
+        for (int i = 0; i < DefinitionSpecs.Length; i++)
+            ConfigurePreviewSpriteSheet(DefinitionSpecs[i].SpriteSheetPath);
+    }
+
+    private static void ConfigurePreviewSpriteSheet(string spriteSheetPath)
+    {
+        TextureImporter importer = AssetImporter.GetAtPath(spriteSheetPath) as TextureImporter;
+        if (importer == null)
+            throw new InvalidOperationException("Missing Rollerblade preview sprite sheet: " + spriteSheetPath);
+
+        TextureImporterSettings settings = new TextureImporterSettings();
+        importer.ReadTextureSettings(settings);
+        settings.textureType = TextureImporterType.Sprite;
+        settings.spriteMode = (int)SpriteImportMode.Multiple;
+        settings.spriteMeshType = SpriteMeshType.FullRect;
+        settings.mipmapEnabled = false;
+        settings.alphaIsTransparency = true;
+        settings.filterMode = FilterMode.Bilinear;
+        importer.SetTextureSettings(settings);
+        importer.textureType = TextureImporterType.Sprite;
+        importer.spriteImportMode = SpriteImportMode.Multiple;
+        importer.maxTextureSize = PreviewMaxTextureSize;
+        importer.textureCompression = TextureImporterCompression.CompressedHQ;
+        importer.SaveAndReimport();
+
+        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(spriteSheetPath);
+        if (texture == null)
+            throw new InvalidOperationException("Could not load Rollerblade preview texture: " + spriteSheetPath);
+
+        if (texture.width % PreviewColumns != 0 || texture.height % PreviewRows != 0)
+        {
+            throw new InvalidOperationException(
+                spriteSheetPath + " must divide evenly into a " +
+                PreviewColumns + "x" + PreviewRows + " frame grid, but is " +
+                texture.width + "x" + texture.height + ".");
+        }
+
+        int cellWidth = texture.width / PreviewColumns;
+        int cellHeight = texture.height / PreviewRows;
+        string spriteName = System.IO.Path.GetFileNameWithoutExtension(spriteSheetPath);
+
+        SpriteDataProviderFactories factories = new SpriteDataProviderFactories();
+        factories.Init();
+        ISpriteEditorDataProvider dataProvider =
+            factories.GetSpriteEditorDataProviderFromObject(importer);
+        if (dataProvider == null)
+        {
+            throw new InvalidOperationException(
+                "Could not acquire the Sprite Editor data provider for " + spriteSheetPath + ".");
+        }
+
+        dataProvider.InitSpriteEditorDataProvider();
+        Dictionary<string, UnityEditor.GUID> existingSpriteIds = dataProvider.GetSpriteRects()
+            .GroupBy(rect => rect.name)
+            .ToDictionary(group => group.Key, group => group.First().spriteID);
+        SpriteRect[] spriteRects = new SpriteRect[PreviewFrameCount];
+
+        for (int row = 0; row < PreviewRows; row++)
+        {
+            for (int column = 0; column < PreviewColumns; column++)
+            {
+                int index = row * PreviewColumns + column;
+                string frameName =
+                    spriteName + "_" + index.ToString("00", CultureInfo.InvariantCulture);
+                UnityEditor.GUID spriteId;
+                if (!existingSpriteIds.TryGetValue(frameName, out spriteId))
+                    spriteId = UnityEditor.GUID.Generate();
+
+                SpriteRect spriteRect = new SpriteRect
+                {
+                    name = frameName,
+                    rect = new Rect(
+                        column * cellWidth,
+                        texture.height - ((row + 1) * cellHeight),
+                        cellWidth,
+                        cellHeight),
+                    alignment = SpriteAlignment.Center,
+                    pivot = new Vector2(0.5f, 0.5f),
+                    border = Vector4.zero,
+                    spriteID = spriteId
+                };
+                spriteRects[index] = spriteRect;
+            }
+        }
+        dataProvider.SetSpriteRects(spriteRects);
+
+        ISpriteNameFileIdDataProvider nameFileIdProvider =
+            dataProvider.GetDataProvider<ISpriteNameFileIdDataProvider>();
+        if (nameFileIdProvider != null)
+        {
+            SpriteNameFileIdPair[] namePairs = spriteRects
+                .Select(rect => new SpriteNameFileIdPair(rect.name, rect.spriteID))
+                .ToArray();
+            nameFileIdProvider.SetNameFileIdPairs(namePairs);
+        }
+
+        dataProvider.Apply();
+        importer.SaveAndReimport();
+
+        List<Sprite> importedSprites = AssetDatabase.LoadAllAssetsAtPath(spriteSheetPath)
+            .OfType<Sprite>()
+            .ToList();
+        if (importedSprites.Count != PreviewFrameCount ||
+            importedSprites.Any(sprite =>
+                !Mathf.Approximately(sprite.rect.width, cellWidth) ||
+                !Mathf.Approximately(sprite.rect.height, cellHeight)))
+        {
+            throw new InvalidOperationException(
+                spriteSheetPath + " did not import as " + PreviewFrameCount +
+                " uniform " + cellWidth + "x" + cellHeight + " frames.");
+        }
     }
 
     private static AnimatorController ConfigurePreviewController(AnimationClip template)

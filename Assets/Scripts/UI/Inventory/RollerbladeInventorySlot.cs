@@ -7,6 +7,7 @@ public sealed class RollerbladeInventorySlot : MonoBehaviour, IPointerClickHandl
 {
     [SerializeField] private RollerbladeId rollerbladeId = RollerbladeId.Default;
     [SerializeField] private RollerbladeInventoryController controller;
+    [SerializeField] private InventoryEquippedCardVisual equippedVisual;
 
     private bool isAvailable = true;
 
@@ -27,5 +28,11 @@ public sealed class RollerbladeInventorySlot : MonoBehaviour, IPointerClickHandl
 
         if (gameObject.activeSelf != isAvailable)
             gameObject.SetActive(isAvailable);
+    }
+
+    public void SetEquipped(bool equipped)
+    {
+        if (equippedVisual != null)
+            equippedVisual.SetEquipped(equipped);
     }
 }
