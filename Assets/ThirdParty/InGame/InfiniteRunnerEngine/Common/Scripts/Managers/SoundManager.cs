@@ -45,6 +45,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 	[AddComponentMenu("Infinite Runner Engine/Managers/Sound Manager")]
 	public class SoundManager : MMPersistentSingleton<SoundManager>
 	{
+		public static event Action<bool, bool> SettingsChanged;
 		[Header("Settings")] public SoundSettings Settings;
 
 		[Header("Music")]
@@ -123,7 +124,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 		/// <param name="loop">If set to true, the sound will loop.</param>
 		public virtual AudioSource PlaySound(AudioClip sfx, Vector3 location, bool loop = false)
 		{
-			if (!Settings.SfxOn)
+			if (sfx == null || Settings == null || !Settings.SfxOn)
 				return null;
 			// we create a temporary game object to host our audio source
 			GameObject temporaryAudioHost = new GameObject("TempAudio");
@@ -184,6 +185,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 			{
 				_backgroundMusic.mute = true;
 			}
+			SettingsChanged?.Invoke(Settings.MusicOn, Settings.SfxOn);
 		}
 
 		protected virtual void SetSfx(bool status)
@@ -198,6 +200,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 			{
 				MuteAllSfx();
 			}
+			SettingsChanged?.Invoke(Settings.MusicOn, Settings.SfxOn);
 		}
 
 		public virtual void MusicOn()
@@ -266,7 +269,13 @@ namespace MoreMountains.InfiniteRunnerEngine
         public virtual void OnMMSfxEvent(AudioClip clipToPlay, AudioMixerGroup audioGroup = null, float volume = 1f,
 			float pitch = 1f)
 		{
-			PlaySound(clipToPlay, this.transform.position);
+			AudioSource source = PlaySound(clipToPlay, this.transform.position);
+			if (source != null)
+			{
+				source.outputAudioMixerGroup = audioGroup;
+				source.volume = Mathf.Clamp01(SfxVolume * volume);
+				source.pitch = pitch;
+			}
 		}
 
 		protected virtual void MuteAllSfx()

@@ -177,6 +177,7 @@ public sealed class RollerbladeShopController : MonoBehaviour
             return;
         }
 
+        SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
         if (homeUIBinder != null)
@@ -197,7 +198,8 @@ public sealed class RollerbladeShopController : MonoBehaviour
         // TODO: Add monetization here.
         // Replace this temporary grant with the real Google Play purchase flow.
         // Grant Rollerblade ownership only after a verified successful purchase callback.
-        RollerbladeOwnershipSave.Grant(RollerbladeId.InfernoDrift);
+        if (RollerbladeOwnershipSave.Grant(RollerbladeId.InfernoDrift))
+            SkateRunnerAudioManager.PlayPurchaseSuccess();
 
         RefreshItems();
         CloseAndResetPopup();

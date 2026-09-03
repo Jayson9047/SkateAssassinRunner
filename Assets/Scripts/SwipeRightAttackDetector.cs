@@ -331,7 +331,9 @@ public class SwipeRightAttackDetector : MonoBehaviour
             isDashMovementInProgress = true;
             ForceKatanaLayer(0f);
             // Spawn the equipped WeaponPower slash VFX at dash start
-            _weaponPowerEquipper?.SpawnSlashFx();
+            
+            SkateRunnerAudioManager.PlayDashAttack();
+_weaponPowerEquipper?.SpawnSlashFx();
 
             if (dashAbortRequested)
             {
@@ -449,7 +451,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
                 }
             }
 
-            // SAFETY: Timeout — if anything weird happens, force-stop.
+            // SAFETY: Timeout ï¿½ if anything weird happens, force-stop.
             if (Time.time - startTime >= maxReturnSeconds)
             {
                 if (_returnHomeTrigger != null)

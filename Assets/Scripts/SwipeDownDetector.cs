@@ -323,7 +323,9 @@ public class SwipeDownDetector : MonoBehaviour
     private IEnumerator DownAttackRoutine()
     {
         downAttackHasGroundedOnce = false;
-        isDownAttacking = true;
+        
+        SkateRunnerAudioManager.PlayDownAttack();
+isDownAttacking = true;
         // Spawn equippable "air" down attack FX immediately when slam is triggered
         downAttackPowerEquipper?.SpawnAirDownAttackFx();
 

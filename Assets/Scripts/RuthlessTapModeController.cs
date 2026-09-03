@@ -68,6 +68,7 @@ public class RuthlessTapModeController : MonoBehaviour
         if (!_active) return;
 
         _tapCount++;
+        SkateRunnerAudioManager.PlayRuthlessTapSwordHit();
         SetComboText(string.Format(comboFormat, _tapCount));
     }
 

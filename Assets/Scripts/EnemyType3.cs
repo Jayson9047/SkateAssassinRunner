@@ -78,7 +78,7 @@ public class EnemyType3 : MonoBehaviour
     }
 
     /// <summary>
-    /// Fire one “execution” shot when Phase2 fails (timer hits 0 / red result).
+    /// Fire one ï¿½executionï¿½ shot when Phase2 fails (timer hits 0 / red result).
     /// Uses the same projectile prefab + SimpleProjectile as the drone.
     /// </summary>
     public void ShootKillShot()
@@ -104,7 +104,9 @@ public class EnemyType3 : MonoBehaviour
             }
         }
 
-        var go = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(dir));
+        
+        SkateRunnerAudioManager.PlayPhase2SniperGunshot();
+var go = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(dir));
 
         var projectile = go.GetComponent<SimpleProjectile>();
         if (projectile != null)

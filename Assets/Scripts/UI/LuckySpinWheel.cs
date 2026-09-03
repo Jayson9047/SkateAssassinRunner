@@ -81,6 +81,7 @@ public class LuckySpinWheel : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateRunnerAudioManager.StopWheelSpin();
         CloseRewardPopup();
     }
 
@@ -197,6 +198,7 @@ public class LuckySpinWheel : MonoBehaviour
         SpinReward selectedReward = PickRewardByProbability();
         int selectedIndex = rewards.IndexOf(selectedReward);
 
+        SkateRunnerAudioManager.StartWheelSpin();
         StartCoroutine(SpinRoutine(selectedIndex, selectedReward));
     }
 
@@ -246,6 +248,7 @@ public class LuckySpinWheel : MonoBehaviour
 
         wheelRect.rotation = Quaternion.Euler(0f, 0f, finalZ);
 
+        SkateRunnerAudioManager.StopWheelSpinAndLand();
         GiveReward(selectedReward);
 
         isSpinning = false;

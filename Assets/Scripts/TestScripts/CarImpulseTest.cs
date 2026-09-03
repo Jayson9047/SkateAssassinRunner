@@ -8,7 +8,7 @@ public class CarImpulseTest : MonoBehaviour
     [Header("Impulse Tuning (VelocityChange = instant kick)")]
     [SerializeField] private float upVelChange = 4.0f;
 
-    // NEW: sideways “blown away” amount (X axis travel)
+    // NEW: sideways ï¿½blown awayï¿½ amount (X axis travel)
     [SerializeField] private float sideVelChange = 6.0f;
 
     // NEW: which way on X should it fly? (+1 = +X, -1 = -X)
@@ -21,15 +21,22 @@ public class CarImpulseTest : MonoBehaviour
     [SerializeField] private float rollAngVelChange = 0.0f;
 
     [SerializeField] private GameObject explosionObject;
-    // If you zero velocity every time, you’ll never “carry” motion from before the blast.
+    // If you zero velocity every time, youï¿½ll never ï¿½carryï¿½ motion from before the blast.
     [Header("Debug")]
-    [SerializeField] private bool clearVelocitiesFirst = true;
+    
+
+    [Header("Ground Impact Audio")]
+    [SerializeField] private LayerMask groundLayers = ~0;
+    [SerializeField, Min(0f)] private float minimumGroundImpactSpeed = 2f;
+[SerializeField] private bool clearVelocitiesFirst = true;
 
     public bool FlipArmed => _flipArmed;
 
     private bool _flipArmed;
 
-    private bool _explosionDetached;
+    
+    private bool _awaitingGroundImpact;
+private bool _explosionDetached;
 
     public void DetachExplosionFromRearImpactPoint()
     {
@@ -43,7 +50,9 @@ public class CarImpulseTest : MonoBehaviour
     }
     public void ArmFlipOnce()
     {
-        _flipArmed = true;
+        
+        _awaitingGroundImpact = false;
+_flipArmed = true;
     }
 
     public void DisarmFlip()
@@ -55,10 +64,12 @@ public class CarImpulseTest : MonoBehaviour
     {
         if (!_flipArmed) return;   // <-- NEW gate
         _flipArmed = false;        // <-- consume token (one-shot)
+if (rb == null || rearPoint == null) return;
 
-        if (rb == null || rearPoint == null) return;
-
-        rb.WakeUp();
+        SkateRunnerAudioManager.PlayPhase2CarExplosion();
+        _awaitingGroundImpact = true;
+        
+rb.WakeUp();
         explosionObject?.SetActive(true);
         if (clearVelocitiesFirst)
         {
@@ -72,5 +83,15 @@ public class CarImpulseTest : MonoBehaviour
 
         if (rollAngVelChange != 0f)
             rb.AddTorque(transform.forward * rollAngVelChange, ForceMode.VelocityChange);
+    }
+
+
+private void OnCollisionEnter(Collision collision)
+    {
+        if (!_awaitingGroundImpact || collision == null || collision.collider == null) return;
+        if ((groundLayers.value & (1 << collision.collider.gameObject.layer)) == 0) return;
+        if (collision.relativeVelocity.magnitude < minimumGroundImpactSpeed) return;
+        _awaitingGroundImpact = false;
+        SkateRunnerAudioManager.PlayPhase2CarGroundImpact();
     }
 }

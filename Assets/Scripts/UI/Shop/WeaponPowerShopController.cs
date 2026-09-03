@@ -170,6 +170,7 @@ public sealed class WeaponPowerShopController : MonoBehaviour
             return;
         }
 
+        SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
         if (homeUIBinder != null)
@@ -189,7 +190,8 @@ public sealed class WeaponPowerShopController : MonoBehaviour
         // TODO: Add monetization here.
         // Replace this temporary grant with the Google Play/Google Pay purchase flow.
         // Grant Magic ownership only after a verified successful purchase callback.
-        WeaponPowerOwnershipSave.Grant(item.PowerId);
+        if (WeaponPowerOwnershipSave.Grant(item.PowerId))
+            SkateRunnerAudioManager.PlayPurchaseSuccess();
 
         RefreshItems();
         CloseAndResetPopup();

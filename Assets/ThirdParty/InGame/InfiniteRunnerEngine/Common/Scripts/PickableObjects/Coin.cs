@@ -15,6 +15,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
 		protected override void ObjectPicked()
 		{
+			SkateRunnerAudioManager.PlayCashPickup();
 			// We pass the specified amount of points to the game manager
 			SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddCash(CashToAdd);
 		}

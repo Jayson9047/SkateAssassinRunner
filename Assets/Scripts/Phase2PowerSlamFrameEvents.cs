@@ -229,7 +229,9 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         _slowMoDurationRealtimeActive = totalSlowMo;
         _slowMoStartUnscaledTime = Time.unscaledTime;
 
-        SkateRunnerGameFeel.TriggerSlowMoStatic(slowMoScale, totalSlowMo, slowMoAffectsPhysics);
+        SkateRunnerAudioManager.PlayPhase2SlowMotionStart();
+        
+SkateRunnerGameFeel.TriggerSlowMoStatic(slowMoScale, totalSlowMo, slowMoAffectsPhysics);
 
 
         // optional: kill upper body aiming layer during execution
@@ -267,7 +269,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
         // IMPORTANT: This can NEVER fire early because it's time-based from the moment you armed the slam.
         if (Time.time - _armedAtTime >= frame18Time)
         {
-            _frame18FailsafeArmed = false;
+_frame18FailsafeArmed = false;
 
             if (debugLogs) Debug.Log("[Phase2PowerSlamFrameEvents] Frame18 FAILSAFE fired (time-based, never early)");
 
@@ -418,13 +420,16 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     private void StartDashToStrikeEnd(bool fromCurrentPosition = false, System.Action onArrive = null)
     {
-        if (playerStrikeEndPoint == null)
+if (playerStrikeEndPoint == null)
         {
             Debug.LogError("[Phase2] playerStrikeEndPoint is NULL.");
             return;
         }
 
-        _dashTween?.Kill();
+        SkateRunnerAudioManager.PlayRuthlessFinalCut();
+
+        
+_dashTween?.Kill();
 
         Vector3 start = transform.position; // always current
         Vector3 end = playerStrikeEndPoint.position;

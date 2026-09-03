@@ -171,6 +171,7 @@ public sealed class CurrencyPackShopController : MonoBehaviour
             return;
         }
 
+        SkateRunnerAudioManager.PlayPurchaseSuccess();
         if (homeUIBinder != null)
             homeUIBinder.AnimateBalances(currentCash, newCash, currentGems, newGems);
 
@@ -217,6 +218,7 @@ public sealed class CurrencyPackShopController : MonoBehaviour
             return;
         }
 
+        SkateRunnerAudioManager.PlayPurchaseSuccess();
         if (homeUIBinder != null)
         {
             float finalCash = ES3.Load<float>(TotalCashKey, 0f);

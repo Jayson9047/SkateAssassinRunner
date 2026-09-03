@@ -404,6 +404,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         private IEnumerator Phase2BossQTECountdownCo()
         {
             float remaining = Mathf.Max(0f, Phase2BossQTEDurationSeconds);
+            int lastDisplayedSecond = -1;
 
             while (remaining > 0f)
             {
@@ -411,12 +412,18 @@ namespace MoreMountains.InfiniteRunnerEngine
                 if (GameManager.Instance.Status == GameManager.GameStatus.GameInProgress)
                 {
                     remaining -= Time.deltaTime;
+                    int displayedSecond = Mathf.Max(0, Mathf.CeilToInt(remaining));
+                    if (displayedSecond != lastDisplayedSecond)
+                    {
+                        lastDisplayedSecond = displayedSecond;
+                        SkateRunnerAudioManager.PlayPhase2CountdownTick();
+                    }
 
                     // Optional: show countdown on the top timer text
                     if (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null)
                     {
                         SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.RefreshPhase2Countdown(
-                            Mathf.CeilToInt(remaining)
+                            displayedSecond
                         );
                     }
                 }

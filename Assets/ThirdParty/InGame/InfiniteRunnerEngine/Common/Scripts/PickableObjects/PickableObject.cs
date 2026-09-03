@@ -52,7 +52,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 			}
 
 			// if we have a sound manager and if we've specified a song to play when this object is picked
-			if (SoundManager.Instance != null && PickSoundFx != null)
+			if (!(this is Coin) && SoundManager.Instance != null && PickSoundFx != null)
 			{
 				// we play that sound once
 				SoundManager.Instance.PlaySound(PickSoundFx, transform.position);

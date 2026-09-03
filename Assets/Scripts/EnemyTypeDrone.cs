@@ -16,7 +16,7 @@ public class EnemyTypeDrone : EnemyBase
 
     [Header("Recoil")]
     [SerializeField] private Transform recoilVisual; // set to your mesh/visual root (same place as DroneHoverBob)
-    [SerializeField] private float recoilKickDistance = 0.08f; // small: 0.04–0.12
+    [SerializeField] private float recoilKickDistance = 0.08f; // small: 0.04ï¿½0.12
     [SerializeField] private float recoilKickTime = 0.06f;
     [SerializeField] private float recoilReturnTime = 0.10f;
 
@@ -108,7 +108,9 @@ public class EnemyTypeDrone : EnemyBase
             return;
         }
 
-        var go = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        
+        SkateRunnerAudioManager.PlayFlyingDroneShot();
+var go = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
 
         var projectile = go.GetComponent<SimpleProjectile>();
         if (projectile != null)

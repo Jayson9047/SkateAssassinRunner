@@ -258,7 +258,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
 
         /// <summary>
-        /// Slam meter API — call this when enemies die.
+        /// Slam meter API ï¿½ call this when enemies die.
         /// </summary>
         public void AddSlamCharge(int amount = 1)
         {
@@ -396,7 +396,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             SlamButtonGroup.interactable = true;
             SlamButtonGroup.blocksRaycasts = true;
 
-            // Fade OUT platform/shards so they don’t eat clicks
+            // Fade OUT platform/shards so they donï¿½t eat clicks
             if (PlatformGroup != null) { PlatformGroup.interactable = false; PlatformGroup.blocksRaycasts = false; }
             if (ShardsGroup != null) { ShardsGroup.interactable = false; ShardsGroup.blocksRaycasts = false; }
 
@@ -457,11 +457,13 @@ namespace MoreMountains.InfiniteRunnerEngine
             // Wait until grounded
             if (_jumperCached == null)
                 _jumperCached = FindFirstObjectByType<Jumper>();
-
-            while (_jumperCached != null && !_jumperCached.IsGrounded)
+while (_jumperCached != null && !_jumperCached.IsGrounded)
                 yield return null;
 
-            // Fade out
+            SkateRunnerAudioManager.EndGameplayMusicAtFinalLanding();
+
+            
+// Fade out
             float start = _powerMeterGroup.alpha;
             float dur = Mathf.Max(0.01f, powerMeterFadeDuration);
             float t = 0f;
@@ -1168,7 +1170,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
 
             if (ruthlessTimerText != null)
-                ruthlessTimerText.text = ""; // we’ll set it after fly animation later
+                ruthlessTimerText.text = ""; // weï¿½ll set it after fly animation later
 
             if (ruthlessTimerCanvasGroup != null)
             {
@@ -1237,7 +1239,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             if (ruthlessTimerRoot == null) return;
 
-            // Ensure it’s active so the fade can be visible
+            // Ensure itï¿½s active so the fade can be visible
             if (!ruthlessTimerRoot.activeSelf)
                 ruthlessTimerRoot.SetActive(true);
 
@@ -1252,7 +1254,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             _ruthlessFadeTween?.Kill();
             ruthlessTimerCanvasGroup.DOKill();
 
-            // Start from current alpha (don’t force 1.0 here)
+            // Start from current alpha (donï¿½t force 1.0 here)
             _ruthlessFadeTween = ruthlessTimerCanvasGroup
                 .DOFade(0f, ruthlessTimerFadeOutDuration)
                 .SetEase(DG.Tweening.Ease.OutQuad)

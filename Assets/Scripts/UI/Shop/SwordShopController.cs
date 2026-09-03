@@ -172,6 +172,7 @@ public sealed class SwordShopController : MonoBehaviour
             return;
         }
 
+        SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
         if (homeUIBinder != null)
@@ -192,7 +193,8 @@ public sealed class SwordShopController : MonoBehaviour
         // TODO: Add monetization here.
         // Replace this temporary grant with the real Google Play purchase flow.
         // Grant Sword ownership only after a verified successful purchase callback.
-        SwordOwnershipSave.Grant(SwordId.HellForge);
+        if (SwordOwnershipSave.Grant(SwordId.HellForge))
+            SkateRunnerAudioManager.PlayPurchaseSuccess();
 
         RefreshItems();
         CloseAndResetPopup();

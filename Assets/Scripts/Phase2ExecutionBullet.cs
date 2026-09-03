@@ -13,6 +13,7 @@ public class Phase2ExecutionBullet : MonoBehaviour
         // Only trigger Phase2 death if execution is pending
         if (p2.Phase2ExecutionPending)
         {
+            SkateRunnerAudioManager.PlayPhase2SniperImpact();
             p2.OnHitByPhase2ExecutionBullet();
         }
     }
