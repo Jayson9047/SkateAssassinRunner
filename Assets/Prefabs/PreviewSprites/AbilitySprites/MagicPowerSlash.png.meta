@@ -1,0 +1,912 @@
+fileFormatVersion: 2
+guid: dd8f62643f8409944b1fb0b4fdbc7dbf
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6560913938339299747
+    second: MagicPowerSlash_0
+  - first:
+      213: 4929661773230470696
+    second: MagicPowerSlash_1
+  - first:
+      213: -1564245197552223818
+    second: MagicPowerSlash_2
+  - first:
+      213: -432177864739575583
+    second: MagicPowerSlash_3
+  - first:
+      213: -8672164331356847907
+    second: MagicPowerSlash_4
+  - first:
+      213: 2035832115691990596
+    second: MagicPowerSlash_5
+  - first:
+      213: -1516361968042853916
+    second: MagicPowerSlash_6
+  - first:
+      213: 6470349278301849789
+    second: MagicPowerSlash_7
+  - first:
+      213: -727565999886236730
+    second: MagicPowerSlash_8
+  - first:
+      213: -2286810737252233562
+    second: MagicPowerSlash_9
+  - first:
+      213: 8358827553424940466
+    second: MagicPowerSlash_10
+  - first:
+      213: -7767187090658301282
+    second: MagicPowerSlash_11
+  - first:
+      213: 2251836830316961512
+    second: MagicPowerSlash_12
+  - first:
+      213: 7499545339365188693
+    second: MagicPowerSlash_13
+  - first:
+      213: 1328378786962797353
+    second: MagicPowerSlash_14
+  - first:
+      213: 3904437704292870639
+    second: MagicPowerSlash_15
+  - first:
+      213: -2891504770812553938
+    second: MagicPowerSlash_16
+  - first:
+      213: 7769615784857841345
+    second: MagicPowerSlash_17
+  - first:
+      213: -4757218695170368570
+    second: MagicPowerSlash_18
+  - first:
+      213: 4324894458188296918
+    second: MagicPowerSlash_19
+  - first:
+      213: 364931322498653840
+    second: MagicPowerSlash_20
+  - first:
+      213: -1451718859025376634
+    second: MagicPowerSlash_21
+  - first:
+      213: -8540676528284918162
+    second: MagicPowerSlash_22
+  - first:
+      213: 2833905813864388565
+    second: MagicPowerSlash_23
+  - first:
+      213: -1524963552845388534
+    second: MagicPowerSlash_24
+  - first:
+      213: 6270192743909434191
+    second: MagicPowerSlash_25
+  - first:
+      213: 1789645138157541353
+    second: MagicPowerSlash_26
+  - first:
+      213: 1900199526423775707
+    second: MagicPowerSlash_27
+  - first:
+      213: 9209354055810344309
+    second: MagicPowerSlash_28
+  - first:
+      213: -4559536243776705945
+    second: MagicPowerSlash_29
+  - first:
+      213: -3630854628339463634
+    second: MagicPowerSlash_30
+  - first:
+      213: -6439551175328484993
+    second: MagicPowerSlash_31
+  - first:
+      213: 6102623961580756730
+    second: MagicPowerSlash_32
+  - first:
+      213: 7356979158684082827
+    second: MagicPowerSlash_33
+  - first:
+      213: -6643681625652872399
+    second: MagicPowerSlash_34
+  - first:
+      213: -4164280322530091123
+    second: MagicPowerSlash_35
+  - first:
+      213: -2904044698881194911
+    second: MagicPowerSlash_36
+  - first:
+      213: -622484098341776427
+    second: MagicPowerSlash_37
+  - first:
+      213: -7391212220815202900
+    second: MagicPowerSlash_38
+  - first:
+      213: -7288543678116578276
+    second: MagicPowerSlash_39
+  - first:
+      213: -8205975217656562628
+    second: MagicPowerSlash_40
+  - first:
+      213: 5627357023176635245
+    second: MagicPowerSlash_41
+  - first:
+      213: -9052992158442190320
+    second: MagicPowerSlash_42
+  - first:
+      213: 6557886028830384201
+    second: MagicPowerSlash_43
+  - first:
+      213: -2632781230515923844
+    second: MagicPowerSlash_44
+  - first:
+      213: -7690174891922794532
+    second: MagicPowerSlash_45
+  - first:
+      213: -3098278497489036248
+    second: MagicPowerSlash_46
+  - first:
+      213: -7914726528287293689
+    second: MagicPowerSlash_47
+  - first:
+      213: 1465090516509000614
+    second: MagicPowerSlash_48
+  - first:
+      213: 4017131078408074526
+    second: MagicPowerSlash_49
+  - first:
+      213: -1894478074795135335
+    second: MagicPowerSlash_50
+  - first:
+      213: 1189985589323676808
+    second: MagicPowerSlash_51
+  - first:
+      213: 187830930634958135
+    second: MagicPowerSlash_52
+  - first:
+      213: 2810214322249735382
+    second: MagicPowerSlash_53
+  - first:
+      213: 8055222889255650417
+    second: MagicPowerSlash_54
+  - first:
+      213: -2504664941950830971
+    second: MagicPowerSlash_55
+  - first:
+      213: -4323093869451655211
+    second: MagicPowerSlash_56
+  - first:
+      213: 2449466374935450758
+    second: MagicPowerSlash_57
+  - first:
+      213: 216246777713560409
+    second: MagicPowerSlash_58
+  - first:
+      213: -3657475427075600633
+    second: MagicPowerSlash_59
+  - first:
+      213: 7091491841790895343
+    second: MagicPowerSlash_60
+  - first:
+      213: 3076238927722654533
+    second: MagicPowerSlash_61
+  - first:
+      213: 3684303165873877237
+    second: MagicPowerSlash_62
+  - first:
+      213: -7965229512046209345
+    second: MagicPowerSlash_63
+  - first:
+      213: 7026972008953845382
+    second: MagicPowerSlash_64
+  - first:
+      213: -6050378127197841468
+    second: MagicPowerSlash_65
+  - first:
+      213: -3969613101163814397
+    second: MagicPowerSlash_66
+  - first:
+      213: 5076037011247465956
+    second: MagicPowerSlash_67
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MagicPowerSlash_10
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bd14a47f55800470800000000000000
+      internalID: 8358827553424940466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_11
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9aef4d4e78653490800000000000000
+      internalID: -7767187090658301282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ee1f2b9aa1204f10800000000000000
+      internalID: 2251836830316961512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_13
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5546cc970ccb31860800000000000000
+      internalID: 7499545339365188693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_14
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 923f41cf7795f6210800000000000000
+      internalID: 1328378786962797353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_15
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe9a40cc7695f2630800000000000000
+      internalID: 3904437704292870639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_16
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e25de551bbf4fd7d0800000000000000
+      internalID: -2891504770812553938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_17
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ce28b1246833db60800000000000000
+      internalID: 7769615784857841345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cbd5833dc6fafdb0800000000000000
+      internalID: -4757218695170368570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_19
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d27e5f689c150c30800000000000000
+      internalID: 4324894458188296918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_20
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09e12f4ba1f701500800000000000000
+      internalID: 364931322498653840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_21
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68a9e06a3657adbe0800000000000000
+      internalID: -1451718859025376634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_22
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6e9f0ea2fb697980800000000000000
+      internalID: -8540676528284918162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_23
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d71d42b25e045720800000000000000
+      internalID: 2833905813864388565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b14431555c731924e91991ba2165aab3
+      internalID: 275582286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_01
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a00d315bb48a8404f89336fe5920d86f
+      internalID: 2053069415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_02
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cddc68e108367634aaeb974e1157c65a
+      internalID: 384175631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_03
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c81e118fea600204ca95cf34615643fe
+      internalID: -1360015496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_04
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2663288f529047f43baa6e87d8c10031
+      internalID: 1975774061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_05
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8646b380f389eb6449147db938b7aa7b
+      internalID: -1472689264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_06
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1a452b27d3488c47bfafe667ddb562c
+      internalID: 803005609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_07
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96dc2d15969e5e44ea7ab5bdd3d55c8c
+      internalID: 2057370503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_08
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e46e94e150b4d964baaa30439d4d8b2c
+      internalID: -743851115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MagicPowerSlash_09
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7caf7fa464634f844a58f02944a90315
+      internalID: -168678979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 57217d256bd8ec74a8ded7d0649b2535
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MagicPowerSlash_00: 275582286
+      MagicPowerSlash_01: 2053069415
+      MagicPowerSlash_02: 384175631
+      MagicPowerSlash_03: -1360015496
+      MagicPowerSlash_04: 1975774061
+      MagicPowerSlash_05: -1472689264
+      MagicPowerSlash_06: 803005609
+      MagicPowerSlash_07: 2057370503
+      MagicPowerSlash_08: -743851115
+      MagicPowerSlash_09: -168678979
+      MagicPowerSlash_10: 8358827553424940466
+      MagicPowerSlash_11: -7767187090658301282
+      MagicPowerSlash_12: 2251836830316961512
+      MagicPowerSlash_13: 7499545339365188693
+      MagicPowerSlash_14: 1328378786962797353
+      MagicPowerSlash_15: 3904437704292870639
+      MagicPowerSlash_16: -2891504770812553938
+      MagicPowerSlash_17: 7769615784857841345
+      MagicPowerSlash_18: -4757218695170368570
+      MagicPowerSlash_19: 4324894458188296918
+      MagicPowerSlash_20: 364931322498653840
+      MagicPowerSlash_21: -1451718859025376634
+      MagicPowerSlash_22: -8540676528284918162
+      MagicPowerSlash_23: 2833905813864388565
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

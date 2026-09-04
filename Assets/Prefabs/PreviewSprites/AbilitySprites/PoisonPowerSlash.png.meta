@@ -1,0 +1,909 @@
+fileFormatVersion: 2
+guid: d2dc231c1dbec7a43812f9ef70ea3830
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1947468052769228829
+    second: PoisonPowerSlash_0
+  - first:
+      213: 5391767822248081425
+    second: PoisonPowerSlash_1
+  - first:
+      213: -6229697579062773173
+    second: PoisonPowerSlash_2
+  - first:
+      213: -6119382915952678297
+    second: PoisonPowerSlash_3
+  - first:
+      213: -8120550926901167623
+    second: PoisonPowerSlash_4
+  - first:
+      213: 4024623854434059265
+    second: PoisonPowerSlash_5
+  - first:
+      213: -2582944548580093676
+    second: PoisonPowerSlash_6
+  - first:
+      213: -4820524317786851551
+    second: PoisonPowerSlash_7
+  - first:
+      213: 914540452042442776
+    second: PoisonPowerSlash_8
+  - first:
+      213: 863597307894941592
+    second: PoisonPowerSlash_9
+  - first:
+      213: 5819925995722489188
+    second: PoisonPowerSlash_10
+  - first:
+      213: -5535531815295413858
+    second: PoisonPowerSlash_11
+  - first:
+      213: -8368137088653777688
+    second: PoisonPowerSlash_12
+  - first:
+      213: -3398748394803941589
+    second: PoisonPowerSlash_13
+  - first:
+      213: 3931313914250121694
+    second: PoisonPowerSlash_14
+  - first:
+      213: 1214947637981548432
+    second: PoisonPowerSlash_15
+  - first:
+      213: 5435690998565768904
+    second: PoisonPowerSlash_16
+  - first:
+      213: -7606896515671214819
+    second: PoisonPowerSlash_17
+  - first:
+      213: 7307374873630662461
+    second: PoisonPowerSlash_18
+  - first:
+      213: 8816041190473047821
+    second: PoisonPowerSlash_19
+  - first:
+      213: 9118762121859498406
+    second: PoisonPowerSlash_20
+  - first:
+      213: -9128382425358325093
+    second: PoisonPowerSlash_21
+  - first:
+      213: 7872593473736956732
+    second: PoisonPowerSlash_22
+  - first:
+      213: 8919270461237676743
+    second: PoisonPowerSlash_23
+  - first:
+      213: -8551067091764086632
+    second: PoisonPowerSlash_24
+  - first:
+      213: 8080216798646443718
+    second: PoisonPowerSlash_25
+  - first:
+      213: 3800926117613479881
+    second: PoisonPowerSlash_26
+  - first:
+      213: -8535640304334620779
+    second: PoisonPowerSlash_27
+  - first:
+      213: -5350780023622435572
+    second: PoisonPowerSlash_28
+  - first:
+      213: 2185387178027317995
+    second: PoisonPowerSlash_29
+  - first:
+      213: 2293452812323186677
+    second: PoisonPowerSlash_30
+  - first:
+      213: -7510123064375722442
+    second: PoisonPowerSlash_31
+  - first:
+      213: -7646693679753342841
+    second: PoisonPowerSlash_32
+  - first:
+      213: -7774044136435923036
+    second: PoisonPowerSlash_33
+  - first:
+      213: -2089640776945825490
+    second: PoisonPowerSlash_34
+  - first:
+      213: 1148974971041843283
+    second: PoisonPowerSlash_35
+  - first:
+      213: 7003800250153757717
+    second: PoisonPowerSlash_36
+  - first:
+      213: -3664840167571093805
+    second: PoisonPowerSlash_37
+  - first:
+      213: 1206074890365063937
+    second: PoisonPowerSlash_38
+  - first:
+      213: -3214804170435808247
+    second: PoisonPowerSlash_39
+  - first:
+      213: 4470665566341855940
+    second: PoisonPowerSlash_40
+  - first:
+      213: 6423709911218196350
+    second: PoisonPowerSlash_41
+  - first:
+      213: -7500372961594162412
+    second: PoisonPowerSlash_42
+  - first:
+      213: -780185120264407875
+    second: PoisonPowerSlash_43
+  - first:
+      213: -2241654971384004361
+    second: PoisonPowerSlash_44
+  - first:
+      213: 4635063310007740174
+    second: PoisonPowerSlash_45
+  - first:
+      213: -7724922819335407170
+    second: PoisonPowerSlash_46
+  - first:
+      213: -5743040587453901174
+    second: PoisonPowerSlash_47
+  - first:
+      213: 3194488476464604271
+    second: PoisonPowerSlash_48
+  - first:
+      213: 9145264100163418994
+    second: PoisonPowerSlash_49
+  - first:
+      213: 5529021020390440962
+    second: PoisonPowerSlash_50
+  - first:
+      213: -3591908327475921806
+    second: PoisonPowerSlash_51
+  - first:
+      213: -4373192283209328545
+    second: PoisonPowerSlash_52
+  - first:
+      213: 5781675482282702814
+    second: PoisonPowerSlash_53
+  - first:
+      213: -1716051791390186216
+    second: PoisonPowerSlash_54
+  - first:
+      213: -2033097082209550523
+    second: PoisonPowerSlash_55
+  - first:
+      213: 5630234716273715212
+    second: PoisonPowerSlash_56
+  - first:
+      213: -184506412081175706
+    second: PoisonPowerSlash_57
+  - first:
+      213: 9009260368913993933
+    second: PoisonPowerSlash_58
+  - first:
+      213: 5748349517865554793
+    second: PoisonPowerSlash_59
+  - first:
+      213: -6412721455667243156
+    second: PoisonPowerSlash_60
+  - first:
+      213: 7692728588435899823
+    second: PoisonPowerSlash_61
+  - first:
+      213: 1332992453431996500
+    second: PoisonPowerSlash_62
+  - first:
+      213: 3761745172322602260
+    second: PoisonPowerSlash_63
+  - first:
+      213: -7002755173414566901
+    second: PoisonPowerSlash_64
+  - first:
+      213: -1611517119909038945
+    second: PoisonPowerSlash_65
+  - first:
+      213: 2490986886458376973
+    second: PoisonPowerSlash_66
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: PoisonPowerSlash_10
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46db91a9bd784c050800000000000000
+      internalID: 5819925995722489188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_11
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e91917a7427dd23b0800000000000000
+      internalID: -5535531815295413858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e4250777a76edb80800000000000000
+      internalID: -8368137088653777688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_13
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2f28ce975835d0d0800000000000000
+      internalID: -3398748394803941589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_14
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed1dd6f0d25de8630800000000000000
+      internalID: 3931313914250121694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_15
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09f079e807c5cd010800000000000000
+      internalID: 1214947637981548432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_16
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ce0d46e9247f6b40800000000000000
+      internalID: 5435690998565768904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_17
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 384
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d15b24c0cefde6690800000000000000
+      internalID: -7606896515671214819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3fde5f3bb2096560800000000000000
+      internalID: 7307374873630662461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_19
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0f9b5bd0ced85a70800000000000000
+      internalID: 8816041190473047821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_20
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a109b826d95c8e70800000000000000
+      internalID: 9118762121859498406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_21
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9a29926c88715180800000000000000
+      internalID: -9128382425358325093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_22
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3b5627bd02114d60800000000000000
+      internalID: 7872593473736956732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_23
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cac4b96a3d97cb70800000000000000
+      internalID: 8919270461237676743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f41ac0ebd96f2842924489a264a450f
+      internalID: 1076211090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_01
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9516c12f5edfb17469a360a654a5535c
+      internalID: -1196694981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_02
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0820db0897a197f4e92f8267125a6bbf
+      internalID: 1868335838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_03
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 823374dda51365b4d9277bf119b9f80d
+      internalID: -123628710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_04
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eac3d4e14b0274044a4d1b5395eb8e75
+      internalID: -755292257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_05
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 1152
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f269836c818dc348af15aa5ee109feb
+      internalID: 46949623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_06
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f1d0a24ea923804bb798b31848395c1
+      internalID: -1536290991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_07
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 662d2ba0f9a7b8140bcc70d6b3ca1b12
+      internalID: 921625042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_08
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28dbe57e5fe3cf148844370b33f6169c
+      internalID: -1188521444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PoisonPowerSlash_09
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 768
+        width: 384
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f6df252adaa55445b009bf87625e4a4
+      internalID: 374005574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a9f4a76e1d35bc045a456482c7604866
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      PoisonPowerSlash_00: 1076211090
+      PoisonPowerSlash_01: -1196694981
+      PoisonPowerSlash_02: 1868335838
+      PoisonPowerSlash_03: -123628710
+      PoisonPowerSlash_04: -755292257
+      PoisonPowerSlash_05: 46949623
+      PoisonPowerSlash_06: -1536290991
+      PoisonPowerSlash_07: 921625042
+      PoisonPowerSlash_08: -1188521444
+      PoisonPowerSlash_09: 374005574
+      PoisonPowerSlash_10: 5819925995722489188
+      PoisonPowerSlash_11: -5535531815295413858
+      PoisonPowerSlash_12: -8368137088653777688
+      PoisonPowerSlash_13: -3398748394803941589
+      PoisonPowerSlash_14: 3931313914250121694
+      PoisonPowerSlash_15: 1214947637981548432
+      PoisonPowerSlash_16: 5435690998565768904
+      PoisonPowerSlash_17: -7606896515671214819
+      PoisonPowerSlash_18: 7307374873630662461
+      PoisonPowerSlash_19: 8816041190473047821
+      PoisonPowerSlash_20: 9118762121859498406
+      PoisonPowerSlash_21: -9128382425358325093
+      PoisonPowerSlash_22: 7872593473736956732
+      PoisonPowerSlash_23: 8919270461237676743
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
