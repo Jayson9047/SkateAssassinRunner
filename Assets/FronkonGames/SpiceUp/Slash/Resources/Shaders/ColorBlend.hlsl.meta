@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2deab993e4940784a80139cc0a2de6db
+ShaderIncludeImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 380758
+  packageName: 'Spice Up: Slash'
+  packageVersion: 1.0.0
+  assetPath: Assets/FronkonGames/SpiceUp/Slash/Resources/Shaders/ColorBlend.hlsl
+  uploadId: 917966

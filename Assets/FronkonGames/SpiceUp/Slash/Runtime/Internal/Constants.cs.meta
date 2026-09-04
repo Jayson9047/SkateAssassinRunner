@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c9eea6cde5409be4b9bfcf1cd9a4d022
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 380758
+  packageName: 'Spice Up: Slash'
+  packageVersion: 1.0.0
+  assetPath: Assets/FronkonGames/SpiceUp/Slash/Runtime/Internal/Constants.cs
+  uploadId: 917966

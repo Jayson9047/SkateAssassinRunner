@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 40a4c26c8aadb9e42bf06bf9edecd262
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 380758
+  packageName: 'Spice Up: Slash'
+  packageVersion: 1.0.0
+  assetPath: Assets/FronkonGames/SpiceUp/Slash/Editor/Internal/Styles.cs
+  uploadId: 917966

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: df90f996c5eea7b479187aa207e9d544
+ShaderIncludeImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 380758
+  packageName: 'Spice Up: Slash'
+  packageVersion: 1.0.0
+  assetPath: Assets/FronkonGames/SpiceUp/Slash/Resources/Shaders/SpiceUp.hlsl
+  uploadId: 917966

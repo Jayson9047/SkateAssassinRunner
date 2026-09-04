@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 89d165bba20370840aeb6f9a6790e9cf
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 380758
+  packageName: 'Spice Up: Slash'
+  packageVersion: 1.0.0
+  assetPath: Assets/FronkonGames/SpiceUp/Slash/Runtime/ColorBlends.cs
+  uploadId: 917966

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 0e5c351b4068d3a4ebfc83b950a499b2
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 380758
+  packageName: 'Spice Up: Slash'
+  packageVersion: 1.0.0
+  assetPath: Assets/FronkonGames/SpiceUp/Slash/Resources/Shaders/SpiceUpSlash_URP.shader
+  uploadId: 917966

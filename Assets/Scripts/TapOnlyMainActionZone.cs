@@ -20,6 +20,9 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     [SerializeField] private SwipeRightAttackDetector swipeRightAttackDetector;
     [SerializeField] private GUIPulse comboPulse;
 
+    [Header("FEEL - Ruthless Tap Screen Slash")]
+    [SerializeField] private RuthlessTapSlashFeedback ruthlessTapSlashFeedback;
+
     [Header("FEEL - Phase 2 Ruthless Tap Recoil")]
     [SerializeField] private CinemachineImpulseSource ruthlessTapImpulseSource;
     [SerializeField] private float ruthlessTapImpulseAmplitude = 1f;
@@ -149,6 +152,9 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
 
     private void Awake()
     {
+        if (ruthlessTapSlashFeedback == null)
+            Debug.LogWarning("[Ruthless Tap Slash] No feedback reference assigned; Ruthless Tap gameplay remains available.", this);
+
         if (comboText == null)
         {
             // Find a child named "ComboText" anywhere under this button/tap zone
@@ -228,6 +234,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
 
         if (_lastRuthlessState && !ruthless)
         {
+            if (ruthlessTapSlashFeedback != null) ruthlessTapSlashFeedback.StopImmediate();
             // Mode ended -> fade out combo
             FadeOutCombo();
 
@@ -236,6 +243,11 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
         }
 
         _lastRuthlessState = ruthless;
+    }
+
+    private void OnDisable()
+    {
+        if (ruthlessTapSlashFeedback != null) ruthlessTapSlashFeedback.StopImmediate();
     }
 
 
@@ -259,6 +271,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
             if (lm.GameplayInputsLocked && lm.RuthlessTapModeEntered)
             {
                 lm.RuthlessTapCount++;
+                if (ruthlessTapSlashFeedback != null) ruthlessTapSlashFeedback.TriggerSlash();
                 // First tap of a ruthless sequence: ensure we start from min
                 if (lm.RuthlessTapCount == 1)
                     fovPunchAmount = fovPunchMin;
@@ -273,7 +286,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
                 {
                     if (maxCashPerTap < minCashPerTap) maxCashPerTap = minCashPerTap;
 
-                    int cash = Random.Range(minCashPerTap, maxCashPerTap + 1); // 1–7 inclusive
+                    int cash = Random.Range(minCashPerTap, maxCashPerTap + 1); // 1â€“7 inclusive
                     OnPhase2CashEarned?.Invoke(cash);
                     SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.AddCash(cash);
                     SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.RefreshCash();

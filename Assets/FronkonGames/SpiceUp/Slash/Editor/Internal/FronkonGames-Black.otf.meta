@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: 4f483f2294dc4874dbadf2c236c5ca5c
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Fronkon Games
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: e5a9b40a742a3874cb3f3ef995cf7306, type: 3}
+  - {fileID: 12800000, guid: 634b7c4af76949147af11337caafc62f, type: 3}
+  - {fileID: 12800000, guid: ab36f40460849d648aab6d8c2b421a4c, type: 3}
+  - {fileID: 12800000, guid: 2a65c303b37360a4eb6a45ec3d1397fe, type: 3}
+  - {fileID: 12800000, guid: 415c3620100a1634696f9f9ef9fe1dbc, type: 3}
+  - {fileID: 12800000, guid: a9170653609ac2b4ba2b35f40e028ace, type: 3}
+  - {fileID: 12800000, guid: 3d1127b72a3ee584aa161fd34f829184, type: 3}
+  - {fileID: 12800000, guid: 1eda394f08bf6c2409168be8be4142f2, type: 3}
+  - {fileID: 12800000, guid: 74eb26085d9a3494099e1a44c1d1133e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 380758
+  packageName: 'Spice Up: Slash'
+  packageVersion: 1.0.0
+  assetPath: Assets/FronkonGames/SpiceUp/Slash/Editor/Internal/FronkonGames-Black.otf
+  uploadId: 917966

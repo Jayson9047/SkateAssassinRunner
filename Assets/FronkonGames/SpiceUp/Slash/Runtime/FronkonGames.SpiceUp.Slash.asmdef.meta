@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c6c2fd524e2990c4a8f91cf1ebff0b79
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 380758
+  packageName: 'Spice Up: Slash'
+  packageVersion: 1.0.0
+  assetPath: Assets/FronkonGames/SpiceUp/Slash/Runtime/FronkonGames.SpiceUp.Slash.asmdef
+  uploadId: 917966
