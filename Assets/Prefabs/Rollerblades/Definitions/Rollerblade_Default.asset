@@ -18,10 +18,10 @@ MonoBehaviour:
   rightPrefab: {fileID: 7884191917403784065, guid: 9b34e654203e64a4898936f558d0555f,
     type: 3}
   leftTransform:
-    localPosition: {x: 0.027, y: 0.076, z: 0.04}
-    localEulerAngles: {x: 42.24687, y: 199.94266, z: 194.45598}
-    localScale: {x: 96.70766, y: 96.70866, z: 96.708206}
+    localPosition: {x: 0.038, y: 0.269, z: -0.161}
+    localEulerAngles: {x: 190.769, y: 92.032, z: 40.683}
+    localScale: {x: 0.6583201, y: 0.6583201, z: 0.6583201}
   rightTransform:
-    localPosition: {x: 0.015, y: 0.044, z: 0.117}
-    localEulerAngles: {x: 357.15875, y: 166.17177, z: 186.67738}
-    localScale: {x: 96.70766, y: 96.70766, z: 96.70766}
+    localPosition: {x: 0.137, y: 0.331, z: 0.154}
+    localEulerAngles: {x: 1.484, y: 309.618, z: -198.555}
+    localScale: {x: 0.6583201, y: 0.6583201, z: 0.6583201}
