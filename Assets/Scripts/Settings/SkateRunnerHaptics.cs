@@ -6,9 +6,11 @@ using UnityEngine;
 /// </summary>
 public static class SkateRunnerHaptics
 {
+    public static bool CanPlay => GameSettingsSave.IsVibrationEnabled() && SystemInfo.supportsVibration;
+
     public static void PlayPreset(HapticPatterns.PresetType preset)
     {
-        if (!GameSettingsSave.IsVibrationEnabled() || !SystemInfo.supportsVibration)
+        if (!CanPlay)
         {
             return;
         }

@@ -234,7 +234,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
 
         if (_lastRuthlessState && !ruthless)
         {
-            if (ruthlessTapSlashFeedback != null) ruthlessTapSlashFeedback.StopImmediate();
+            if (ruthlessTapSlashFeedback != null) ruthlessTapSlashFeedback.StopTapSlashImmediate();
             // Mode ended -> fade out combo
             FadeOutCombo();
 

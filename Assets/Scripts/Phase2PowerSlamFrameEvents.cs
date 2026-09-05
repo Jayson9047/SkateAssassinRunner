@@ -30,6 +30,11 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     [SerializeField] private Transform playerMeetPoint;
     [SerializeField] private Transform playerStrikeEndPoint;     // dash end point
 
+    [Header("Phase 2 Presentation")]
+    [SerializeField] private Phase2CameraDirector cameraDirector;
+    [SerializeField] private Phase2SpeedlinesController phase2Speedlines;
+    [SerializeField] private Phase2FinalStrikeFeedback finalStrikeFeedback;
+
     [Header("Move-to-Line")]
     [SerializeField] private Ease meetMoveEase = Ease.OutQuad;
 
@@ -90,6 +95,9 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     private bool _armedForThisSlam;
     private bool _launchedThisSlam;
+    private bool _finalStrikeFeedbackPlayedThisSlam;
+    private bool _warnedMissingSpeedlines;
+    private bool _warnedMissingFinalStrikeFeedback;
     private Tween _tween;
     private Tween _meetTween;
     private Tween _dashTween;
@@ -103,6 +111,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     {
         // Pool-safe reset
         _launchedThisSlam = false;
+        _finalStrikeFeedbackPlayedThisSlam = false;
         _frame18FailsafeFired = false;
         _defaultFixedDeltaTime = Time.fixedDeltaTime;
 
@@ -120,12 +129,15 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
         _cachedBodyLocalPos = transform.localPosition;
         _cachedBodyLocalRot = transform.localRotation;
+        ResolvePresentationReferences();
     }
 
     public void ResetExecutionAttempt()
     {
         _armedForThisSlam = false;
         _launchedThisSlam = false;
+        _finalStrikeFeedbackPlayedThisSlam = false;
+        phase2Speedlines?.HideImmediate();
 
         _tween?.Kill(); _tween = null;
         _meetTween?.Kill(); _meetTween = null;
@@ -153,6 +165,9 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     {
         _armedForThisSlam = true;
         _launchedThisSlam = false;
+        _finalStrikeFeedbackPlayedThisSlam = false;
+        ResolvePresentationReferences();
+        phase2Speedlines?.HideImmediate();
 
         _armedAtTime = Time.time;
         _frame18FailsafeArmed = true;
@@ -350,8 +365,10 @@ _frame18FailsafeArmed = false;
         if (ruthlessTapStartDelayRealtime > 0f)
             yield return new WaitForSecondsRealtime(ruthlessTapStartDelayRealtime);
 
-        // Switch camera (your project uses Phase2CameraDirector)
-        FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToCollision();
+        // Switch camera, then arm speedlines. The controller waits for the real
+        // Cinemachine live/no-blend state rather than a guessed delay.
+        ResolvePresentationReferences();
+        cameraDirector?.SwitchToCollision();
 
         // Set target for ruthless tap cash popups
         if (_enemyInstance != null)
@@ -369,6 +386,7 @@ _frame18FailsafeArmed = false;
 
         RuthlessTapModeController.Instance.Begin(remaining, taps =>
         {
+            phase2Speedlines?.HideImmediate();
             LevelManager.Instance?.ExitRuthlessTapMode();
             Debug.Log("Final combo taps: " + taps);
 
@@ -396,7 +414,7 @@ _frame18FailsafeArmed = false;
                     LevelManager.Instance.FreezeSpeedAndCancelBoost();
             });
 
-            FindFirstObjectByType<Phase2CameraDirector>()?.SwitchToFollow();
+            cameraDirector?.SwitchToFollow();
             SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.FadeOutPowerMeterWhenPlayerGrounded();
 
             if (LevelManager.Instance != null)
@@ -406,6 +424,15 @@ _frame18FailsafeArmed = false;
 
             StartCoroutine(ShowLevelEndAfterDelayCo());
         });
+
+        // Begin() has made the mode authoritative before the controller starts
+        // watching the camera, so an immediate mode end cannot leave a stale request.
+        phase2Speedlines?.ShowWhenCollisionCameraSettled();
+        if (phase2Speedlines == null && !_warnedMissingSpeedlines)
+        {
+            _warnedMissingSpeedlines = true;
+            Debug.LogWarning("[Phase 2 Presentation] Speedlines controller is unavailable; Phase 2 gameplay continues.", this);
+        }
     }
 
 
@@ -427,6 +454,22 @@ if (playerStrikeEndPoint == null)
         }
 
         SkateRunnerAudioManager.PlayRuthlessFinalCut();
+
+        if (!_finalStrikeFeedbackPlayedThisSlam)
+        {
+            _finalStrikeFeedbackPlayedThisSlam = true;
+            ResolvePresentationReferences();
+            if (finalStrikeFeedback != null)
+            {
+                finalStrikeFeedback.Play(playerMeetPoint != null ? playerMeetPoint.position : transform.position,
+                                         playerStrikeEndPoint.position);
+            }
+            else if (!_warnedMissingFinalStrikeFeedback)
+            {
+                _warnedMissingFinalStrikeFeedback = true;
+                Debug.LogWarning("[Phase 2 Presentation] Final Strike feedback is unavailable; the execution dash continues.", this);
+            }
+        }
 
         
 _dashTween?.Kill();
@@ -482,6 +525,18 @@ _dashTween?.Kill();
         float current = animator.GetLayerWeight(_upperBodyLayerIndex);
         if (!Mathf.Approximately(current, lockedKatanaWeight))
             animator.SetLayerWeight(_upperBodyLayerIndex, lockedKatanaWeight);
+    }
+
+    private void ResolvePresentationReferences()
+    {
+        if (cameraDirector == null) cameraDirector = Phase2CameraDirector.ActiveInstance;
+        if (phase2Speedlines == null) phase2Speedlines = Phase2SpeedlinesController.ActiveInstance;
+        if (finalStrikeFeedback == null) finalStrikeFeedback = Phase2FinalStrikeFeedback.ActiveInstance;
+    }
+
+    private void OnDisable()
+    {
+        phase2Speedlines?.HideImmediate();
     }
 
 

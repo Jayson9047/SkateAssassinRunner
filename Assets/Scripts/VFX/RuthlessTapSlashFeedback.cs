@@ -13,6 +13,9 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     [SerializeField] private Volume slashVolume;
     [Tooltip("The gameplay camera, not the UI overlay. Post-processing must already be enabled.")]
     [SerializeField] private Camera gameplayCamera;
+    [Tooltip("Optional authored reference. Runtime player spawning also registers the active equipper automatically.")]
+    [SerializeField] private WeaponPowerEquipper weaponPowerEquipper;
+    [SerializeField] private WeaponPowerScreenSlashPalette powerPalette;
 
     [Header("General")]
     [SerializeField] private bool feedbackEnabled = true;
@@ -33,6 +36,21 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     [Tooltip("Scales core/smoke widths and expansion. Glow falloff is divided by this value so larger means wider.")]
     [SerializeField, Range(0.25f, 3f)] private float visualImpactScale = 1f;
 
+    [Header("Final Strike")]
+    [SerializeField, Range(0.5f, 4f)] private float finalStrikeDuration = 2f;
+    [SerializeField, Range(0f, 1f)] private float finalPeakIntensity = 1f;
+    [SerializeField, Range(0.5f, 3f)] private float finalVisualImpactScale = 1.8f;
+    [SerializeField, Range(0f, 0.95f)] private float finalFadeStartNormalized = 0.1f;
+    [SerializeField, Range(0.001f, 0.1f)] private float finalStartProgress = 0.03f;
+    [SerializeField, Range(0.5f, 3f)] private float finalCoreWidthMultiplier = 1.75f;
+    [SerializeField, Range(0.5f, 3f)] private float finalGlowMultiplier = 1.65f;
+    [SerializeField, Range(0f, 3f)] private float finalSmokeMultiplier = 1.35f;
+    [SerializeField, Range(-180f, 180f)] private float finalSlashAngleOffset;
+
+    [Header("Editor Test Trajectory")]
+    [SerializeField] private Transform finalSlashTestStart;
+    [SerializeField] private Transform finalSlashTestEnd;
+
     [Header("Advanced — Slash Shape")]
     [SerializeField, Range(0f, 1f)] private float splitDist = 0.015f;
     [SerializeField, Range(0f, 1f)] private float distortPower = 0.012f;
@@ -48,6 +66,8 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     [Tooltip("Alpha zero hides dark smoke.")]
     [SerializeField] private Color smokeColor2 = new Color(0.02f, 0.02f, 0.02f, 0.1f);
     [SerializeField] private Color backgroundColor = Color.black;
+    [SerializeField, Range(0f, 1f)] private float lightSmokeWhiteMix = 0.72f;
+    [SerializeField, Range(0f, 1f)] private float darkSmokeBlackMix = 0.82f;
 
     [Header("Advanced — Smoke")]
     [SerializeField, Range(0.21f, 1f)] private float smokeFade = 0.55f;
@@ -63,6 +83,8 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     [SerializeField, Range(0f, 2f)] private float saturation = 1f;
 
     private static RuthlessTapSlashFeedback owner;
+    private enum PlaybackMode { None, RuthlessTap, FinalStrike }
+
     private SlashVolume slash;
     private SlashFeature rendererFeature;
     private VolumeProfile runtimeProfile;
@@ -74,6 +96,12 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     private float previousAngle;
     private int triggerFrame = -1;
     private uint randomState;
+    private PlaybackMode playbackMode;
+    private float activeDuration;
+    private float activePeakIntensity;
+    private float activeFadeStartNormalized;
+    private float activeStartProgress;
+    private Color activePowerColor = new Color32(0x4E, 0x9D, 0xFF, 0xFF);
 
     public bool IsSlashActive => slashActive;
     public float CurrentAngle => previousAngle;
@@ -81,6 +109,10 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     public float CurrentProgress => slash != null ? slash.progress.value : 0f;
     public float Duration => slashDuration;
     public bool IsReady => slash != null && rendererFeature != null;
+    public bool IsFinalStrikeActive => slashActive && playbackMode == PlaybackMode.FinalStrike;
+    public Camera GameplayCamera => gameplayCamera;
+    public Transform FinalSlashTestStart => finalSlashTestStart;
+    public Transform FinalSlashTestEnd => finalSlashTestEnd;
 
     private void OnEnable()
     {
@@ -92,6 +124,7 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
             return;
         }
         if (slash == null && !Initialize()) return;
+        if (powerPalette != null) powerPalette.Warmup();
         owner = this;
         StopImmediate();
     }
@@ -131,7 +164,7 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         if (!runtimeProfile.TryGet(out slash)) return FailSetup("the runtime profile has no SlashVolume override");
         slash.SetAllOverridesTo(true);
         slash.active = true;
-        ApplyVisualSettings();
+        ApplyVisualSettings(PlaybackMode.RuthlessTap, ResolvePowerColor(WeaponPowerId.None));
         StopImmediate();
         // Cosmetic randomness must not consume Cash/recoil/gameplay's UnityEngine.Random stream.
         randomState = unchecked((uint)System.Environment.TickCount ^ (uint)GetInstanceID());
@@ -142,6 +175,12 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     /// <summary>Immediately replaces the current slash at full peak strength. No allocations.</summary>
     public void TriggerSlash()
     {
+        TriggerTapSlash(ResolveEquippedPower());
+    }
+
+    private void TriggerTapSlash(WeaponPowerId power)
+    {
+        if (playbackMode == PlaybackMode.FinalStrike && slashActive) return;
         if (!isActiveAndEnabled || !feedbackEnabled || slash == null || rendererFeature == null ||
             !rendererFeature.isActive || slashVolume == null || !slashVolume.isActiveAndEnabled ||
             gameplayCamera == null || !gameplayCamera.isActiveAndEnabled) return;
@@ -150,11 +189,58 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         previousAngle = ChooseAngle();
         hasPreviousAngle = true;
         slash.angle.value = previousAngle;
-        ApplyVisualSettings();
+        playbackMode = PlaybackMode.RuthlessTap;
+        activeDuration = slashDuration;
+        activePeakIntensity = peakIntensity;
+        activeFadeStartNormalized = fadeStartNormalized;
+        activeStartProgress = startProgress;
+        activePowerColor = ResolvePowerColor(power);
+        ApplyVisualSettings(playbackMode, activePowerColor);
         slash.progress.value = startProgress;
         slash.intensity.value = peakIntensity;
         slashActive = true;
     }
+
+    /// <summary>Replaces any tap slash with the high-priority execution cut.</summary>
+    public void TriggerFinalStrike(Vector3 worldStart, Vector3 worldEnd)
+    {
+        if (!isActiveAndEnabled || !feedbackEnabled || slash == null || rendererFeature == null ||
+            !rendererFeature.isActive || slashVolume == null || !slashVolume.isActiveAndEnabled ||
+            gameplayCamera == null || !gameplayCamera.isActiveAndEnabled) return;
+
+        Vector3 startScreen = gameplayCamera.WorldToScreenPoint(worldStart);
+        Vector3 endScreen = gameplayCamera.WorldToScreenPoint(worldEnd);
+        Vector2 pixelDelta = new Vector2(endScreen.x - startScreen.x, endScreen.y - startScreen.y);
+        float trajectoryAngle = pixelDelta.sqrMagnitude > 0.0001f
+            ? Mathf.Atan2(pixelDelta.y, pixelDelta.x) * Mathf.Rad2Deg
+            : 0f;
+
+        elapsed = 0f;
+        triggerFrame = Time.frameCount;
+        previousAngle = Mathf.Repeat(trajectoryAngle + finalSlashAngleOffset, 360f);
+        slash.angle.value = previousAngle;
+        playbackMode = PlaybackMode.FinalStrike;
+        activeDuration = finalStrikeDuration;
+        activePeakIntensity = finalPeakIntensity;
+        activeFadeStartNormalized = finalFadeStartNormalized;
+        activeStartProgress = finalStartProgress;
+        activePowerColor = ResolvePowerColor(ResolveEquippedPower());
+        ApplyVisualSettings(playbackMode, activePowerColor);
+        slash.progress.value = finalStartProgress;
+        slash.intensity.value = finalPeakIntensity;
+        slashActive = true;
+    }
+
+#if UNITY_EDITOR
+    public void TriggerTapSlashForEditor(WeaponPowerId power) => TriggerTapSlash(power);
+
+    public bool TriggerFinalStrikeForEditor()
+    {
+        if (finalSlashTestStart == null || finalSlashTestEnd == null) return false;
+        TriggerFinalStrike(finalSlashTestStart.position, finalSlashTestEnd.position);
+        return true;
+    }
+#endif
 
     private void LateUpdate()
     {
@@ -172,17 +258,24 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     private void Advance(float deltaTime)
     {
         elapsed += deltaTime;
-        float t = Mathf.Clamp01(elapsed / slashDuration);
+        float t = Mathf.Clamp01(elapsed / activeDuration);
         if (t >= 1f) { StopImmediate(); return; }
-        slash.progress.value = Mathf.Lerp(startProgress, 1f, t);
-        float fade = Mathf.Clamp01((t - fadeStartNormalized) / (1f - fadeStartNormalized));
-        slash.intensity.value = peakIntensity * (1f - Mathf.SmoothStep(0f, 1f, fade));
+        slash.progress.value = Mathf.Lerp(activeStartProgress, 1f, t);
+        float fade = Mathf.Clamp01((t - activeFadeStartNormalized) / (1f - activeFadeStartNormalized));
+        slash.intensity.value = activePeakIntensity * (1f - Mathf.SmoothStep(0f, 1f, fade));
+    }
+
+    /// <summary>Stops only the short tap mode. A Final Strike survives Ruthless exit ordering.</summary>
+    public void StopTapSlashImmediate()
+    {
+        if (playbackMode == PlaybackMode.RuthlessTap) StopImmediate();
     }
 
     /// <summary>Clears glow, smoke and distortion, retaining angle history across taps.</summary>
     public void StopImmediate()
     {
         slashActive = false;
+        playbackMode = PlaybackMode.None;
         elapsed = 0f;
         triggerFrame = -1;
         if (slash == null) return;
@@ -216,24 +309,35 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         return (randomState >> 8) * (1f / 16777216f);
     }
 
-    private void ApplyVisualSettings()
+    private void ApplyVisualSettings(PlaybackMode mode, Color powerColor)
     {
+        bool final = mode == PlaybackMode.FinalStrike;
+        float impact = visualImpactScale * (final ? finalVisualImpactScale : 1f);
+        float coreMultiplier = final ? finalCoreWidthMultiplier : 1f;
+        float glowMultiplier = final ? finalGlowMultiplier : 1f;
+        float smokeMultiplier = final ? finalSmokeMultiplier : 1f;
+
         slash.useScaledTime.value = false;
         slash.affectSceneView.value = false;
         slash.splitDist.value = splitDist;
         slash.distortPower.value = distortPower;
         slash.slashFade.value = slashFade;
         // Positive widths avoid smoothstep(0, 0, x) in the vendor shader.
-        slash.coreWidth.value = Mathf.Max(0.0001f, coreWidth * visualImpactScale);
-        slash.glowSpread.value = glowSpread / visualImpactScale;
-        slash.glowColor.value = glowColor;
+        slash.coreWidth.value = Mathf.Max(0.0001f, coreWidth * impact * coreMultiplier);
+        slash.glowSpread.value = glowSpread / Mathf.Max(0.01f, impact * glowMultiplier);
+        powerColor.a = glowColor.a;
+        slash.glowColor.value = powerColor;
         slash.glowColorBlend.value = ColorBlends.Additive;
         slash.smokeFade.value = smokeFade;
-        slash.smokeExpand.value = smokeExpand * visualImpactScale;
-        slash.smokeSize1.value = Mathf.Max(0.0001f, smokeSize1 * visualImpactScale);
-        slash.smokeSize2.value = Mathf.Max(0.0001f, smokeSize2 * visualImpactScale);
-        slash.smokeColor1.value = smokeColor1;
-        slash.smokeColor2.value = smokeColor2;
+        slash.smokeExpand.value = smokeExpand * impact * smokeMultiplier;
+        slash.smokeSize1.value = Mathf.Max(0.0001f, smokeSize1 * impact * smokeMultiplier);
+        slash.smokeSize2.value = Mathf.Max(0.0001f, smokeSize2 * impact * smokeMultiplier);
+        Color lightSmoke = Color.Lerp(powerColor, Color.white, lightSmokeWhiteMix);
+        Color darkSmoke = Color.Lerp(powerColor, Color.black, darkSmokeBlackMix);
+        lightSmoke.a = smokeColor1.a;
+        darkSmoke.a = smokeColor2.a;
+        slash.smokeColor1.value = lightSmoke;
+        slash.smokeColor2.value = darkSmoke;
         slash.smokeColor1Blend.value = ColorBlends.Additive;
         slash.smokeColor2Blend.value = ColorBlends.Darken;
         slash.backgroundColor.value = backgroundColor;
@@ -242,6 +346,21 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         slash.gamma.value = gamma;
         slash.hue.value = hue;
         slash.saturation.value = saturation;
+    }
+
+    private WeaponPowerId ResolveEquippedPower()
+    {
+        WeaponPowerEquipper equipper = weaponPowerEquipper != null
+            ? weaponPowerEquipper
+            : WeaponPowerEquipper.ActiveInstance;
+        return equipper != null ? equipper.GetEquippedWeaponPowerId() : WeaponPowerId.None;
+    }
+
+    private Color ResolvePowerColor(WeaponPowerId power)
+    {
+        return powerPalette != null
+            ? powerPalette.GetPrimaryColor(power)
+            : new Color32(0x4E, 0x9D, 0xFF, 0xFF);
     }
 
     private bool FailSetup(string reason)
@@ -287,6 +406,11 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         float legalSeparation = Mathf.Min(179f, (maximumAngle - minimumAngle) * 0.5f);
         minimumConsecutiveAngleDifference = Mathf.Clamp(minimumConsecutiveAngleDifference, Mathf.Min(0.1f, legalSeparation), legalSeparation);
         visualImpactScale = Mathf.Clamp(visualImpactScale, 0.25f, 3f);
+        finalStrikeDuration = Mathf.Clamp(finalStrikeDuration, 0.5f, 4f);
+        finalPeakIntensity = Mathf.Clamp01(finalPeakIntensity);
+        finalVisualImpactScale = Mathf.Clamp(finalVisualImpactScale, 0.5f, 3f);
+        finalFadeStartNormalized = Mathf.Clamp(finalFadeStartNormalized, 0f, 0.95f);
+        finalStartProgress = Mathf.Clamp(finalStartProgress, 0.001f, 0.1f);
         slashFade = Mathf.Clamp(slashFade, 0.04f, 1f);
         smokeFade = Mathf.Clamp(smokeFade, 0.21f, 1f);
         // Remaining values are clamped by Fronkon's public VolumeParameter setters.

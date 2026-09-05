@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class WeaponPowerEquipper : MonoBehaviour
 {
+    public static WeaponPowerEquipper ActiveInstance { get; private set; }
+
     [Header("Where to attach the Aura")]
     [SerializeField] private Transform weaponAuraAnchor; // child on weapon
 
@@ -30,6 +32,7 @@ public class WeaponPowerEquipper : MonoBehaviour
 
     private void OnEnable()
     {
+        ActiveInstance = this;
         CacheWeaponIdentity();
         var saved = WeaponPowerSave.TryLoad(out var id) ? id : EquippedPowerId;
 
@@ -40,6 +43,11 @@ public class WeaponPowerEquipper : MonoBehaviour
         }
 
         EquipWeaponPower(saved);
+    }
+
+    private void OnDisable()
+    {
+        if (ActiveInstance == this) ActiveInstance = null;
     }
 
     private void CacheWeaponIdentity()

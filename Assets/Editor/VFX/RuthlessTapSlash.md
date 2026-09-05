@@ -1,91 +1,118 @@
-# Ruthless Tap screen slash
+# Phase 2 presentation: designer guide
 
-## Shipped setup
+## Shipped scene setup
 
-`Assets/Scenes/SkateRunner.unity` contains one permanent `RuthlessTapSlashVolume` root with one global Volume (Default layer, priority 100, weight 1) and one `RuthlessTapSlashFeedback` component. Its dedicated profile is `Assets/Prefabs/VFX/RuthlessTapSlash/RuthlessTapSlashProfile.asset`; the profile contains only Fronkon's Slash override and is authored with intensity/progress zero, unscaled procedural time, and Scene-view rendering disabled.
+`Assets/Scenes/SkateRunner.unity` contains the complete authored setup:
 
-One Slash Renderer Feature was added to each renderer used by gameplay quality settings:
+- `RuthlessTapSlashVolume` owns the one global Volume and one `RuthlessTapSlashFeedback`. Ruthless taps and the Final Strike share this cached Fronkon `SlashVolume` and the existing one renderer feature.
+- `Phase2SpeedlinesController/Phase2SpeedlinesBackground` is a permanent instance of `Assets/Art/Speedlines/frame_001.prefab`. The background starts inactive, has no collider, casts/receives no shadows, and its Animator uses `UnscaledTime`.
+- `FEELManager/FinalStrikeFlashFEEL` contains an independent unscaled copy of the powered Down Attack kill-flash feedback from `FEELManager/FlashFEEL`.
+- `FEELManager/FinalStrikeCameraShakeFEEL` contains an independent unscaled copy of the `Cinemachine Impulse` from the player prefab's `PowerSlamFEEL`. Its FOV feedback is intentionally not copied.
+- `FEELManager/FinalStrikeHapticFEEL` contains one unscaled `MMF_NVContinuous`.
+- `FEELManager/Phase2FinalStrikeFeedback` holds the scene references for the shared Slash, Flash player, camera-shake player, and haptic player.
+- `Phase2Camera` has its `CinemachineBrain` reference assigned. `IsCollisionCameraSettled` is true only when Cinemachine reports no active blend and `VCam_Collision` is live.
 
-- `Assets/Settings/Elroi_URP_Renderer.asset`: current desktop/Editor quality and the default pipeline.
-- `Assets/Settings/Mobile_Renderer.asset`: Android's Level 6 quality.
+The runtime player prefab resolves these scene presentation controllers once through their active scene instances. No scene reference is stored inside the player prefab, and no per-tap object search occurs.
 
-Only one of these pipelines is active at a time, with exactly one Slash feature. Existing blur features were preserved. Render Graph was already enabled.
+## Speedlines
 
-The scene's Main Camera already had post-processing enabled and includes the Default volume layer. The UICamera is an Overlay camera with post-processing disabled; the Main Camera's authored camera-stack list is empty. These existing camera settings were not changed. Slash renders through the gameplay camera, not an additional UI post-process pass.
+Timing is automatic. When the Collision-camera switch begins, Phase 2 arms the controller after Ruthless Tap becomes active. The background remains off while the Brain is blending. It starts only when `VCam_Collision` is live and the Brain is no longer blending. Ruthless end cancels any pending show, hides the background immediately, and only then starts the return-camera flow.
 
-The tap zone originates in `Assets/Prefabs/Characters/UICamera.prefab`. Its feedback reference is saved as a **scene instance override** on `UICamera/Canvas/MainActionButton`; the prefab itself was not otherwise changed.
+To position it, open `Assets/Scenes/SkateRunner.unity`, expand `Phase2SpeedlinesController`, select `Phase2SpeedlinesBackground`, and edit its **Transform > Position / Rotation / Scale**. This is the only intentionally manual setup. Keep the flat sprite facing the Phase 2 camera and keep the authored horizontal streak orientation.
 
-## Runtime behavior
+To change animation speed, open `Assets/Art/Speedlines/frame_001.controller` in the Animator window, select the `speedlines` state, and edit **Speed**. The source `Assets/Art/Speedlines/speedlines.anim` contains 71 frames, samples at 36 fps, and has **Loop Time** enabled. The scene Animator is forced to **Update Mode: Unscaled Time** when shown.
 
-- The only gameplay trigger is immediately after `RuthlessTapCount++` inside the accepted `GameplayInputsLocked && RuthlessTapModeEntered` branch in `TapOnlyMainActionZone.OnPointerUp`.
-- Pointer down, rejected taps, dragging/swipes and Phase 1 do not call the effect. Existing combo, mission, Cash, recoil and FOV code remains unchanged.
-- Every trigger overwrites angle, elapsed time, progress and peak intensity on the same cached SlashVolume. There is no queue, pool, coroutine, per-tap object/material/profile creation, or second slash state.
-- One private Volume profile is created once during initialization, leaving the authored asset untouched. Its owned resources are released on destruction. A duplicate-controller guard prevents another feedback controller from taking ownership.
-- `LateUpdate` uses `Time.unscaledDeltaTime`, preserves full strength on the triggering render frame, and drives progress to completion. Fronkon's `useScaledTime` is also false.
-- `StopImmediate` sets intensity and progress to zero. It runs on phase exit, tap-zone disable, feedback disable/destruction and application pause.
-- Missing setup disables only feedback and warns once at initialization. Missing/destroyed serialized references do not prevent accepted taps, rewards or existing feedback.
-- No recurring Editor callback is owned by the runtime feature. Idle Update exits immediately; Fronkon skips its render-graph blit when intensity is zero.
+In Play Mode, select `Phase2SpeedlinesController` and use **TEST SHOW** / **TEST HIDE**. These are Editor Inspector controls only and do not start Phase 2.
 
-## Designer controls and defaults
+## Ruthless Tap Slash timing
 
-Select `RuthlessTapSlashVolume` in the gameplay scene and edit **Ruthless Tap Slash Feedback**.
+Open `Assets/Scenes/SkateRunner.unity`, select `RuthlessTapSlashVolume`, then edit **Ruthless Tap Slash Feedback**:
 
-| Control | Default |
+- **General > Slash Duration**: short tap lifetime, default `0.18` real seconds.
+- **General > Peak Intensity**: default `0.85`.
+- **General > Fade Start Normalized**: fraction of lifetime held at peak before SmoothStep fade, default `0.40`.
+- **General > Start Progress**: initial Fronkon reveal progress, default `0.03`.
+- **Rotation**: random angle range and minimum consecutive separation.
+- **Size / Impact > Visual Impact Scale**: tap core/smoke/glow scale.
+- **Advanced Visual Settings** in the custom Inspector: slash shape, glow alpha, smoke alpha/mix, smoke size, and grading.
+
+Every accepted Ruthless tap replaces the current short Slash. It still uses an allocation-free private PRNG, preserves the minimum angle difference, and runs on unscaled time. A Final Strike has priority, so a late tap cannot replace it.
+
+## Final Strike Slash timing and size
+
+On the same `RuthlessTapSlashVolume` component, use the **Final Strike** section:
+
+- **Final Strike Duration**: default `2.0` seconds; range `0.5–4.0`.
+- **Final Peak Intensity**: default `1.0`.
+- **Final Visual Impact Scale**: default `1.8` times the tap preset.
+- **Final Fade Start Normalized**: default `0.10`; fade continues across most of the lifetime.
+- **Final Start Progress**: default `0.03`.
+- **Final Core Width Multiplier**: default `1.75`.
+- **Final Glow Multiplier**: default `1.65`.
+- **Final Smoke Multiplier**: default `1.35`.
+- **Final Slash Angle Offset**: default `0°`; use this only for a small artistic calibration.
+
+The trigger projects `PlayerMeetPoint` and `PlayerStrikeEndPoint` through the gameplay camera, computes `atan2(endScreen.y - startScreen.y, endScreen.x - startScreen.x)` in screen pixels, adds **Final Slash Angle Offset**, and writes degrees to Fronkon. Pixel-space direction keeps the angle correct across phone aspect ratios. Fronkon's shader has a fixed fullscreen center and no translation parameter, so the implementation aligns the trajectory angle and uses the wider core/glow rather than modifying vendor code.
+
+In Play Mode, select `RuthlessTapSlashVolume` and use **TEST FINAL SLASH**. Its Editor test references are already assigned to the authored `PlayerMeetPoint` and `PlayerStrikeEndPoint` prefab transforms.
+
+## Power colors
+
+Open `Assets/Prefabs/VFX/RuthlessTapSlash/WeaponPowerScreenSlashPalette.asset`. Expand **Colors** and edit the entry whose **Power** field matches the desired weapon power. Initial RGB values are:
+
+| Power | Color |
 |---|---|
-| Enabled | Yes |
-| Duration | 0.18 real seconds; allowed 0.10–0.35 |
-| Peak intensity | 0.85 |
-| Fade starts | 40% of lifetime; SmoothStep to zero |
-| Start progress | 0.03; the vendor shader's first fully revealed frame |
-| Angle range / minimum separation | 0–360° / 35° |
-| Visual impact scale | 1 |
-| Split / distortion | 0.015 / 0.012 |
-| Slash fade / core width / glow falloff | 0.85 / 0.007 / 60 |
-| Glow RGBA | (1, 0.82, 0.68, 0.8), additive |
-| Light smoke RGBA | (0.9, 0.9, 0.95, 0.12), additive |
-| Dark smoke RGBA | (0.02, 0.02, 0.02, 0.1), darken |
-| Background RGBA | (0, 0, 0, 1) |
-| Smoke fade / expansion / widths | 0.55 / 0.12 / 0.10 and 0.16 |
-| Brightness / contrast / gamma / hue / saturation | 0 / 1 / 1 / 0 / 1 |
+| None / Default | `#4E9DFF` |
+| Ice | `#D8F4FF` |
+| Electricity | `#3F5BE8` |
+| Fire | `#FF9F2F` |
+| Poison | `#63E06B` |
+| Magic | `#A95CFF` |
 
-Shape, colors, smoke and grading are grouped under **Advanced Visual Settings**. Impact scale multiplies core/smoke widths and expansion, and divides glow falloff because lower falloff makes the glow wider. Fronkon's parameter setters clamp results to their supported ranges. Widths stay positive to avoid degenerate shader smoothsteps.
+The active runtime `WeaponPowerEquipper.GetEquippedWeaponPowerId()` is authoritative. Missing palette or equipper falls back to None/azure. The palette is cached before input; taps do not use LINQ, PlayerPrefs, or per-tap allocations. Smoke RGB is derived from the same primary color. On `RuthlessTapSlashVolume > Ruthless Tap Slash Feedback > Advanced Visual Settings`, edit **Light Smoke White Mix**, **Dark Smoke Black Mix**, and the alpha of **Smoke Color 1 / 2**.
 
-Set smoke color alpha to zero to hide smoke. This reduces visual clutter, **not** the fixed noise-calculation cost of the unchanged vendor shader. Android GPU performance still needs measurement on the target device.
+The custom Inspector also provides **TEST TAP — DEFAULT / FIRE / ICE / ELECTRICITY / POISON / MAGIC**, plus the existing 10- and 50-trigger burst tests. These test only the visual system.
 
-Angle selection tries up to eight random candidates using circular `Mathf.DeltaAngle` separation, then chooses a legal farthest endpoint or antipode. A separate allocation-free PRNG leaves Cash/recoil's Unity random stream untouched. For narrow designer-selected ranges, Inspector validation limits separation to half the range so every previous angle has a legal successor; a zero-width range is widened to 0.1°. No unbounded loop or normal fixed-angle sequence is used.
+## Final FEEL timing
 
-## Editor testing
+For flash, expand `FEELManager`, select `FinalStrikeFlashFEEL`, expand its **Flash** feedback, and edit:
 
-In Play Mode, the component's custom Inspector offers:
+- **Flash Duration**: `0.10` seconds.
+- **Flash Alpha**: `0.50`.
+- **Flash Color**: white.
 
-- **TEST SINGLE SLASH**
-- **TEST RAPID 10 TAP BURST** — 0.08 seconds between triggers
-- **TEST RAPID 50 TAP BURST** — 0.04 seconds between triggers
-- **STOP IMMEDIATELY**
+This is a copied `MMF_Flash` configuration from `FEELManager/FlashFEEL`: it broadcasts to the same existing `FlashImage` target through Flash ID `0` and is forced to unscaled time. It does not reference or mutate the Down Attack player; both players own independent feedback copies.
 
-These call only the visual API, not Ruthless gameplay, so there is no need to reach Phase 2. Burst tooling is Editor-only, runs one finite callback, never queues catch-up triggers, and unsubscribes on completion, Inspector disposal or Play Mode changes. No runtime cheat controls were added.
+For camera shake, select `FEELManager/FinalStrikeCameraShakeFEEL` and expand **Cinemachine Impulse**:
 
-## Validation performed
+- **Impulse Duration**: `0.20` seconds.
+- **Amplitude Gain**: `0.50`.
 
-Tests ran in an isolated temporary Play Mode scene, not by playing through a level. That scene and its metadata were deleted afterward; the original Play Mode start-scene setting was restored. Screenshots, test method bodies and JSON results are retained under ignored `Library/RuthlessTapSlashQA/`.
+The Raw Signal, frequency, velocity, envelope, and channel are copied from `S_01_Male/PowerSlamFEEL`. Final Strike owns an independent feedback copy and runs it unscaled. Adjust **Amplitude Gain** and **Impulse Duration** there to tune strength and duration. The powered slam's FOV feedback was not copied, so Final Strike does not alter camera transition or lens logic.
 
-- Clean compilation; one feature in each applicable renderer; one authored Volume/override/controller; all scene references valid; no missing scripts.
-- Immediate peak/progress reset, fading, explicit stop, disable/re-enable cleanup and unchanged authored profile verified.
-- 10,000 random retriggers: smallest observed separation **35.01654°**, with no repeat. Deterministic fallback explicitly exercised.
-- 1,000 warmed-up `TriggerSlash` calls: **0 managed bytes allocated** on the calling thread. This measures the new feedback hot path, not unrelated pre-existing combo/FOV behavior or total rendering cost.
-- Actual Inspector burst controls: **10 triggers in 0.732 s**, **50 in 2.016 s**. Peak strength and angle separation held on every observed trigger. Test scene roots stayed **18 → 18** and the runtime profile identity stayed unchanged.
-- Real lifetime at timeScale **0.1: 0.18091 s**; at timeScale **0: 0.18102 s**.
-- Rendered 512×512 comparisons: desktop quality changed 36,919 pixels at peak; Android quality changed 37,518. Both returned to **0 residual changed pixels** after completion. Peak/fading screenshots were visually inspected. Android quality was tested in the Editor, not on a physical Android GPU.
-- Fifty calls with each missing cached reference safely did nothing. Three missing-profile initialization attempts emitted exactly one expected warning. Recovery and forced-angle fallback passed.
-- Scene diff is limited to the new Volume root/components, the scene root list, and the tap-zone serialized reference. No camera, unrelated Volume or gameplay state configuration changed.
-- All **98 imported Fronkon files** matched their pre-task SHA-256 hashes. Shader, pass, SlashController, SlashVolume and demos were not modified. Ultimate Preview and unrelated Layer Lab code were also untouched.
+For haptics, select `FEELManager/FinalStrikeHapticFEEL`, expand **Haptic Continuous**, and edit:
 
-The isolated QA scene initially lacked an AudioListener; one was added for testing and removed with that temporary scene. No production audio objects were added. The missing-profile warning above was intentional test coverage, not a recurring gameplay error.
+- **Min Duration / Max Duration**: both `0.60` seconds.
+- **Min Amplitude / Max Amplitude**: both `0.80`.
+- **Min Frequency / Max Frequency**: both `0.35`.
 
-## Manual acceptance remaining
+The player and feedback are unscaled. Playback occurs only when `GameSettingsSave.IsVibrationEnabled()` and `SystemInfo.supportsVibration` are both true. Disabling vibration never suppresses the Slash or flash and never changes the saved setting.
 
-Perform the final actual Ruthless Tap feel test: verify Phase 1, swipes/rejected taps and menus remain silent; accepted taps replace immediately; phase exit clears immediately; existing combo/Cash/mission/recoil/FOV/equip gameplay remains correct. Those input branches were structurally inspected, not driven through a full level. Tune colors/impact/smoke against actual gameplay and profile the full-screen shader on target Android hardware.
+## Runtime hook and cleanup
 
-## File changes
+`Phase2PowerSlamFrameEvents.StartDashToStrikeEnd()` triggers the Final Slash, powered Down-Attack-style flash, camera impulse, haptic, and `PlayRuthlessFinalCut()` together before the existing `DOMove`. Its guard resets on enable, execution reset, and each new execution arm. Movement, ease, speed, animation, slow motion, slicing, damage, camera return, and level completion are unchanged.
 
-Created runtime controller, Editor Inspector, this guide, and the dedicated profile (plus Unity metadata). Modified `TapOnlyMainActionZone.cs`, `SkateRunner.unity`, and the two renderer assets listed above. The tap source's pre-existing Windows-1252 comment was normalized to UTF-8; that encoding change has no gameplay effect. Pre-existing Easy Save defaults, vHierarchy data, ProjectSettings changes and imported vendor files were preserved.
+`TapOnlyMainActionZone` now calls `StopTapSlashImmediate()` on Ruthless exit. That method stops only `RuthlessTap`; it cannot cancel `FinalStrike` regardless of Update ordering. Full `StopImmediate()` remains the hard cleanup used for component/scene disable, pause, destruction, and explicit Inspector stop.
+
+## Isolated validation
+
+Validation used a temporary minimal Play Mode scene and did not run the level. The temporary scene was deleted afterward.
+
+- All six exact palette colors reached the cached Slash override.
+- 1,000 warmed `TriggerSlash()` calls allocated 0 managed bytes on the calling thread.
+- Final Strike began at intensity 1, faded gradually, ended cleanly at 2 seconds, rejected tap replacement, and survived tap-only cleanup.
+- A 33.02° projected diagonal produced a 33.02° Fronkon Slash angle.
+- Speedlines stayed hidden at request time, appeared only at the settled Collision camera, used `UnscaledTime`, hid immediately before return, and cancelled an ended-mode pending request.
+- Production scene audit found one Flash feedback, one continuous haptic feedback, valid palette/camera/test references, and zero missing-script components.
+
+The remaining acceptance step is the artistic in-level feel pass on target hardware: position/scale the speedline background, then tune Slash/Flash/haptic values if desired and profile the fullscreen effect on the target Android device.
