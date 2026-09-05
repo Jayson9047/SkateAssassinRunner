@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/ElroiBootSplash.unity
+    guid: 7c7d26086a4a4664a8d158e2a6aaae02
   - enabled: 0
     path: Assets/ThirdParty/InGame/InfiniteRunnerEngine/Common/Scenes/StartScreen.unity
     guid: f85a334c9b92294469686a6e357e41c3

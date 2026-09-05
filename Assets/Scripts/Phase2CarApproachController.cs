@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using MoreMountains.InfiniteRunnerEngine;
 using UnityEngine;
@@ -12,6 +13,9 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Phase2CarApproachController : MonoBehaviour
 {
+    /// <summary>Raised once when this pooled car actually reaches the drift marker.</summary>
+    public static event Action OnPhase2ApproachStarted;
+
     [Header("References")]
     [SerializeField] private Transform TargetSlot;              // used only for drift target Z (and optional settle)
     [SerializeField] private EnemyType3 ShooterEnemyType3;
@@ -123,6 +127,8 @@ public class Phase2CarApproachController : MonoBehaviour
 
         _driftFromZ = _root.position.z;
         _driftToZ = TargetSlot.position.z;
+
+        OnPhase2ApproachStarted?.Invoke();
 
         ShooterEnemyType3?.StartAiming();
 

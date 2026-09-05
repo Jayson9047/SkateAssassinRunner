@@ -50,6 +50,9 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [SerializeField] SkateRunnerAudioCue unknownEnemyDeathFallback = new SkateRunnerAudioCue();
     [Header("Currency Pickups")]
     [SerializeField] SkateRunnerAudioCue cashPickup = new SkateRunnerAudioCue();
+    [Header("Phase Banners")]
+    [SerializeField] SkateRunnerAudioCue phase1BannerImpact = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue phase2BannerImpact = new SkateRunnerAudioCue();
     [Header("Phase 2")]
     [SerializeField] SkateRunnerAudioCue phase2SlowMotionStart = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue ruthlessTapSwordHit = new SkateRunnerAudioCue();
@@ -191,6 +194,8 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     public static void PlayDashAttack() => Instance?.Play(Instance.dashAttack);
     public static void PlayDownAttack() => Instance?.Play(Instance.downAttack);
     public static void PlayCashPickup() => Instance?.Play(Instance.cashPickup);
+    public static void PlayPhase1BannerImpact() => Instance?.Play(Instance.phase1BannerImpact);
+    public static void PlayPhase2BannerImpact() => Instance?.Play(Instance.phase2BannerImpact);
     public static void PlayPhase2SlowMotionStart() => Instance?.Play(Instance.phase2SlowMotionStart);
     public static void PlayRuthlessTapSwordHit() => Instance?.Play(Instance.ruthlessTapSwordHit);
     public static void PlayRuthlessFinalCut() => Instance?.Play(Instance.ruthlessFinalCut);
