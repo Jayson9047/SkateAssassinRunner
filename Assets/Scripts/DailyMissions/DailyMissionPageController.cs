@@ -6,7 +6,7 @@ namespace Elroi.DailyMissions.UI
 {
     public sealed class DailyMissionPageController:MonoBehaviour
     {
-        [SerializeField] DailyMissionRowUI[] rows;[SerializeField] RewardGrantedPopup rewardPopup;[SerializeField] HomeUIBinder homeUIBinder;
+        [SerializeField] DailyMissionRowUI[] rows;[SerializeField] HomeUIBinder homeUIBinder;
         [SerializeField] Sprite cashIcon,gemIcon;[SerializeField] DailyMissionDefinition[] definitions;
         readonly Dictionary<DailyMissionId,DailyMissionDefinition> map=new Dictionary<DailyMissionId,DailyMissionDefinition>();
         bool processing;string loadedDay;Coroutine resetRoutine;
@@ -26,9 +26,10 @@ namespace Elroi.DailyMissions.UI
             if(day!=DailyMissionProgress.CurrentDay||DailyMissionProgress.IsClaimed(id)||DailyMissionProgress.GetProgress(id)<d.target)return;processing=true;
             if(!DailyMissionProgress.TryMarkClaimed(id,d.target)){processing=false;return;}
             CurrencyChangeResult r;if(!CurrencyRewardService.TryGrantCurrency(d.rewardCash,d.rewardGems,CurrencyGrantSource.DailyMissionClaim,false,out r)){DailyMissionProgress.RestoreClaimed(id,false);processing=false;return;}
-            if(homeUIBinder)homeUIBinder.AnimateBalances(r.previousCash,r.newCash,r.previousGems,r.newGems);if(rewardPopup)rewardPopup.Show(d.rewardCash>0&&d.rewardGems>0?"TREASURE BOX OPENED!":"REWARD CLAIMED!",d.rewardCash,d.rewardGems,cashIcon,gemIcon);processing=false;Refresh();
+            if(homeUIBinder)homeUIBinder.AnimateBalances(r.previousCash,r.newCash,r.previousGems,r.newGems);
+            CrystalRewardRevealPopup.TryShow(RewardRevealRequest.ForCurrencies(d.rewardCash,d.rewardGems,cashIcon,gemIcon));processing=false;Refresh();
         }
-        void ResetPending(){processing=false;if(rewardPopup)rewardPopup.Close();Refresh();}
+        void ResetPending(){processing=false;CrystalRewardRevealPopup.CloseActiveImmediate();Refresh();}
         static string Timer(DailyMissionDefinition d,int p,bool c){TimeSpan t=DailyMissionProgress.NextResetUtc-DailyMissionProgress.UtcNow;if(t<TimeSpan.Zero)t=TimeSpan.Zero;string v=$"{(int)t.TotalHours:00}:{t.Minutes:00}:{t.Seconds:00}";return c?"RESETS IN "+v:p>=d.target?"CLAIM IN "+v:"ENDS IN "+v;}
         static DailyMissionDefinition D(DailyMissionId id,string t,string d,int target,int cash,int gems){return new DailyMissionDefinition{id=id,title=t,description=d,target=target,rewardCash=cash,rewardGems=gems};}
     }

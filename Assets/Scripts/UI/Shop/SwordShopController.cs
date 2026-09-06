@@ -182,13 +182,12 @@ public sealed class SwordShopController : MonoBehaviour
 
         InventoryNewItemNotifications.RegisterSword(item.SwordId);
 
-        SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
         if (homeUIBinder != null)
             homeUIBinder.RefreshFromSave();
 
-        CloseAndResetPopup();
+        ShowPurchasedSword(item);
     }
 
     private void CompleteRealMoneyPlaceholderPurchase(SwordShopItem item)
@@ -204,14 +203,29 @@ public sealed class SwordShopController : MonoBehaviour
             CloseAndResetPopup();
             return;
         }
-        if (SwordOwnershipSave.Grant(item.SwordId))
+        if (!SwordOwnershipSave.Grant(item.SwordId))
         {
-            InventoryNewItemNotifications.RegisterSword(item.SwordId);
-            SkateRunnerAudioManager.PlayPurchaseSuccess();
+            CloseAndResetPopup();
+            return;
         }
 
+        InventoryNewItemNotifications.RegisterSword(item.SwordId);
+
         RefreshItems();
+        ShowPurchasedSword(item);
+    }
+
+    private void ShowPurchasedSword(SwordShopItem item)
+    {
+        Sprite icon = RewardRevealIconUtility.FindProductSprite(item.transform);
+        string displayName = RewardRevealIconUtility.FindProductTitle(
+            item.transform,
+            item.ProductDisplayName);
+        RewardRevealRequest request = RewardRevealRequest.ForItem(
+            RewardRevealType.Sword, displayName, icon);
+        request.primary.displaySize = RewardRevealIconUtility.FindProductDisplaySize(item.transform);
         CloseAndResetPopup();
+        CrystalRewardRevealPopup.TryShow(request);
     }
 
     private void CloseAndResetPopup()

@@ -236,6 +236,12 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
         }
     }
 
+    public bool TryGetPreviewAnimation(WeaponPowerId id, out AnimationClip clip)
+    {
+        BuildMaps();
+        return previewsById.TryGetValue(id, out clip) && clip != null;
+    }
+
     private bool IsPowerAvailable(WeaponPowerId id)
     {
         WeaponPowerInventorySlot slot;

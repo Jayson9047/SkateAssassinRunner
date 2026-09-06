@@ -180,13 +180,12 @@ public sealed class WeaponPowerShopController : MonoBehaviour
 
         InventoryNewItemNotifications.RegisterAbility(item.PowerId);
 
-        SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
         if (homeUIBinder != null)
             homeUIBinder.RefreshFromSave();
 
-        CloseAndResetPopup();
+        ShowPurchasedAbility(item);
     }
 
     private void CompleteRealMoneyPlaceholderPurchase(WeaponPowerShopItem item)
@@ -202,14 +201,33 @@ public sealed class WeaponPowerShopController : MonoBehaviour
             CloseAndResetPopup();
             return;
         }
-        if (WeaponPowerOwnershipSave.Grant(item.PowerId))
+        if (!WeaponPowerOwnershipSave.Grant(item.PowerId))
         {
-            InventoryNewItemNotifications.RegisterAbility(item.PowerId);
-            SkateRunnerAudioManager.PlayPurchaseSuccess();
+            CloseAndResetPopup();
+            return;
         }
 
+        InventoryNewItemNotifications.RegisterAbility(item.PowerId);
+
         RefreshItems();
+        ShowPurchasedAbility(item);
+    }
+
+    private void ShowPurchasedAbility(WeaponPowerShopItem item)
+    {
+        Sprite icon = RewardRevealIconUtility.FindProductSprite(item.transform);
+        AnimationClip previewAnimation = RewardRevealIconUtility.FindAbilityPreviewAnimation(item.PowerId);
+        string displayName = RewardRevealIconUtility.FindProductTitle(
+            item.transform,
+            item.ProductDisplayName);
+        RewardRevealRequest request = RewardRevealRequest.ForItem(
+            RewardRevealType.Ability,
+            displayName,
+            icon,
+            previewAnimation: previewAnimation);
+        request.primary.displaySize = RewardRevealIconUtility.FindProductDisplaySize(item.transform);
         CloseAndResetPopup();
+        CrystalRewardRevealPopup.TryShow(request);
     }
 
     private void CloseAndResetPopup()

@@ -179,11 +179,9 @@ public sealed class CurrencyPackShopController : MonoBehaviour
             return;
         }
 
-        SkateRunnerAudioManager.PlayPurchaseSuccess();
         if (homeUIBinder != null)
             homeUIBinder.AnimateBalances(currentCash, newCash, currentGems, newGems);
-
-        ResetTransaction(true);
+        ShowPurchasedCurrency(item, item.CashGranted, 0);
     }
 
     private void CompleteRealMoneyPlaceholderPurchase(CurrencyPackShopItem item)
@@ -227,7 +225,6 @@ public sealed class CurrencyPackShopController : MonoBehaviour
             return;
         }
 
-        SkateRunnerAudioManager.PlayPurchaseSuccess();
         if (homeUIBinder != null)
         {
             float finalCash = ES3.Load<float>(TotalCashKey, 0f);
@@ -237,7 +234,25 @@ public sealed class CurrencyPackShopController : MonoBehaviour
                 grantsGems ? previousBalance : finalGems, finalGems);
         }
 
+        ShowPurchasedCurrency(item, grantsCash ? amountGranted : 0, grantsGems ? amountGranted : 0);
+    }
+
+    private void ShowPurchasedCurrency(CurrencyPackShopItem item, int cash, int gems)
+    {
+        Sprite icon = RewardRevealIconUtility.FindProductSprite(item.transform);
+        RewardRevealRequest request = RewardRevealRequest.ForCurrencies(
+            cash,
+            gems,
+            cash > 0 ? icon : null,
+            gems > 0 ? icon : null,
+            title: "PURCHASE COMPLETE!");
+        if (request != null && request.primary != null)
+        {
+            request.primary.displayName = item.DisplayProductName;
+            request.primary.displaySize = RewardRevealIconUtility.FindProductDisplaySize(item.transform);
+        }
         ResetTransaction(true);
+        CrystalRewardRevealPopup.TryShow(request);
     }
 
     private bool TrySaveBothBalances(

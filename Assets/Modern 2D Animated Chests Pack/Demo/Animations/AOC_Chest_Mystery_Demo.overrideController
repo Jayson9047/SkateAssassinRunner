@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AOC_Chest_Mystery_Demo
+  m_Controller: {fileID: 9100000, guid: ce546c88d29320c458cf810a90c7c410, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: de4a0476d94057441a233f302644c198, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: be4db3ada74d28a449045226bb42fcf2, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 644e8f378ac26a14fbe02e2a922111a4, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 0aa6c03709882934ba236507228e6687, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f7b50828d15c5242ba305fb00dcf11c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1ad07640d6a57344583e7311c73ffa6c, type: 2}

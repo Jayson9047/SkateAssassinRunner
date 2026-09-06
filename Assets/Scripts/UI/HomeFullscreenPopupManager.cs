@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class HomeFullscreenPopupManager : MonoBehaviour
@@ -15,7 +16,15 @@ public class HomeFullscreenPopupManager : MonoBehaviour
     [SerializeField] private GameObject rewardsPage;
     [SerializeField] private GameObject shopPage;
 
+    [Header("Page Open Pulse")]
+    [SerializeField, Range(0.8f, 1f)] private float pageOpenStartScale = 0.96f;
+    [SerializeField, Range(1f, 1.1f)] private float pageOpenOvershootScale = 1.018f;
+    [SerializeField, Min(0.01f)] private float pageOpenGrowDuration = 0.14f;
+    [SerializeField, Min(0.01f)] private float pageOpenSettleDuration = 0.11f;
+
     private GameObject _currentPage;
+    private Vector3 _currentPageBaseScale = Vector3.one;
+    private Sequence _pageOpenPulse;
 
     private void Awake()
     {
@@ -31,6 +40,8 @@ public class HomeFullscreenPopupManager : MonoBehaviour
     // Top bar Home button hook
     public void OpenHome()
     {
+        StopPageOpenPulse();
+
         // Turn off all pages
         SetAllPagesInactive();
         _currentPage = null;
@@ -60,7 +71,7 @@ public class HomeFullscreenPopupManager : MonoBehaviour
 
         // Show the requested page
         page.SetActive(true);
-        _currentPage = page;
+        PlayPageOpenPulse(page);
 
         // Show Home button in top bar (because we're not on home)
         if (homeButtonTopBar) homeButtonTopBar.SetActive(true);
@@ -72,5 +83,36 @@ public class HomeFullscreenPopupManager : MonoBehaviour
         if (missionsPage) missionsPage.SetActive(false);
         if (rewardsPage) rewardsPage.SetActive(false);
         if (shopPage) shopPage.SetActive(false);
+    }
+
+    private void PlayPageOpenPulse(GameObject page)
+    {
+        StopPageOpenPulse();
+        if (!page) return;
+
+        _currentPage = page;
+        _currentPageBaseScale = page.transform.localScale;
+        page.transform.localScale = _currentPageBaseScale * pageOpenStartScale;
+
+        _pageOpenPulse = DOTween.Sequence().SetUpdate(true);
+        _pageOpenPulse.Append(page.transform
+            .DOScale(_currentPageBaseScale * pageOpenOvershootScale, pageOpenGrowDuration)
+            .SetEase(Ease.OutCubic));
+        _pageOpenPulse.Append(page.transform
+            .DOScale(_currentPageBaseScale, pageOpenSettleDuration)
+            .SetEase(Ease.InOutSine));
+        _pageOpenPulse.OnComplete(() => _pageOpenPulse = null);
+    }
+
+    private void StopPageOpenPulse()
+    {
+        _pageOpenPulse?.Kill();
+        _pageOpenPulse = null;
+        if (_currentPage) _currentPage.transform.localScale = _currentPageBaseScale;
+    }
+
+    private void OnDestroy()
+    {
+        StopPageOpenPulse();
     }
 }

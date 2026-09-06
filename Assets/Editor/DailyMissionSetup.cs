@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public static class DailyMissionSetup
 {
     const string L="Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Sprites/Components/";
+    const string PopupAnimatorPath="Assets/ThirdParty/InGame/InfiniteRunnerEngine/ThirdParty/MoreMountains/MMInterface/Common/Animations/Popup/PopupAnimator.controller";
 
     [MenuItem("Tools/Skate Runner/Setup Daily Mission Systems")]
     public static void Run()
@@ -23,16 +24,15 @@ public static class DailyMissionSetup
         TMP_FontAsset mission54=MissionFont(54)??mission40;
         TMP_FontAsset mission72=MissionFont(72)??mission54;
         HomeUIBinder binder=Object.FindFirstObjectByType<HomeUIBinder>(FindObjectsInactive.Include);
-        RewardGrantedPopup reward=RewardPopup(background.transform,font);
-        Mission(page,reward,binder,mission32,mission40,mission54,mission72);
-        FreeCash(background.transform,reward,binder,mission32,mission40,mission54);
+        Mission(page,binder,mission32,mission40,mission54,mission72);
+        FreeCash(background.transform,binder,mission32,mission40,mission54);
         AddButtons();
         EditorSceneManager.MarkSceneDirty(page.scene);
         EditorSceneManager.SaveScene(page.scene);
         Debug.Log("Daily Mission systems scene setup complete.");
     }
 
-    static void Mission(GameObject page,RewardGrantedPopup reward,HomeUIBinder binder,
+    static void Mission(GameObject page,HomeUIBinder binder,
         TMP_FontAsset font32,TMP_FontAsset font40,TMP_FontAsset font54,TMP_FontAsset font72)
     {
         Transform daily=page.transform.Find("Group_Left/DailyMissionScrollRect");
@@ -67,7 +67,7 @@ public static class DailyMissionSetup
             Row(content,"MissionRow_CompleteLevels",DailyMissionId.CompleteLevels,trophy,chest,frame,green,bar,fill,font40,font32,rowHeight),
             Row(content,"MissionRow_WatchAds",DailyMissionId.WatchRewardedAds,ad,chest,frame,green,bar,fill,font40,font32,rowHeight)};
         DailyMissionPageController controller=Get<DailyMissionPageController>(page);
-        Arr(controller,"rows",rows);Obj(controller,"rewardPopup",reward);Obj(controller,"homeUIBinder",binder);
+        Arr(controller,"rows",rows);Obj(controller,"homeUIBinder",binder);
         Obj(controller,"cashIcon",cash);Obj(controller,"gemIcon",gems);
         Definitions(controller,new[]{
             new object[]{DailyMissionId.CollectCash,"COLLECT CASH","Collect 5,000 Cash",5000,500,0,pouch,cash},
@@ -130,27 +130,13 @@ public static class DailyMissionSetup
         }
     }
 
-    static RewardGrantedPopup RewardPopup(Transform parent,TMP_FontAsset font)
-    {
-        Kill(parent.Find("RewardGrantedPopup"));
-        GameObject root=GO("RewardGrantedPopup",parent);Apply(root.GetComponent<RectTransform>(),R(0,0,1,1));
-        Image blocker=Img(root.transform,"ScreenBlocker",null,new Color(0,0,0,.75f),R(0,0,1,1));blocker.raycastTarget=true;
-        Image panel=Img(root.transform,"DialogPanel",S(L+"Popup/Popup01_Single_Navy.png"),Color.white,R(.28f,.20f,.72f,.80f));
-        TMP_Text title=Txt(panel.transform,"Text_Title","REWARD CLAIMED!",font,42,R(.08f,.73f,.92f,.94f),TextAlignmentOptions.Center);
-        Image a=Img(panel.transform,"Icon_Primary",null,Color.white,R(.25f,.39f,.47f,.72f));
-        Image b=Img(panel.transform,"Icon_Secondary",null,Color.white,R(.53f,.39f,.75f,.72f));
-        TMP_Text amount=Txt(panel.transform,"Text_Reward","REWARD",font,31,R(.12f,.20f,.88f,.43f),TextAlignmentOptions.Center);
-        Button ok=Btn(panel.transform,"Button_OK",S(L+"Button/Button01_145_Green.Png"),R(.35f,.03f,.65f,.20f),font,"OK");
-        RewardGrantedPopup pop=root.AddComponent<RewardGrantedPopup>();Obj(pop,"titleText",title);Obj(pop,"rewardText",amount);Obj(pop,"primaryIcon",a);Obj(pop,"secondaryIcon",b);Obj(pop,"okButton",ok);
-        root.SetActive(false);return pop;
-    }
-
-    static void FreeCash(Transform parent,RewardGrantedPopup reward,HomeUIBinder binder,
+    static void FreeCash(Transform parent,HomeUIBinder binder,
         TMP_FontAsset font32,TMP_FontAsset font40,TMP_FontAsset font54)
     {
         Kill(parent.Find("FreeCashDailyPopup"));GameObject root=GO("FreeCashDailyPopup",parent);Apply(root.GetComponent<RectTransform>(),R(0,0,1,1));
         Image blocker=Img(root.transform,"ScreenBlocker",null,new Color(0,0,0,.75f),R(0,0,1,1));blocker.raycastTarget=true;
         Image panel=Img(root.transform,"DialogPanel",S(L+"Popup/Popup01_Single_Navy.png"),Color.white,R(.20f,.04f,.80f,.96f));
+        Animator dialogAnimator=panel.gameObject.AddComponent<Animator>();dialogAnimator.runtimeAnimatorController=AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(PopupAnimatorPath);dialogAnimator.updateMode=AnimatorUpdateMode.UnscaledTime;
         Txt(panel.transform,"Text_Title","DAILY FREE CASH",font54,46,R(.10f,.865f,.88f,.97f),TextAlignmentOptions.Center);
         TMP_Text timer=Txt(panel.transform,"Text_ResetTimer","RESETS IN 00:00:00",font32,20,R(.18f,.79f,.82f,.855f),TextAlignmentOptions.Center);
         Sprite frame=S(L+"Frame/ListFrame02_Single_Navy.png"),cash=S("Assets/Prefabs/UI/Cash 1.png"),gem=S(L+"UI_Etc/ResourceBar_Icon_Gem_Blue.png");
@@ -171,7 +157,7 @@ public static class DailyMissionSetup
         Image closeImage=Img(panel.transform,"Button_Close",S(L+"Button/Button01_145_Red.Png"),Color.white,R(.915f,.89f,.99f,.985f));
         closeImage.raycastTarget=true;Button close=closeImage.gameObject.AddComponent<Button>();close.targetGraphic=closeImage;
         Img(closeImage.transform,"Icon_Close",S(L+"IconMisc/Icon_PictoIcon_Close.png"),Color.white,R(.24f,.18f,.76f,.78f));
-        FreeCashDailyPopup pop=root.AddComponent<FreeCashDailyPopup>();Arr(pop,"rows",rows);Obj(pop,"resetTimerText",timer);Obj(pop,"closeButton",close);Obj(pop,"rewardPopup",reward);Obj(pop,"homeUIBinder",binder);Obj(pop,"cashIcon",cash);Obj(pop,"gemIcon",gem);
+        FreeCashDailyPopup pop=root.AddComponent<FreeCashDailyPopup>();Arr(pop,"rows",rows);Obj(pop,"resetTimerText",timer);Obj(pop,"closeButton",close);Obj(pop,"homeUIBinder",binder);Obj(pop,"cashIcon",cash);Obj(pop,"gemIcon",gem);Obj(pop,"dialogAnimator",dialogAnimator);
         Button source=Find("FreeCashButton").GetComponent<Button>();source.onClick.RemoveAllListeners();UnityEditor.Events.UnityEventTools.AddPersistentListener(source.onClick,pop.Open);root.SetActive(false);
     }
 

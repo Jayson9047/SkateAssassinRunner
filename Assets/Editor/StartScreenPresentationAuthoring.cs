@@ -11,6 +11,8 @@ using UnityEngine.UI;
 public static class ShopProductImageSync
 {
     private const string ScenePath = "Assets/Scenes/SkateRunnerStartScreen.unity";
+    private const float AbilityProductImageScale = 1.3f;
+    private const float RollerbladeProductImageScale = 0.85f;
 
     [MenuItem("Tools/Skate Runner/Sync Shop Product Images")]
     public static void SyncFromMenu()
@@ -40,11 +42,11 @@ public static class ShopProductImageSync
 
         int count = 0;
         foreach (WeaponPowerShopItem item in FindInScene<WeaponPowerShopItem>(scene))
-            if (abilitySprites.TryGetValue(item.PowerId, out Sprite sprite) && sprite != null) { SetProductImage(item.transform, sprite); count++; }
+            if (abilitySprites.TryGetValue(item.PowerId, out Sprite sprite) && sprite != null) { SetProductImage(item.transform, sprite, AbilityProductImageScale); count++; }
         foreach (SwordShopItem item in FindInScene<SwordShopItem>(scene))
-            if (swordSprites.TryGetValue(item.SwordId, out Sprite sprite) && sprite != null) { SetProductImage(item.transform, sprite); count++; }
+            if (swordSprites.TryGetValue(item.SwordId, out Sprite sprite) && sprite != null) { SetProductImage(item.transform, sprite, 1f); count++; }
         foreach (RollerbladeShopItem item in FindInScene<RollerbladeShopItem>(scene))
-            if (rollerSprites.TryGetValue(item.RollerbladeId, out Sprite sprite) && sprite != null) { SetProductImage(item.transform, sprite); count++; }
+            if (rollerSprites.TryGetValue(item.RollerbladeId, out Sprite sprite) && sprite != null) { SetProductImage(item.transform, sprite, RollerbladeProductImageScale); count++; }
 
         EditorSceneManager.MarkSceneDirty(scene);
         if (saveScene) EditorSceneManager.SaveScene(scene);
@@ -63,7 +65,7 @@ public static class ShopProductImageSync
         return image != null ? image.sprite : null;
     }
 
-    private static void SetProductImage(Transform card, Sprite sprite)
+    private static void SetProductImage(Transform card, Sprite sprite, float imageScale)
     {
         RectTransform mask = card.Find("ProductImageMask") as RectTransform;
         if (mask == null)
@@ -85,8 +87,15 @@ public static class ShopProductImageSync
         }
         imageRect.anchorMin = Vector2.zero; imageRect.anchorMax = Vector2.one;
         imageRect.offsetMin = imageRect.offsetMax = Vector2.zero; imageRect.pivot = new Vector2(0.5f, 0.5f);
+        imageRect.localScale = Vector3.one * Mathf.Max(0.1f, imageScale);
         Image image = imageRect.GetComponent<Image>(); image.sprite = sprite; image.preserveAspect = true; image.raycastTarget = false;
-        EditorUtility.SetDirty(image); EditorUtility.SetDirty(card.gameObject);
+        UIPulse pulse = imageRect.GetComponent<UIPulse>();
+        if (pulse == null) pulse = imageRect.gameObject.AddComponent<UIPulse>();
+        pulse.minScale = 0.95f;
+        pulse.maxScale = 1.05f;
+        pulse.speed = 2.5f;
+        pulse.useUnscaledTime = true;
+        EditorUtility.SetDirty(pulse); EditorUtility.SetDirty(image); EditorUtility.SetDirty(card.gameObject);
     }
 }
 

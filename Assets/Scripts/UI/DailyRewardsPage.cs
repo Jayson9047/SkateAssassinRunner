@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Elroi.DailyMissions;
@@ -34,12 +33,6 @@ public class DailyRewardsPage : MonoBehaviour
     [SerializeField, Range(0, 59)] private int unlockMinute = 0;
     [SerializeField, Tooltip("0 means UTC. Use this to test other time zones, for example -5 for EST or 5.5 for IST.")]
     private float unlockTimeZoneOffsetHours = 0f;
-
-    [Header("Reward Popup")]
-    [SerializeField] private GameObject rewardPopup;
-    [SerializeField] private Image popupIcon;
-    [SerializeField] private TMP_Text popupRewardText;
-    [SerializeField] private Button popupOkButton;
 
     [Header("Currency Display")]
     [SerializeField] private HomeUIBinder homeUIBinder;
@@ -76,7 +69,6 @@ public class DailyRewardsPage : MonoBehaviour
     {
         BuildRewardDays();
         BindButtons();
-        BindPopup();
         ResolveHomeUIBinder();
         EnsureRewardState();
         RefreshState();
@@ -244,44 +236,6 @@ public class DailyRewardsPage : MonoBehaviour
             int dayIndex = i;
             rewardDays[i].button.onClick.RemoveListener(() => ClaimReward(dayIndex));
             rewardDays[i].button.onClick.AddListener(() => ClaimReward(dayIndex));
-        }
-    }
-
-    private void BindPopup()
-    {
-        if (rewardPopup == null)
-        {
-            Transform popupTransform = FindChild(transform, "DailyRewardClaimPopup");
-            if (popupTransform != null)
-            {
-                rewardPopup = popupTransform.gameObject;
-            }
-        }
-
-        if (rewardPopup != null)
-        {
-            if (popupIcon == null)
-            {
-                popupIcon = FindChild(rewardPopup.transform, "Icon")?.GetComponent<Image>();
-            }
-
-            if (popupRewardText == null)
-            {
-                popupRewardText = FindChild(rewardPopup.transform, "RewardText")?.GetComponent<TMP_Text>();
-            }
-
-            if (popupOkButton == null)
-            {
-                popupOkButton = FindChild(rewardPopup.transform, "Button_OK")?.GetComponent<Button>();
-            }
-
-            rewardPopup.SetActive(false);
-        }
-
-        if (popupOkButton != null)
-        {
-            popupOkButton.onClick.RemoveListener(CloseRewardPopup);
-            popupOkButton.onClick.AddListener(CloseRewardPopup);
         }
     }
 
@@ -486,7 +440,12 @@ public class DailyRewardsPage : MonoBehaviour
                 previousGems,ES3.Load<float>(GemsSaveKey,previousGems));
 
         RefreshState();
-        OpenRewardPopup(day);
+        Sprite daySprite = day.icon != null ? day.icon.sprite : FindRewardIcon(day.root)?.sprite;
+        CrystalRewardRevealPopup.TryShow(RewardRevealRequest.ForCurrencies(
+            day.cash,
+            day.gems,
+            day.gems == 0 ? daySprite : null,
+            day.cash == 0 ? daySprite : null));
     }
 
     private bool TryCompleteRewardTransaction(int dayIndex, RewardDay day)
@@ -578,67 +537,4 @@ public class DailyRewardsPage : MonoBehaviour
         return DateTime.SpecifyKind(localMostRecentUnlock - offset, DateTimeKind.Utc);
     }
 
-    private void OpenRewardPopup(RewardDay day)
-    {
-        if (!EnsureRewardPopup())
-        {
-            return;
-        }
-
-        if (popupIcon != null)
-        {
-            Sprite rewardSprite = day.icon != null ? day.icon.sprite : FindRewardIcon(day.root)?.sprite;
-            popupIcon.sprite = rewardSprite;
-            popupIcon.enabled = popupIcon.sprite != null;
-            popupIcon.preserveAspect = true;
-        }
-
-        if (popupRewardText != null)
-        {
-            popupRewardText.text = BuildRewardText(day);
-        }
-
-        rewardPopup.SetActive(true);
-        rewardPopup.transform.SetAsLastSibling();
-    }
-
-    private void CloseRewardPopup()
-    {
-        if (rewardPopup != null)
-        {
-            rewardPopup.SetActive(false);
-        }
-    }
-
-    private string BuildRewardText(RewardDay day)
-    {
-        if (day.cash > 0 && day.gems > 0)
-        {
-            return $"+{day.cash:N0} Cash\n+{day.gems:N0} Gems";
-        }
-
-        if (day.cash > 0)
-        {
-            return $"+{day.cash:N0} Cash";
-        }
-
-        return $"+{day.gems:N0} Gems";
-    }
-
-    private bool EnsureRewardPopup()
-    {
-        if (rewardPopup != null)
-        {
-            return true;
-        }
-
-        BindPopup();
-        if (rewardPopup != null)
-        {
-            return true;
-        }
-
-        Debug.LogWarning("DailyRewardsPage: DailyRewardClaimPopup is missing from the scene.", this);
-        return false;
-    }
 }

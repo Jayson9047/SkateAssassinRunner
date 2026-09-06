@@ -187,13 +187,12 @@ public sealed class RollerbladeShopController : MonoBehaviour
 
         InventoryNewItemNotifications.RegisterRollerblade(item.RollerbladeId);
 
-        SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
         if (homeUIBinder != null)
             homeUIBinder.RefreshFromSave();
 
-        CloseAndResetPopup();
+        ShowPurchasedRollerblades(item);
     }
 
     private void CompleteRealMoneyPlaceholderPurchase(RollerbladeShopItem item)
@@ -209,14 +208,29 @@ public sealed class RollerbladeShopController : MonoBehaviour
             CloseAndResetPopup();
             return;
         }
-        if (RollerbladeOwnershipSave.Grant(item.RollerbladeId))
+        if (!RollerbladeOwnershipSave.Grant(item.RollerbladeId))
         {
-            InventoryNewItemNotifications.RegisterRollerblade(item.RollerbladeId);
-            SkateRunnerAudioManager.PlayPurchaseSuccess();
+            CloseAndResetPopup();
+            return;
         }
 
+        InventoryNewItemNotifications.RegisterRollerblade(item.RollerbladeId);
+
         RefreshItems();
+        ShowPurchasedRollerblades(item);
+    }
+
+    private void ShowPurchasedRollerblades(RollerbladeShopItem item)
+    {
+        Sprite icon = RewardRevealIconUtility.FindProductSprite(item.transform);
+        string displayName = RewardRevealIconUtility.FindProductTitle(
+            item.transform,
+            item.ProductDisplayName);
+        RewardRevealRequest request = RewardRevealRequest.ForItem(
+            RewardRevealType.Rollerblade, displayName, icon);
+        request.primary.displaySize = RewardRevealIconUtility.FindProductDisplaySize(item.transform);
         CloseAndResetPopup();
+        CrystalRewardRevealPopup.TryShow(request);
     }
 
     private void CloseAndResetPopup()

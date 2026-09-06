@@ -158,8 +158,7 @@ public static class SkateRunnerDebugResetService
     {
         WeaponPowerPurchasePopup[] purchasePopups = UnityEngine.Object.FindObjectsByType<WeaponPowerPurchasePopup>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         for (int i = 0; i < purchasePopups.Length; i++) purchasePopups[i].Close();
-        RewardGrantedPopup[] rewardPopups = UnityEngine.Object.FindObjectsByType<RewardGrantedPopup>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        for (int i = 0; i < rewardPopups.Length; i++) rewardPopups[i].Close();
+        CrystalRewardRevealPopup.CloseActiveImmediate();
     }
 
     private static void DeleteEs3Key(string key)

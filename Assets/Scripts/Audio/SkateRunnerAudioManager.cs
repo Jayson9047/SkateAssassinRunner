@@ -31,6 +31,12 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [SerializeField] SkateRunnerAudioCue wheelWinningLanding = new SkateRunnerAudioCue();
     [Header("Purchase Success")]
     [SerializeField] SkateRunnerAudioCue purchaseSuccess = new SkateRunnerAudioCue();
+    [Header("Crystal Reward Reveal")]
+    [SerializeField] AudioClip crystalRewardRevealMusic;
+    [SerializeField, Range(0f, 1f)] float crystalRewardRevealMusicVolume = 0.75f;
+    [SerializeField] SkateRunnerAudioCue crystalChestBreak = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue rewardReveal = new SkateRunnerAudioCue();
+    [SerializeField, Range(0f, 1f)] float rewardRevealBackgroundMusicDuck = 0.35f;
     [Header("Homepage Music")]
     [SerializeField] AudioClip homepageMusic1;
     [SerializeField] AudioClip homepageMusic2;
@@ -75,9 +81,10 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
 
     readonly List<AudioSource> oneShots = new List<AudioSource>();
     readonly HashSet<Button> registeredButtons = new HashSet<Button>();
-    AudioSource musicA, musicB, wheelLoopSource, stingerSource;
+    AudioSource musicA, musicB, wheelLoopSource, stingerSource, rewardRevealMusicSource;
     Coroutine musicRoutine;
     bool gameplayStarted;
+    bool rewardRevealActive;
     int homepageIndex;
     int lastGameplayIndex = -1;
 
@@ -98,6 +105,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         DontDestroyOnLoad(gameObject);
         musicA = AddSource("Music A"); musicB = AddSource("Music B");
         wheelLoopSource = AddSource("Wheel Loop"); stingerSource = AddSource("Ending Stinger");
+        rewardRevealMusicSource = AddSource("Crystal Reward Reveal Music");
         for (int i = 0; i < oneShotPoolSize; i++) oneShots.Add(AddSource("SFX " + (i + 1)));
     }
 
@@ -131,6 +139,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        StopCrystalRewardAudioInternal();
         gameplayStarted = false;
         RegisterSceneButtons(scene);
         if (scene.name == homepageSceneName) StartHomepageMusic(); else StopMusic(musicTransitionFade);
@@ -170,8 +179,12 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
 
     void OnSettingsChanged(bool musicOn, bool sfxOn)
     {
-        musicA.mute = musicB.mute = stingerSource.mute = !musicOn;
+        musicA.mute = musicB.mute = stingerSource.mute = rewardRevealMusicSource.mute = !musicOn;
+        musicA.volume = musicB.volume = CurrentBackgroundMusicVolume;
+        rewardRevealMusicSource.volume = crystalRewardRevealMusicVolume * MusicVolume;
         if (!sfxOn && wheelLoopSource) wheelLoopSource.Stop();
+        if (musicOn && rewardRevealActive && crystalRewardRevealMusic && !rewardRevealMusicSource.isPlaying)
+            PlayCrystalRewardMusic();
         if (musicOn && !musicA.isPlaying && !musicB.isPlaying && !stingerSource.isPlaying)
         { if (gameplayStarted) StartGameplayMusic(false); else if (SceneManager.GetActiveScene().name == homepageSceneName) StartHomepageMusic(); }
     }
@@ -191,6 +204,10 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
 
     public static void PlayUIButtonClick() => Instance?.Play(Instance.uiButtonClick);
     public static void PlayPurchaseSuccess() => Instance?.Play(Instance.purchaseSuccess);
+    public static void StartCrystalRewardRevealAudio() => Instance?.StartCrystalRewardAudioInternal();
+    public static void PlayCrystalChestBreak() => Instance?.Play(Instance.crystalChestBreak);
+    public static void PlayRewardReveal() => Instance?.Play(Instance.rewardReveal);
+    public static void StopCrystalRewardRevealAudio() => Instance?.StopCrystalRewardAudioInternal();
     public static void PlayDashAttack() => Instance?.Play(Instance.dashAttack);
     public static void PlayDownAttack() => Instance?.Play(Instance.downAttack);
     public static void PlayCashPickup() => Instance?.Play(Instance.cashPickup);
@@ -205,6 +222,34 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     public static void PlayPhase2SniperGunshot() => Instance?.Play(Instance.phase2SniperGunshot);
     public static void PlayPhase2SniperImpact() => Instance?.Play(Instance.phase2SniperImpactOnPlayer);
     public static void PlayFlyingDroneShot() => Instance?.Play(Instance.flyingDroneShot);
+
+    float CurrentBackgroundMusicVolume => MusicVolume * (rewardRevealActive && crystalRewardRevealMusic ? rewardRevealBackgroundMusicDuck : 1f);
+
+    void StartCrystalRewardAudioInternal()
+    {
+        rewardRevealActive = true;
+        musicA.volume = musicB.volume = CurrentBackgroundMusicVolume;
+        PlayCrystalRewardMusic();
+    }
+
+    void PlayCrystalRewardMusic()
+    {
+        if (!MusicEnabled || !crystalRewardRevealMusic || !rewardRevealMusicSource) return;
+        rewardRevealMusicSource.clip = crystalRewardRevealMusic;
+        rewardRevealMusicSource.loop = true;
+        rewardRevealMusicSource.pitch = 1f;
+        rewardRevealMusicSource.volume = crystalRewardRevealMusicVolume * MusicVolume;
+        rewardRevealMusicSource.mute = !MusicEnabled;
+        rewardRevealMusicSource.Play();
+    }
+
+    void StopCrystalRewardAudioInternal()
+    {
+        rewardRevealActive = false;
+        if (rewardRevealMusicSource) rewardRevealMusicSource.Stop();
+        if (musicA) musicA.volume = MusicVolume;
+        if (musicB) musicB.volume = MusicVolume;
+    }
 
     public static void StartWheelSpin() { if (Instance) Instance.StartLoop(Instance.wheelLoopSource, Instance.wheelSpinningLoop); }
     public static void StopWheelSpinAndLand() { if (!Instance) return; StopWheelSpin(); Instance.Play(Instance.wheelWinningLanding); }
@@ -253,7 +298,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         while (true)
         {
             AudioClip clip = tracks[homepageIndex++ % tracks.Count];
-            musicA.clip = clip; musicA.loop = loopSingle || tracks.Count == 1; musicA.pitch = 1f; musicA.volume = MusicVolume; musicA.mute = !MusicEnabled; musicA.Play();
+            musicA.clip = clip; musicA.loop = loopSingle || tracks.Count == 1; musicA.pitch = 1f; musicA.volume = CurrentBackgroundMusicVolume; musicA.mute = !MusicEnabled; musicA.Play();
             if (musicA.loop) yield break;
             while (musicA.isPlaying) yield return null;
         }
@@ -264,7 +309,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     {
         float a = musicA.volume, b = musicB.volume;
         for (float t = 0; t < duration; t += Time.unscaledDeltaTime) { float k = duration <= 0 ? 1 : t / duration; musicA.volume = Mathf.Lerp(a, 0, k); musicB.volume = Mathf.Lerp(b, 0, k); yield return null; }
-        musicA.Stop(); musicB.Stop(); musicA.volume = musicB.volume = MusicVolume; musicA.pitch = musicB.pitch = 1f;
+        musicA.Stop(); musicB.Stop(); musicA.volume = musicB.volume = CurrentBackgroundMusicVolume; musicA.pitch = musicB.pitch = 1f;
         if (playStinger && MusicEnabled && levelEndingOutroStinger) { stingerSource.clip = levelEndingOutroStinger; stingerSource.volume = MusicVolume; stingerSource.pitch = 1f; stingerSource.Play(); }
     }
     public static void EndGameplayMusicAtFinalLanding() { if (Instance) { if (Instance.musicRoutine != null) Instance.StopCoroutine(Instance.musicRoutine); Instance.musicRoutine = Instance.StartCoroutine(Instance.FadeAndStop(Instance.gameplayMusicFadeOutDuration, true)); } }

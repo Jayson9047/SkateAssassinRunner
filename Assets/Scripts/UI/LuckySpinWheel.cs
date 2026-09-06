@@ -68,11 +68,6 @@ public class LuckySpinWheel : MonoBehaviour
     [SerializeField] private TMP_Text dailySpinCountText;
     [SerializeField] private TMP_Text dailySpinResetText;
 
-    [Header("Reward Popup")]
-    [SerializeField] private GameObject rewardPopup;
-    [SerializeField] private Image rewardPopupIcon;
-    [SerializeField] private TMP_Text rewardPopupText;
-    [SerializeField] private Button rewardPopupOkButton;
     [SerializeField] private HomeUIBinder homeUIBinder;
 
     private bool isSpinning;
@@ -82,7 +77,6 @@ public class LuckySpinWheel : MonoBehaviour
     private void OnDisable()
     {
         SkateRunnerAudioManager.StopWheelSpin();
-        CloseRewardPopup();
     }
 
     private void OnEnable()
@@ -108,8 +102,6 @@ public class LuckySpinWheel : MonoBehaviour
 
         if (dailySpinButton != null)
             dailySpinButton.onClick.AddListener(EarnSpinFromAd);
-
-        BindRewardPopup();
 
         RefreshCurrencyUI();
         RefreshSpinUI();
@@ -292,43 +284,15 @@ public class LuckySpinWheel : MonoBehaviour
         if (rewardResultText != null)
             rewardResultText.text = $"+{reward.amount} {reward.rewardType}";
 
-        ShowRewardPopup(reward);
+        Sprite rewardSprite = FindRewardSprite(reward);
+        CrystalRewardRevealPopup.TryShow(RewardRevealRequest.ForCurrencies(
+            reward.rewardType == RewardType.Cash ? reward.amount : 0,
+            reward.rewardType == RewardType.Gem ? reward.amount : 0,
+            reward.rewardType == RewardType.Cash ? rewardSprite : null,
+            reward.rewardType == RewardType.Gem ? rewardSprite : null,
+            title: "YOU WON!"));
 
         Debug.Log($"Lucky Spin Saved Reward: {reward.rewardType} +{reward.amount}");
-    }
-
-    private void BindRewardPopup()
-    {
-        if (rewardPopup != null)
-            rewardPopup.SetActive(false);
-
-        if (rewardPopupOkButton != null)
-        {
-            rewardPopupOkButton.onClick.RemoveListener(CloseRewardPopup);
-            rewardPopupOkButton.onClick.AddListener(CloseRewardPopup);
-        }
-    }
-
-    private void ShowRewardPopup(SpinReward reward)
-    {
-        if (rewardPopup == null || reward == null)
-            return;
-
-        if (rewardPopupIcon != null)
-        {
-            rewardPopupIcon.sprite = FindRewardSprite(reward);
-            rewardPopupIcon.enabled = rewardPopupIcon.sprite != null;
-            rewardPopupIcon.preserveAspect = true;
-        }
-
-        if (rewardPopupText != null)
-        {
-            string currencyName = reward.rewardType == RewardType.Gem ? "GEMS" : "CASH";
-            rewardPopupText.text = $"YOU WON\n+{reward.amount:N0} {currencyName}!";
-        }
-
-        rewardPopup.SetActive(true);
-        rewardPopup.transform.SetAsLastSibling();
     }
 
     private Sprite FindRewardSprite(SpinReward reward)
@@ -353,12 +317,6 @@ public class LuckySpinWheel : MonoBehaviour
         }
 
         return fallback != null ? fallback.sprite : null;
-    }
-
-    private void CloseRewardPopup()
-    {
-        if (rewardPopup != null)
-            rewardPopup.SetActive(false);
     }
 
     private void RefreshCurrencyUI()
