@@ -14,6 +14,7 @@ public sealed class CurrencyPackShopController : MonoBehaviour
     private const string TotalCashKey = "TotalCash";
 
     [SerializeField] private CurrencyPackShopItem[] items;
+    [SerializeField] private ShopPricingCatalog pricingCatalog;
     [SerializeField] private WeaponPowerPurchasePopup purchasePopup;
     [SerializeField] private HomeUIBinder homeUIBinder;
 
@@ -23,6 +24,13 @@ public sealed class CurrencyPackShopController : MonoBehaviour
     private CurrencyPackShopItem pendingItem;
     private bool purchaseProcessing;
     private bool mappingBuilt;
+
+    public ShopPricingCatalog PricingCatalog => pricingCatalog;
+    public bool TryGetPrice(CurrencyPackProductId id, out ShopPricingCatalog.CurrencyPackPrice price)
+    {
+        price = null;
+        return pricingCatalog != null && pricingCatalog.TryGet(id, out price);
+    }
 
     private void OnEnable()
     {
@@ -193,10 +201,11 @@ public sealed class CurrencyPackShopController : MonoBehaviour
             return;
         }
 
-        // TODO: Add Mobile Monetization Pro V2 purchase flow here.
-        // Start the configured real-money consumable purchase.
-        // Grant currency only after a verified successful purchase callback.
-        // Do not grant again for duplicate callbacks using the same purchase token.
+        if (!ShopRealMoneyPurchaseBridge.IsPlaceholderPurchaseApproved(item.StoreProductId))
+        {
+            ResetTransaction(true);
+            return;
+        }
 
         string balanceKey = grantsGems ? TotalGemsKey : TotalCashKey;
         int amountGranted = grantsGems ? item.GemsGranted : item.CashGranted;
@@ -331,7 +340,7 @@ public sealed class CurrencyPackShopController : MonoBehaviour
             }
         }
 
-        if (purchasePopup == null || homeUIBinder == null)
+        if (purchasePopup == null || homeUIBinder == null || pricingCatalog == null)
             Debug.LogWarning("Currency Pack Shop has one or more missing serialized references.", this);
     }
 

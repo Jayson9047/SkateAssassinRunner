@@ -12,6 +12,7 @@ namespace Elroi.DailyMissions.UI
         [SerializeField] Button claimButton;
         [SerializeField] Graphic normalBackground, completedBackground;
         [SerializeField] GameObject claimedIndicator;
+        [SerializeField] NotificationBadgeView notificationBadge;
         public DailyMissionId MissionId => missionId;
         public void Configure(DailyMissionId id)=>missionId=id;
         public void SetHandler(UnityEngine.Events.UnityAction a){if(!claimButton)return;claimButton.onClick.RemoveAllListeners();claimButton.onClick.AddListener(a);}
@@ -22,6 +23,7 @@ namespace Elroi.DailyMissions.UI
             if(progressText)progressText.text=$"{p:N0} / {d.target:N0}";if(progressFill)progressFill.fillAmount=Mathf.Clamp01((float)p/d.target);if(timerText)timerText.text=timer;
             if(rewardText)rewardText.text=d.rewardCash>0&&d.rewardGems>0?$"{d.rewardCash:N0} CASH\n{d.rewardGems:N0} GEMS":d.rewardCash>0?$"{d.rewardCash:N0} CASH":$"{d.rewardGems:N0} GEMS";
             bool ready=p>=d.target&&!claimed;if(normalBackground)normalBackground.gameObject.SetActive(!ready);if(completedBackground)completedBackground.gameObject.SetActive(ready);
+            if(notificationBadge)notificationBadge.SetCount(ready?1:0);
             if(claimButton)claimButton.interactable=ready;
             if(claimButtonText)claimButtonText.text=claimed?"":"CLAIM";
             if(claimedIndicator)claimedIndicator.SetActive(claimed);

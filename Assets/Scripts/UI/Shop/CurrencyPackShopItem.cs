@@ -58,14 +58,23 @@ public sealed class CurrencyPackShopItem : MonoBehaviour
     private bool isProcessing;
 
     public CurrencyPackProductId ProductId => productId;
-    public CurrencyPackPurchaseType PurchaseType => purchaseType;
-    public int GemsCost => gemsCost;
-    public int GemsGranted => gemsGranted;
-    public int CashGranted => cashGranted;
-    public string RealMoneyDisplayPrice => realMoneyDisplayPrice;
-    public string CardCostText => cardCostText;
-    public string DisplayProductName => displayProductName;
-    public string StoreProductId => storeProductId;
+    public CurrencyPackPurchaseType PurchaseType
+    {
+        get
+        {
+            ShopPricingCatalog.CurrencyPackPrice p;
+            if (!TryGetPrice(out p)) return purchaseType;
+            if (p.paymentType == ShopPaymentType.Gems) return CurrencyPackPurchaseType.GemsToCash;
+            return p.gemsGranted > 0 ? CurrencyPackPurchaseType.RealMoneyToGems : CurrencyPackPurchaseType.RealMoneyToCash;
+        }
+    }
+    public int GemsCost { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) && p.paymentType == ShopPaymentType.Gems ? p.cost : 0; } }
+    public int GemsGranted { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.gemsGranted : 0; } }
+    public int CashGranted { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.cashGranted : 0; } }
+    public string RealMoneyDisplayPrice { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.realMoneyPrice : string.Empty; } }
+    public string CardCostText { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? ShopPricingCatalog.FormatCardPrice(p.paymentType, p.cost, p.realMoneyPrice) : "UNAVAILABLE"; } }
+    public string DisplayProductName { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.displayName : string.Empty; } }
+    public string StoreProductId { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.storeProductId : string.Empty; } }
     public bool IsProcessing => isProcessing;
 
     private void OnEnable()
@@ -90,7 +99,7 @@ public sealed class CurrencyPackShopItem : MonoBehaviour
     public void RefreshPresentation()
     {
         if (costText != null)
-            costText.text = cardCostText;
+            costText.text = CardCostText;
 
         SetProcessing(false);
     }
@@ -112,21 +121,22 @@ public sealed class CurrencyPackShopItem : MonoBehaviour
 
     public string BuildConfirmationMessage()
     {
-        if (purchaseType == CurrencyPackPurchaseType.GemsToCash)
+        CurrencyPackPurchaseType configuredType = PurchaseType;
+        if (configuredType == CurrencyPackPurchaseType.GemsToCash)
         {
-            return "You're about to spend " + FormatAmount(gemsCost) +
-                   " Gems to buy " + FormatAmount(cashGranted) +
+            return "You're about to spend " + FormatAmount(GemsCost) +
+                   " Gems to buy " + FormatAmount(CashGranted) +
                    " Cash. Are you sure?";
         }
 
-        int amount = purchaseType == CurrencyPackPurchaseType.RealMoneyToGems
-            ? gemsGranted
-            : cashGranted;
-        string currencyName = purchaseType == CurrencyPackPurchaseType.RealMoneyToGems
+        int amount = configuredType == CurrencyPackPurchaseType.RealMoneyToGems
+            ? GemsGranted
+            : CashGranted;
+        string currencyName = configuredType == CurrencyPackPurchaseType.RealMoneyToGems
             ? "Gems"
             : "Cash";
 
-        return "You're about to spend " + realMoneyDisplayPrice +
+        return "You're about to spend " + RealMoneyDisplayPrice +
                " to buy " + FormatAmount(amount) + " " +
                currencyName + ". Are you sure?";
     }
@@ -137,6 +147,12 @@ public sealed class CurrencyPackShopItem : MonoBehaviour
             return;
 
         controller.RequestPurchase(this);
+    }
+
+    private bool TryGetPrice(out ShopPricingCatalog.CurrencyPackPrice price)
+    {
+        price = null;
+        return controller != null && controller.TryGetPrice(productId, out price);
     }
 
     private static string FormatAmount(int amount)

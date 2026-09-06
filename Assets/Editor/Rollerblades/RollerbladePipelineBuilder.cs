@@ -181,6 +181,7 @@ public static class RollerbladePipelineBuilder
 
         WireShopScene();
         WireInventoryScene(previewController, template, clips);
+        ShopProductImageSync.SyncLoadedScene(false);
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);

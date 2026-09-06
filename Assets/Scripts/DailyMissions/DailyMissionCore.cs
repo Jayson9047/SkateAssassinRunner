@@ -99,6 +99,17 @@ namespace Elroi.DailyMissions
             }
         }
 
+        public static int GetUnclaimedCompletedCount()
+        {
+            EnsureCurrentDay();
+            int count = 0;
+            if (GetProgress(DailyMissionId.CollectCash) >= 5000 && !IsClaimed(DailyMissionId.CollectCash)) count++;
+            if (GetProgress(DailyMissionId.CollectGems) >= 30 && !IsClaimed(DailyMissionId.CollectGems)) count++;
+            if (GetProgress(DailyMissionId.CompleteLevels) >= 10 && !IsClaimed(DailyMissionId.CompleteLevels)) count++;
+            if (GetProgress(DailyMissionId.WatchRewardedAds) >= 5 && !IsClaimed(DailyMissionId.WatchRewardedAds)) count++;
+            return count;
+        }
+
         public static bool TryMarkClaimed(DailyMissionId id, int target)
         {
             EnsureCurrentDay();

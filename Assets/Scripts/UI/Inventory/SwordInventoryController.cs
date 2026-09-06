@@ -80,7 +80,10 @@ public sealed class SwordInventoryController : MonoBehaviour
 
     public void SelectSword(SwordId id)
     {
+        BuildMaps();
+        if (!IsSwordUsable(id)) return;
         SelectSwordInternal(id, false);
+        InventoryNewItemNotifications.MarkSwordSeen(id);
     }
 
     public void RefreshAvailability()

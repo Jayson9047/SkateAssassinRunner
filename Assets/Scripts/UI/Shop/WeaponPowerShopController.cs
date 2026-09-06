@@ -11,6 +11,7 @@ public sealed class WeaponPowerShopController : MonoBehaviour
     private const string TotalGemsKey = "TotalGems";
 
     [SerializeField] private WeaponPowerShopItem[] items;
+    [SerializeField] private ShopPricingCatalog pricingCatalog;
     [SerializeField] private WeaponPowerPurchasePopup purchasePopup;
     [SerializeField] private HomeUIBinder homeUIBinder;
 
@@ -20,6 +21,13 @@ public sealed class WeaponPowerShopController : MonoBehaviour
     private WeaponPowerShopItem pendingItem;
     private bool purchaseProcessing;
     private bool mappingBuilt;
+
+    public ShopPricingCatalog PricingCatalog => pricingCatalog;
+    public bool TryGetPrice(WeaponPowerId id, out ShopPricingCatalog.AbilityPrice price)
+    {
+        price = null;
+        return pricingCatalog != null && pricingCatalog.TryGet(id, out price);
+    }
 
     private void OnEnable()
     {
@@ -117,7 +125,7 @@ public sealed class WeaponPowerShopController : MonoBehaviour
 
         purchaseProcessing = true;
 
-        if (item.PurchaseType == WeaponPowerPurchaseType.Gems)
+        if (item.PaymentType == ShopPaymentType.Gems)
         {
             CompleteGemPurchase(item);
             return;
@@ -137,8 +145,8 @@ public sealed class WeaponPowerShopController : MonoBehaviour
 
     private void CompleteGemPurchase(WeaponPowerShopItem item)
     {
-        int cost = item.GemCost;
-        if (cost <= 0 || item.PurchaseType != WeaponPowerPurchaseType.Gems)
+        int cost = item.PriceCost;
+        if (cost <= 0 || item.PaymentType != ShopPaymentType.Gems)
         {
             CloseAndResetPopup();
             return;
@@ -170,6 +178,8 @@ public sealed class WeaponPowerShopController : MonoBehaviour
             return;
         }
 
+        InventoryNewItemNotifications.RegisterAbility(item.PowerId);
+
         SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
@@ -181,17 +191,22 @@ public sealed class WeaponPowerShopController : MonoBehaviour
 
     private void CompleteRealMoneyPlaceholderPurchase(WeaponPowerShopItem item)
     {
-        if (item.PurchaseType != WeaponPowerPurchaseType.RealMoneyPlaceholder)
+        if (item.PaymentType != ShopPaymentType.RealMoney)
         {
             CloseAndResetPopup();
             return;
         }
 
-        // TODO: Add monetization here.
-        // Replace this temporary grant with the Google Play/Google Pay purchase flow.
-        // Grant Magic ownership only after a verified successful purchase callback.
+        if (!ShopRealMoneyPurchaseBridge.IsPlaceholderPurchaseApproved(item.StoreProductId))
+        {
+            CloseAndResetPopup();
+            return;
+        }
         if (WeaponPowerOwnershipSave.Grant(item.PowerId))
+        {
+            InventoryNewItemNotifications.RegisterAbility(item.PowerId);
             SkateRunnerAudioManager.PlayPurchaseSuccess();
+        }
 
         RefreshItems();
         CloseAndResetPopup();
@@ -229,7 +244,7 @@ public sealed class WeaponPowerShopController : MonoBehaviour
             itemsById[item.PowerId] = item;
         }
 
-        if (purchasePopup == null || homeUIBinder == null)
+        if (purchasePopup == null || homeUIBinder == null || pricingCatalog == null)
             Debug.LogWarning("Weapon Power Shop has one or more missing serialized references.", this);
     }
 }

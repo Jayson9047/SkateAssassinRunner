@@ -9,6 +9,7 @@ public sealed class SwordShopController : MonoBehaviour
     private const string TotalCashKey = "TotalCash";
 
     [SerializeField] private SwordShopItem[] items;
+    [SerializeField] private ShopPricingCatalog pricingCatalog;
     [SerializeField] private WeaponPowerPurchasePopup purchasePopup;
     [SerializeField] private HomeUIBinder homeUIBinder;
 
@@ -18,6 +19,13 @@ public sealed class SwordShopController : MonoBehaviour
     private SwordShopItem pendingItem;
     private bool purchaseProcessing;
     private bool mappingBuilt;
+
+    public ShopPricingCatalog PricingCatalog => pricingCatalog;
+    public bool TryGetPrice(SwordId id, out ShopPricingCatalog.SwordPrice price)
+    {
+        price = null;
+        return pricingCatalog != null && pricingCatalog.TryGet(id, out price);
+    }
 
     private void OnEnable()
     {
@@ -113,13 +121,13 @@ public sealed class SwordShopController : MonoBehaviour
 
         purchaseProcessing = true;
 
-        switch (item.PurchaseType)
+        switch (item.PaymentType)
         {
-            case SwordPurchaseType.Gems:
-                CompleteCurrencyPurchase(item, TotalGemsKey, item.GemCost, "Gems");
+            case ShopPaymentType.Gems:
+                CompleteCurrencyPurchase(item, TotalGemsKey, item.PriceCost, "Gems");
                 break;
-            case SwordPurchaseType.Cash:
-                CompleteCurrencyPurchase(item, TotalCashKey, item.CashCost, "Cash");
+            case ShopPaymentType.Cash:
+                CompleteCurrencyPurchase(item, TotalCashKey, item.PriceCost, "Cash");
                 break;
             default:
                 CompleteRealMoneyPlaceholderPurchase(item);
@@ -137,8 +145,8 @@ public sealed class SwordShopController : MonoBehaviour
 
     private void CompleteCurrencyPurchase(SwordShopItem item, string balanceKey, int cost, string currencyName)
     {
-        bool typeMatches = (currencyName == "Gems" && item.PurchaseType == SwordPurchaseType.Gems) ||
-                           (currencyName == "Cash" && item.PurchaseType == SwordPurchaseType.Cash);
+        bool typeMatches = (currencyName == "Gems" && item.PaymentType == ShopPaymentType.Gems) ||
+                           (currencyName == "Cash" && item.PaymentType == ShopPaymentType.Cash);
         if (!typeMatches || cost <= 0)
         {
             CloseAndResetPopup();
@@ -172,6 +180,8 @@ public sealed class SwordShopController : MonoBehaviour
             return;
         }
 
+        InventoryNewItemNotifications.RegisterSword(item.SwordId);
+
         SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
@@ -183,18 +193,22 @@ public sealed class SwordShopController : MonoBehaviour
 
     private void CompleteRealMoneyPlaceholderPurchase(SwordShopItem item)
     {
-        if (item.PurchaseType != SwordPurchaseType.RealMoneyPlaceholder ||
-            item.SwordId != SwordId.HellForge)
+        if (item.PaymentType != ShopPaymentType.RealMoney)
         {
             CloseAndResetPopup();
             return;
         }
 
-        // TODO: Add monetization here.
-        // Replace this temporary grant with the real Google Play purchase flow.
-        // Grant Sword ownership only after a verified successful purchase callback.
-        if (SwordOwnershipSave.Grant(SwordId.HellForge))
+        if (!ShopRealMoneyPurchaseBridge.IsPlaceholderPurchaseApproved(item.StoreProductId))
+        {
+            CloseAndResetPopup();
+            return;
+        }
+        if (SwordOwnershipSave.Grant(item.SwordId))
+        {
+            InventoryNewItemNotifications.RegisterSword(item.SwordId);
             SkateRunnerAudioManager.PlayPurchaseSuccess();
+        }
 
         RefreshItems();
         CloseAndResetPopup();
@@ -232,7 +246,7 @@ public sealed class SwordShopController : MonoBehaviour
             itemsById[item.SwordId] = item;
         }
 
-        if (purchasePopup == null || homeUIBinder == null)
+        if (purchasePopup == null || homeUIBinder == null || pricingCatalog == null)
             Debug.LogWarning("Sword Shop has one or more missing serialized references.", this);
     }
 }

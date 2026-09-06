@@ -35,9 +35,10 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
     private bool isOwned;
 
     public WeaponPowerId PowerId => powerId;
-    public WeaponPowerPurchaseType PurchaseType => purchaseType;
-    public int GemCost => gemCost;
-    public string RealMoneyDisplayPrice => realMoneyDisplayPrice;
+    public ShopPaymentType PaymentType { get { ShopPricingCatalog.AbilityPrice p; return TryGetPrice(out p) ? p.paymentType : ShopPaymentType.RealMoney; } }
+    public int PriceCost { get { ShopPricingCatalog.AbilityPrice p; return TryGetPrice(out p) ? p.cost : 0; } }
+    public string RealMoneyDisplayPrice { get { ShopPricingCatalog.AbilityPrice p; return TryGetPrice(out p) ? p.realMoneyPrice : string.Empty; } }
+    public string StoreProductId { get { ShopPricingCatalog.AbilityPrice p; return TryGetPrice(out p) ? p.storeProductId : string.Empty; } }
     public bool IsOwned => isOwned;
     public string ProductDisplayName => GetPowerDisplayName(powerId) + " Power";
 
@@ -64,7 +65,7 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
             costText.text = isOwned ? "Owned" : GetConfiguredPriceText();
 
         if (gemIcon != null)
-            gemIcon.SetActive(!isOwned && purchaseType == WeaponPowerPurchaseType.Gems);
+            gemIcon.SetActive(!isOwned && PaymentType == ShopPaymentType.Gems);
 
         if (cardCanvasGroup != null)
         {
@@ -79,21 +80,19 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
 
     public string GetConfiguredPriceText()
     {
-        return purchaseType == WeaponPowerPurchaseType.Gems
-            ? gemCost.ToString()
-            : realMoneyDisplayPrice;
+        ShopPricingCatalog.AbilityPrice price;
+        return TryGetPrice(out price)
+            ? ShopPricingCatalog.FormatCardPrice(price.paymentType, price.cost, price.realMoneyPrice)
+            : "UNAVAILABLE";
     }
 
     public string BuildConfirmationMessage()
     {
-        if (purchaseType == WeaponPowerPurchaseType.Gems)
-        {
-            return "You're about to spend " + gemCost + " Gems to buy " +
-                   ProductDisplayName + ". Are you sure?";
-        }
-
-        return "You're about to spend " + realMoneyDisplayPrice + " to buy " +
-               ProductDisplayName + ". Are you sure?";
+        ShopPricingCatalog.AbilityPrice price;
+        if (!TryGetPrice(out price)) return "This product is not configured in ShopPricingCatalog.";
+        return "You're about to spend " +
+               ShopPricingCatalog.FormatConfirmationPrice(price.paymentType, price.cost, price.realMoneyPrice) +
+               " to buy " + ProductDisplayName + ". Are you sure?";
     }
 
     private void RequestPurchase()
@@ -102,6 +101,12 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
             return;
 
         controller.RequestPurchase(this);
+    }
+
+    private bool TryGetPrice(out ShopPricingCatalog.AbilityPrice price)
+    {
+        price = null;
+        return controller != null && controller.TryGetPrice(powerId, out price);
     }
 
     private static string GetPowerDisplayName(WeaponPowerId id)

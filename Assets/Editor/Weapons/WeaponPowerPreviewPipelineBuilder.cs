@@ -608,6 +608,7 @@ public static class WeaponPowerPreviewPipelineBuilder
             previewImage.sprite = AssetDatabase.LoadAllAssetsAtPath(SheetPath(WeaponPowerId.None)).OfType<Sprite>().OrderBy(s => s.name).First();
             RecordVisual(previewImage); RecordVisual(animator);
             Undo.FlushUndoRecordObjects();
+            ShopProductImageSync.SyncScene(scene, false);
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
         }

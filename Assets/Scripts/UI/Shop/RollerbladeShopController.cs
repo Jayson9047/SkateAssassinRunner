@@ -9,6 +9,7 @@ public sealed class RollerbladeShopController : MonoBehaviour
     private const string TotalCashKey = "TotalCash";
 
     [SerializeField] private RollerbladeShopItem[] items;
+    [SerializeField] private ShopPricingCatalog pricingCatalog;
     [SerializeField] private WeaponPowerPurchasePopup purchasePopup;
     [SerializeField] private HomeUIBinder homeUIBinder;
 
@@ -18,6 +19,13 @@ public sealed class RollerbladeShopController : MonoBehaviour
     private RollerbladeShopItem pendingItem;
     private bool purchaseProcessing;
     private bool mappingBuilt;
+
+    public ShopPricingCatalog PricingCatalog => pricingCatalog;
+    public bool TryGetPrice(RollerbladeId id, out ShopPricingCatalog.RollerbladePrice price)
+    {
+        price = null;
+        return pricingCatalog != null && pricingCatalog.TryGet(id, out price);
+    }
 
     private void OnEnable()
     {
@@ -113,13 +121,13 @@ public sealed class RollerbladeShopController : MonoBehaviour
 
         purchaseProcessing = true;
 
-        switch (item.PurchaseType)
+        switch (item.PaymentType)
         {
-            case RollerbladePurchaseType.Gems:
-                CompleteCurrencyPurchase(item, TotalGemsKey, item.GemCost, "Gems");
+            case ShopPaymentType.Gems:
+                CompleteCurrencyPurchase(item, TotalGemsKey, item.PriceCost, "Gems");
                 break;
-            case RollerbladePurchaseType.Cash:
-                CompleteCurrencyPurchase(item, TotalCashKey, item.CashCost, "Cash");
+            case ShopPaymentType.Cash:
+                CompleteCurrencyPurchase(item, TotalCashKey, item.PriceCost, "Cash");
                 break;
             default:
                 CompleteRealMoneyPlaceholderPurchase(item);
@@ -142,8 +150,8 @@ public sealed class RollerbladeShopController : MonoBehaviour
         string currencyName)
     {
         bool typeMatches =
-            (currencyName == "Gems" && item.PurchaseType == RollerbladePurchaseType.Gems) ||
-            (currencyName == "Cash" && item.PurchaseType == RollerbladePurchaseType.Cash);
+            (currencyName == "Gems" && item.PaymentType == ShopPaymentType.Gems) ||
+            (currencyName == "Cash" && item.PaymentType == ShopPaymentType.Cash);
         if (!typeMatches || cost <= 0)
         {
             CloseAndResetPopup();
@@ -177,6 +185,8 @@ public sealed class RollerbladeShopController : MonoBehaviour
             return;
         }
 
+        InventoryNewItemNotifications.RegisterRollerblade(item.RollerbladeId);
+
         SkateRunnerAudioManager.PlayPurchaseSuccess();
         RefreshItems();
 
@@ -188,18 +198,22 @@ public sealed class RollerbladeShopController : MonoBehaviour
 
     private void CompleteRealMoneyPlaceholderPurchase(RollerbladeShopItem item)
     {
-        if (item.PurchaseType != RollerbladePurchaseType.RealMoneyPlaceholder ||
-            item.RollerbladeId != RollerbladeId.InfernoDrift)
+        if (item.PaymentType != ShopPaymentType.RealMoney)
         {
             CloseAndResetPopup();
             return;
         }
 
-        // TODO: Add monetization here.
-        // Replace this temporary grant with the real Google Play purchase flow.
-        // Grant Rollerblade ownership only after a verified successful purchase callback.
-        if (RollerbladeOwnershipSave.Grant(RollerbladeId.InfernoDrift))
+        if (!ShopRealMoneyPurchaseBridge.IsPlaceholderPurchaseApproved(item.StoreProductId))
+        {
+            CloseAndResetPopup();
+            return;
+        }
+        if (RollerbladeOwnershipSave.Grant(item.RollerbladeId))
+        {
+            InventoryNewItemNotifications.RegisterRollerblade(item.RollerbladeId);
             SkateRunnerAudioManager.PlayPurchaseSuccess();
+        }
 
         RefreshItems();
         CloseAndResetPopup();
@@ -241,7 +255,7 @@ public sealed class RollerbladeShopController : MonoBehaviour
             itemsById[item.RollerbladeId] = item;
         }
 
-        if (purchasePopup == null || homeUIBinder == null)
+        if (purchasePopup == null || homeUIBinder == null || pricingCatalog == null)
             Debug.LogWarning("Rollerblade Shop has one or more missing serialized references.", this);
     }
 }

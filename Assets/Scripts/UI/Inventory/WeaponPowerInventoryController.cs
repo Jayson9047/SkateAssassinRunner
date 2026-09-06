@@ -129,7 +129,10 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
 
     public void SelectPower(WeaponPowerId id)
     {
+        BuildMaps();
+        if (!IsPowerAvailable(id) || !previewsById.ContainsKey(id)) return;
         SelectPowerInternal(id, false);
+        InventoryNewItemNotifications.MarkAbilitySeen(id);
     }
 
     private void SelectPowerInternal(WeaponPowerId id, bool allowFallback)

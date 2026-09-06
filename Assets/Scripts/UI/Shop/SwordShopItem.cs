@@ -35,10 +35,9 @@ public sealed class SwordShopItem : MonoBehaviour
     private bool isOwned;
 
     public SwordId SwordId => swordId;
-    public SwordPurchaseType PurchaseType => purchaseType;
-    public int GemCost => gemCost;
-    public int CashCost => cashCost;
-    public string RealMoneyConfirmationPrice => realMoneyConfirmationPrice;
+    public ShopPaymentType PaymentType { get { ShopPricingCatalog.SwordPrice p; return TryGetPrice(out p) ? p.paymentType : ShopPaymentType.RealMoney; } }
+    public int PriceCost { get { ShopPricingCatalog.SwordPrice p; return TryGetPrice(out p) ? p.cost : 0; } }
+    public string StoreProductId { get { ShopPricingCatalog.SwordPrice p; return TryGetPrice(out p) ? p.storeProductId : string.Empty; } }
     public bool IsOwned => isOwned;
     public string ProductDisplayName => GetSwordDisplayName(swordId);
 
@@ -65,7 +64,7 @@ public sealed class SwordShopItem : MonoBehaviour
             costText.text = isOwned ? "Owned" : GetConfiguredPriceText();
 
         if (currencyIcon != null)
-            currencyIcon.SetActive(!isOwned && purchaseType != SwordPurchaseType.RealMoneyPlaceholder);
+            currencyIcon.SetActive(!isOwned && PaymentType != ShopPaymentType.RealMoney);
 
         if (cardCanvasGroup != null)
         {
@@ -80,34 +79,19 @@ public sealed class SwordShopItem : MonoBehaviour
 
     public string GetConfiguredPriceText()
     {
-        switch (purchaseType)
-        {
-            case SwordPurchaseType.Gems:
-                return gemCost.ToString();
-            case SwordPurchaseType.Cash:
-                return cashCost.ToString();
-            default:
-                return realMoneyCardPrice;
-        }
+        ShopPricingCatalog.SwordPrice price;
+        return TryGetPrice(out price)
+            ? ShopPricingCatalog.FormatCardPrice(price.paymentType, price.cost, price.realMoneyPrice)
+            : "UNAVAILABLE";
     }
 
     public string BuildConfirmationMessage()
     {
-        string price;
-        switch (purchaseType)
-        {
-            case SwordPurchaseType.Gems:
-                price = gemCost + " Gems";
-                break;
-            case SwordPurchaseType.Cash:
-                price = cashCost + " Cash";
-                break;
-            default:
-                price = realMoneyConfirmationPrice;
-                break;
-        }
-
-        return "You're about to spend " + price + " to buy " + ProductDisplayName + ". Are you sure?";
+        ShopPricingCatalog.SwordPrice price;
+        if (!TryGetPrice(out price)) return "This product is not configured in ShopPricingCatalog.";
+        return "You're about to spend " +
+               ShopPricingCatalog.FormatConfirmationPrice(price.paymentType, price.cost, price.realMoneyPrice) +
+               " to buy " + ProductDisplayName + ". Are you sure?";
     }
 
     private void RequestPurchase()
@@ -116,6 +100,12 @@ public sealed class SwordShopItem : MonoBehaviour
             return;
 
         controller.RequestPurchase(this);
+    }
+
+    private bool TryGetPrice(out ShopPricingCatalog.SwordPrice price)
+    {
+        price = null;
+        return controller != null && controller.TryGetPrice(swordId, out price);
     }
 
     private static string GetSwordDisplayName(SwordId id)

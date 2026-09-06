@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b09fb8d915e5342b43ff256e7958c8, type: 3}
+  m_Name: ShopPricingCatalog
+  m_EditorClassIdentifier: 
+  abilities:
+  - id: 2
+    paymentType: 0
+    cost: 500
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 1
+    paymentType: 0
+    cost: 500
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 4
+    paymentType: 0
+    cost: 750
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 3
+    paymentType: 0
+    cost: 1000
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 5
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $0.99 USD
+    storeProductId: ability_magic
+  swords:
+  - id: 5
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $1.99 USD
+    storeProductId: sword_hellforge
+  - id: 2
+    paymentType: 1
+    cost: 25000
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 4
+    paymentType: 1
+    cost: 35000
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 3
+    paymentType: 0
+    cost: 1000
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 7
+    paymentType: 0
+    cost: 1000
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 6
+    paymentType: 0
+    cost: 1500
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 1
+    paymentType: 0
+    cost: 2000
+    realMoneyPrice: 
+    storeProductId: 
+  rollerblades:
+  - id: 4
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $1.99 USD
+    storeProductId: roller_inferno_drift
+  - id: 1
+    paymentType: 1
+    cost: 25000
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 2
+    paymentType: 1
+    cost: 45000
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 5
+    paymentType: 0
+    cost: 1500
+    realMoneyPrice: 
+    storeProductId: 
+  - id: 3
+    paymentType: 0
+    cost: 2500
+    realMoneyPrice: 
+    storeProductId: 
+  currencyPacks:
+  - id: 7
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $0.99 USD
+    storeProductId: gems_500
+    gemsGranted: 500
+    cashGranted: 0
+    displayName: 500 Gems
+  - id: 8
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $1.99 USD
+    storeProductId: gems_1050
+    gemsGranted: 1050
+    cashGranted: 0
+    displayName: 1,050 Gems
+  - id: 9
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $2.99 USD
+    storeProductId: gems_1600
+    gemsGranted: 1600
+    cashGranted: 0
+    displayName: 1,600 Gems
+  - id: 10
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $4.99 USD
+    storeProductId: gems_2750
+    gemsGranted: 2750
+    cashGranted: 0
+    displayName: 2,750 Gems
+  - id: 11
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $9.99 USD
+    storeProductId: gems_5750
+    gemsGranted: 5750
+    cashGranted: 0
+    displayName: 5,750 Gems
+  - id: 0
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $19.99 USD
+    storeProductId: gems_13000
+    gemsGranted: 13000
+    cashGranted: 0
+    displayName: 13,000 Gems
+  - id: 1
+    paymentType: 2
+    cost: 0
+    realMoneyPrice: $4.99 USD
+    storeProductId: cash_110000
+    gemsGranted: 0
+    cashGranted: 110000
+    displayName: 110,000 Cash
+  - id: 2
+    paymentType: 0
+    cost: 5
+    realMoneyPrice: 
+    storeProductId: 
+    gemsGranted: 0
+    cashGranted: 200
+    displayName: 200 Cash
+  - id: 3
+    paymentType: 0
+    cost: 100
+    realMoneyPrice: 
+    storeProductId: 
+    gemsGranted: 0
+    cashGranted: 4000
+    displayName: 4,000 Cash
+  - id: 4
+    paymentType: 0
+    cost: 500
+    realMoneyPrice: 
+    storeProductId: 
+    gemsGranted: 0
+    cashGranted: 20000
+    displayName: 20,000 Cash
+  - id: 5
+    paymentType: 0
+    cost: 1000
+    realMoneyPrice: 
+    storeProductId: 
+    gemsGranted: 0
+    cashGranted: 40000
+    displayName: 40,000 Cash
+  - id: 6
+    paymentType: 0
+    cost: 1500
+    realMoneyPrice: 
+    storeProductId: 
+    gemsGranted: 0
+    cashGranted: 60000
+    displayName: 60,000 Cash

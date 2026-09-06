@@ -154,6 +154,8 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
     public void SetEnemyInstance(GameObject enemyInstance)
     {
         _enemyInstance = enemyInstance;
+        ResolvePresentationReferences();
+        phase2Speedlines?.RegisterSubject(enemyInstance != null ? enemyInstance.transform : null);
     }
 
 

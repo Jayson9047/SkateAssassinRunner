@@ -7,6 +7,8 @@ using Elroi.DailyMissions;
 
 public class DailyRewardsPage : MonoBehaviour
 {
+    public static event Action StateChanged;
+
     [Serializable]
     private class RewardDay
     {
@@ -15,6 +17,7 @@ public class DailyRewardsPage : MonoBehaviour
         public GameObject focusObject;
         public Image icon;
         public Button button;
+        public NotificationBadgeView badge;
         public int cash;
         public int gems;
     }
@@ -43,6 +46,31 @@ public class DailyRewardsPage : MonoBehaviour
 
     private readonly List<RewardDay> rewardDays = new();
     private bool claimProcessing;
+    public int ClaimableCount
+    {
+        get
+        {
+            EnsureNotificationInitialization();
+            if (rewardDays.Count == 0) return 0;
+            AdvanceClaimableDayIfReady();
+            int day = GetCurrentClaimableDay();
+            return !IsClaimed(day) ? 1 : 0;
+        }
+    }
+
+    public double SecondsUntilNextUnlock
+    {
+        get
+        {
+            TimeSpan offset = TimeSpan.FromHours(unlockTimeZoneOffsetHours);
+            DateTime localNow = DateTime.UtcNow + offset;
+            DateTime unlockToday = localNow.Date
+                .AddHours(Mathf.Clamp(unlockHour, 0, 23))
+                .AddMinutes(Mathf.Clamp(unlockMinute, 0, 59));
+            DateTime nextUnlock = localNow < unlockToday ? unlockToday : unlockToday.AddDays(1);
+            return Math.Max(0.1, (nextUnlock - localNow).TotalSeconds);
+        }
+    }
 
     private void Awake()
     {
@@ -89,6 +117,7 @@ public class DailyRewardsPage : MonoBehaviour
             clearObject = FindChild(root, "Clear")?.gameObject,
             focusObject = FindChild(root, "Focus")?.gameObject,
             icon = FindRewardIcon(root),
+            badge = FindChild(root, "Alert_l_Red")?.GetComponent<NotificationBadgeView>(),
             cash = cash,
             gems = gems
         };
@@ -285,7 +314,29 @@ public class DailyRewardsPage : MonoBehaviour
                     !claimed &&
                     i == currentClaimableDay;
             }
+            if (rewardDays[i].badge != null)
+                rewardDays[i].badge.SetCount(!claimed && i == currentClaimableDay ? 1 : 0);
         }
+        StateChanged?.Invoke();
+    }
+
+    public void RefreshForNotifications()
+    {
+        EnsureNotificationInitialization();
+        EnsureRewardState();
+        RefreshState();
+    }
+
+    private void EnsureNotificationInitialization()
+    {
+        if (rewardDays.Count > 0) return;
+        BuildRewardDays();
+        EnsureRewardState();
+    }
+
+    private void OnApplicationFocus(bool focused)
+    {
+        if (focused && isActiveAndEnabled) RefreshForNotifications();
     }
 
     private void EnsureRewardState()

@@ -35,10 +35,9 @@ public sealed class RollerbladeShopItem : MonoBehaviour
     private bool isOwned;
 
     public RollerbladeId RollerbladeId => rollerbladeId;
-    public RollerbladePurchaseType PurchaseType => purchaseType;
-    public int GemCost => gemCost;
-    public int CashCost => cashCost;
-    public string RealMoneyConfirmationPrice => realMoneyConfirmationPrice;
+    public ShopPaymentType PaymentType { get { ShopPricingCatalog.RollerbladePrice p; return TryGetPrice(out p) ? p.paymentType : ShopPaymentType.RealMoney; } }
+    public int PriceCost { get { ShopPricingCatalog.RollerbladePrice p; return TryGetPrice(out p) ? p.cost : 0; } }
+    public string StoreProductId { get { ShopPricingCatalog.RollerbladePrice p; return TryGetPrice(out p) ? p.storeProductId : string.Empty; } }
     public bool IsOwned => isOwned;
     public string ProductDisplayName => GetDisplayName(rollerbladeId);
 
@@ -67,7 +66,7 @@ public sealed class RollerbladeShopItem : MonoBehaviour
         if (currencyIcon != null)
         {
             currencyIcon.SetActive(
-                !isOwned && purchaseType != RollerbladePurchaseType.RealMoneyPlaceholder);
+                !isOwned && PaymentType != ShopPaymentType.RealMoney);
         }
 
         if (cardCanvasGroup != null)
@@ -83,34 +82,19 @@ public sealed class RollerbladeShopItem : MonoBehaviour
 
     public string GetConfiguredPriceText()
     {
-        switch (purchaseType)
-        {
-            case RollerbladePurchaseType.Gems:
-                return gemCost.ToString();
-            case RollerbladePurchaseType.Cash:
-                return cashCost.ToString();
-            default:
-                return realMoneyCardPrice;
-        }
+        ShopPricingCatalog.RollerbladePrice price;
+        return TryGetPrice(out price)
+            ? ShopPricingCatalog.FormatCardPrice(price.paymentType, price.cost, price.realMoneyPrice)
+            : "UNAVAILABLE";
     }
 
     public string BuildConfirmationMessage()
     {
-        string price;
-        switch (purchaseType)
-        {
-            case RollerbladePurchaseType.Gems:
-                price = gemCost + " Gems";
-                break;
-            case RollerbladePurchaseType.Cash:
-                price = cashCost + " Cash";
-                break;
-            default:
-                price = realMoneyConfirmationPrice;
-                break;
-        }
-
-        return "You're about to spend " + price + " to buy " + ProductDisplayName + ". Are you sure?";
+        ShopPricingCatalog.RollerbladePrice price;
+        if (!TryGetPrice(out price)) return "This product is not configured in ShopPricingCatalog.";
+        return "You're about to spend " +
+               ShopPricingCatalog.FormatConfirmationPrice(price.paymentType, price.cost, price.realMoneyPrice) +
+               " to buy " + ProductDisplayName + ". Are you sure?";
     }
 
     private void RequestPurchase()
@@ -119,6 +103,12 @@ public sealed class RollerbladeShopItem : MonoBehaviour
             return;
 
         controller.RequestPurchase(this);
+    }
+
+    private bool TryGetPrice(out ShopPricingCatalog.RollerbladePrice price)
+    {
+        price = null;
+        return controller != null && controller.TryGetPrice(rollerbladeId, out price);
     }
 
     private static string GetDisplayName(RollerbladeId id)

@@ -80,7 +80,10 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
 
     public void SelectRollerblade(RollerbladeId id)
     {
+        BuildMaps();
+        if (!IsRollerbladeUsable(id)) return;
         SelectRollerbladeInternal(id, false);
+        InventoryNewItemNotifications.MarkRollerbladeSeen(id);
     }
 
     public void RefreshAvailability()

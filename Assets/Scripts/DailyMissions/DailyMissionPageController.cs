@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Elroi.DailyMissions.UI
@@ -8,16 +9,16 @@ namespace Elroi.DailyMissions.UI
         [SerializeField] DailyMissionRowUI[] rows;[SerializeField] RewardGrantedPopup rewardPopup;[SerializeField] HomeUIBinder homeUIBinder;
         [SerializeField] Sprite cashIcon,gemIcon;[SerializeField] DailyMissionDefinition[] definitions;
         readonly Dictionary<DailyMissionId,DailyMissionDefinition> map=new Dictionary<DailyMissionId,DailyMissionDefinition>();
-        bool processing;float nextTick;string loadedDay;
+        bool processing;string loadedDay;Coroutine resetRoutine;
         void Awake()
         {
             if(definitions==null||definitions.Length!=4)definitions=new[]{D(DailyMissionId.CollectCash,"COLLECT CASH","Collect 5,000 Cash",5000,500,0),D(DailyMissionId.CollectGems,"COLLECT GEMS","Collect 30 Gems",30,0,5),D(DailyMissionId.CompleteLevels,"CROSS 10 LEVELS","Complete 10 Levels",10,2000,5),D(DailyMissionId.WatchRewardedAds,"AD BREAK","Watch 5 Ads",5,2500,5)};
             foreach(var d in definitions)if(d!=null)map[d.id]=d;foreach(var row in rows){if(!row)continue;DailyMissionId id=row.MissionId;row.SetHandler(()=>Claim(id));}
         }
-        void OnEnable(){DailyMissionProgress.StateChanged+=Refresh;DailyMissionProgress.DayReset+=ResetPending;DailyMissionProgress.EnsureCurrentDay();loadedDay=DailyMissionProgress.CurrentDay;processing=false;Refresh();}
-        void OnDisable(){DailyMissionProgress.StateChanged-=Refresh;DailyMissionProgress.DayReset-=ResetPending;processing=false;}
-        void Update(){if(Time.unscaledTime<nextTick)return;nextTick=Time.unscaledTime+1;string before=loadedDay;DailyMissionProgress.EnsureCurrentDay();loadedDay=DailyMissionProgress.CurrentDay;if(before!=loadedDay)ResetPending();Refresh();}
-        void OnApplicationFocus(bool f){if(f&&isActiveAndEnabled){DailyMissionProgress.EnsureCurrentDay();Refresh();}}
+        void OnEnable(){DailyMissionProgress.StateChanged+=Refresh;DailyMissionProgress.DayReset+=ResetPending;DailyMissionProgress.EnsureCurrentDay();loadedDay=DailyMissionProgress.CurrentDay;processing=false;Refresh();resetRoutine=StartCoroutine(WaitForUtcReset());}
+        void OnDisable(){DailyMissionProgress.StateChanged-=Refresh;DailyMissionProgress.DayReset-=ResetPending;if(resetRoutine!=null)StopCoroutine(resetRoutine);resetRoutine=null;processing=false;}
+        void OnApplicationFocus(bool f){if(f&&isActiveAndEnabled){DailyMissionProgress.EnsureCurrentDay();loadedDay=DailyMissionProgress.CurrentDay;Refresh();if(resetRoutine!=null)StopCoroutine(resetRoutine);resetRoutine=StartCoroutine(WaitForUtcReset());}}
+        IEnumerator WaitForUtcReset(){while(isActiveAndEnabled){double seconds=Math.Max(0.1,(DailyMissionProgress.NextResetUtc-DailyMissionProgress.UtcNow).TotalSeconds+0.1);yield return new WaitForSecondsRealtime((float)Math.Min(seconds,86401));DailyMissionProgress.EnsureCurrentDay();loadedDay=DailyMissionProgress.CurrentDay;Refresh();}}
         public void Refresh(){if(rows==null)return;foreach(var row in rows){DailyMissionDefinition d;if(!row||!map.TryGetValue(row.MissionId,out d))continue;int p=DailyMissionProgress.GetProgress(d.id);bool c=DailyMissionProgress.IsClaimed(d.id);row.Bind(d,p,c,Timer(d,p,c));}}
         void Claim(DailyMissionId id)
         {
