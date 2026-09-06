@@ -11,8 +11,12 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     [Header("Authored Setup")]
     [Tooltip("Dedicated global Volume containing only Slash. One private runtime profile is cached at initialization; the authored asset stays idle.")]
     [SerializeField] private Volume slashVolume;
-    [Tooltip("The gameplay camera, not the UI overlay. Post-processing must already be enabled.")]
+    [Tooltip("The gameplay camera used only to project Final Strike's world trajectory to screen space.")]
     [SerializeField] private Camera gameplayCamera;
+    [Tooltip("Lightweight URP overlay camera that applies Slash after the Phase 2 subject camera.")]
+    [SerializeField] private Camera slashRenderingCamera;
+    [Tooltip("Keeps the lightweight overlay warm briefly between rapid taps, then disables it.")]
+    [SerializeField, Range(0f, 1f)] private float slashCameraHoldAfterPlayback = 0.35f;
     [Tooltip("Optional authored reference. Runtime player spawning also registers the active equipper automatically.")]
     [SerializeField] private WeaponPowerEquipper weaponPowerEquipper;
     [SerializeField] private WeaponPowerScreenSlashPalette powerPalette;
@@ -101,6 +105,7 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     private float activePeakIntensity;
     private float activeFadeStartNormalized;
     private float activeStartProgress;
+    private float slashCameraDisableAt = -1f;
     private Color activePowerColor = new Color32(0x4E, 0x9D, 0xFF, 0xFF);
 
     public bool IsSlashActive => slashActive;
@@ -111,6 +116,7 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     public bool IsReady => slash != null && rendererFeature != null;
     public bool IsFinalStrikeActive => slashActive && playbackMode == PlaybackMode.FinalStrike;
     public Camera GameplayCamera => gameplayCamera;
+    public Camera SlashRenderingCamera => slashRenderingCamera;
     public Transform FinalSlashTestStart => finalSlashTestStart;
     public Transform FinalSlashTestEnd => finalSlashTestEnd;
 
@@ -134,9 +140,13 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         if (slashVolume == null || slashVolume.sharedProfile == null || !slashVolume.isGlobal ||
             !slashVolume.sharedProfile.TryGet<SlashVolume>(out _))
             return FailSetup("assign a dedicated global Volume/Profile containing SlashVolume");
-        if (gameplayCamera == null || !gameplayCamera.TryGetComponent<UniversalAdditionalCameraData>(out var cameraData) ||
-            !cameraData.renderPostProcessing || (cameraData.volumeLayerMask.value & (1 << slashVolume.gameObject.layer)) == 0)
-            return FailSetup("the gameplay camera must enable post-processing and include the Slash Volume layer");
+        if (gameplayCamera == null)
+            return FailSetup("assign the gameplay camera used to project Final Strike's world trajectory");
+        if (slashRenderingCamera == null ||
+            !slashRenderingCamera.TryGetComponent<UniversalAdditionalCameraData>(out var slashCameraData) ||
+            !slashCameraData.renderPostProcessing ||
+            (slashCameraData.volumeLayerMask.value & (1 << slashVolume.gameObject.layer)) == 0)
+            return FailSetup("the Slash overlay camera must enable post-processing and include the Slash Volume layer");
         if (!(GraphicsSettings.currentRenderPipeline is UniversalRenderPipelineAsset))
             return FailSetup("an active Universal Render Pipeline is required");
 
@@ -198,6 +208,7 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         ApplyVisualSettings(playbackMode, activePowerColor);
         slash.progress.value = startProgress;
         slash.intensity.value = peakIntensity;
+        EnableSlashCamera();
         slashActive = true;
     }
 
@@ -228,6 +239,7 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         ApplyVisualSettings(playbackMode, activePowerColor);
         slash.progress.value = finalStartProgress;
         slash.intensity.value = finalPeakIntensity;
+        EnableSlashCamera();
         slashActive = true;
     }
 
@@ -244,9 +256,19 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!slashActive) return;
+        if (!slashActive)
+        {
+            if (slashRenderingCamera != null && slashRenderingCamera.enabled &&
+                slashCameraDisableAt >= 0f && Time.unscaledTime >= slashCameraDisableAt)
+            {
+                slashRenderingCamera.enabled = false;
+                slashCameraDisableAt = -1f;
+            }
+            return;
+        }
         if (!feedbackEnabled || slash == null || slashVolume == null || !slashVolume.isActiveAndEnabled ||
-            rendererFeature == null || !rendererFeature.isActive || gameplayCamera == null || !gameplayCamera.isActiveAndEnabled)
+            rendererFeature == null || !rendererFeature.isActive || gameplayCamera == null || !gameplayCamera.isActiveAndEnabled ||
+            slashRenderingCamera == null || !slashRenderingCamera.gameObject.activeInHierarchy)
         {
             StopImmediate();
             return;
@@ -259,7 +281,7 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
     {
         elapsed += deltaTime;
         float t = Mathf.Clamp01(elapsed / activeDuration);
-        if (t >= 1f) { StopImmediate(); return; }
+        if (t >= 1f) { FinishPlayback(); return; }
         slash.progress.value = Mathf.Lerp(activeStartProgress, 1f, t);
         float fade = Mathf.Clamp01((t - activeFadeStartNormalized) / (1f - activeFadeStartNormalized));
         slash.intensity.value = activePeakIntensity * (1f - Mathf.SmoothStep(0f, 1f, fade));
@@ -278,9 +300,31 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         playbackMode = PlaybackMode.None;
         elapsed = 0f;
         triggerFrame = -1;
+        slashCameraDisableAt = -1f;
+        if (slashRenderingCamera != null) slashRenderingCamera.enabled = false;
         if (slash == null) return;
         slash.intensity.value = 0f;
         slash.progress.value = 0f;
+    }
+
+    private void FinishPlayback()
+    {
+        slashActive = false;
+        playbackMode = PlaybackMode.None;
+        elapsed = 0f;
+        triggerFrame = -1;
+        if (slash != null)
+        {
+            slash.intensity.value = 0f;
+            slash.progress.value = 0f;
+        }
+        slashCameraDisableAt = Time.unscaledTime + slashCameraHoldAfterPlayback;
+    }
+
+    private void EnableSlashCamera()
+    {
+        slashCameraDisableAt = -1f;
+        if (slashRenderingCamera != null) slashRenderingCamera.enabled = true;
     }
 
     private float ChooseAngle()
@@ -411,6 +455,7 @@ public sealed class RuthlessTapSlashFeedback : MonoBehaviour
         finalVisualImpactScale = Mathf.Clamp(finalVisualImpactScale, 0.5f, 3f);
         finalFadeStartNormalized = Mathf.Clamp(finalFadeStartNormalized, 0f, 0.95f);
         finalStartProgress = Mathf.Clamp(finalStartProgress, 0.001f, 0.1f);
+        slashCameraHoldAfterPlayback = Mathf.Clamp(slashCameraHoldAfterPlayback, 0f, 1f);
         slashFade = Mathf.Clamp(slashFade, 0.04f, 1f);
         smokeFade = Mathf.Clamp(smokeFade, 0.21f, 1f);
         // Remaining values are clamped by Fronkon's public VolumeParameter setters.

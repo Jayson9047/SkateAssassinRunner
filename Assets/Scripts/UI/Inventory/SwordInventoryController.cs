@@ -96,6 +96,16 @@ public sealed class SwordInventoryController : MonoBehaviour
             pair.Value.SetAvailable(SwordOwnershipSave.IsOwned(pair.Key));
     }
 
+    public void RefreshAfterExternalInventoryReset()
+    {
+        BuildMaps();
+        RefreshAvailability();
+        equippedSwordId = SwordId.Katana;
+        selectedSwordId = SwordId.Katana;
+        RefreshEquippedHighlights();
+        SelectSwordInternal(SwordId.Katana, true);
+    }
+
     public void SetSwordAvailable(SwordId id, bool available)
     {
         BuildMaps();

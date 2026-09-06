@@ -14,7 +14,6 @@ public sealed class InventoryNotificationGroupView : MonoBehaviour
     }
 
     [SerializeField] private InventoryNotificationCategory category;
-    [SerializeField] private NotificationBadgeView categoryBadge;
     [SerializeField] private ItemBadge[] itemBadges;
 
     private void OnEnable()
@@ -30,8 +29,7 @@ public sealed class InventoryNotificationGroupView : MonoBehaviour
 
     public void Refresh()
     {
-        int total = 0;
-        if (itemBadges == null) { if (categoryBadge != null) categoryBadge.SetCount(0); return; }
+        if (itemBadges == null) return;
         for (int i = 0; i < itemBadges.Length; i++)
         {
             if (itemBadges[i] == null || itemBadges[i].badge == null) continue;
@@ -42,9 +40,7 @@ public sealed class InventoryNotificationGroupView : MonoBehaviour
                          category == InventoryNotificationCategory.Abilities ? WeaponPowerOwnershipSave.IsOwned((WeaponPowerId)itemBadges[i].itemId) :
                          RollerbladeOwnershipSave.IsOwned((RollerbladeId)itemBadges[i].itemId);
             unseen &= owned;
-            if (unseen) total++;
             itemBadges[i].badge.SetCount(unseen ? 1 : 0);
         }
-        if (categoryBadge != null) categoryBadge.SetCount(total);
     }
 }

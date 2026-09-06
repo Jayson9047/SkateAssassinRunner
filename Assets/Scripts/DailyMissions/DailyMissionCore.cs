@@ -110,6 +110,17 @@ namespace Elroi.DailyMissions
             return count;
         }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        internal static void ResetForDebugTools()
+        {
+            state = new DailyMissionState { utcDay = CurrentDay };
+            loaded = true;
+            Save();
+            DayReset?.Invoke();
+            StateChanged?.Invoke();
+        }
+#endif
+
         public static bool TryMarkClaimed(DailyMissionId id, int target)
         {
             EnsureCurrentDay();

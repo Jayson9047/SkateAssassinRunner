@@ -17,6 +17,9 @@ public sealed class Phase2SubjectCameraSync : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (subjectCamera == null || !subjectCamera.enabled)
+            return;
+
         SynchronizeNow();
     }
 

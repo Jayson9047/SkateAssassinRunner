@@ -96,6 +96,16 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
             pair.Value.SetAvailable(RollerbladeOwnershipSave.IsOwned(pair.Key));
     }
 
+    public void RefreshAfterExternalInventoryReset()
+    {
+        BuildMaps();
+        RefreshAvailability();
+        equippedRollerbladeId = RollerbladeId.Default;
+        selectedRollerbladeId = RollerbladeId.Default;
+        RefreshEquippedHighlights();
+        SelectRollerbladeInternal(RollerbladeId.Default, true);
+    }
+
     public void SetRollerbladeAvailable(RollerbladeId id, bool available)
     {
         BuildMaps();

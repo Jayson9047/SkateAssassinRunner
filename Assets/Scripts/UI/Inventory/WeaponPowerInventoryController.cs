@@ -206,6 +206,16 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
             pair.Value.SetAvailable(WeaponPowerOwnershipSave.IsOwned(pair.Key));
     }
 
+    public void RefreshAfterExternalInventoryReset()
+    {
+        BuildMaps();
+        RefreshAvailability();
+        equippedPowerId = WeaponPowerId.None;
+        selectedPowerId = WeaponPowerId.None;
+        RefreshEquippedHighlights();
+        SelectPowerInternal(WeaponPowerId.None, true);
+    }
+
     public void SetPowerAvailable(WeaponPowerId id, bool available)
     {
         BuildMaps();

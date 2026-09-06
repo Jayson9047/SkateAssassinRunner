@@ -34,6 +34,15 @@ public static class InventoryNewItemNotifications
     public static int RollerbladeCount => CountOwnedRollerblades();
     public static int TotalCount => SwordCount + AbilityCount + RollerbladeCount;
 
+    /// <summary>Clears explicit unseen state without inferring anything from ownership.</summary>
+    public static void ClearAll()
+    {
+        state = new State();
+        loaded = true;
+        if (ES3.KeyExists(SaveKey)) ES3.DeleteKey(SaveKey);
+        Changed?.Invoke();
+    }
+
     private static State Get()
     {
         if (loaded) return state;

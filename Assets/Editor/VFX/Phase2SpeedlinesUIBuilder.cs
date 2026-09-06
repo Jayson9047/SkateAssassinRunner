@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public static class Phase2SpeedlinesUIBuilder
     private const string UiClipPath = "Assets/Art/Speedlines/speedlines_ui.anim";
     private const string UiControllerPath = "Assets/Art/Speedlines/SpeedlinesUI.controller";
     private const string SubjectLayerName = "Phase2SubjectVisuals";
+    private const string SlashVolumeLayerName = "Phase2SlashVolume";
 
     [MenuItem("Tools/Skate Runner/Phase 2/Build Fullscreen Speedlines UI")]
     public static void Build()
@@ -25,6 +27,9 @@ public static class Phase2SpeedlinesUIBuilder
         int subjectLayer = LayerMask.NameToLayer(SubjectLayerName);
         if (subjectLayer < 0)
             throw new InvalidOperationException("The " + SubjectLayerName + " layer is missing from TagManager.");
+        int slashVolumeLayer = LayerMask.NameToLayer(SlashVolumeLayerName);
+        if (slashVolumeLayer < 0)
+            throw new InvalidOperationException("The " + SlashVolumeLayerName + " layer is missing from TagManager.");
 
         AnimationClip uiClip = BuildUiClip();
         AnimatorController uiController = BuildController(uiClip);
@@ -94,6 +99,56 @@ public static class Phase2SpeedlinesUIBuilder
             mainData.cameraStack.Add(subjectCamera);
         mainCamera.cullingMask &= ~(1 << subjectLayer);
 
+        Volume slashVolume = UnityEngine.Object.FindObjectsByType<Volume>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+            .FirstOrDefault(x => x.name == "RuthlessTapSlashVolume");
+        RuthlessTapSlashFeedback slashFeedback = UnityEngine.Object.FindFirstObjectByType<RuthlessTapSlashFeedback>(FindObjectsInactive.Include);
+        if (slashVolume == null || slashFeedback == null)
+            throw new InvalidOperationException("RuthlessTapSlashVolume/RuthlessTapSlashFeedback is missing from the gameplay scene.");
+        slashVolume.gameObject.layer = slashVolumeLayer;
+
+        GameObject slashCameraObject = GameObject.Find("Phase2SlashOverlayCamera");
+        if (slashCameraObject == null)
+            slashCameraObject = new GameObject("Phase2SlashOverlayCamera");
+        Camera slashCamera = GetOrAdd<Camera>(slashCameraObject);
+        slashCamera.enabled = false;
+        slashCamera.clearFlags = CameraClearFlags.Depth;
+        slashCamera.cullingMask = 0;
+        slashCamera.depth = 0.5f;
+        slashCamera.allowHDR = mainCamera.allowHDR;
+        slashCamera.allowMSAA = mainCamera.allowMSAA;
+        UniversalAdditionalCameraData slashData = slashCamera.GetUniversalAdditionalCameraData();
+        slashData.renderType = CameraRenderType.Overlay;
+        slashData.renderPostProcessing = true;
+        slashData.volumeLayerMask = 1 << slashVolumeLayer;
+        slashData.renderShadows = false;
+        slashData.requiresDepthTexture = false;
+        slashData.requiresColorTexture = false;
+        SerializedObject slashCameraDataSerialized = new SerializedObject(slashData);
+        SerializedProperty clearDepth = slashCameraDataSerialized.FindProperty("m_ClearDepth");
+        if (clearDepth != null)
+        {
+            clearDepth.boolValue = false;
+            slashCameraDataSerialized.ApplyModifiedPropertiesWithoutUndo();
+        }
+        SerializedObject mainCameraDataSerialized = new SerializedObject(mainData);
+        SerializedProperty rendererIndex = mainCameraDataSerialized.FindProperty("m_RendererIndex");
+        if (rendererIndex != null) slashData.SetRenderer(rendererIndex.intValue);
+        Phase2SubjectCameraSync slashSync = GetOrAdd<Phase2SubjectCameraSync>(slashCameraObject);
+        slashSync.Configure(mainCamera, slashCamera);
+
+        mainData.cameraStack.Remove(slashCamera);
+        int subjectIndex = mainData.cameraStack.IndexOf(subjectCamera);
+        int insertIndex = subjectIndex >= 0 ? subjectIndex + 1 : mainData.cameraStack.Count;
+        Camera uiCamera = GameObject.Find("UICamera")?.GetComponent<Camera>();
+        int uiIndex = uiCamera != null ? mainData.cameraStack.IndexOf(uiCamera) : -1;
+        if (uiIndex >= 0) insertIndex = Mathf.Min(insertIndex, uiIndex);
+        mainData.cameraStack.Insert(insertIndex, slashCamera);
+
+        SerializedObject slashSerialized = new SerializedObject(slashFeedback);
+        SetObject(slashSerialized, "gameplayCamera", mainCamera);
+        SetObject(slashSerialized, "slashRenderingCamera", slashCamera);
+        slashSerialized.ApplyModifiedPropertiesWithoutUndo();
+
         SerializedObject serialized = new SerializedObject(controller);
         SetObject(serialized, "speedlinesRoot", viewport.gameObject);
         SetObject(serialized, "speedlinesAnimator", animator);
@@ -108,10 +163,13 @@ public static class Phase2SpeedlinesUIBuilder
         EditorUtility.SetDirty(host);
         EditorUtility.SetDirty(mainCamera);
         EditorUtility.SetDirty(subjectCamera);
+        EditorUtility.SetDirty(slashVolume.gameObject);
+        EditorUtility.SetDirty(slashCamera);
+        EditorUtility.SetDirty(slashFeedback);
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
         AssetDatabase.SaveAssets();
-        Debug.Log("Phase 2 fullscreen UI speedlines built. The retired world-space SpriteRenderer remains inactive for reference.");
+        Debug.Log("Phase 2 composition built: Speedlines -> Enemy Type 3 -> Slash overlay -> Screen Space Overlay HUD.");
     }
 
     private static AnimationClip BuildUiClip()

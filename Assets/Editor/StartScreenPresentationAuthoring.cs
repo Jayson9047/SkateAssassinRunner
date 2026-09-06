@@ -111,15 +111,26 @@ public static class StartScreenNotificationAuthoring
         SwordInventoryController swordController = UnityEngine.Object.FindFirstObjectByType<SwordInventoryController>(FindObjectsInactive.Include);
         WeaponPowerInventoryController abilityController = UnityEngine.Object.FindFirstObjectByType<WeaponPowerInventoryController>(FindObjectsInactive.Include);
         RollerbladeInventoryController rollerController = UnityEngine.Object.FindFirstObjectByType<RollerbladeInventoryController>(FindObjectsInactive.Include);
-        BuildGroup(swordController.gameObject, InventoryNotificationCategory.Swords,
+        NotificationBadgeView swordCategoryBadge = BuildGroup(swordController.gameObject, InventoryNotificationCategory.Swords,
             FindPath("StartScreenCanvas/Background/FullscreenPopupRoot/InventoryPage/Left/MidScreenLeft/Tap_Menu/GameObject/Swords"),
             UnityEngine.Object.FindObjectsByType<SwordInventorySlot>(FindObjectsInactive.Include, FindObjectsSortMode.None).Select(x => new KeyValuePair<int, Transform>((int)x.SwordId, x.transform)).ToArray(), template);
-        BuildGroup(abilityController.gameObject, InventoryNotificationCategory.Abilities,
+        NotificationBadgeView abilityCategoryBadge = BuildGroup(abilityController.gameObject, InventoryNotificationCategory.Abilities,
             FindPath("StartScreenCanvas/Background/FullscreenPopupRoot/InventoryPage/Left/MidScreenLeft/Tap_Menu/GameObject/Abilities"),
             UnityEngine.Object.FindObjectsByType<WeaponPowerInventorySlot>(FindObjectsInactive.Include, FindObjectsSortMode.None).Select(x => new KeyValuePair<int, Transform>((int)x.PowerId, x.transform)).ToArray(), template);
-        BuildGroup(rollerController.gameObject, InventoryNotificationCategory.Rollerblades,
+        NotificationBadgeView rollerCategoryBadge = BuildGroup(rollerController.gameObject, InventoryNotificationCategory.Rollerblades,
             FindPath("StartScreenCanvas/Background/FullscreenPopupRoot/InventoryPage/Left/MidScreenLeft/Tap_Menu/GameObject/RollerBlades"),
             UnityEngine.Object.FindObjectsByType<RollerbladeInventorySlot>(FindObjectsInactive.Include, FindObjectsSortMode.None).Select(x => new KeyValuePair<int, Transform>((int)x.RollerbladeId, x.transform)).ToArray(), template);
+
+        Transform inventoryPage = FindPath("StartScreenCanvas/Background/FullscreenPopupRoot/InventoryPage");
+        if (inventoryPage == null) throw new InvalidOperationException("InventoryPage is missing.");
+        InventoryNotificationBadgeController inventoryBadges = inventoryPage.GetComponent<InventoryNotificationBadgeController>();
+        if (inventoryBadges == null) inventoryBadges = inventoryPage.gameObject.AddComponent<InventoryNotificationBadgeController>();
+        SerializedObject inventoryBadgeSo = new SerializedObject(inventoryBadges);
+        inventoryBadgeSo.FindProperty("swordsBadge").objectReferenceValue = swordCategoryBadge;
+        inventoryBadgeSo.FindProperty("abilitiesBadge").objectReferenceValue = abilityCategoryBadge;
+        inventoryBadgeSo.FindProperty("rollerbladesBadge").objectReferenceValue = rollerCategoryBadge;
+        inventoryBadgeSo.ApplyModifiedPropertiesWithoutUndo();
+        EditorUtility.SetDirty(inventoryBadges);
 
         DailyRewardsPage rewardsPage = UnityEngine.Object.FindFirstObjectByType<DailyRewardsPage>(FindObjectsInactive.Include);
         string[] dayNames = { "Day1_List", "Day2_List", "Day3_LIst", "Day4_LIst", "Day5_LIst", "Day6_LIst", "Reward_Day7" };
@@ -150,14 +161,13 @@ public static class StartScreenNotificationAuthoring
         Debug.Log("Notification badges built for Home, Inventory categories/cards, Daily Rewards, and Daily Missions. No Shop badge was created or wired.");
     }
 
-    private static void BuildGroup(GameObject host, InventoryNotificationCategory category, Transform categoryTab, KeyValuePair<int, Transform>[] items, Transform template)
+    private static NotificationBadgeView BuildGroup(GameObject host, InventoryNotificationCategory category, Transform categoryTab, KeyValuePair<int, Transform>[] items, Transform template)
     {
         InventoryNotificationGroupView group = host.GetComponent<InventoryNotificationGroupView>();
         if (group == null) group = host.AddComponent<InventoryNotificationGroupView>();
         NotificationBadgeView categoryBadge = EnsureBadge(categoryTab.Find("Alert_l_Red"), categoryTab, true, template);
         SerializedObject so = new SerializedObject(group);
         so.FindProperty("category").enumValueIndex = (int)category;
-        so.FindProperty("categoryBadge").objectReferenceValue = categoryBadge;
         SerializedProperty array = so.FindProperty("itemBadges"); array.arraySize = items.Length;
         for (int i = 0; i < items.Length; i++)
         {
@@ -167,6 +177,7 @@ public static class StartScreenNotificationAuthoring
             entry.FindPropertyRelative("badge").objectReferenceValue = badge;
         }
         so.ApplyModifiedPropertiesWithoutUndo(); EditorUtility.SetDirty(group);
+        return categoryBadge;
     }
 
     private static NotificationBadgeView EnsureBadge(Transform existing, Transform parent, bool positionAtCorner, Transform cloneTemplate = null)
