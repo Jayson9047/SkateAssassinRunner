@@ -1,0 +1,4 @@
+Cold start locale: fr; saved: fr
+INITIAL MISSION 1: Survivez pendant 0 seconde
+INITIAL MISSION 2: Gagnez 101 d’argent en phase 2 (0/101)
+Returned Home locale: fr

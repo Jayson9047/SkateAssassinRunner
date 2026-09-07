@@ -30,22 +30,12 @@ namespace Elroi.Missions.UI
             ms.OnMissionProgressText += HandleProgressText;
             ms.OnMissionCompleted += HandleCompleted;
 
-            // If missions already exist (ex: binder enabled late), force-refresh slot text
-            var missions = ms.ActiveMissions;
-            if (missions != null && missions.Count > 0)
-            {
-                HandleAssigned(0, $"{missions[0].Description} ({missions[0].Progress}/{missions[0].Target})");
-                if (missions[0].IsComplete) HandleCompleted(0);
-            }
-            if (missions != null && missions.Count > 1)
-            {
-                HandleAssigned(1, $"{missions[1].Description} ({missions[1].Progress}/{missions[1].Target})");
-                if (missions[1].IsComplete) HandleCompleted(1);
-            }
+            ms.RefreshMissionPresentation();
         }
 
         private void OnDisable()
         {
+            StopAllCoroutines();
             var ms = Elroi.Missions.MissionSystem.MissionSystemAccessor;
             if (ms == null) return;
 

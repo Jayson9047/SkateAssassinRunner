@@ -2,6 +2,7 @@ using MoreMountains.InfiniteRunnerEngine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace Elroi.Missions
 {
@@ -41,9 +42,37 @@ namespace Elroi.Missions
             MissionSystemAccessor = this;
         }
 
+        private void OnEnable()
+        {
+            SkateLocalization.LocaleChanged += OnLocaleChanged;
+        }
+
         private void OnDisable()
         {
+            SkateLocalization.LocaleChanged -= OnLocaleChanged;
             StopAllActiveMissions();
+        }
+
+        private void OnLocaleChanged(Locale locale)
+        {
+            for (int i = 0; i < _activeMissions.Count; i++)
+            {
+                IMission mission = _activeMissions[i];
+                if (mission != null && _missionSlotMap.TryGetValue(mission, out int slot))
+                    OnMissionProgressText?.Invoke(slot, BuildDisplayText(GetDefinition(mission.Type), mission));
+            }
+        }
+
+        // Late subscribers use the same localized presentation and slot mapping
+        // as assignment/progress events, including debug-forced slots.
+        public void RefreshMissionPresentation()
+        {
+            foreach (IMission mission in _activeMissions)
+            {
+                if (mission == null || !_missionSlotMap.TryGetValue(mission, out int slot)) continue;
+                OnMissionAssigned?.Invoke(slot, BuildDisplayText(GetDefinition(mission.Type), mission));
+                if (mission.IsComplete) OnMissionCompleted?.Invoke(slot);
+            }
         }
 
         public void BeginLevel(int levelNum)
@@ -314,15 +343,28 @@ namespace Elroi.Missions
             {
                 int remaining = Mathf.Max(0, m.Target - m.Progress);
 
-                if (def != null)
-                    return string.Format(def.descriptionFormat, remaining);
-
-                return $"Survive {remaining} seconds";
+                return SkateLocalization.Get("Missions", "missions.survive_seconds", remaining);
             }
 
-            // Default missions: "Desc (progress/target)"
-            string baseDesc = def != null ? def.BuildDescription(m.Target) : m.Description;
-            return $"{baseDesc} ({m.Progress}/{m.Target})";
+            string key;
+            switch (m.Type)
+            {
+                case MissionType.KillEnemies: key = "missions.kill_enemies"; break;
+                case MissionType.EarnCash: key = "missions.earn_cash"; break;
+                case MissionType.KillEnemiesWithDownAttack: key = "missions.down_attack_kills"; break;
+                case MissionType.KillEnemiesWithDashAttack: key = "missions.dash_attack_kills"; break;
+                case MissionType.UsePowerSlam: key = "missions.use_power_slam"; break;
+                case MissionType.ReachPhase2Combo: key = "missions.phase2_combo"; break;
+                case MissionType.EarnPhase2Cash: key = "missions.phase2_cash"; break;
+                case MissionType.FinishPhase2NoFail:
+                    return SkateLocalization.Get("Missions", "missions.phase2_no_fail");
+                default:
+                    return m.Description;
+            }
+
+            string baseDesc = SkateLocalization.Get("Missions", key, m.Target);
+            return SkateLocalization.Get("Missions", "missions.progress", baseDesc,
+                SkateLocalization.FormatNumber(m.Progress), SkateLocalization.FormatNumber(m.Target));
         }
 
         private void StopAllActiveMissions()

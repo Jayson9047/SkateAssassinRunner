@@ -1,6 +1,6 @@
-using System.Globalization;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 public enum CurrencyPackProductId
@@ -72,13 +72,24 @@ public sealed class CurrencyPackShopItem : MonoBehaviour
     public int GemsGranted { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.gemsGranted : 0; } }
     public int CashGranted { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.cashGranted : 0; } }
     public string RealMoneyDisplayPrice { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.realMoneyPrice : string.Empty; } }
-    public string CardCostText { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? ShopPricingCatalog.FormatCardPrice(p.paymentType, p.cost, p.realMoneyPrice) : "UNAVAILABLE"; } }
-    public string DisplayProductName { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.displayName : string.Empty; } }
+    public string CardCostText { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? ShopPricingCatalog.FormatCardPrice(p.paymentType, p.cost, p.realMoneyPrice) : SkateLocalization.Get("Shop", "shop.unavailable"); } }
+    public string DisplayProductName
+    {
+        get
+        {
+            ShopPricingCatalog.CurrencyPackPrice p;
+            if (!TryGetPrice(out p)) return string.Empty;
+            return p.gemsGranted > 0
+                ? SkateLocalization.Get("Rewards", "rewards.gems", SkateLocalization.FormatNumber(p.gemsGranted))
+                : SkateLocalization.Get("Rewards", "rewards.cash", SkateLocalization.FormatNumber(p.cashGranted));
+        }
+    }
     public string StoreProductId { get { ShopPricingCatalog.CurrencyPackPrice p; return TryGetPrice(out p) ? p.storeProductId : string.Empty; } }
     public bool IsProcessing => isProcessing;
 
     private void OnEnable()
     {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
         if (fullCardButton != null)
         {
             fullCardButton.onClick.RemoveListener(RequestPurchase);
@@ -90,6 +101,7 @@ public sealed class CurrencyPackShopItem : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
         if (fullCardButton != null)
             fullCardButton.onClick.RemoveListener(RequestPurchase);
 
@@ -124,21 +136,17 @@ public sealed class CurrencyPackShopItem : MonoBehaviour
         CurrencyPackPurchaseType configuredType = PurchaseType;
         if (configuredType == CurrencyPackPurchaseType.GemsToCash)
         {
-            return "You're about to spend " + FormatAmount(GemsCost) +
-                   " Gems to buy " + FormatAmount(CashGranted) +
-                   " Cash. Are you sure?";
+            string product = SkateLocalization.Get("Rewards", "rewards.cash", FormatAmount(CashGranted));
+            return SkateLocalization.BuildShopConfirmation(ShopPaymentType.Gems, GemsCost, string.Empty, product);
         }
 
         int amount = configuredType == CurrencyPackPurchaseType.RealMoneyToGems
             ? GemsGranted
             : CashGranted;
-        string currencyName = configuredType == CurrencyPackPurchaseType.RealMoneyToGems
-            ? "Gems"
-            : "Cash";
-
-        return "You're about to spend " + RealMoneyDisplayPrice +
-               " to buy " + FormatAmount(amount) + " " +
-               currencyName + ". Are you sure?";
+        string productName = configuredType == CurrencyPackPurchaseType.RealMoneyToGems
+            ? SkateLocalization.Get("Rewards", "rewards.gems", FormatAmount(amount))
+            : SkateLocalization.Get("Rewards", "rewards.cash", FormatAmount(amount));
+        return SkateLocalization.BuildShopConfirmation(ShopPaymentType.RealMoney, 0, RealMoneyDisplayPrice, productName);
     }
 
     private void RequestPurchase()
@@ -157,6 +165,8 @@ public sealed class CurrencyPackShopItem : MonoBehaviour
 
     private static string FormatAmount(int amount)
     {
-        return amount.ToString("N0", CultureInfo.InvariantCulture);
+        return SkateLocalization.FormatNumber(amount);
     }
+
+    private void OnLocaleChanged(Locale locale) => RefreshPresentation();
 }

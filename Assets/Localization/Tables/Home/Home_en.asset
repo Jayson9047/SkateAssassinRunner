@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Home_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 718a23ce5ea49a74da18e5ce0d1a9956, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148546
+  m_TableData:
+  - m_Id: 493195264
+    m_Localized: PLAY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: HOME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: INVENTORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: MISSIONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Localized: REWARDS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166788
+    m_Localized: SHOP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166789
+    m_Localized: NO ADS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166790
+    m_Localized: FREE CASH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166791
+    m_Localized: SPIN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166792
+    m_Localized: LEVEL {0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148546
+  - m_Id: 3641421697024
+    m_Localized: SPIN!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3641442668544
+    m_Localized: Lucky Spin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3641442668545
+    m_Localized: Daily spin
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148546
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 514166792

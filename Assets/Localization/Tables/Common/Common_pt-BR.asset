@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Common_pt-BR
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pt-BR
+  m_SharedData: {fileID: 11400000, guid: b7d06f8c8d19ef94e875ea5a86a1b53c, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148545
+  m_TableData:
+  - m_Id: 1910870016
+    m_Localized: OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813056
+    m_Localized: SIM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813057
+    m_Localized: "N\xC3O"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813058
+    m_Localized: VOLTAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813059
+    m_Localized: FECHAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813060
+    m_Localized: "GR\xC1TIS"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813061
+    m_Localized: ASSISTIR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813062
+    m_Localized: RESGATAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813063
+    m_Localized: RESGATADO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813064
+    m_Localized: BLOQUEADO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813065
+    m_Localized: ADQUIRIDO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813066
+    m_Localized: EQUIPAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813067
+    m_Localized: EQUIPADO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813068
+    m_Localized: EM BREVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1952813069
+    m_Localized: REINICIA EM {0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148545
+  - m_Id: 1957007360
+    m_Localized: TERMINA EM {0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148545
+  - m_Id: 1957007361
+    m_Localized: RESGATE EM {0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148545
+  - m_Id: 2636684562432
+    m_Localized: "REIN\xCDCIO UTC {0}"
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148545
+  - m_Id: 3643338493952
+    m_Localized: "LEND\xC1RIO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3643376242688
+    m_Localized: "PADR\xC3O"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3643376242689
+    m_Localized: "B\xD4NUS"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148545
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 1952813069
+        - id: 1957007360
+        - id: 1957007361
+        - id: 2636684562432

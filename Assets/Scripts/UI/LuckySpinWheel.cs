@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Elroi.DailyMissions;
+using UnityEngine.Localization;
 
 public class LuckySpinWheel : MonoBehaviour
 {
@@ -76,11 +77,13 @@ public class LuckySpinWheel : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
         SkateRunnerAudioManager.StopWheelSpin();
     }
 
     private void OnEnable()
     {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
         nextResetUiRefresh = 0f;
     }
 
@@ -282,7 +285,9 @@ public class LuckySpinWheel : MonoBehaviour
         else RefreshCurrencyUI();
 
         if (rewardResultText != null)
-            rewardResultText.text = $"+{reward.amount} {reward.rewardType}";
+            rewardResultText.text = SkateLocalization.Get("Rewards",
+                reward.rewardType == RewardType.Cash ? "rewards.result_cash" : "rewards.result_gems",
+                SkateLocalization.FormatNumber(reward.amount));
 
         Sprite rewardSprite = FindRewardSprite(reward);
         CrystalRewardRevealPopup.TryShow(RewardRevealRequest.ForCurrencies(
@@ -290,7 +295,7 @@ public class LuckySpinWheel : MonoBehaviour
             reward.rewardType == RewardType.Gem ? reward.amount : 0,
             reward.rewardType == RewardType.Cash ? rewardSprite : null,
             reward.rewardType == RewardType.Gem ? rewardSprite : null,
-            title: "YOU WON!"));
+            titleKey: "rewards.you_won"));
 
         Debug.Log($"Lucky Spin Saved Reward: {reward.rewardType} +{reward.amount}");
     }
@@ -325,10 +330,10 @@ public class LuckySpinWheel : MonoBehaviour
         float gems = ES3.Load<float>(gemSaveKey, 0);
 
         if (cashText != null)
-            cashText.text = cash.ToString("N0");
+            cashText.text = SkateLocalization.FormatNumber((long)Math.Round(cash));
 
         if (gemText != null)
-            gemText.text = gems.ToString("N0");
+            gemText.text = SkateLocalization.FormatNumber((long)Math.Round(gems));
     }
 
     private void RefreshSpinUI()
@@ -339,7 +344,7 @@ public class LuckySpinWheel : MonoBehaviour
         int adsWatchedToday = ES3.Load<int>(dailyAdsWatchedSaveKey, 0);
 
         if (spinsLeftText != null)
-            spinsLeftText.text = availableSpins + " Left";
+            spinsLeftText.text = SkateLocalization.Get("Rewards", "rewards.spins_left", SkateLocalization.FormatNumber(availableSpins));
 
         if (dailySpinCountText != null)
             dailySpinCountText.text = $"{maxDailyAdSpins - adsWatchedToday}/{maxDailyAdSpins}";
@@ -352,8 +357,8 @@ public class LuckySpinWheel : MonoBehaviour
             if (remaining < TimeSpan.Zero)
                 remaining = TimeSpan.Zero;
 
-            dailySpinResetText.text =
-                $"UTC RESET {(int)remaining.TotalHours:00}:{remaining.Minutes:00}:{remaining.Seconds:00}";
+            string value = $"{(int)remaining.TotalHours:00}:{remaining.Minutes:00}:{remaining.Seconds:00}";
+            dailySpinResetText.text = SkateLocalization.Get("Common", "common.utc_reset", value);
         }
 
         if (spinButton != null)
@@ -361,6 +366,12 @@ public class LuckySpinWheel : MonoBehaviour
 
         if (dailySpinButton != null)
             dailySpinButton.interactable = adsWatchedToday < maxDailyAdSpins;
+    }
+
+    private void OnLocaleChanged(Locale locale)
+    {
+        RefreshCurrencyUI();
+        RefreshSpinUI();
     }
 
     private float NormalizeAngle(float angle)

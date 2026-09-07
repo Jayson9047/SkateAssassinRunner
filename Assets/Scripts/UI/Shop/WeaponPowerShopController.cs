@@ -85,7 +85,7 @@ public sealed class WeaponPowerShopController : MonoBehaviour
         if (purchasePopup != null)
         {
             purchasePopup.ShowConfirmation(
-                "CONFIRM PURCHASE",
+                SkateLocalization.Get("Shop", "shop.confirm_purchase"),
                 item.BuildConfirmationMessage(),
                 ConfirmPendingPurchase,
                 CancelPendingPurchase);
@@ -161,8 +161,8 @@ public sealed class WeaponPowerShopController : MonoBehaviour
             if (purchasePopup != null)
             {
                 purchasePopup.ShowInformation(
-                    "NOT ENOUGH GEMS",
-                    "You need " + missingGems + " more Gems to buy " + item.ProductDisplayName + ".");
+                    SkateLocalization.Get("Shop", "shop.not_enough_gems"),
+                    SkateLocalization.Get("Shop", "shop.need_more_gems", SkateLocalization.FormatNumber(missingGems), item.ProductDisplayName));
             }
 
             return;

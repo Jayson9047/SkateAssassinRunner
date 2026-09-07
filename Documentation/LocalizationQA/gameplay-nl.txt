@@ -1,0 +1,4 @@
+Cold start locale: nl; saved: nl
+INITIAL MISSION 1: Versla 8 vijanden (0/8)
+INITIAL MISSION 2: Overleef 0 seconden
+Returned Home locale: nl

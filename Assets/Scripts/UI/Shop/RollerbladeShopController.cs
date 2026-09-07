@@ -81,7 +81,7 @@ public sealed class RollerbladeShopController : MonoBehaviour
         if (purchasePopup != null)
         {
             purchasePopup.ShowConfirmation(
-                "CONFIRM PURCHASE",
+                SkateLocalization.Get("Shop", "shop.confirm_purchase"),
                 item.BuildConfirmationMessage(),
                 ConfirmPendingPurchase,
                 CancelPendingPurchase);
@@ -167,9 +167,9 @@ public sealed class RollerbladeShopController : MonoBehaviour
             if (purchasePopup != null)
             {
                 purchasePopup.ShowInformation(
-                    currencyName == "Gems" ? "NOT ENOUGH GEMS" : "NOT ENOUGH CASH",
-                    "You need " + missingAmount + " more " + currencyName +
-                    " to buy " + item.ProductDisplayName + ".");
+                    SkateLocalization.Get("Shop", currencyName == "Gems" ? "shop.not_enough_gems" : "shop.not_enough_cash"),
+                    SkateLocalization.Get("Shop", currencyName == "Gems" ? "shop.need_more_gems" : "shop.need_more_cash",
+                        SkateLocalization.FormatNumber(missingAmount), item.ProductDisplayName));
             }
 
             return;

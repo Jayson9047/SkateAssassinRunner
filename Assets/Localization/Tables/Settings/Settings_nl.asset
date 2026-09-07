@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Settings_nl
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: nl
+  m_SharedData: {fileID: 11400000, guid: 7205142c003932b42af7e246011f65d8, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148536
+  m_TableData:
+  - m_Id: 476418048
+    m_Localized: INSTELLINGEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389568
+    m_Localized: ALGEMEEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389569
+    m_Localized: AUDIO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389570
+    m_Localized: WEERGAVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389571
+    m_Localized: Muziek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389572
+    m_Localized: Geluidseffecten
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389573
+    m_Localized: Trillen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389574
+    m_Localized: Grafische kwaliteit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389575
+    m_Localized: AUTO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389576
+    m_Localized: LAAG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389577
+    m_Localized: HOOG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389578
+    m_Localized: TAAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389579
+    m_Localized: PRIVACY EN JURIDISCH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389580
+    m_Localized: VOLG ONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389581
+    m_Localized: Versie {0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148536
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148536
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 497389581

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 /// <summary>Owns Rollerblade selection, shared preview playback, and Equip while the tab is active.</summary>
@@ -47,6 +48,7 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
 
     private void OnEnable()
     {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
         BuildMaps();
         RefreshAvailability();
 
@@ -74,6 +76,7 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
         if (equipButton != null)
             equipButton.onClick.RemoveListener(EquipSelectedRollerblade);
     }
@@ -172,7 +175,7 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
         bool isEquipped = selectedRollerbladeId == equippedRollerbladeId;
 
         if (equipButtonLabel != null)
-            equipButtonLabel.text = isEquipped ? "EQUIPPED" : "EQUIP";
+            equipButtonLabel.text = SkateLocalization.Get("Inventory", isEquipped ? "inventory.equipped" : "inventory.equip");
 
         Color targetColor = isEquipped ? equippedColor : equipColor;
         if (equipButtonBackgrounds != null)
@@ -186,6 +189,12 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
 
         if (equipButton != null)
             equipButton.interactable = !isEquipped;
+    }
+
+    private void OnLocaleChanged(Locale locale)
+    {
+        RefreshEquippedHighlights();
+        UpdateEquipButtonState();
     }
 
     private bool IsRollerbladeUsable(RollerbladeId id)

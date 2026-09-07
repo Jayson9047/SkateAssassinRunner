@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Legal_de
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: de
+  m_SharedData: {fileID: 11400000, guid: 00bf19f4b2188164c9ae1764ed6821d5, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 489000960
+    m_Localized: "DATENSCHUTZERKL\xC4RUNG"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 509972480
+    m_Localized: NUTZUNGSBEDINGUNGEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: ENDBENUTZER-LIZENZVERTRAG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: "DATEN- & L\xD6SCHANFRAGE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: "K\xC4UFE WIEDERHERSTELLEN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Localized: SUPPORT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629717823488
+    m_Localized: "Die Datenschutzerkl\xE4rung folgt in K\xFCrze."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600704
+    m_Localized: "Die Nutzungsbedingungen folgen in K\xFCrze."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600705
+    m_Localized: "Der Endbenutzer-Lizenzvertrag folgt in K\xFCrze."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600706
+    m_Localized: "Daten- und L\xF6schanfragen folgen in K\xFCrze."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600707
+    m_Localized: "Die Wiederherstellung von K\xE4ufen ist noch nicht verf\xFCgbar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600708
+    m_Localized: "Der Supportkontakt folgt in K\xFCrze."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

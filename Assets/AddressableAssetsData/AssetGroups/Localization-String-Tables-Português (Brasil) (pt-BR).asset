@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: "Localization-String-Tables-Portugu\xEAs (Brasil) (pt-BR)"
+  m_EditorClassIdentifier: 
+  m_GroupName: "Localization-String-Tables-Portugu\xEAs (Brasil) (pt-BR)"
+  m_GUID: 9ac04df6e2c86e2468534bad0012300d
+  m_SerializeEntries:
+  - m_GUID: 04c90644eceefea43a3726183d4967f5
+    m_Address: Inventory_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 084b003078430a94fa23e33459c9993d
+    m_Address: Common_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e61c29900c3a9844887c9628e53f7c4
+    m_Address: Missions_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 398af035f9058c34ea89796f2f85f97b
+    m_Address: Settings_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a4703254adfa8c4193904cf6ea57ebf
+    m_Address: Items_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 569617b7397f19f4394f815e04ff015d
+    m_Address: Legal_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66fd90fd18065914cac8c786c35d4064
+    m_Address: Rewards_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82b72651119fec34e89b7ac4c6140599
+    m_Address: Shop_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 889a9ca490c783548a98e2473693a6b1
+    m_Address: Gameplay_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aa2bd21c30570634596a81ae5172fde5
+    m_Address: Home_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0706e4ae552474458c6b77b071fb681
+    m_Address: Popups_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e143c7b9f48c7c8498db373bd3ad1609
+    m_Address: Tutorial_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: e7724842ce537534caa850908065a5cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d46b831b7d0f1e44aad57e6195048a4c, type: 2}
+    - {fileID: 11400000, guid: dd895f296fcf1e8489514914ee9dc876, type: 2}
+    - {fileID: 11400000, guid: 07800d5c95a50ea4686fd2105fe61b53, type: 2}

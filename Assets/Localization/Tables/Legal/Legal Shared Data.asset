@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Legal Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Legal
+  m_TableCollectionNameGuidString: 00bf19f4b2188164c9ae1764ed6821d5
+  m_Entries:
+  - m_Id: 489000960
+    m_Key: legal.privacy_policy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 509972480
+    m_Key: legal.terms_of_use
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Key: legal.eula
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Key: legal.data_deletion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Key: legal.restore_purchases
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Key: legal.support
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629717823488
+    m_Key: legal.privacy_coming_soon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600704
+    m_Key: legal.terms_coming_soon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600705
+    m_Key: legal.eula_coming_soon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600706
+    m_Key: legal.data_coming_soon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600707
+    m_Key: legal.restore_unavailable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600708
+    m_Key: legal.support_coming_soon
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3932518941382148517
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148517
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1788733209700

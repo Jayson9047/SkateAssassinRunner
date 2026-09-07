@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Missions_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 9cc48fe112cd3e04b99914dbc4305834, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148522
+  m_TableData:
+  - m_Id: 484806656
+    m_Localized: MISSIONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778176
+    m_Localized: MISSIONS QUOTIDIENNES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778177
+    m_Localized: MISSIONS HISTOIRE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778178
+    m_Localized: TABLEAU DE LA MAFIA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778179
+    m_Localized: "R\xC9COLTEZ DE L\u2019ARGENT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778180
+    m_Localized: "R\xC9COLTEZ DES GEMMES"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778181
+    m_Localized: TERMINEZ DES NIVEAUX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778182
+    m_Localized: PAUSE PUB
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778183
+    m_Localized: "R\xE9coltez {0} d\u2019argent"
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778184
+    m_Localized: "R\xE9coltez {0} gemmes"
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778185
+    m_Localized: Terminez {0} niveaux
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778186
+    m_Localized: Regardez {0} pubs
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778187
+    m_Localized: Battez {0:N0} {0:plural:ennemi|ennemis}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778188
+    m_Localized: "Gagnez {0:N0} d\u2019argent"
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778189
+    m_Localized: Survivez pendant {0:N0} {0:plural:seconde|secondes}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778190
+    m_Localized: Battez {0:N0} {0:plural:ennemi|ennemis} avec des attaques plongeantes
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778191
+    m_Localized: "Battez {0:N0} {0:plural:ennemi|ennemis} avec des attaques \xE9clair"
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778192
+    m_Localized: Utilisez Impact puissant {0:N0} fois
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778193
+    m_Localized: Atteignez un combo de {0:N0} en phase 2
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778194
+    m_Localized: "Gagnez {0:N0} d\u2019argent en phase 2"
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  - m_Id: 505778195
+    m_Localized: "Terminez la phase 2 sans \xE9chec"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2633253621760
+    m_Localized: '{0} ({1}/{2})'
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148522
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148522
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 505778183
+        - id: 505778184
+        - id: 505778185
+        - id: 505778186
+        - id: 505778187
+        - id: 505778188
+        - id: 505778189
+        - id: 505778190
+        - id: 505778191
+        - id: 505778192
+        - id: 505778193
+        - id: 505778194
+        - id: 2633253621760

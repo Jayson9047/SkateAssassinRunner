@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Legal_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 00bf19f4b2188164c9ae1764ed6821d5, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 489000960
+    m_Localized: PRIVACY POLICY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 509972480
+    m_Localized: TERMS OF USE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: END USER LICENCE AGREEMENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: DATA & DELETION REQUEST
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: RESTORE PURCHASES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Localized: SUPPORT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629717823488
+    m_Localized: Privacy Policy is coming soon.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600704
+    m_Localized: Terms of Use are coming soon.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600705
+    m_Localized: End User Licence Agreement is coming soon.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600706
+    m_Localized: Data and deletion requests are coming soon.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600707
+    m_Localized: Restore Purchases is not connected yet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600708
+    m_Localized: Support contact is coming soon.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

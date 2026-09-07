@@ -7,10 +7,10 @@ namespace Elroi.DailyMissions.UI
         public void SetHandler(UnityEngine.Events.UnityAction a){if(!claimButton)return;claimButton.onClick.RemoveAllListeners();claimButton.onClick.AddListener(a);}
         public void Bind(int cash,int gems,bool ad,bool claimed,bool available,bool processing)
         {
-            if(rewardText)rewardText.text=gems>0?$"{cash:N0} CASH + {gems:N0} GEMS":$"{cash:N0} CASH";
+            if(rewardText)rewardText.text=gems>0?SkateLocalization.Get("Rewards","rewards.cash_and_gems",SkateLocalization.FormatNumber(cash),SkateLocalization.FormatNumber(gems)):SkateLocalization.Get("Rewards","rewards.cash",SkateLocalization.FormatNumber(cash));
             if(claimButton)claimButton.interactable=available&&!claimed&&!processing;
             bool locked=!available&&!claimed;
-            if(buttonText)buttonText.text=claimed||locked?"":processing?"WAIT...":ad?"WATCH":"FREE";
+            if(buttonText)buttonText.text=claimed||locked?"":processing?SkateLocalization.Get("Popups","popups.wait"):ad?SkateLocalization.Get("Common","common.watch"):SkateLocalization.Get("Common","common.free");
             if(lockIndicator)lockIndicator.SetActive(locked);
             if(claimedIndicator)claimedIndicator.SetActive(claimed);
             if(adIcon)adIcon.SetActive(ad&&available&&!claimed);

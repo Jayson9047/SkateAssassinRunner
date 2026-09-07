@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 public enum SwordPurchaseType
 {
@@ -39,10 +40,11 @@ public sealed class SwordShopItem : MonoBehaviour
     public int PriceCost { get { ShopPricingCatalog.SwordPrice p; return TryGetPrice(out p) ? p.cost : 0; } }
     public string StoreProductId { get { ShopPricingCatalog.SwordPrice p; return TryGetPrice(out p) ? p.storeProductId : string.Empty; } }
     public bool IsOwned => isOwned;
-    public string ProductDisplayName => GetSwordDisplayName(swordId);
+    public string ProductDisplayName => SkateLocalization.GetSwordDisplayName(swordId);
 
     private void OnEnable()
     {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
         if (clickButton == null)
             return;
 
@@ -52,6 +54,7 @@ public sealed class SwordShopItem : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
         if (clickButton != null)
             clickButton.onClick.RemoveListener(RequestPurchase);
     }
@@ -61,7 +64,7 @@ public sealed class SwordShopItem : MonoBehaviour
         isOwned = SwordOwnershipSave.IsOwned(swordId);
 
         if (costText != null)
-            costText.text = isOwned ? "Owned" : GetConfiguredPriceText();
+            costText.text = isOwned ? SkateLocalization.Get("Common", "common.owned") : GetConfiguredPriceText();
 
         if (currencyIcon != null)
             currencyIcon.SetActive(!isOwned && PaymentType != ShopPaymentType.RealMoney);
@@ -82,16 +85,14 @@ public sealed class SwordShopItem : MonoBehaviour
         ShopPricingCatalog.SwordPrice price;
         return TryGetPrice(out price)
             ? ShopPricingCatalog.FormatCardPrice(price.paymentType, price.cost, price.realMoneyPrice)
-            : "UNAVAILABLE";
+            : SkateLocalization.Get("Shop", "shop.unavailable");
     }
 
     public string BuildConfirmationMessage()
     {
         ShopPricingCatalog.SwordPrice price;
-        if (!TryGetPrice(out price)) return "This product is not configured in ShopPricingCatalog.";
-        return "You're about to spend " +
-               ShopPricingCatalog.FormatConfirmationPrice(price.paymentType, price.cost, price.realMoneyPrice) +
-               " to buy " + ProductDisplayName + ". Are you sure?";
+        if (!TryGetPrice(out price)) return SkateLocalization.Get("Shop", "shop.unavailable");
+        return SkateLocalization.BuildShopConfirmation(price.paymentType, price.cost, price.realMoneyPrice, ProductDisplayName);
     }
 
     private void RequestPurchase()
@@ -108,18 +109,5 @@ public sealed class SwordShopItem : MonoBehaviour
         return controller != null && controller.TryGetPrice(swordId, out price);
     }
 
-    private static string GetSwordDisplayName(SwordId id)
-    {
-        switch (id)
-        {
-            case SwordId.Bloodreaver: return "Bloodreaver";
-            case SwordId.Emberguard: return "Emberguard";
-            case SwordId.GlacierCipher: return "GlacierCipher";
-            case SwordId.Gravebreaker: return "Gravebreaker";
-            case SwordId.HellForge: return "HellForge";
-            case SwordId.Sunspire: return "Sunspire";
-            case SwordId.Wyrmshade: return "Wyrmshade";
-            default: return "Katana";
-        }
-    }
+    private void OnLocaleChanged(Locale locale) => RefreshOwnedState();
 }

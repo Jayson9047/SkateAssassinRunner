@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -47,6 +48,7 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
 
     private void OnEnable()
     {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
         BuildMaps();
         RefreshAvailability();
 
@@ -77,6 +79,7 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
         if (equipButton != null)
             equipButton.onClick.RemoveListener(EquipSelectedPower);
     }
@@ -182,7 +185,7 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
         bool isEquipped = selectedPowerId == equippedPowerId;
 
         if (equipButtonLabel != null)
-            equipButtonLabel.text = isEquipped ? "EQUIPPED" : "EQUIP";
+            equipButtonLabel.text = SkateLocalization.Get("Inventory", isEquipped ? "inventory.equipped" : "inventory.equip");
 
         Color targetColor = isEquipped ? equippedColor : equipColor;
         if (equipButtonBackgrounds != null)
@@ -196,6 +199,12 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
 
         if (equipButton != null)
             equipButton.interactable = !isEquipped;
+    }
+
+    private void OnLocaleChanged(Locale locale)
+    {
+        RefreshEquippedHighlights();
+        UpdateEquipButtonState();
     }
 
     public void RefreshAvailability()

@@ -72,12 +72,15 @@ public sealed class ShopPricingCatalog : ScriptableObject
 
     public static string FormatCardPrice(ShopPaymentType paymentType, int cost, string realMoneyPrice)
     {
-        return paymentType == ShopPaymentType.RealMoney ? realMoneyPrice : cost.ToString("N0");
+        // Store-supplied localizedPrice must replace realMoneyPrice when billing is connected.
+        return paymentType == ShopPaymentType.RealMoney ? realMoneyPrice : SkateLocalization.FormatNumber(cost);
     }
 
     public static string FormatConfirmationPrice(ShopPaymentType paymentType, int cost, string realMoneyPrice)
     {
         if (paymentType == ShopPaymentType.RealMoney) return realMoneyPrice;
-        return cost.ToString("N0") + (paymentType == ShopPaymentType.Gems ? " Gems" : " Cash");
+        return paymentType == ShopPaymentType.Gems
+            ? SkateLocalization.Get("Rewards", "rewards.gems", SkateLocalization.FormatNumber(cost))
+            : SkateLocalization.Get("Rewards", "rewards.cash", SkateLocalization.FormatNumber(cost));
     }
 }

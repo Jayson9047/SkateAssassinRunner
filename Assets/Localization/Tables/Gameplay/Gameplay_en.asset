@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Gameplay_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 19ee8cbca00cf0e4d9753b0b0d2f51af, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148558
+  m_TableData:
+  - m_Id: 489000960
+    m_Localized: PAUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: PAUSED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: RESUME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: RESTART
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Localized: RESTART LEVEL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166788
+    m_Localized: MAIN MENU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166789
+    m_Localized: REVIVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166790
+    m_Localized: No Thanks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166791
+    m_Localized: LEVEL COMPLETED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166792
+    m_Localized: LEVEL FAILED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166793
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166794
+    m_Localized: Combo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166795
+    m_Localized: Timer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166796
+    m_Localized: PHASE 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166797
+    m_Localized: PHASE 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631785615360
+    m_Localized: YOU DIED!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631806586880
+    m_Localized: Game Over
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631806586881
+    m_Localized: '{0}s'
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148558
+  - m_Id: 2631806586882
+    m_Localized: LOADING...
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148558
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 2631806586881

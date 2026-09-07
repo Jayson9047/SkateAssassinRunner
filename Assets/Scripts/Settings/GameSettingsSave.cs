@@ -58,16 +58,14 @@ public static class GameSettingsSave
 
     public static string GetLanguageCode()
     {
-        string savedCode = ES3.Load<string>(LanguageCodeKey, defaultValue: DefaultLanguageCode);
-        return string.Equals(savedCode, DefaultLanguageCode, StringComparison.OrdinalIgnoreCase)
-            ? DefaultLanguageCode
-            : DefaultLanguageCode;
+        return SkateLocalization.CurrentLocaleCode;
     }
 
     public static void SetLanguageCode(string languageCode)
     {
-        // English is the only supported language until a localization backend is connected.
-        ES3.Save(LanguageCodeKey, DefaultLanguageCode);
+        // Compatibility facade. Unity Localization + its PlayerPrefs selector is
+        // authoritative; the legacy Easy Save key is migrated once at startup.
+        SkateLocalization.SelectLocale(languageCode);
     }
 
     public static void ApplyGraphicsQualityMode(GraphicsQualityMode mode)

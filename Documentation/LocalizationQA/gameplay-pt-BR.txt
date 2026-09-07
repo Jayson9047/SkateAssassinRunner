@@ -1,0 +1,4 @@
+Cold start locale: pt-BR; saved: pt-BR
+INITIAL MISSION 1: Sobreviva por 0 segundos
+INITIAL MISSION 2: Derrote 1 inimigo com ataques de arrancada (0/1)
+Returned Home locale: pt-BR

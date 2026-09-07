@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Deutsch (de)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Deutsch (de)
+  m_GUID: a973a80fb6af65f41a3000ec3a98727c
+  m_SerializeEntries:
+  - m_GUID: 2dd80eca375747543ac7021a414bcb5d
+    m_Address: Inventory_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 34619d2a0f02e0f468ff6b5e63f81006
+    m_Address: Tutorial_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 378ede7136669b2419f82e09cf733c43
+    m_Address: Items_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3d58c6a94d97f9449849abfff0d371ea
+    m_Address: Common_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 827f9378ebc904440b25b2d40bf59a95
+    m_Address: Missions_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a20350ea570529040a9ea1884b0274ba
+    m_Address: Home_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b02bda08ace3ad045b9f3d01031957c6
+    m_Address: Shop_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc107a9b48840ba4ead63e94c40bcf84
+    m_Address: Rewards_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8d97fd6a936d714e9a1516c950c4e07
+    m_Address: Gameplay_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db73246f82cd76341ac27ebdf8fbaba5
+    m_Address: Popups_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df8dc12a5e8f1564da9abfeef1601e5e
+    m_Address: Legal_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f902e4004ed515c48bee5bfbcf2885eb
+    m_Address: Settings_de
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: e7724842ce537534caa850908065a5cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 38e449731f28b5c46ab2037f88b4fea7, type: 2}
+    - {fileID: 11400000, guid: eed1f89291f3b0144a0f41c7a8ce3bae, type: 2}
+    - {fileID: 11400000, guid: 1d3609972bae2f94790c514f8ebe6426, type: 2}

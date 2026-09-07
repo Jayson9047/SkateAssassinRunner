@@ -1,0 +1,4 @@
+Production locale names: English, Español, Nederlands, Français, Português (Brasil), Deutsch
+Chinese selectable: False
+Pseudo selectable: True
+Selected: en

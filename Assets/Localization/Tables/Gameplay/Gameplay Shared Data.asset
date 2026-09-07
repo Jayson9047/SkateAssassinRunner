@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Gameplay Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Gameplay
+  m_TableCollectionNameGuidString: 19ee8cbca00cf0e4d9753b0b0d2f51af
+  m_Entries:
+  - m_Id: 489000960
+    m_Key: gameplay.pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Key: gameplay.paused
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Key: gameplay.resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Key: gameplay.restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Key: gameplay.restart_level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166788
+    m_Key: gameplay.main_menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166789
+    m_Key: gameplay.revive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166790
+    m_Key: gameplay.no_thanks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166791
+    m_Key: gameplay.level_completed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166792
+    m_Key: gameplay.level_failed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166793
+    m_Key: gameplay.continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166794
+    m_Key: gameplay.combo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166795
+    m_Key: gameplay.timer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166796
+    m_Key: gameplay.phase_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166797
+    m_Key: gameplay.phase_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631785615360
+    m_Key: gameplay.you_died
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631806586880
+    m_Key: gameplay.game_over
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631806586881
+    m_Key: gameplay.seconds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631806586882
+    m_Key: gameplay.loading
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3932518941382148513
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148513
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1788733209195

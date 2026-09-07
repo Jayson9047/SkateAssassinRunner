@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Rewards Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Rewards
+  m_TableCollectionNameGuidString: 5f6f5bad320df2f4698cafc0931012e1
+  m_Entries:
+  - m_Id: 493195264
+    m_Key: rewards.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Key: rewards.daily
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Key: rewards.tomorrow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Key: rewards.day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Key: rewards.cash
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166788
+    m_Key: rewards.gems
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166789
+    m_Key: rewards.chest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166790
+    m_Key: rewards.special_chest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166791
+    m_Key: rewards.unlocked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166792
+    m_Key: rewards.you_won
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166793
+    m_Key: rewards.spins_left
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2632771276800
+    m_Key: rewards.cash_and_gems
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2632792248320
+    m_Key: rewards.new_item
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2632792248321
+    m_Key: rewards.result_cash
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2632792248322
+    m_Key: rewards.result_gems
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639421014016
+    m_Key: rewards.tomorrow_item
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985536
+    m_Key: rewards.resets_in_label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985537
+    m_Key: rewards.day_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985538
+    m_Key: rewards.day_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985539
+    m_Key: rewards.day_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985540
+    m_Key: rewards.day_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985541
+    m_Key: rewards.day_5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985542
+    m_Key: rewards.day_6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985543
+    m_Key: rewards.day_7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985544
+    m_Key: rewards.chest_x1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985545
+    m_Key: rewards.special_chest_x1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985546
+    m_Key: rewards.lucky_chest_x3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985547
+    m_Key: rewards.purchase_complete
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3932518941382148511
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148511
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1788733208953

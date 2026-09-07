@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Shop_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 2a00e83b943db0f44abc6285deb40a13, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148523
+  m_TableData:
+  - m_Id: 493195264
+    m_Localized: SHOP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: SWORDS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: ABILITIES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: ROLLERBLADES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Localized: CURRENCY PACK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166788
+    m_Localized: CASH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166789
+    m_Localized: GEMS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166790
+    m_Localized: CHEST
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166791
+    m_Localized: SPECIAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166792
+    m_Localized: Lucky Chest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166793
+    m_Localized: Epic Chest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166794
+    m_Localized: Best Value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166795
+    m_Localized: 2x Value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166796
+    m_Localized: CONFIRM PURCHASE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166797
+    m_Localized: PURCHASE COMPLETE!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166798
+    m_Localized: NOT ENOUGH GEMS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166799
+    m_Localized: NOT ENOUGH CASH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166800
+    m_Localized: You're about to spend {0} Gems to buy {1}. Are you sure?
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148523
+  - m_Id: 514166801
+    m_Localized: You're about to spend {0} Cash to buy {1}. Are you sure?
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148523
+  - m_Id: 514166802
+    m_Localized: You need {0} more Gems to buy {1}.
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148523
+  - m_Id: 514166803
+    m_Localized: You need {0} more Cash to buy {1}.
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148523
+  - m_Id: 2634247671808
+    m_Localized: UNAVAILABLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2634264449024
+    m_Localized: You're about to spend {0} to buy {1}. Are you sure?
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148523
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148523
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 514166800
+        - id: 514166801
+        - id: 514166802
+        - id: 514166803
+        - id: 2634264449024

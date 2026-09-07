@@ -1,0 +1,12 @@
+en: Defeat 1 enemy with Dash Attacks
+en: Use Power Slam 1 time
+es: Derrota a 1 enemigo con ataques rápidos
+es: Usa Golpe de poder 1 vez
+nl: Versla 1 vijand met sprintaanvallen
+nl: Gebruik Power Slam 1 keer
+fr: Battez 1 ennemi avec des attaques éclair
+fr: Utilisez Impact puissant 1 fois
+pt-BR: Derrote 1 inimigo com ataques de arrancada
+pt-BR: Use Impacto poderoso 1 vez
+de: Besiege 1 Gegner mit Sprintangriffen
+de: Setze Power Slam 1-mal ein

@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Gameplay_de
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: de
+  m_SharedData: {fileID: 11400000, guid: 19ee8cbca00cf0e4d9753b0b0d2f51af, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148636
+  m_TableData:
+  - m_Id: 2631806586881
+    m_Localized: '{0} s'
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148636
+  - m_Id: 489000960
+    m_Localized: PAUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: PAUSIERT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: FORTSETZEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: NEUSTART
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Localized: LEVEL NEU STARTEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166788
+    m_Localized: "HAUPTMEN\xDC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166789
+    m_Localized: WIEDERBELEBEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166790
+    m_Localized: Nein, danke
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166791
+    m_Localized: LEVEL ABGESCHLOSSEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166792
+    m_Localized: LEVEL FEHLGESCHLAGEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631785615360
+    m_Localized: DU BIST GESTORBEN!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631806586880
+    m_Localized: Game Over
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166793
+    m_Localized: Weiter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166794
+    m_Localized: Kombo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166795
+    m_Localized: Timer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2631806586882
+    m_Localized: WIRD GELADEN...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166796
+    m_Localized: PHASE 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166797
+    m_Localized: PHASE 2
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148636
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 2631806586881

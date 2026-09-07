@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Legal_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 00bf19f4b2188164c9ae1764ed6821d5, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 489000960
+    m_Localized: "POLITIQUE DE CONFIDENTIALIT\xC9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 509972480
+    m_Localized: "CONDITIONS D\u2019UTILISATION"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: CONTRAT DE LICENCE UTILISATEUR FINAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: "DEMANDE DE DONN\xC9ES ET DE SUPPRESSION"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: RESTAURER LES ACHATS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Localized: ASSISTANCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629717823488
+    m_Localized: "La politique de confidentialit\xE9 arrive bient\xF4t."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600704
+    m_Localized: "Les conditions d\u2019utilisation arrivent bient\xF4t."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600705
+    m_Localized: "Le contrat de licence arrive bient\xF4t."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600706
+    m_Localized: "Les demandes de donn\xE9es et de suppression arrivent bient\xF4t."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600707
+    m_Localized: "La restauration des achats n\u2019est pas encore disponible."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600708
+    m_Localized: "Le contact d\u2019assistance arrive bient\xF4t."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Nederlands (nl)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Nederlands (nl)
+  m_GUID: 55ba2dfbd07e7f1449dbaedf4b25a437
+  m_SerializeEntries:
+  - m_GUID: 067fc91775fb4964da1fce99a5846827
+    m_Address: Missions_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 339bba04eb3ad3f458cbde8995862a10
+    m_Address: Settings_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48696a32bbb622c47b63c317c8c56aae
+    m_Address: Inventory_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58b35f45a7c8ad449b6813fea6653e37
+    m_Address: Gameplay_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5edf9f80dfeae0a428f99a4399b6113b
+    m_Address: Tutorial_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88d1f59e74ff37240ba6fac96d807ccc
+    m_Address: Shop_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95787b60b9889ac4a98efb7f113a79c1
+    m_Address: Common_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9df8d2cb3982e2240bf0eb8373dd50c1
+    m_Address: Rewards_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6378aadb89897b4f8c81bf904861577
+    m_Address: Legal_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c60782e32cfafcb4393c1b493eb52e00
+    m_Address: Popups_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce786e4d62238c046b6c3db8e6119468
+    m_Address: Home_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc361668ef2d6a84fb7b99e07f4c297f
+    m_Address: Items_nl
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-nl
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: e7724842ce537534caa850908065a5cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a404d406d24677041bc610683e856050, type: 2}
+    - {fileID: 11400000, guid: 2ac1e30cf34109a4fadc2ca613cb2db7, type: 2}
+    - {fileID: 11400000, guid: 530b480b417e24b4995cb1a7e84b8c6e, type: 2}

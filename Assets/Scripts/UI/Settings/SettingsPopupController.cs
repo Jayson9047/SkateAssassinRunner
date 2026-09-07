@@ -3,6 +3,7 @@ using System.Collections;
 using MoreMountains.InfiniteRunnerEngine;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -86,6 +87,16 @@ public class SettingsPopupController : MonoBehaviour
         BindListeners();
         ShowMainPage();
         RefreshAllValues();
+    }
+
+    private void OnEnable()
+    {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
+    }
+
+    private void OnDisable()
+    {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
     }
 
     private void OnDestroy()
@@ -184,7 +195,7 @@ public class SettingsPopupController : MonoBehaviour
 
         if (versionText != null)
         {
-            versionText.text = $"Version {Application.version}";
+            versionText.text = SkateLocalization.Get("Settings", "settings.version", Application.version);
         }
     }
 
@@ -362,7 +373,7 @@ public class SettingsPopupController : MonoBehaviour
 
         if (currentLanguageLabel != null)
         {
-            currentLanguageLabel.text = "English";
+            currentLanguageLabel.text = SkateLocalization.GetNativeLanguageName(languageCode);
         }
 
         if (englishSelectedVisual != null)
@@ -371,25 +382,34 @@ public class SettingsPopupController : MonoBehaviour
         }
     }
 
+    private void OnLocaleChanged(Locale locale)
+    {
+        RefreshLanguageVisual(locale != null ? locale.Identifier.Code : SkateLocalization.DefaultLocaleCode);
+        if (versionText != null)
+        {
+            versionText.text = SkateLocalization.Get("Settings", "settings.version", Application.version);
+        }
+    }
+
     private void OnPrivacyPolicyPressed()
     {
         // TODO: Connect the final hosted Privacy Policy URL
         // or Mobile Monetization Pro V2 legal-page integration here.
-        SetLegalStatus("Privacy Policy is coming soon.");
+        SetLegalStatus(SkateLocalization.Get("Legal", "legal.privacy_coming_soon"));
     }
 
     private void OnTermsOfUsePressed()
     {
         // TODO: Connect the final hosted Terms of Use URL
         // or Mobile Monetization Pro V2 integration here.
-        SetLegalStatus("Terms of Use are coming soon.");
+        SetLegalStatus(SkateLocalization.Get("Legal", "legal.terms_coming_soon"));
     }
 
     private void OnEulaPressed()
     {
         // TODO: Connect the final End User Licence Agreement URL
         // or Mobile Monetization Pro V2 integration here.
-        SetLegalStatus("End User Licence Agreement is coming soon.");
+        SetLegalStatus(SkateLocalization.Get("Legal", "legal.eula_coming_soon"));
     }
 
     private void OnDataDeletionPressed()
@@ -397,20 +417,20 @@ public class SettingsPopupController : MonoBehaviour
         // TODO: Connect the final data/deletion request page
         // after the production analytics, advertising, account,
         // and monetization data flows are finalized.
-        SetLegalStatus("Data and deletion requests are coming soon.");
+        SetLegalStatus(SkateLocalization.Get("Legal", "legal.data_coming_soon"));
     }
 
     private void OnRestorePurchasesPressed()
     {
         // TODO: Connect Mobile Monetization Pro V2 / Google Play
         // restore-purchase entitlement recovery here.
-        SetLegalStatus("Restore Purchases is not connected yet.");
+        SetLegalStatus(SkateLocalization.Get("Legal", "legal.restore_unavailable"));
     }
 
     private void OnSupportPressed()
     {
         // TODO: Connect the final support email or support webpage here.
-        SetLegalStatus("Support contact is coming soon.");
+        SetLegalStatus(SkateLocalization.Get("Legal", "legal.support_coming_soon"));
     }
 
     private void OpenYouTube()

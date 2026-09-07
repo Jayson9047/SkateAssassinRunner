@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Missions_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 9cc48fe112cd3e04b99914dbc4305834, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148552
+  m_TableData:
+  - m_Id: 484806656
+    m_Localized: MISIONES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778176
+    m_Localized: MISIONES DIARIAS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778177
+    m_Localized: MISIONES DE HISTORIA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778178
+    m_Localized: TABLERO DE LA MAFIA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778179
+    m_Localized: RECOGE EFECTIVO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778180
+    m_Localized: RECOGE GEMAS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778181
+    m_Localized: SUPERA NIVELES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778182
+    m_Localized: PAUSA PUBLICITARIA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 505778183
+    m_Localized: Recoge {0} de efectivo
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778184
+    m_Localized: Recoge {0} gemas
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778185
+    m_Localized: Completa {0} niveles
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778186
+    m_Localized: Mira {0} anuncios
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778187
+    m_Localized: Derrota a {0:N0} {0:plural:enemigo|enemigos}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778188
+    m_Localized: Gana {0:N0} de efectivo
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778189
+    m_Localized: Sobrevive durante {0:N0} {0:plural:segundo|segundos}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778190
+    m_Localized: Derrota a {0:N0} {0:plural:enemigo|enemigos} con ataques descendentes
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778191
+    m_Localized: "Derrota a {0:N0} {0:plural:enemigo|enemigos} con ataques r\xE1pidos"
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778192
+    m_Localized: Usa Golpe de poder {0:N0} {0:plural:vez|veces}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778193
+    m_Localized: Alcanza un combo de {0:N0} en la fase 2
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778194
+    m_Localized: Gana {0:N0} de efectivo en la fase 2
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  - m_Id: 505778195
+    m_Localized: Termina la fase 2 sin fallar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2633253621760
+    m_Localized: '{0} ({1}/{2})'
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148552
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148552
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 505778183
+        - id: 505778184
+        - id: 505778185
+        - id: 505778186
+        - id: 505778187
+        - id: 505778188
+        - id: 505778189
+        - id: 505778190
+        - id: 505778191
+        - id: 505778192
+        - id: 505778193
+        - id: 505778194
+        - id: 2633253621760

@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Legal_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 00bf19f4b2188164c9ae1764ed6821d5, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 489000960
+    m_Localized: "POL\xCDTICA DE PRIVACIDAD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 509972480
+    m_Localized: "T\xC9RMINOS DE USO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: ACUERDO DE LICENCIA DE USUARIO FINAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: "SOLICITUD DE DATOS Y ELIMINACI\xD3N"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: RESTAURAR COMPRAS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Localized: ASISTENCIA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629717823488
+    m_Localized: "La pol\xEDtica de privacidad estar\xE1 disponible pronto."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600704
+    m_Localized: "Los t\xE9rminos de uso estar\xE1n disponibles pronto."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600705
+    m_Localized: "El acuerdo de licencia estar\xE1 disponible pronto."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600706
+    m_Localized: "Las solicitudes de datos y eliminaci\xF3n estar\xE1n disponibles
+      pronto."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600707
+    m_Localized: "Restaurar compras a\xFAn no est\xE1 disponible."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2629734600708
+    m_Localized: "El contacto de asistencia estar\xE1 disponible pronto."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 /// <summary>Owns Sword selection, shared preview playback, and the shared Equip button while Swords is active.</summary>
@@ -47,6 +48,7 @@ public sealed class SwordInventoryController : MonoBehaviour
 
     private void OnEnable()
     {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
         BuildMaps();
         RefreshAvailability();
 
@@ -74,6 +76,7 @@ public sealed class SwordInventoryController : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
         if (equipButton != null)
             equipButton.onClick.RemoveListener(EquipSelectedSword);
     }
@@ -166,7 +169,7 @@ public sealed class SwordInventoryController : MonoBehaviour
         bool isEquipped = selectedSwordId == equippedSwordId;
 
         if (equipButtonLabel != null)
-            equipButtonLabel.text = isEquipped ? "EQUIPPED" : "EQUIP";
+            equipButtonLabel.text = SkateLocalization.Get("Inventory", isEquipped ? "inventory.equipped" : "inventory.equip");
 
         Color targetColor = isEquipped ? equippedColor : equipColor;
         if (equipButtonBackgrounds != null)
@@ -180,6 +183,12 @@ public sealed class SwordInventoryController : MonoBehaviour
 
         if (equipButton != null)
             equipButton.interactable = !isEquipped;
+    }
+
+    private void OnLocaleChanged(Locale locale)
+    {
+        RefreshEquippedHighlights();
+        UpdateEquipButtonState();
     }
 
     private bool IsSwordUsable(SwordId id)

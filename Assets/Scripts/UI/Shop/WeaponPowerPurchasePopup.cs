@@ -90,7 +90,7 @@ public sealed class WeaponPowerPurchasePopup : MonoBehaviour
         }
 
         if (noButtonLabel != null)
-            noButtonLabel.text = "OK";
+            noButtonLabel.text = SkateLocalization.Get("Common", "common.ok");
 
         gameObject.SetActive(true);
     }
@@ -115,7 +115,7 @@ public sealed class WeaponPowerPurchasePopup : MonoBehaviour
         }
 
         if (yesButtonLabel != null)
-            yesButtonLabel.text = "YES";
+            yesButtonLabel.text = SkateLocalization.Get("Common", "common.yes");
 
         if (noButton != null)
         {
@@ -124,7 +124,7 @@ public sealed class WeaponPowerPurchasePopup : MonoBehaviour
         }
 
         if (noButtonLabel != null)
-            noButtonLabel.text = "NO";
+            noButtonLabel.text = SkateLocalization.Get("Common", "common.no");
     }
 
     private void HandleYes()

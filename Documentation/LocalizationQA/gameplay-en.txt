@@ -1,0 +1,4 @@
+Cold start locale: en; saved: en
+INITIAL MISSION 1: Finish Phase 2 without failing
+INITIAL MISSION 2: Defeat 1 enemy with Down Attacks (0/1)
+Returned Home locale: en

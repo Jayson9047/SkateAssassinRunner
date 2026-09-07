@@ -83,7 +83,7 @@ public sealed class CurrencyPackShopController : MonoBehaviour
         if (purchasePopup != null)
         {
             purchasePopup.ShowConfirmation(
-                "CONFIRM PURCHASE",
+                SkateLocalization.Get("Shop", "shop.confirm_purchase"),
                 item.BuildConfirmationMessage(),
                 ConfirmPendingPurchase,
                 CancelPendingPurchase);
@@ -153,16 +153,15 @@ public sealed class CurrencyPackShopController : MonoBehaviour
         if (currentGems + 0.0001f < item.GemsCost)
         {
             int missingGems = Mathf.CeilToInt(item.GemsCost - currentGems);
-            string message = "You need " + FormatAmount(missingGems) +
-                             " more Gems to buy " + FormatAmount(item.CashGranted) +
-                             " Cash.";
+            string productName = SkateLocalization.Get("Rewards", "rewards.cash", SkateLocalization.FormatNumber(item.CashGranted));
+            string message = SkateLocalization.Get("Shop", "shop.need_more_gems", SkateLocalization.FormatNumber(missingGems), productName);
 
             ResetTransaction(false);
 
             if (purchasePopup != null)
             {
                 purchasePopup.ShowInformation(
-                    "NOT ENOUGH GEMS",
+                    SkateLocalization.Get("Shop", "shop.not_enough_gems"),
                     message,
                     HandleInformationClosed);
             }
@@ -245,7 +244,7 @@ public sealed class CurrencyPackShopController : MonoBehaviour
             gems,
             cash > 0 ? icon : null,
             gems > 0 ? icon : null,
-            title: "PURCHASE COMPLETE!");
+            titleKey: "rewards.purchase_complete");
         if (request != null && request.primary != null)
         {
             request.primary.displayName = item.DisplayProductName;

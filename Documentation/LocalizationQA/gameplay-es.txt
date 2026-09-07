@@ -1,0 +1,4 @@
+Cold start locale: es; saved: es
+INITIAL MISSION 1: Gana 100 de efectivo en la fase 2 (0/100)
+INITIAL MISSION 2: Termina la fase 2 sin fallar
+Returned Home locale: es

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 public enum WeaponPowerPurchaseType
 {
@@ -40,10 +41,11 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
     public string RealMoneyDisplayPrice { get { ShopPricingCatalog.AbilityPrice p; return TryGetPrice(out p) ? p.realMoneyPrice : string.Empty; } }
     public string StoreProductId { get { ShopPricingCatalog.AbilityPrice p; return TryGetPrice(out p) ? p.storeProductId : string.Empty; } }
     public bool IsOwned => isOwned;
-    public string ProductDisplayName => GetPowerDisplayName(powerId) + " Power";
+    public string ProductDisplayName => SkateLocalization.GetAbilityDisplayName(powerId, true);
 
     private void OnEnable()
     {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
         if (clickButton == null)
             return;
 
@@ -53,6 +55,7 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
         if (clickButton != null)
             clickButton.onClick.RemoveListener(RequestPurchase);
     }
@@ -62,7 +65,7 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
         isOwned = WeaponPowerOwnershipSave.IsOwned(powerId);
 
         if (costText != null)
-            costText.text = isOwned ? "Owned" : GetConfiguredPriceText();
+            costText.text = isOwned ? SkateLocalization.Get("Common", "common.owned") : GetConfiguredPriceText();
 
         if (gemIcon != null)
             gemIcon.SetActive(!isOwned && PaymentType == ShopPaymentType.Gems);
@@ -83,16 +86,14 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
         ShopPricingCatalog.AbilityPrice price;
         return TryGetPrice(out price)
             ? ShopPricingCatalog.FormatCardPrice(price.paymentType, price.cost, price.realMoneyPrice)
-            : "UNAVAILABLE";
+            : SkateLocalization.Get("Shop", "shop.unavailable");
     }
 
     public string BuildConfirmationMessage()
     {
         ShopPricingCatalog.AbilityPrice price;
-        if (!TryGetPrice(out price)) return "This product is not configured in ShopPricingCatalog.";
-        return "You're about to spend " +
-               ShopPricingCatalog.FormatConfirmationPrice(price.paymentType, price.cost, price.realMoneyPrice) +
-               " to buy " + ProductDisplayName + ". Are you sure?";
+        if (!TryGetPrice(out price)) return SkateLocalization.Get("Shop", "shop.unavailable");
+        return SkateLocalization.BuildShopConfirmation(price.paymentType, price.cost, price.realMoneyPrice, ProductDisplayName);
     }
 
     private void RequestPurchase()
@@ -109,22 +110,5 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
         return controller != null && controller.TryGetPrice(powerId, out price);
     }
 
-    private static string GetPowerDisplayName(WeaponPowerId id)
-    {
-        switch (id)
-        {
-            case WeaponPowerId.Fire:
-                return "Fire";
-            case WeaponPowerId.Ice:
-                return "Ice";
-            case WeaponPowerId.Electricity:
-                return "Electricity";
-            case WeaponPowerId.Poison:
-                return "Poison";
-            case WeaponPowerId.Magic:
-                return "Magic";
-            default:
-                return "Default";
-        }
-    }
+    private void OnLocaleChanged(Locale locale) => RefreshOwnedState();
 }

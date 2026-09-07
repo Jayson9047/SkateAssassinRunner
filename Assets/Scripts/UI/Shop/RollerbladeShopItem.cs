@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 public enum RollerbladePurchaseType
 {
@@ -39,10 +40,11 @@ public sealed class RollerbladeShopItem : MonoBehaviour
     public int PriceCost { get { ShopPricingCatalog.RollerbladePrice p; return TryGetPrice(out p) ? p.cost : 0; } }
     public string StoreProductId { get { ShopPricingCatalog.RollerbladePrice p; return TryGetPrice(out p) ? p.storeProductId : string.Empty; } }
     public bool IsOwned => isOwned;
-    public string ProductDisplayName => GetDisplayName(rollerbladeId);
+    public string ProductDisplayName => SkateLocalization.GetRollerbladeDisplayName(rollerbladeId);
 
     private void OnEnable()
     {
+        SkateLocalization.LocaleChanged += OnLocaleChanged;
         if (clickButton == null)
             return;
 
@@ -52,6 +54,7 @@ public sealed class RollerbladeShopItem : MonoBehaviour
 
     private void OnDisable()
     {
+        SkateLocalization.LocaleChanged -= OnLocaleChanged;
         if (clickButton != null)
             clickButton.onClick.RemoveListener(RequestPurchase);
     }
@@ -61,7 +64,7 @@ public sealed class RollerbladeShopItem : MonoBehaviour
         isOwned = RollerbladeOwnershipSave.IsOwned(rollerbladeId);
 
         if (costText != null)
-            costText.text = isOwned ? "Owned" : GetConfiguredPriceText();
+            costText.text = isOwned ? SkateLocalization.Get("Common", "common.owned") : GetConfiguredPriceText();
 
         if (currencyIcon != null)
         {
@@ -85,16 +88,14 @@ public sealed class RollerbladeShopItem : MonoBehaviour
         ShopPricingCatalog.RollerbladePrice price;
         return TryGetPrice(out price)
             ? ShopPricingCatalog.FormatCardPrice(price.paymentType, price.cost, price.realMoneyPrice)
-            : "UNAVAILABLE";
+            : SkateLocalization.Get("Shop", "shop.unavailable");
     }
 
     public string BuildConfirmationMessage()
     {
         ShopPricingCatalog.RollerbladePrice price;
-        if (!TryGetPrice(out price)) return "This product is not configured in ShopPricingCatalog.";
-        return "You're about to spend " +
-               ShopPricingCatalog.FormatConfirmationPrice(price.paymentType, price.cost, price.realMoneyPrice) +
-               " to buy " + ProductDisplayName + ". Are you sure?";
+        if (!TryGetPrice(out price)) return SkateLocalization.Get("Shop", "shop.unavailable");
+        return SkateLocalization.BuildShopConfirmation(price.paymentType, price.cost, price.realMoneyPrice, ProductDisplayName);
     }
 
     private void RequestPurchase()
@@ -111,16 +112,5 @@ public sealed class RollerbladeShopItem : MonoBehaviour
         return controller != null && controller.TryGetPrice(rollerbladeId, out price);
     }
 
-    private static string GetDisplayName(RollerbladeId id)
-    {
-        switch (id)
-        {
-            case RollerbladeId.UrbanRush: return "Urban Rush";
-            case RollerbladeId.NeonVelocity: return "Neon Velocity";
-            case RollerbladeId.FrostbiteGlide: return "Frostbite Glide";
-            case RollerbladeId.InfernoDrift: return "Inferno Drift";
-            case RollerbladeId.CelestialApex: return "Celestial Apex";
-            default: return "Default Rollerblades";
-        }
-    }
+    private void OnLocaleChanged(Locale locale) => RefreshOwnedState();
 }

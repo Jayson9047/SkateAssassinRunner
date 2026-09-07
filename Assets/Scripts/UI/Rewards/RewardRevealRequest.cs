@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,13 +26,13 @@ public sealed class RewardRevealEntry
     public string BuildLabel()
     {
         if (!string.IsNullOrWhiteSpace(displayName))
-            return displayName.ToUpperInvariant();
+            return SkateLocalization.LocalizeKnownItemDisplayName(displayName);
 
         if (!IsCurrency)
-            return type.ToString().ToUpperInvariant();
+            return type.ToString();
 
-        string currencyName = type == RewardRevealType.Cash ? "CASH" : "GEMS";
-        return Mathf.Max(0, amount).ToString("N0", CultureInfo.InvariantCulture) + " " + currencyName;
+        return SkateLocalization.Get("Rewards", type == RewardRevealType.Cash ? "rewards.cash" : "rewards.gems",
+            SkateLocalization.FormatNumber(Mathf.Max(0, amount)));
     }
 }
 
@@ -41,11 +40,20 @@ public sealed class RewardRevealEntry
 public sealed class RewardRevealRequest
 {
     public string title;
+    public string titleTable;
+    public string titleKey;
     public RewardRevealEntry primary;
     public RewardRevealEntry secondary;
     public Action onClosed;
 
     public bool HasSecondary => secondary != null;
+
+    public string GetLocalizedTitle()
+    {
+        return !string.IsNullOrWhiteSpace(titleKey)
+            ? SkateLocalization.Get(string.IsNullOrWhiteSpace(titleTable) ? "Rewards" : titleTable, titleKey)
+            : title;
+    }
 
     public static RewardRevealRequest ForCurrencies(
         int cash,
@@ -53,7 +61,8 @@ public sealed class RewardRevealRequest
         Sprite cashIcon = null,
         Sprite gemIcon = null,
         Action onClosed = null,
-        string title = "REWARD UNLOCKED!")
+        string title = null,
+        string titleKey = null)
     {
         RewardRevealEntry primary = null;
         RewardRevealEntry secondary = null;
@@ -72,6 +81,8 @@ public sealed class RewardRevealRequest
             : new RewardRevealRequest
             {
                 title = title,
+                titleTable = "Rewards",
+                titleKey = string.IsNullOrWhiteSpace(title) ? (string.IsNullOrWhiteSpace(titleKey) ? "rewards.unlocked" : titleKey) : null,
                 primary = primary,
                 secondary = secondary,
                 onClosed = onClosed
@@ -83,8 +94,9 @@ public sealed class RewardRevealRequest
         string displayName,
         Sprite icon,
         Action onClosed = null,
-        string title = "NEW ITEM UNLOCKED!",
-        AnimationClip previewAnimation = null)
+        string title = null,
+        AnimationClip previewAnimation = null,
+        string titleKey = null)
     {
         if (type == RewardRevealType.Cash || type == RewardRevealType.Gems)
             throw new ArgumentException("Use ForCurrencies for Cash and Gems rewards.", nameof(type));
@@ -92,6 +104,8 @@ public sealed class RewardRevealRequest
         return new RewardRevealRequest
         {
             title = title,
+            titleTable = "Rewards",
+            titleKey = string.IsNullOrWhiteSpace(title) ? (string.IsNullOrWhiteSpace(titleKey) ? "rewards.new_item" : titleKey) : null,
             primary = new RewardRevealEntry
             {
                 type = type,

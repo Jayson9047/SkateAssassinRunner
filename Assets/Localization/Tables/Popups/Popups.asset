@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: Popups
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: 07697f72e1034cd4aa3fbf6125276c00, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: eb5e4eed868d62e409bb17639919df3d, type: 2}
+  - {fileID: 11400000, guid: 4a03c90d7a118f34ba2956109b6f8740, type: 2}
+  - {fileID: 11400000, guid: c60782e32cfafcb4393c1b493eb52e00, type: 2}
+  - {fileID: 11400000, guid: 4b21a67bf61944643b123d31c8fc314e, type: 2}
+  - {fileID: 11400000, guid: d0706e4ae552474458c6b77b071fb681, type: 2}
+  - {fileID: 11400000, guid: 6735a19c9d786934c9e986e73047ae10, type: 2}
+  - {fileID: 11400000, guid: db73246f82cd76341ac27ebdf8fbaba5, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

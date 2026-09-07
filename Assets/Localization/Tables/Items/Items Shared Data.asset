@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Items Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Items
+  m_TableCollectionNameGuidString: 4c210e4fad583c448a0e1d235ff89b42
+  m_Entries:
+  - m_Id: 493195264
+    m_Key: items.ability.fire
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Key: items.ability.ice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Key: items.ability.electricity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Key: items.ability.poison
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166787
+    m_Key: items.ability.magic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166788
+    m_Key: items.sword.bloodreaver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166789
+    m_Key: items.sword.emberguard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166790
+    m_Key: items.sword.hellforge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166791
+    m_Key: items.sword.gravebreaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166792
+    m_Key: items.sword.glacier_cipher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361088
+    m_Key: items.sword.wyrmshade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361089
+    m_Key: items.sword.sunspire
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361090
+    m_Key: items.rollerblade.urbanrush
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361091
+    m_Key: items.rollerblade.neonvelocity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361092
+    m_Key: items.rollerblade.frostbiteglide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361093
+    m_Key: items.rollerblade.infernodrift
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361094
+    m_Key: items.rollerblade.celestialapex
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361095
+    m_Key: items.rollerblade.energen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518361096
+    m_Key: items.rollerblade.firo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2630216945664
+    m_Key: items.ability.fire_power
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2630233722880
+    m_Key: items.ability.ice_power
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2630233722881
+    m_Key: items.ability.electricity_power
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2630233722882
+    m_Key: items.ability.poison_power
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2630233722883
+    m_Key: items.ability.magic_power
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2630237917184
+    m_Key: items.sword.katana
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2630237917185
+    m_Key: items.rollerblade.default
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3932518941382148516
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148516
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1788733209576

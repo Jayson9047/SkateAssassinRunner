@@ -581,7 +581,7 @@ while (_jumperCached != null && !_jumperCached.IsGrounded)
             // Spawn under the same parent as the anchor (your PowerMeterUI/Ticker chain)
             var fly = Instantiate(flyTextPrefab, timePopupAnchor.parent);
             fly.gameObject.SetActive(true);
-            fly.text = $"+{secondsAwarded:0.0}s";
+            fly.text = SkateLocalization.Get("Gameplay", "gameplay.seconds", "+" + secondsAwarded.ToString("0.0", SkateLocalization.GetCulture()));
 
             RectTransform flyRt = fly.rectTransform;
 
@@ -610,7 +610,7 @@ while (_jumperCached != null && !_jumperCached.IsGrounded)
                      Destroy(fly.gameObject);
 
                      // Set text
-                     ruthlessTimerText.text = $"{secondsAwarded:0.0}s";
+                     ruthlessTimerText.text = SkateLocalization.Get("Gameplay", "gameplay.seconds", secondsAwarded.ToString("0.0", SkateLocalization.GetCulture()));
 
                      // Fade in (unscaled), no movement
                      if (ruthlessTimerTextCanvasGroup != null)
@@ -933,7 +933,7 @@ while (_jumperCached != null && !_jumperCached.IsGrounded)
             TextMeshProUGUI gameOverScreenTextObject = GameOverScreen.transform.Find("GameOverScreenText").GetComponent<TextMeshProUGUI>();
             if (gameOverScreenTextObject != null)
             {
-                gameOverScreenTextObject.text = "YOU DIED!";
+                gameOverScreenTextObject.text = SkateLocalization.Get("Gameplay", "gameplay.you_died");
             }
         }
 
@@ -1089,7 +1089,7 @@ while (_jumperCached != null && !_jumperCached.IsGrounded)
 
             if (LevelEndTitleText != null)
             {
-                LevelEndTitleText.text = success ? "LEVEL COMPLETED" : "LEVEL FAILED";
+                LevelEndTitleText.text = SkateLocalization.Get("Gameplay", success ? "gameplay.level_completed" : "gameplay.level_failed");
 
                 if (success && gemsToAward > 0)
                 {
@@ -1099,7 +1099,7 @@ while (_jumperCached != null && !_jumperCached.IsGrounded)
                 if (LevelEndCashEarnedText != null)
                 {
                     LevelEndCashEarnedText.text =
-                        SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel().ToString("0");
+                        SkateLocalization.FormatNumber(Mathf.RoundToInt(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel()));
                     int earnedCash = Mathf.RoundToInt(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel());
 
                     accuracyCashPreview?.UnlockPreview();
@@ -1109,7 +1109,7 @@ while (_jumperCached != null && !_jumperCached.IsGrounded)
                 if (LevelEndGemsEarnedText != null)
                 {
                     LevelEndGemsEarnedText.text =
-                        SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetGemsEarnedThisLevel().ToString("0");
+                        SkateLocalization.FormatNumber(Mathf.RoundToInt(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetGemsEarnedThisLevel()));
                 }
             }
         }
@@ -1219,7 +1219,7 @@ while (_jumperCached != null && !_jumperCached.IsGrounded)
                     ruthlessTimerSlider.value = clamped;
 
                 if (ruthlessTimerText != null)
-                    ruthlessTimerText.text = $"{clamped:0.0}s";
+                    ruthlessTimerText.text = SkateLocalization.Get("Gameplay", "gameplay.seconds", clamped.ToString("0.0", SkateLocalization.GetCulture()));
 
                 yield return null;
             }
@@ -1228,7 +1228,7 @@ while (_jumperCached != null && !_jumperCached.IsGrounded)
                 ruthlessTimerSlider.value = 0f;
 
             if (ruthlessTimerText != null)
-                ruthlessTimerText.text = "0.0s";
+                ruthlessTimerText.text = SkateLocalization.Get("Gameplay", "gameplay.seconds", 0f.ToString("0.0", SkateLocalization.GetCulture()));
 
             Phase2FadeOutRuthlessTimer();
             _ruthlessCountdownCo = null;

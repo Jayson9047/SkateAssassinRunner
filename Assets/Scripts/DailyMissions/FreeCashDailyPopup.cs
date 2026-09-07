@@ -4,6 +4,7 @@ using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 namespace Elroi.DailyMissions.UI
 {
@@ -58,6 +59,7 @@ namespace Elroi.DailyMissions.UI
 
         void OnEnable()
         {
+            SkateLocalization.LocaleChanged += OnLocaleChanged;
             processing = false;
             EnsureDay();
             Refresh();
@@ -65,9 +67,12 @@ namespace Elroi.DailyMissions.UI
 
         void OnDisable()
         {
+            SkateLocalization.LocaleChanged -= OnLocaleChanged;
             processing = false;
             closeRoutine = null;
         }
+
+        void OnLocaleChanged(Locale locale) => Refresh();
 
         void Update()
         {
@@ -219,11 +224,9 @@ namespace Elroi.DailyMissions.UI
             if (remaining < TimeSpan.Zero) remaining = TimeSpan.Zero;
             if (resetTimerText)
             {
-                resetTimerText.text = string.Format(
-                    "RESETS IN {0:00}:{1:00}:{2:00}",
-                    (int)remaining.TotalHours,
-                    remaining.Minutes,
-                    remaining.Seconds);
+                string value = string.Format(CultureInfo.InvariantCulture, "{0:00}:{1:00}:{2:00}",
+                    (int)remaining.TotalHours, remaining.Minutes, remaining.Seconds);
+                resetTimerText.text = SkateLocalization.Get("Common", "common.resets_in", value);
             }
         }
     }

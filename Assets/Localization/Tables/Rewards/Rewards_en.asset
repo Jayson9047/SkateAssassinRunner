@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Rewards_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 5f6f5bad320df2f4698cafc0931012e1, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148550
+  m_TableData:
+  - m_Id: 493195264
+    m_Localized: REWARDS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166784
+    m_Localized: DAILY REWARDS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166785
+    m_Localized: Tomorrow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166786
+    m_Localized: DAY {0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 514166787
+    m_Localized: '{0} Cash'
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 514166788
+    m_Localized: '{0} Gems'
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 514166789
+    m_Localized: Chest x{0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 514166790
+    m_Localized: Special Chest x{0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 514166791
+    m_Localized: REWARD UNLOCKED!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166792
+    m_Localized: YOU WON!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 514166793
+    m_Localized: '{0} Left'
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 2632771276800
+    m_Localized: '{0} Cash + {1} Gems'
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 2632792248320
+    m_Localized: NEW ITEM UNLOCKED!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2632792248321
+    m_Localized: +{0} Cash
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 2632792248322
+    m_Localized: +{0} Gems
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148550
+  - m_Id: 3639421014016
+    m_Localized: Tomorrow item
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985536
+    m_Localized: 'Resets In:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985537
+    m_Localized: DAY 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985538
+    m_Localized: DAY 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985539
+    m_Localized: DAY 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985540
+    m_Localized: DAY 4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985541
+    m_Localized: DAY 5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985542
+    m_Localized: DAY 6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985543
+    m_Localized: DAY 7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985544
+    m_Localized: Chest x1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985545
+    m_Localized: Special Chest x1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985546
+    m_Localized: Lucky Chest <size=50>x3</size>
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3639441985547
+    m_Localized: PURCHASE COMPLETE!
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148550
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 514166786
+        - id: 514166787
+        - id: 514166788
+        - id: 514166789
+        - id: 514166790
+        - id: 514166793
+        - id: 2632771276800
+        - id: 2632792248321
+        - id: 2632792248322

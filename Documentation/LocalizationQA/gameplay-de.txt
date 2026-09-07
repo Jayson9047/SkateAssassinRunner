@@ -1,0 +1,4 @@
+Cold start locale: de; saved: de
+INITIAL MISSION 1: Erreiche eine 22er-Kombo in Phase 2 (0/22)
+INITIAL MISSION 2: Verdiene 241 Cash (0/241)
+Returned Home locale: de

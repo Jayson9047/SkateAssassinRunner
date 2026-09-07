@@ -3,6 +3,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 [DisallowMultipleComponent]
 public sealed class CrystalRewardRevealPopup : MonoBehaviour
@@ -101,6 +102,9 @@ public sealed class CrystalRewardRevealPopup : MonoBehaviour
         SetChestRendering(false);
     }
 
+    void OnEnable() => SkateLocalization.LocaleChanged += OnLocaleChanged;
+    void OnDisable() => SkateLocalization.LocaleChanged -= OnLocaleChanged;
+
     void OnDestroy()
     {
         KillTweens();
@@ -191,7 +195,8 @@ public sealed class CrystalRewardRevealPopup : MonoBehaviour
 
     void ConfigureReward(RewardRevealRequest request)
     {
-        titleText.text = string.IsNullOrWhiteSpace(request.title) ? "REWARD UNLOCKED!" : request.title;
+        string localizedTitle = request.GetLocalizedTitle();
+        titleText.text = string.IsNullOrWhiteSpace(localizedTitle) ? SkateLocalization.Get("Rewards", "rewards.unlocked") : localizedTitle;
         if (primaryAbilityPreview)
         {
             primaryAbilityPreview.Clear();
@@ -210,6 +215,11 @@ public sealed class CrystalRewardRevealPopup : MonoBehaviour
         rewardText.text = hasSecondary
             ? request.primary.BuildLabel() + "\n" + request.secondary.BuildLabel()
             : request.primary.BuildLabel();
+    }
+
+    void OnLocaleChanged(Locale locale)
+    {
+        if (current != null) ConfigureReward(current);
     }
 
     Vector2 ResolveDisplaySize(RewardRevealEntry entry)

@@ -62,5 +62,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SkateRunner.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 62cbcf2569fe1254bab6e1c4b78a0768,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: e13ccd300003c9d4ba8291cd08d64e8a,
+      type: 2}
   m_UseUCBPForAssetBundles: 0

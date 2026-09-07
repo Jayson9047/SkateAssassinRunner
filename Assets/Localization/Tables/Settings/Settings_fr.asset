@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Settings_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 7205142c003932b42af7e246011f65d8, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3932518941382148518
+  m_TableData:
+  - m_Id: 476418048
+    m_Localized: "PARAM\xC8TRES"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389568
+    m_Localized: "G\xC9N\xC9RAL"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389569
+    m_Localized: AUDIO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389570
+    m_Localized: AFFICHAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389571
+    m_Localized: Musique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389572
+    m_Localized: Effets sonores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389573
+    m_Localized: Vibrations
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389574
+    m_Localized: "Qualit\xE9 graphique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389575
+    m_Localized: AUTO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389576
+    m_Localized: BASSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389577
+    m_Localized: "\xC9LEV\xC9E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389578
+    m_Localized: LANGUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389579
+    m_Localized: "CONFIDENTIALIT\xC9 ET L\xC9GAL"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389580
+    m_Localized: SUIVEZ-NOUS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 497389581
+    m_Localized: Version {0}
+    m_Metadata:
+      m_Items:
+      - rid: 3932518941382148518
+  references:
+    version: 2
+    RefIds:
+    - rid: 3932518941382148518
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 497389581

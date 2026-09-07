@@ -1,0 +1,89 @@
+Assets/Scripts/Localization/LocalizedTMPFitPolicy.cs
+Assets/Scripts/Localization/LocalizationVisualQA.cs
+Assets/Scripts/Localization/LocalizationVisualQA.cs.meta
+Assets/Scripts/Missions/MissionSystem.cs
+Assets/Scripts/Missions/UI/MissionUIBinder.cs
+Assets/Scripts/UI/Inventory/WeaponPowerInventoryController.cs
+Assets/Scripts/UI/Inventory/SwordInventoryController.cs
+Assets/Scripts/UI/Inventory/RollerbladeInventoryController.cs
+Assets/Editor/Localization/SkateLocalizationEditorTools.cs
+Assets/Editor/Localization/SkateLocalizationCatalog.cs
+Assets/Editor/Localization/SkateLocalizationGermanCatalog.cs
+Assets/Scenes/SkateRunnerStartScreen.unity
+Assets/Scenes/SkateRunner.unity
+Assets/Prefabs/Characters/UICamera.prefab
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline 32 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline 40 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline 50 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline 54 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline 64 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline 72 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline 120 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline 210 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline_Extended ASCII_32 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline_Extended ASCII_40 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline_Extended ASCII_50 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline_Extended ASCII_54 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline_Extended ASCII_64 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline_Extended ASCII_72 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular Outline_Extended ASCII_120 SDF.asset
+Assets/ThirdParty/InGame/Layer Lab/GUI Pro-CasualGame/ResourcesData/Fonts/LilitaOne-Regular SDF.asset
+Assets/Localization/Fonts/LilitaOne-Regular.ttf
+Assets/Localization/Fonts/LilitaOne-Regular.ttf.meta
+Assets/Localization/Fonts/OFL.txt
+Assets/Localization/Fonts/OFL.txt.meta
+Assets/Localization/Fonts/SkateRunner_LilitaLatinSDF.asset
+Assets/Localization/Fonts/SkateRunner_LilitaLatinSDF.asset.meta
+Assets/Localization/Tables/Missions/Missions_en.asset
+Assets/Localization/Tables/Missions/Missions_es.asset
+Assets/Localization/Tables/Missions/Missions_nl.asset
+Assets/Localization/Tables/Missions/Missions_fr.asset
+Assets/Localization/Tables/Missions/Missions_pt-BR.asset
+Assets/Localization/Tables/Missions/Missions_de.asset
+Assets/Localization/Tables/Shop/Shop_es.asset
+Assets/Localization/Tables/Common/Common_fr.asset
+Assets/Localization/Exports/Missions.csv
+Assets/Localization/Exports/Shop.csv
+Assets/Localization/Exports/Common.csv
+Assets/Localization/BakedTextAudit.md
+Assets/Localization/ProductionLocalizationAudit.md
+Assets/Localization/ProductionPolishReport.md
+Assets/Localization/ProductionPolishReport.md.meta
+Documentation/LocalizationQA/cold-magic.txt
+Documentation/LocalizationQA/death.jpg
+Documentation/LocalizationQA/en-home.jpg
+Documentation/LocalizationQA/free-cash.jpg
+Documentation/LocalizationQA/gameplay-de.txt
+Documentation/LocalizationQA/gameplay-en.txt
+Documentation/LocalizationQA/gameplay-es.txt
+Documentation/LocalizationQA/gameplay-fr.txt
+Documentation/LocalizationQA/gameplay-missions.jpg
+Documentation/LocalizationQA/gameplay-nl.txt
+Documentation/LocalizationQA/gameplay-pt-BR.txt
+Documentation/LocalizationQA/home.jpg
+Documentation/LocalizationQA/inventory-Abilities-bottom.jpg
+Documentation/LocalizationQA/inventory-RollerBlades.jpg
+Documentation/LocalizationQA/inventory-Swords.jpg
+Documentation/LocalizationQA/languages.jpg
+Documentation/LocalizationQA/latin-font-specimen.jpg
+Documentation/LocalizationQA/locale-policy.txt
+Documentation/LocalizationQA/mission-tab-observations.txt
+Documentation/LocalizationQA/missions-mafia.jpg
+Documentation/LocalizationQA/missions-story.jpg
+Documentation/LocalizationQA/missions.jpg
+Documentation/LocalizationQA/nl-cold-magic.jpg
+Documentation/LocalizationQA/observations.txt
+Documentation/LocalizationQA/pause.jpg
+Documentation/LocalizationQA/plural-checks.txt
+Documentation/LocalizationQA/purchase-confirmation.jpg
+Documentation/LocalizationQA/README.md
+Documentation/LocalizationQA/result.jpg
+Documentation/LocalizationQA/reward-reveal.jpg
+Documentation/LocalizationQA/rewards.jpg
+Documentation/LocalizationQA/settings.jpg
+Documentation/LocalizationQA/shop-Abilities.jpg
+Documentation/LocalizationQA/shop-CurrencyPack.jpg
+Documentation/LocalizationQA/shop-Rollerblades.jpg
+Documentation/LocalizationQA/shop-Swords.jpg
+Documentation/LocalizationQA/spin.jpg
+Documentation/LocalizationQA/changed-files.txt
