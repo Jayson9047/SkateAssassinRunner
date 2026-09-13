@@ -438,11 +438,13 @@ _frame18FailsafeArmed = false;
     }
 
 
+    [SerializeField, Min(0f), Tooltip("Result-screen delay when music is disabled or the selected track has no Outro.")]
+    private float levelEndPresentationFallbackSeconds = 6f;
+
     private IEnumerator ShowLevelEndAfterDelayCo()
     {
         SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.NotifyLevelWon();
-        //delay to allow for pose to finish
-        yield return new WaitForSecondsRealtime(6f);
+        yield return SkateRunnerAudioManager.WaitForLevelEndingPresentation(levelEndPresentationFallbackSeconds);
         SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);
     }
 

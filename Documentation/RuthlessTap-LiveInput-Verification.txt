@@ -1,0 +1,21 @@
+Unity 6000.0.67f1: actual gameplay scene MainActionButton / TapOnlyMainActionZone
+Used SkateRunnerGameFeel.TriggerSlowMoStatic(0.03, ...) with frozen world movement.
+Temporary runtime cash awards/mission notifications disabled; no purchases or progression.
+
+Before fix:
+Real scene zone=MainActionButton; scale=0.03; combo delta=5; audio requests=0; output peak=0
+Rejected swipe audio requests=0
+Listener-paused accepted tap requests=0 output peak=0 pitch=1
+SFX-off request delta=0
+
+After fix:
+Real scene zone=MainActionButton; scale=0.03; combo delta=5; audio requests=5; output peak=0.8977661
+Rejected swipe audio requests=0
+Listener-paused accepted tap requests=1 output peak=0.8977661 pitch=1
+SFX-off request delta=0
+
+Live audio manager singleton count=1. Mode controller TapCount=7; LevelManager count=7.
+No runtime Console errors during the post-fix test.
+Unity's built-in GameObjectInspector/TransformInspector emitted stale-target exceptions during scene/Play transitions; these were editor-inspector lifecycle errors, not compiler errors or gameplay test exceptions.
+Temporary editor test helper and meta removed after verification.
+RegisterTap had only an unused RuthlessTapOverlay source caller; no scene/prefab/asset references to that overlay.

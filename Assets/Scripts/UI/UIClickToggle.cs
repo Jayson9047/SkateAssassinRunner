@@ -23,7 +23,19 @@ public class UIClickToggle : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left || !isActiveAndEnabled) return;
+        var audio = SkateRunnerUIClickAudio.Ensure(gameObject);
+        if (!audio.CanInteract) return;
+        bool changed = WouldChange(objectsToEnable, true) || WouldChange(objectsToDisable, false);
+        if (changed && audio.CanClick) SkateRunnerAudioManager.PlayUIButtonClick();
         ApplyToggle();
+    }
+
+    private static bool WouldChange(GameObject[] targets, bool state)
+    {
+        if (targets == null) return false;
+        foreach (var target in targets) if (target && target.activeSelf != state) return true;
+        return false;
     }
 
     public void ApplyToggle()

@@ -447,23 +447,26 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             CachePowerMeterGroupIfNeeded();
 
-            if (powerMeter == null || _powerMeterGroup == null)
-                yield break;
-
             // make sure it doesn't block touch while we wait
-            _powerMeterGroup.interactable = false;
-            _powerMeterGroup.blocksRaycasts = false;
+            if (_powerMeterGroup != null)
+            {
+                _powerMeterGroup.interactable = false;
+                _powerMeterGroup.blocksRaycasts = false;
+            }
 
             // Wait until grounded
             if (_jumperCached == null)
                 _jumperCached = FindFirstObjectByType<Jumper>();
-while (_jumperCached != null && !_jumperCached.IsGrounded)
+            while (_jumperCached != null && !_jumperCached.IsGrounded)
                 yield return null;
 
             SkateRunnerAudioManager.EndGameplayMusicAtFinalLanding();
 
-            
-// Fade out
+            // Optional HUD visuals must not prevent the grounded audio handoff.
+            if (powerMeter == null || _powerMeterGroup == null)
+                yield break;
+
+            // Fade out
             float start = _powerMeterGroup.alpha;
             float dur = Mathf.Max(0.01f, powerMeterFadeDuration);
             float t = 0f;

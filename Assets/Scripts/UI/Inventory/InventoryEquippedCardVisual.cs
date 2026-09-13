@@ -11,6 +11,7 @@ public sealed class InventoryEquippedCardVisual : MonoBehaviour
 {
     [SerializeField] private Image cardBackground;
     [SerializeField] private Sprite equippedCardSprite;
+    [SerializeField] private GameObject equippedFocus;
 
     private Sprite normalCardSprite;
     private bool normalSpriteCached;
@@ -18,6 +19,7 @@ public sealed class InventoryEquippedCardVisual : MonoBehaviour
     public void SetEquipped(bool equipped)
     {
         CacheNormalSprite();
+        if (equippedFocus != null) equippedFocus.SetActive(equipped);
 
         if (cardBackground == null)
             return;

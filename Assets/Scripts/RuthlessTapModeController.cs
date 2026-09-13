@@ -18,10 +18,11 @@ public class RuthlessTapModeController : MonoBehaviour
 
 
     public bool IsActive => _active;
-    public int TapCount => _tapCount;
+    // TapOnlyMainActionZone owns accepted taps, their audio and the visible combo.
+    // Read that same count for the mode-end callback instead of a second counter.
+    public int TapCount => LevelManager.Instance != null ? LevelManager.Instance.RuthlessTapCount : 0;
 
     private bool _active;
-    private int _tapCount;
     private float _endAtUnscaledTime;
 
     private System.Action<int> _onEnded; // optional callback
@@ -51,25 +52,14 @@ public class RuthlessTapModeController : MonoBehaviour
     public void Begin(float durationSeconds = -1f, System.Action<int> onEnded = null)
     {
         _active = true;
-        _tapCount = 0;
 
         _onEnded = onEnded;
 
         float dur = durationSeconds > 0f ? durationSeconds : defaultDurationSeconds;
         _endAtUnscaledTime = Time.unscaledTime + dur;
 
-        SetComboText(string.Format(comboFormat, _tapCount));
+        SetComboText(string.Format(comboFormat, TapCount));
 
-    }
-
-
-    public void RegisterTap()
-    {
-        if (!_active) return;
-
-        _tapCount++;
-        SkateRunnerAudioManager.PlayRuthlessTapSwordHit();
-        SetComboText(string.Format(comboFormat, _tapCount));
     }
 
 
@@ -79,7 +69,7 @@ public class RuthlessTapModeController : MonoBehaviour
 
         _active = false;
 
-        int final = _tapCount;
+        int final = TapCount;
         _onEnded?.Invoke(final);
         _onEnded = null;
 

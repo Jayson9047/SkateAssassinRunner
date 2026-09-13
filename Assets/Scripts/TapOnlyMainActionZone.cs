@@ -254,6 +254,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     public void OnPointerUp(PointerEventData eventData)
     {
         if (!_isTapCandidate) return;
+        _isTapCandidate = false; // consume this press, including rejected releases
 
         if (tapMaxTimeSeconds > 0f && (Time.unscaledTime - _downTime) > tapMaxTimeSeconds)
         {
@@ -271,6 +272,9 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
             if (lm.GameplayInputsLocked && lm.RuthlessTapModeEntered)
             {
                 lm.RuthlessTapCount++;
+                // This is the live Ruthless input path: every accepted combo tap
+                // emits one immediate, unscaled sword cue alongside the slash.
+                SkateRunnerAudioManager.PlayRuthlessTapSwordHit();
                 if (ruthlessTapSlashFeedback != null) ruthlessTapSlashFeedback.TriggerSlash();
                 // First tap of a ruthless sequence: ensure we start from min
                 if (lm.RuthlessTapCount == 1)

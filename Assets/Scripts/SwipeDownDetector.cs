@@ -324,8 +324,7 @@ public class SwipeDownDetector : MonoBehaviour
     {
         downAttackHasGroundedOnce = false;
         
-        SkateRunnerAudioManager.PlayDownAttack();
-isDownAttacking = true;
+        isDownAttacking = true;
         // Spawn equippable "air" down attack FX immediately when slam is triggered
         downAttackPowerEquipper?.SpawnAirDownAttackFx();
 
@@ -461,6 +460,9 @@ isDownAttacking = true;
         // If configured, only allow one slam impact per down attack
         if (triggerImpactOncePerDownAttack && impactTriggeredThisDownAttack)
             return;
+
+        // Audio is once per actual impact, even if repeat VFX callbacks are enabled.
+        if (!impactTriggeredThisDownAttack) SkateRunnerAudioManager.PlayDownAttack();
 
         bool slamReady =
             debug_StartWithPowerSlam ||

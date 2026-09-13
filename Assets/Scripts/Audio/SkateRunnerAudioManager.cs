@@ -38,10 +38,11 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [SerializeField] SkateRunnerAudioCue rewardReveal = new SkateRunnerAudioCue();
     [SerializeField, Range(0f, 1f)] float rewardRevealBackgroundMusicDuck = 0.35f;
     [Header("Homepage Music")]
-    [SerializeField] AudioClip homepageMusic1;
-    [SerializeField] AudioClip homepageMusic2;
+    [SerializeField, InspectorName("Homepage Music 1")] HomepageMusicEntry homepageTrack1 = new HomepageMusicEntry();
+    [SerializeField, InspectorName("Homepage Music 2")] HomepageMusicEntry homepageTrack2 = new HomepageMusicEntry();
+    [SerializeField, Min(0f)] float homepageMusicGapSeconds = 7f;
     [Header("Gameplay Music")]
-    [SerializeField] List<AudioClip> gameplayMusicTracks = new List<AudioClip>();
+    [SerializeField, InspectorName("Gameplay Music Tracks")] List<GameplayMusicTrack> gameplayTracks = new List<GameplayMusicTrack>();
     [Header("Player Actions")]
     [SerializeField] SkateRunnerAudioCue playerJump = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue dashAttack = new SkateRunnerAudioCue();
@@ -73,20 +74,30 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [Header("Music Transitions")]
     [SerializeField, Min(0f)] float musicTransitionFade = 0.5f;
     [SerializeField, Min(0f)] float gameplayMusicFadeOutDuration = 2f;
-    [SerializeField] AudioClip levelEndingOutroStinger;
+    [SerializeField, Min(1f)] float finalLandingWaitTimeout = 15f;
     [Header("Playback Settings")]
     [SerializeField, Range(4, 32)] int oneShotPoolSize = 12;
+    [SerializeField, Range(4, 32)] int ruthlessTapPoolSize = 16;
     [SerializeField] string homepageSceneName = "SkateRunnerStartScreen";
     [SerializeField] string gameplaySceneName = "SkateRunner";
 
     readonly List<AudioSource> oneShots = new List<AudioSource>();
-    readonly HashSet<Button> registeredButtons = new HashSet<Button>();
-    AudioSource musicA, musicB, wheelLoopSource, stingerSource, rewardRevealMusicSource;
+    readonly List<AudioSource> ruthlessTapSources = new List<AudioSource>();
+    AudioSource musicA, musicB, wheelLoopSource, rewardRevealMusicSource;
     Coroutine musicRoutine;
     bool gameplayStarted;
     bool rewardRevealActive;
     int homepageIndex;
     int lastGameplayIndex = -1;
+    int ruthlessVoiceIndex;
+    float activeTrackVolume = 1f, musicFade = 1f, homepageGapRemaining;
+    bool homepageInGap, musicWasEnabled, gameplayPlaybackBegun, endingRequested;
+    GameplayMusicTrack selectedGameplayTrack;
+    double introEndDsp, bodyStartDsp, endingDeadlineRealtime;
+
+    public enum MusicEndingState { NotRequested, WaitingForBoundary, PlayingOutro, Completed, Fallback }
+    public MusicEndingState EndingState { get; private set; }
+    public event Action GameplayMusicEndingCompleted;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Bootstrap()
@@ -104,9 +115,23 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         gameObject.name = "SkateRunnerAudio";
         DontDestroyOnLoad(gameObject);
         musicA = AddSource("Music A"); musicB = AddSource("Music B");
-        wheelLoopSource = AddSource("Wheel Loop"); stingerSource = AddSource("Ending Stinger");
+        wheelLoopSource = AddSource("Wheel Loop");
         rewardRevealMusicSource = AddSource("Crystal Reward Reveal Music");
         for (int i = 0; i < oneShotPoolSize; i++) oneShots.Add(AddSource("SFX " + (i + 1)));
+        for (int i = 0; i < ruthlessTapPoolSize; i++)
+        {
+            var source = AddSource("Ruthless Tap " + (i + 1));
+            source.priority = 32;
+            // Tap feedback is real-time UI feedback, not slowed/paused world audio.
+            // AudioSource already runs on the audio clock; never scale its pitch
+            // with Time.timeScale, and let it play through listener-paused hitstop.
+            source.ignoreListenerPause = true;
+            source.dopplerLevel = 0f;
+            ruthlessTapSources.Add(source);
+        }
+        // This latency-sensitive cue is authored with preload disabled. Warm it once,
+        // not on the first accepted tap in the slow-motion sequence.
+        if (ruthlessTapSwordHit != null && ruthlessTapSwordHit.clip) ruthlessTapSwordHit.clip.LoadAudioData();
     }
 
     AudioSource AddSource(string childName)
@@ -132,35 +157,43 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SkateRunnerDestructibleObject.OnEnemyKilled -= OnEnemyKilled;
         SoundManager.SettingsChanged -= OnSettingsChanged;
-        UnregisterButtons();
+        CancelMusicRoutine();
+        StopMusicSources();
     }
 
     void OnDestroy() { if (Instance == this) Instance = null; }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        RegisterSceneButtons(scene);
+        if (mode == LoadSceneMode.Additive) return;
         StopCrystalRewardAudioInternal();
         gameplayStarted = false;
-        RegisterSceneButtons(scene);
+        gameplayPlaybackBegun = endingRequested = false;
+        selectedGameplayTrack = null;
+        EndingState = MusicEndingState.NotRequested;
+        homepageIndex = 0;
+        homepageInGap = false;
+        homepageGapRemaining = 0f;
+        musicWasEnabled = MusicEnabled;
         if (scene.name == homepageSceneName) StartHomepageMusic(); else StopMusic(musicTransitionFade);
     }
 
     void RegisterSceneButtons(Scene scene)
     {
-        UnregisterButtons();
         foreach (GameObject root in scene.GetRootGameObjects())
+        {
             foreach (Button button in root.GetComponentsInChildren<Button>(true))
-            { if (registeredButtons.Add(button)) button.onClick.AddListener(PlayUIButtonClick); }
-    }
-
-    void UnregisterButtons()
-    {
-        foreach (Button button in registeredButtons) if (button) button.onClick.RemoveListener(PlayUIButtonClick);
-        registeredButtons.Clear();
+                RegisterRuntimeButton(button);
+            foreach (MMTouchButton touch in root.GetComponentsInChildren<MMTouchButton>(true))
+                SkateRunnerUIClickAudio.Ensure(touch.gameObject);
+            foreach (UIClickToggle tab in root.GetComponentsInChildren<UIClickToggle>(true))
+                SkateRunnerUIClickAudio.Ensure(tab.gameObject);
+        }
     }
 
     public void RegisterRuntimeButton(Button button)
-    { if (button && registeredButtons.Add(button)) button.onClick.AddListener(PlayUIButtonClick); }
+    { if (button) SkateRunnerUIClickAudio.Ensure(button.gameObject); }
 
     public void OnMMEvent(MMGameEvent e)
     {
@@ -179,19 +212,34 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
 
     void OnSettingsChanged(bool musicOn, bool sfxOn)
     {
-        musicA.mute = musicB.mute = stingerSource.mute = rewardRevealMusicSource.mute = !musicOn;
-        musicA.volume = musicB.volume = CurrentBackgroundMusicVolume;
+        ApplyMusicVolume();
         rewardRevealMusicSource.volume = crystalRewardRevealMusicVolume * MusicVolume;
-        if (!sfxOn && wheelLoopSource) wheelLoopSource.Stop();
+        if (!sfxOn)
+        {
+            wheelLoopSource.Stop();
+            foreach (var source in oneShots) source.Stop();
+            foreach (var source in ruthlessTapSources) source.Stop();
+        }
+        if (!musicOn)
+        {
+            CancelMusicRoutine();
+            StopMusicSources();
+            rewardRevealMusicSource.Stop();
+            if (endingRequested) CompleteEnding(false);
+        }
         if (musicOn && rewardRevealActive && crystalRewardRevealMusic && !rewardRevealMusicSource.isPlaying)
             PlayCrystalRewardMusic();
-        if (musicOn && !musicA.isPlaying && !musicB.isPlaying && !stingerSource.isPlaying)
-        { if (gameplayStarted) StartGameplayMusic(false); else if (SceneManager.GetActiveScene().name == homepageSceneName) StartHomepageMusic(); }
+        if (musicOn && !musicWasEnabled && !endingRequested)
+        {
+            if (gameplayStarted) StartSelectedGameplayMusic();
+            else if (SceneManager.GetActiveScene().name == homepageSceneName) StartHomepageMusic();
+        }
+        musicWasEnabled = musicOn;
     }
 
-    void Play(SkateRunnerAudioCue cue)
+    void Play(SkateRunnerAudioCue cue, bool ignoreRetrigger = false)
     {
-        if (!SfxEnabled || cue == null || !cue.clip || Time.unscaledTime - cue.lastPlayedAt < cue.minimumRetriggerInterval) return;
+        if (!SfxEnabled || cue == null || !cue.clip || (!ignoreRetrigger && Time.unscaledTime - cue.lastPlayedAt < cue.minimumRetriggerInterval)) return;
         cue.lastPlayedAt = Time.unscaledTime;
         AudioSource source = null;
         for (int i = 0; i < oneShots.Count; i++) if (!oneShots[i].isPlaying) { source = oneShots[i]; break; }
@@ -202,7 +250,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         source.Play();
     }
 
-    public static void PlayUIButtonClick() => Instance?.Play(Instance.uiButtonClick);
+    public static void PlayUIButtonClick() => Instance?.Play(Instance.uiButtonClick, true);
     public static void PlayPurchaseSuccess() => Instance?.Play(Instance.purchaseSuccess);
     public static void StartCrystalRewardRevealAudio() => Instance?.StartCrystalRewardAudioInternal();
     public static void PlayCrystalChestBreak() => Instance?.Play(Instance.crystalChestBreak);
@@ -214,7 +262,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     public static void PlayPhase1BannerImpact() => Instance?.Play(Instance.phase1BannerImpact);
     public static void PlayPhase2BannerImpact() => Instance?.Play(Instance.phase2BannerImpact);
     public static void PlayPhase2SlowMotionStart() => Instance?.Play(Instance.phase2SlowMotionStart);
-    public static void PlayRuthlessTapSwordHit() => Instance?.Play(Instance.ruthlessTapSwordHit);
+    public static void PlayRuthlessTapSwordHit() => Instance?.PlayRuthlessTapInternal();
     public static void PlayRuthlessFinalCut() => Instance?.Play(Instance.ruthlessFinalCut);
     public static void PlayPhase2CarExplosion() => Instance?.Play(Instance.phase2CarExplosion);
     public static void PlayPhase2CarGroundImpact() => Instance?.Play(Instance.phase2CarGroundImpact);
@@ -223,12 +271,32 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     public static void PlayPhase2SniperImpact() => Instance?.Play(Instance.phase2SniperImpactOnPlayer);
     public static void PlayFlyingDroneShot() => Instance?.Play(Instance.flyingDroneShot);
 
-    float CurrentBackgroundMusicVolume => MusicVolume * (rewardRevealActive && crystalRewardRevealMusic ? rewardRevealBackgroundMusicDuck : 1f);
+    void PlayRuthlessTapInternal()
+    {
+        var cue = ruthlessTapSwordHit;
+        if (!SfxEnabled || cue == null || !cue.clip || ruthlessTapSources.Count == 0) return;
+        // PlayOneShot overlaps even when this preallocated voice wraps. No Stop/Play
+        // restart, no shared-pool voice stealing, and no legitimate-tap throttling.
+        var source = ruthlessTapSources[ruthlessVoiceIndex++ % ruthlessTapSources.Count];
+        source.mute = false;
+        source.volume = Mathf.Clamp01(cue.volume * SfxVolume);
+        source.pitch = Mathf.Max(0.01f, cue.pitch + UnityEngine.Random.Range(-cue.randomPitchRange, cue.randomPitchRange));
+        source.PlayOneShot(cue.clip);
+    }
+
+    float CurrentBackgroundMusicVolume => activeTrackVolume * MusicVolume * musicFade *
+        (rewardRevealActive && crystalRewardRevealMusic ? rewardRevealBackgroundMusicDuck : 1f);
+
+    void ApplyMusicVolume()
+    {
+        if (musicA) { musicA.volume = CurrentBackgroundMusicVolume; musicA.mute = !MusicEnabled; }
+        if (musicB) { musicB.volume = CurrentBackgroundMusicVolume; musicB.mute = !MusicEnabled; }
+    }
 
     void StartCrystalRewardAudioInternal()
     {
         rewardRevealActive = true;
-        musicA.volume = musicB.volume = CurrentBackgroundMusicVolume;
+        ApplyMusicVolume();
         PlayCrystalRewardMusic();
     }
 
@@ -247,8 +315,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     {
         rewardRevealActive = false;
         if (rewardRevealMusicSource) rewardRevealMusicSource.Stop();
-        if (musicA) musicA.volume = MusicVolume;
-        if (musicB) musicB.volume = MusicVolume;
+        ApplyMusicVolume();
     }
 
     public static void StartWheelSpin() { if (Instance) Instance.StartLoop(Instance.wheelLoopSource, Instance.wheelSpinningLoop); }
@@ -270,47 +337,215 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     void StartHomepageMusic()
     {
         gameplayStarted = false;
-        List<AudioClip> tracks = new List<AudioClip>(); if (homepageMusic1) tracks.Add(homepageMusic1); if (homepageMusic2) tracks.Add(homepageMusic2);
-        StartMusicRoutine(tracks, false);
+        CancelMusicRoutine();
+        StopMusicSources();
+        if (MusicEnabled) musicRoutine = StartCoroutine(HomepagePlaylist());
     }
 
-    void StartGameplayMusic(bool selectNew = true)
+    void StartGameplayMusic()
     {
+        // GameStart may be emitted again on revive. Selection is level-owned.
+        if (gameplayStarted || SceneManager.GetActiveScene().name != gameplaySceneName) return;
         gameplayStarted = true;
-        List<AudioClip> valid = gameplayMusicTracks.FindAll(x => x);
+        var valid = gameplayTracks.FindAll(x => x != null && x.IsValid);
         if (valid.Count == 0) { StopMusic(musicTransitionFade); return; }
-        int index = lastGameplayIndex;
-        if (selectNew || index < 0 || index >= valid.Count)
-        { do index = UnityEngine.Random.Range(0, valid.Count); while (valid.Count > 1 && index == lastGameplayIndex); lastGameplayIndex = index; }
-        StartMusicRoutine(new List<AudioClip> { valid[index] }, true);
+        int index;
+        do index = UnityEngine.Random.Range(0, valid.Count); while (valid.Count > 1 && index == lastGameplayIndex);
+        lastGameplayIndex = index;
+        selectedGameplayTrack = valid[index];
+        StartSelectedGameplayMusic();
     }
 
-    void StartMusicRoutine(List<AudioClip> tracks, bool loopSingle)
+    void CancelMusicRoutine()
     {
         if (musicRoutine != null) StopCoroutine(musicRoutine);
-        musicRoutine = StartCoroutine(MusicPlaylist(tracks, loopSingle));
+        musicRoutine = null;
     }
 
-    IEnumerator MusicPlaylist(List<AudioClip> tracks, bool loopSingle)
+    void StopMusicSources()
     {
-        musicA.Stop(); musicB.Stop(); stingerSource.Stop();
-        if (tracks.Count == 0 || !MusicEnabled) yield break;
-        while (true)
+        if (musicA) { musicA.Stop(); musicA.loop = false; }
+        if (musicB) { musicB.Stop(); musicB.loop = false; }
+    }
+
+    static double ClipSeconds(AudioClip clip) => clip ? (double)clip.samples / clip.frequency : 0;
+
+    void Schedule(AudioSource source, AudioClip clip, double start, bool loop)
+    {
+        source.Stop();
+        source.clip = clip;
+        source.loop = loop;
+        source.pitch = 1f;
+        ApplyMusicVolume();
+        if (clip) source.PlayScheduled(start);
+    }
+
+    IEnumerator HomepagePlaylist()
+    {
+        var entries = new List<HomepageMusicEntry>(2);
+        if (homepageTrack1 != null && homepageTrack1.clip) entries.Add(homepageTrack1);
+        if (homepageTrack2 != null && homepageTrack2.clip) entries.Add(homepageTrack2);
+        if (entries.Count == 0) yield break;
+        while (MusicEnabled && !gameplayStarted)
         {
-            AudioClip clip = tracks[homepageIndex++ % tracks.Count];
-            musicA.clip = clip; musicA.loop = loopSingle || tracks.Count == 1; musicA.pitch = 1f; musicA.volume = CurrentBackgroundMusicVolume; musicA.mute = !MusicEnabled; musicA.Play();
-            if (musicA.loop) yield break;
-            while (musicA.isPlaying) yield return null;
+            while (homepageInGap && homepageGapRemaining > 0)
+            {
+                yield return null;
+                homepageGapRemaining -= Time.unscaledDeltaTime;
+            }
+            homepageInGap = false;
+            var entry = entries[homepageIndex % entries.Count];
+            activeTrackVolume = Mathf.Clamp01(entry.volume);
+            musicFade = 1f;
+            for (int play = 0; play < entry.TotalPlays; play++)
+            {
+                double start = AudioSettings.dspTime + 0.05;
+                Schedule(musicA, entry.clip, start, false);
+                double deadline = Time.realtimeSinceStartupAsDouble + ClipSeconds(entry.clip) + 5;
+                while (AudioSettings.dspTime < start + ClipSeconds(entry.clip) && Time.realtimeSinceStartupAsDouble < deadline)
+                    yield return null;
+                musicA.Stop();
+            }
+            homepageIndex = (homepageIndex + 1) % entries.Count;
+            homepageInGap = true;
+            homepageGapRemaining = Mathf.Max(0f, homepageMusicGapSeconds);
         }
     }
 
-    void StopMusic(float fade) { if (musicRoutine != null) StopCoroutine(musicRoutine); musicRoutine = StartCoroutine(FadeAndStop(fade, false)); }
-    IEnumerator FadeAndStop(float duration, bool playStinger)
+    void StartSelectedGameplayMusic()
     {
-        float a = musicA.volume, b = musicB.volume;
-        for (float t = 0; t < duration; t += Time.unscaledDeltaTime) { float k = duration <= 0 ? 1 : t / duration; musicA.volume = Mathf.Lerp(a, 0, k); musicB.volume = Mathf.Lerp(b, 0, k); yield return null; }
-        musicA.Stop(); musicB.Stop(); musicA.volume = musicB.volume = CurrentBackgroundMusicVolume; musicA.pitch = musicB.pitch = 1f;
-        if (playStinger && MusicEnabled && levelEndingOutroStinger) { stingerSource.clip = levelEndingOutroStinger; stingerSource.volume = MusicVolume; stingerSource.pitch = 1f; stingerSource.Play(); }
+        CancelMusicRoutine();
+        StopMusicSources();
+        if (!MusicEnabled || selectedGameplayTrack == null || endingRequested) return;
+        var track = selectedGameplayTrack;
+        activeTrackVolume = Mathf.Clamp01(track.volume);
+        musicFade = 1f;
+        double start = AudioSettings.dspTime + 0.1;
+        bool intro = !gameplayPlaybackBegun && track.intro;
+        introEndDsp = intro ? start + ClipSeconds(track.intro) : 0;
+        bodyStartDsp = intro ? introEndDsp : start;
+        // Separate scheduled sources make the Intro -> Body handoff DSP timed.
+        if (intro) Schedule(musicA, track.intro, start, false);
+        if (track.body) Schedule(musicB, track.body, bodyStartDsp, true);
+        gameplayPlaybackBegun = true;
     }
-    public static void EndGameplayMusicAtFinalLanding() { if (Instance) { if (Instance.musicRoutine != null) Instance.StopCoroutine(Instance.musicRoutine); Instance.musicRoutine = Instance.StartCoroutine(Instance.FadeAndStop(Instance.gameplayMusicFadeOutDuration, true)); } }
+
+    void StopMusic(float fade)
+    {
+        CancelMusicRoutine();
+        musicRoutine = StartCoroutine(FadeAndStop(fade));
+    }
+
+    IEnumerator FadeAndStop(float duration)
+    {
+        float initial = musicFade;
+        for (float t = 0; t < duration; t += Time.unscaledDeltaTime)
+        {
+            musicFade = Mathf.Lerp(initial, 0, t / duration);
+            ApplyMusicVolume();
+            yield return null;
+        }
+        StopMusicSources();
+        musicFade = 1f;
+        ApplyMusicVolume();
+    }
+
+    public static void EndGameplayMusicAtFinalLanding() => Instance?.RequestGameplayEnding();
+
+    void RequestGameplayEnding()
+    {
+        if (endingRequested) return;
+        endingRequested = true;
+        CancelMusicRoutine();
+        if (!MusicEnabled || selectedGameplayTrack == null || !selectedGameplayTrack.outro)
+        {
+            CompleteEnding(false);
+            musicRoutine = StartCoroutine(FadeAndStop(gameplayMusicFadeOutDuration));
+            return;
+        }
+        // Establish a watchdog before scheduling, so even an unexpectedly aborted
+        // audio coroutine cannot strand a presentation waiter on another component.
+        endingDeadlineRealtime = Time.realtimeSinceStartupAsDouble + ClipSeconds(selectedGameplayTrack.intro) +
+            ClipSeconds(selectedGameplayTrack.body) + ClipSeconds(selectedGameplayTrack.outro) + 5;
+        musicRoutine = StartCoroutine(PlayGameplayEnding());
+    }
+
+    IEnumerator PlayGameplayEnding()
+    {
+        var track = selectedGameplayTrack;
+        EndingState = MusicEndingState.WaitingForBoundary;
+        double now = AudioSettings.dspTime;
+        double boundary = now + 0.05;
+        if (track.body && musicB.isPlaying && now >= bodyStartDsp)
+        {
+            double length = ClipSeconds(track.body);
+            boundary = bodyStartDsp + (Math.Floor((now - bodyStartDsp) / length) + 1) * length;
+            musicB.loop = false;
+            musicB.SetScheduledEndTime(boundary);
+        }
+        else
+        {
+            // Landing during Intro: cancel the not-yet-started Body, finish Intro.
+            musicB.Stop();
+            if (musicA.isPlaying && introEndDsp > now) boundary = introEndDsp;
+        }
+        // Keep Intro alive to its boundary. Reuse the idle source for Outro.
+        AudioSource outroSource = musicA.isPlaying && introEndDsp > now ? musicB : musicA;
+        Schedule(outroSource, track.outro, boundary, false);
+        double end = boundary + ClipSeconds(track.outro);
+        endingDeadlineRealtime = Time.realtimeSinceStartupAsDouble + (end - now) + 5;
+        while (AudioSettings.dspTime < end)
+        {
+            if (!MusicEnabled || Time.realtimeSinceStartupAsDouble > endingDeadlineRealtime ||
+                (AudioSettings.dspTime > boundary + 0.15 && !outroSource.isPlaying))
+            {
+                StopMusicSources();
+                CompleteEnding(false);
+                yield break;
+            }
+            if (AudioSettings.dspTime >= boundary) EndingState = MusicEndingState.PlayingOutro;
+            yield return null;
+        }
+        StopMusicSources();
+        CompleteEnding(true);
+    }
+
+    void CompleteEnding(bool musicalEnding)
+    {
+        var state = musicalEnding ? MusicEndingState.Completed : MusicEndingState.Fallback;
+        if (EndingState == state) return;
+        EndingState = state;
+        GameplayMusicEndingCompleted?.Invoke();
+    }
+
+    /// <summary>Presentation-only awaitable; no success/save/reward bookkeeping.</summary>
+    public static IEnumerator WaitForLevelEndingPresentation(float fallbackSeconds = 6f)
+    {
+        double started = Time.realtimeSinceStartupAsDouble;
+        var manager = Instance;
+        if (manager)
+        {
+            while (manager && manager.isActiveAndEnabled && manager.MusicEnabled && manager.selectedGameplayTrack != null && manager.selectedGameplayTrack.outro)
+            {
+                if (manager.EndingState == MusicEndingState.Completed) yield break;
+                if (manager.EndingState == MusicEndingState.Fallback) break;
+                if (manager.endingRequested && Time.realtimeSinceStartupAsDouble > manager.endingDeadlineRealtime)
+                {
+                    manager.StopMusic(manager.gameplayMusicFadeOutDuration);
+                    manager.CompleteEnding(false);
+                    break;
+                }
+                if (!manager.endingRequested && Time.realtimeSinceStartupAsDouble - started >= manager.finalLandingWaitTimeout)
+                {
+                    // Missing landing callback must never strand the result screen.
+                    manager.endingRequested = true;
+                    manager.StopMusic(manager.gameplayMusicFadeOutDuration);
+                    manager.CompleteEnding(false);
+                    break;
+                }
+                yield return null;
+            }
+        }
+        while (Time.realtimeSinceStartupAsDouble - started < Mathf.Max(0f, fallbackSeconds)) yield return null;
+    }
 }

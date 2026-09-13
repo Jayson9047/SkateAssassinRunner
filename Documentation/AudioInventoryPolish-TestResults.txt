@@ -1,0 +1,51 @@
+Unity 6000.0.67f1 — controlled Play Mode audio/UI verification
+PASS 20 accepted RegisterTap calls => 20 dedicated one-shots, combo unchanged
+PASS rapid overlap uses 16 preallocated sources; zero per-tap objects
+PASS Ruthless actual source output peak=1.795532
+PASS SFX toggle stops and suppresses rapid voices
+PASS standard Button exactly once after RemoveAllListeners
+PASS disabled Button silent
+PASS Button + MMTouchButton exactly once
+PASS opt-out marker silent
+PASS tab changes once; already-selected tab silent
+PASS Homepage finite mode and individual volume
+PASS LoopCount 2 produced 3 first-track plays before next entry
+PASS Music off cancels Homepage playback
+PASS Music re-enabled with one playlist owner
+PASS Intro once and Body scheduled looping
+PASS Intro -> Body uses same DSP boundary
+PASS landing disables future Body loops
+PASS result awaitable released by Outro, not hardcoded six seconds
+PASS Body never restarts after Outro
+PASS Outro-only track ends safely
+PASS no Outro uses configurable fallback
+PASS landing during Intro finishes Intro then Outro without Body
+PASS Music off during ending uses fallback; no inaudible full-Outro wait
+DONE
+PASS both Homepage clips null => silent
+PASS disabled repeats and zero additional repeats => once
+PASS single Homepage track enters configured gap
+PASS disabling Music freezes gap and prevents playlist advancement
+PASS Music enable resumes remaining gap
+PASS single Homepage entry rotates back to itself
+PASS reward duck multiplies selected track volume
+PASS duck restore preserves individual track volume
+PASS runtime-created Button closing itself still sounds once
+PASS repeated GameStart/revive keeps same selected track
+PASS next level avoids immediate repetition with two valid entries
+PASS unexpected Outro start failure falls back without softlock
+PASS missing landing callback has defensive timeout
+PASS independent waiter watchdog handles aborted audio coroutine
+PASS all Gameplay sections null => safe silent fallback
+PASS slow-motion test: accepted hit starts at configured pitch, independent of timescale
+EDGES DONE
+
+Additional live checks:
+Free Cash: 1 central UI voice.
+Settings gear: 1 central UI voice.
+Spin The Wheel: 1 central UI voice.
+All four Shop tabs: change=1, repeat=0.
+Inventory Abilities tab: change=1, repeat=0.
+Swords/Abilities/Rollerblades Focus screenshots visually inspected.
+Final prefab comparison: 0 unrelated serialized differences; all three migrated clips preserved.
+
