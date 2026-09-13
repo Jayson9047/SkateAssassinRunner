@@ -20,6 +20,10 @@ entrypoint even if it is absent from the skill selector:
 - Follow the skill's ownership rules for vendor docs, bundled docs, internal
   source/tests, and hybrid dependencies. Vendor claims are source knowledge,
   never verified ELROI experience.
+- For relevant imported assets missing vendor docs in the vault, copy their
+  bundled documentation into `Vendor_Docs/<Asset Name>/`, preserve provenance,
+  and register/merge SOURCE.md plus the Vendor Source Index. Follow the skill's
+  shortcut-only documentation rule. A Tool Stack entry alone is not sufficient.
 - Follow the reader/writer contracts in the vault's `_Schemas` directory.
   Preserve stable IDs; merge existing owners; maintain indexes. Preserve actual
   folder names, including this vault's `Vendor_Docs`.

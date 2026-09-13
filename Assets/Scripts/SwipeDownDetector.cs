@@ -469,7 +469,9 @@ public class SwipeDownDetector : MonoBehaviour
             (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
              && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady());
 
-
+        // Use the same powered-impact condition as FEEL/VFX, before charge is consumed.
+        if (slamReady && !impactTriggeredThisDownAttack)
+            ArcadeAnnouncerPresentation.ShowPowerslam();
 
         // Normal slam FEEL (no vibration, lighter impulse/FOV)
         if (!slamReady && normalSlamFeel != null)

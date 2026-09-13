@@ -4,6 +4,8 @@ using Lofelt.NiceVibrations;
 
 namespace IndieKit
 {
+    public enum DestructibleAudioKind { Automatic, EnemyType1, EnemyType2, EnemyType3, FlyingDrone, Barrel, Other }
+
     public class SkateRunnerDestructibleObject : MonoBehaviour, IDamageable
     {
         public static event Action<SkateRunnerDestructibleObject> OnDestroyed;     // fires for ALL destroyed
@@ -14,6 +16,22 @@ namespace IndieKit
 
         [Header("Gameplay")]
         [SerializeField] private bool countsAsEnemyKill = true;
+        [Header("Audio Classification")]
+        [SerializeField] private DestructibleAudioKind audioKind = DestructibleAudioKind.Automatic;
+        public bool CountsAsEnemyKill => countsAsEnemyKill;
+
+        public DestructibleAudioKind ResolveAudioKind()
+        {
+            // DroneRoot owns health; its EnemyTypeDrone lives beneath it. Do not
+            // search transform.root: a pooled container may hold unrelated enemies.
+            if (GetComponentInParent<EnemyTypeDrone>() || GetComponentInChildren<EnemyTypeDrone>(true))
+                return DestructibleAudioKind.FlyingDrone;
+            if (audioKind != DestructibleAudioKind.Automatic) return audioKind;
+            if (GetComponentInParent<EnemyType1>() || GetComponentInChildren<EnemyType1>(true)) return DestructibleAudioKind.EnemyType1;
+            if (GetComponentInParent<EnemyType2>() || GetComponentInChildren<EnemyType2>(true)) return DestructibleAudioKind.EnemyType2;
+            if (GetComponentInParent<EnemyType3>() || GetComponentInChildren<EnemyType3>(true)) return DestructibleAudioKind.EnemyType3;
+            return DestructibleAudioKind.Other;
+        }
 
         [Header("Optional SlowMo On Destroy")]
         [SerializeField] private float destroySlowMoScale = 0.12f;

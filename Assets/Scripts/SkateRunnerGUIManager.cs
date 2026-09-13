@@ -460,9 +460,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             while (_jumperCached != null && !_jumperCached.IsGrounded)
                 yield return null;
 
-            SkateRunnerAudioManager.EndGameplayMusicAtFinalLanding();
-
-            // Optional HUD visuals must not prevent the grounded audio handoff.
+            // Landing controls only the HUD fade; music follows Ruthless completion.
             if (powerMeter == null || _powerMeterGroup == null)
                 yield break;
 
@@ -1036,6 +1034,11 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         private void HandleDestroyedForCash(SkateRunnerDestructibleObject obj)
         {
+            if (!obj) return;
+            // Count actual enemy deaths even when they carry no cash reward. One
+            // synchronous decision prevents cash and blood listeners racing to spawn.
+            Vector3 popupPosition = obj.transform.position + cashPopupWorldOffset;
+            bool bloodPopupShown = ArcadeAnnouncerPresentation.TryShowEnemyKill(obj, popupPosition);
             var reward = obj.GetComponent<CashRewardOnDestroyed>();
             if (reward == null || !reward.EnabledReward) return;
 
@@ -1043,9 +1046,9 @@ namespace MoreMountains.InfiniteRunnerEngine
             if (amount <= 0) return;
 
             SkateRunnerGameManager.SkateRunnerGameManagerAccessor.AddCash(amount);
-            if (cashPopupPrefab != null)
+            if (cashPopupPrefab != null && !bloodPopupShown)
             {
-                cashPopupPrefab.Spawn(obj.transform.position + cashPopupWorldOffset, amount);
+                cashPopupPrefab.Spawn(popupPosition, amount);
             }
             RefreshCash();
         }

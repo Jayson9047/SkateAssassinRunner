@@ -1,10 +1,18 @@
 using MoreMountains.InfiniteRunnerEngine;
+using MoreMountains.Tools;
 using TMPro;
 using UnityEngine;
 
-public class RuthlessTapModeController : MonoBehaviour
+public enum RuthlessComboRank { None, KillerAssassin, Brutal, Ruthless }
+
+public class RuthlessTapModeController : MonoBehaviour, MMEventListener<MMGameEvent>
 {
     public static RuthlessTapModeController Instance { get; private set; }
+    public static event System.Action<int> CompletedSuccessfully;
+
+    public static RuthlessComboRank RankForCount(int count)
+        => count >= 16 ? RuthlessComboRank.Ruthless : count >= 11 ? RuthlessComboRank.Brutal :
+           count >= 6 ? RuthlessComboRank.KillerAssassin : RuthlessComboRank.None;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI comboText;
@@ -66,16 +74,50 @@ public class RuthlessTapModeController : MonoBehaviour
     public void End()
     {
         if (!_active) return;
+        var lm = LevelManager.Instance;
+        var gm = GameManager.Instance;
+        if (lm == null || !lm.RuthlessTapModeEntered || gm == null ||
+            gm.Status == GameManager.GameStatus.LifeLost || gm.Status == GameManager.GameStatus.GameOver)
+        {
+            Cancel();
+            return;
+        }
 
         _active = false;
 
         int final = TapCount;
-        _onEnded?.Invoke(final);
+        var onEnded = _onEnded;
         _onEnded = null;
+        // Capture and publish before the gameplay callback exits/resets the mode.
+        CompletedSuccessfully?.Invoke(final);
+        onEnded?.Invoke(final);
 
         // You can keep the combo on screen, or clear it:
         // SetComboText(idleText);
     }
+
+    public void Cancel()
+    {
+        bool wasActive = _active;
+        _active = false;
+        _onEnded = null;
+        if (wasActive) LevelManager.Instance?.ExitRuthlessTapMode();
+    }
+
+    public void OnMMEvent(MMGameEvent e)
+    {
+        if (e.EventName == "LifeLost" || e.EventName == "GameOver") Cancel();
+    }
+
+    private void OnEnable() => this.MMEventStartListening<MMGameEvent>();
+
+    private void OnDisable()
+    {
+        this.MMEventStopListening<MMGameEvent>();
+        Cancel();
+    }
+
+    private void OnDestroy() { if (Instance == this) Instance = null; }
 
     private void SetComboText(string text)
     {

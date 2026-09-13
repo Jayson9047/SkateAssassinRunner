@@ -1,5 +1,7 @@
 # Audio and Inventory polish
 
+> Gameplay death/retry, Outro transitions and result-screen timing below were superseded by [Audio / Arcade polish](AudioArcadePolish-2026-09-13.md). The older music-boundary/wait APIs described here have been removed. Other inventory/UI work remains unchanged.
+
 Project: Skate Assassin Runner / Skate Runner. Unity 6000.0.67f1.
 
 The ELROI knowledge review found no matching registered audio/UI workflow and kept the implementation scoped to the existing project controllers. This is a project handoff report, not a promoted canonical ELROI knowledge entry.

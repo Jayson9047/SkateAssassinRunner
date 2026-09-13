@@ -1,0 +1,65 @@
+Running: Intro/death/retry checks
+PASS: Gameplay begins with Intro at timeScale=0
+PASS: Intro transitions to looping Body
+PASS: Real KillCharacter -> LifeLost marks the run dead
+PASS: Death stops Intro/Body/Outro without starting Outro
+PASS: Real LifeLostAction -> GameStart retries same package from Intro
+PASS: Retried Intro reaches Body loop
+PASS: Temporary pause/resume does not restart soundtrack
+PASS: Muted retry does not start audible music
+PASS: Re-enabling Music after muted retry recovers from Intro
+PASS: Ruthless conclusion starts Outro immediately during Intro and cancels pending Body
+PASS: Outro starts at normal configured track volume
+PASS: Intro crossfade stops/resets old sources; Outro continues
+PASS: Long Body and Outro overlap immediately, without a loop-boundary wait
+PASS: Only outgoing Body fades underneath full-volume Outro
+PASS: Body is stopped and cleared after crossfade
+PASS: Death also fades/stops an already-playing Outro
+PASS: Surviving barrel interaction produces no destruction cue
+PASS: Destroyed barrel emits one Barrel cue, no enemy cue, despite duplicate damage
+PASS: DroneRoot resolves child EnemyTypeDrone owner
+PASS: Drone slice death reaches only assigned Flying Drone clip
+PASS: Assigned drone clip produces nonzero audio output
+PASS: Reactivated pooled drone can emit its death cue again
+PASS: Normal Type 1 retains its own death clip
+PASS: SFX-off suppresses barrel audio
+PASS: Missing Intro starts Body directly
+PASS: Music re-enabled while still dead stays silent
+PASS: Retry without Intro restarts Body
+PASS: Final accepted count 5 captured once before exit
+PASS: Boundary 5 -> no rank; exactly highest result
+PASS: Final accepted count 6 captured once before exit
+PASS: Boundary 6 -> KILLER ASSASSIN; exactly highest result
+PASS: Optional rank cue reaches dedicated announcer source at 6
+PASS: Final accepted count 10 captured once before exit
+PASS: Boundary 10 -> KILLER ASSASSIN; exactly highest result
+PASS: Optional rank cue reaches dedicated announcer source at 10
+PASS: Final accepted count 11 captured once before exit
+PASS: Boundary 11 -> BRUTAL!!!; exactly highest result
+PASS: Optional rank cue reaches dedicated announcer source at 11
+PASS: Final accepted count 15 captured once before exit
+PASS: Boundary 15 -> BRUTAL!!!; exactly highest result
+PASS: Optional rank cue reaches dedicated announcer source at 15
+PASS: Final accepted count 16 captured once before exit
+PASS: Boundary 16 -> RUTHLESS!!!; exactly highest result
+PASS: Optional rank cue reaches dedicated announcer source at 16
+PASS: Death cancels Ruthless without success/rank announcement
+PASS: Normal down-attack impact has no Powerslam callout
+PASS: Real powered-impact callback displays one DNP POWERSLAM despite duplicate collision
+PASS: Optional Powerslam cue plays over combat SFX
+PASS: Null announcer clip does not block DNP visual
+PASS: long Outro: result screen stays hidden before gameplay delay
+PASS: long Outro: result appears after gameplay delay; elapsed=6.12
+PASS: 30-second Outro keeps playing after result screen appears
+PASS: no Outro: result screen stays hidden before gameplay delay
+PASS: no Outro: result appears after gameplay delay; elapsed=6.13
+PASS: Music disabled: result screen stays hidden before gameplay delay
+PASS: Music disabled: result appears after gameplay delay; elapsed=6.13
+PASS: DNP callouts expire and return to pool
+ALL CHECKS COMPLETE. No SaveAfterLevelEnd or preference-save methods were invoked.
+Verification stopped and runtime-only settings restored. Exit Play Mode.
+PASS: Two disable/enable cycles leave exactly two success subscribers (audio + UI), no duplicates.
+PASS: Unrelated Ruthless overlay/mode exit produces zero success events.
+PASS: DNP pool remains eight objects after repeated callouts.
+PASS: Final compile reports zero errors; changed prefabs and live scene have zero missing scripts.
+PASS: All 45 pre-existing serialized audio properties exactly match the pre-edit live prefab snapshot.

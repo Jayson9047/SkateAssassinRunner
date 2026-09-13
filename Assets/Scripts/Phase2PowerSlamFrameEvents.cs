@@ -134,6 +134,7 @@ public class Phase2PowerSlamFrameEvents : MonoBehaviour
 
     public void ResetExecutionAttempt()
     {
+        RuthlessTapModeController.Instance?.Cancel();
         _armedForThisSlam = false;
         _launchedThisSlam = false;
         _finalStrikeFeedbackPlayedThisSlam = false;
@@ -438,13 +439,14 @@ _frame18FailsafeArmed = false;
     }
 
 
-    [SerializeField, Min(0f), Tooltip("Result-screen delay when music is disabled or the selected track has no Outro.")]
-    private float levelEndPresentationFallbackSeconds = 6f;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelEndPresentationFallbackSeconds")]
+    [SerializeField, Min(0f), Tooltip("Gameplay-owned result-screen delay after successful Ruthless completion. Independent of all music and announcers.")]
+    private float levelEndPresentationDelaySeconds = 6f;
 
     private IEnumerator ShowLevelEndAfterDelayCo()
     {
         SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.NotifyLevelWon();
-        yield return SkateRunnerAudioManager.WaitForLevelEndingPresentation(levelEndPresentationFallbackSeconds);
+        yield return new WaitForSecondsRealtime(levelEndPresentationDelaySeconds);
         SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.ShowLevelEndScreen(true);
     }
 
