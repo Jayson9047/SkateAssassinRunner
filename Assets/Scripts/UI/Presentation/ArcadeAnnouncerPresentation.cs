@@ -1,9 +1,11 @@
 using DamageNumbersPro;
 using IndieKit;
+using MoreMountains.Tools;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>Gameplay GUI announcements and occasional world-space kill text using DNP pools.</summary>
-public sealed class ArcadeAnnouncerPresentation : MonoBehaviour
+public sealed class ArcadeAnnouncerPresentation : MonoBehaviour, MMEventListener<MMGameEvent>
 {
     public static ArcadeAnnouncerPresentation Instance { get; private set; }
 
@@ -11,6 +13,9 @@ public sealed class ArcadeAnnouncerPresentation : MonoBehaviour
     [SerializeField] private DamageNumber announcementPrefab;
     [SerializeField] private DamageNumber rankAnnouncementPrefab;
     [SerializeField] private RectTransform announcementAnchor;
+    [Header("Phase 2 Rank Timing")]
+    [Tooltip("Unscaled seconds after successful Ruthless Tap completion before any of the three rank texts appears. Does not affect Powerslam or the text's visible lifetime.")]
+    [SerializeField, Min(0f)] private float rankTextDelaySeconds = 0f;
     [Header("Enemy Kill Blood Popups")]
     [SerializeField] private DamageNumber enemyBloodPopupPrefab;
     [SerializeField, Range(2, 4)] private int minimumKillsBetweenBloodPopups = 2;
@@ -30,6 +35,7 @@ public sealed class ArcadeAnnouncerPresentation : MonoBehaviour
     // Cadence/phrase selection uses its own stream, separate from gameplay randomness.
     private readonly System.Random bloodRandom = new System.Random();
     private int killsUntilBloodPopup;
+    private Coroutine pendingRankText;
 
     private void Awake()
     {
@@ -44,8 +50,44 @@ public sealed class ArcadeAnnouncerPresentation : MonoBehaviour
         if (enemyBloodPopupPrefab) enemyBloodPopupPrefab.PrewarmPool();
     }
 
-    private void OnEnable() => RuthlessTapModeController.CompletedSuccessfully += ShowRank;
-    private void OnDisable() => RuthlessTapModeController.CompletedSuccessfully -= ShowRank;
+    private void OnEnable()
+    {
+        RuthlessTapModeController.CompletedSuccessfully += OnRankCompleted;
+        this.MMEventStartListening<MMGameEvent>();
+    }
+
+    private void OnDisable()
+    {
+        RuthlessTapModeController.CompletedSuccessfully -= OnRankCompleted;
+        this.MMEventStopListening<MMGameEvent>();
+        CancelPendingRankText();
+    }
+
+    public void OnMMEvent(MMGameEvent e)
+    {
+        if (e.EventName == "GameStart" || e.EventName == "LifeLost") CancelPendingRankText();
+    }
+
+    private void OnRankCompleted(int finalCount)
+    {
+        CancelPendingRankText();
+        if (!isActiveAndEnabled || RuthlessTapModeController.RankForCount(finalCount) == RuthlessComboRank.None) return;
+        if (rankTextDelaySeconds <= 0f) ShowRank(finalCount);
+        else pendingRankText = StartCoroutine(ShowRankAfterDelay(finalCount, rankTextDelaySeconds));
+    }
+
+    private IEnumerator ShowRankAfterDelay(int finalCount, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        pendingRankText = null;
+        ShowRank(finalCount); // Use the captured result, never the subsequently reset tap counter.
+    }
+
+    private void CancelPendingRankText()
+    {
+        if (pendingRankText != null) StopCoroutine(pendingRankText);
+        pendingRankText = null;
+    }
     private void OnDestroy() { if (Instance == this) Instance = null; }
 
     public static void ShowPowerslam()

@@ -4,6 +4,19 @@ Implemented September 13, 2026 in Skate Runner, Unity 6000.0.67f1, Damage Number
 
 ## Result and tuning
 
+### Shared Phase 2 start delays (September 15 follow-up)
+
+Two independent settings now delay the start of the three rank remarks after successful Ruthless Tap completion:
+
+- Text: `Assets/Prefabs/Characters/UICamera.prefab` → `Canvas/ArcadeAnnouncements` → `ArcadeAnnouncerPresentation` → **Phase 2 Rank Timing / Rank Text Delay Seconds**.
+- Voice: `Assets/Resources/SkateRunnerAudio.prefab` → `SkateRunnerAudioManager` → **Optional Arcade Announcers (SFX) / Rank Audio Delay Seconds**.
+
+Each field applies to all three ranks, not to individual remarks. Both default to 0 seconds (immediate), use unscaled real-time waits, and count independently from the same success event. They do not change the text's fade/hold lifetime, Powerslam, Blood popups, music Outro, or result-screen timing. The captured final tap count selects the remark even after gameplay resets its counter. Pending remarks are replaced by a newer result and cancelled on disable, death or retry; pending audio is also cancelled on a single-scene load or when SFX is switched off. This is an ordinary extension of the existing separate GUI/audio listeners, not a new popup or audio system.
+
+### Preset presentation
+
+Delay verification: 23 controlled Play Mode assertions passed on September 15 with timeScale zero. Checked all rank counts 6/11/16 with text delay 0.25s and audio delay 0.65s; reversed order with text 0.65s/audio 0.2s; immediate zero-delay behavior; LifeLost/GameStart/disable cancellation; replacement by a newer result; and no remark below the rank threshold. A temporary in-memory clip exercised the existing `PlayOneShot` voice path; original cue clips were restored. The temporary Editor test script/meta was removed and Play Mode exited. No saved prefab or scene changes were required to expose the new zero-default fields.
+
 | Presentation | Project-owned prefab | Timing |
 | --- | --- | --- |
 | KILLER ASSASSIN / BRUTAL!!! / RUTHLESS!!! | `Assets/Prefabs/UI/DN_ArcadeRank.prefab` | 0.3s fade-in, about 2s fully visible, 0.6s fade-out; no entrance scale pop or ongoing scale/lerp |
@@ -14,7 +27,7 @@ All use DNP unscaled timing. In the DNP Inspector, **Lifetime includes Fade In**
 
 Powerslam's scale-over-time key positions were compensated for the longer normalized lifetime, preserving its original real-time entrance punch instead of stretching it. Absolute-time curve comparison against the previous curve differed by no more than 0.00000012. Existing Comic font, material, per-rank color/scale, anchor and optional voice paths remain intact.
 
-Open `Assets/Prefabs/Characters/UICamera.prefab`, then **Canvas / ArcadeAnnouncements → ArcadeAnnouncerPresentation** for rank intensity, Blood popup scale and min/max kill spacing (default 2–4, inclusive). The rank prefab is separate from Powerslam's, so their presentation can be tuned independently. No runtime timer or per-frame polling was added to the adapter.
+Open `Assets/Prefabs/Characters/UICamera.prefab`, then **Canvas / ArcadeAnnouncements → ArcadeAnnouncerPresentation** for rank intensity, Blood popup scale and min/max kill spacing (default 2–4, inclusive). The rank prefab is separate from Powerslam's, so their presentation can be tuned independently. No per-frame polling was added to the adapter; the September 15 start delays use cancellable coroutines only when a remark is pending.
 
 ## Blood style and reward integration
 

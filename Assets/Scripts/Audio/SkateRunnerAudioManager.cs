@@ -58,6 +58,8 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [Header("Destruction")]
     [SerializeField] SkateRunnerAudioCue barrelDestruction = new SkateRunnerAudioCue();
     [Header("Optional Arcade Announcers (SFX)")]
+    [Tooltip("Unscaled seconds after successful Ruthless Tap completion before any of the three rank voices plays. Independent of text delay; does not delay Powerslam, Outro or results.")]
+    [SerializeField, Min(0f)] float rankAudioDelaySeconds = 0f;
     [SerializeField] SkateRunnerAudioCue powerslamAnnouncer = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue killerAssassinAnnouncer = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue brutalAnnouncer = new SkateRunnerAudioCue();
@@ -95,6 +97,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     readonly List<AudioSource> ruthlessTapSources = new List<AudioSource>();
     AudioSource musicA, musicB, musicOutro, announcerSource, wheelLoopSource, rewardRevealMusicSource;
     Coroutine musicRoutine;
+    Coroutine pendingRankAudio;
     bool gameplayStarted;
     bool rewardRevealActive;
     int homepageIndex;
@@ -171,6 +174,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         SkateRunnerDestructibleObject.OnDestroyed -= OnDestructibleDestroyed;
         RuthlessTapModeController.CompletedSuccessfully -= OnRuthlessCompleted;
         SoundManager.SettingsChanged -= OnSettingsChanged;
+        CancelPendingRankAudio();
         CancelMusicRoutine();
         StopMusicSources();
     }
@@ -181,6 +185,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     {
         RegisterSceneButtons(scene);
         if (mode == LoadSceneMode.Additive) return;
+        CancelPendingRankAudio();
         StopCrystalRewardAudioInternal();
         gameplayStarted = false;
         gameplayPlaybackBegun = endingRequested = gameplayRunDead = false;
@@ -212,9 +217,10 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     {
         switch (e.EventName)
         {
-            case "GameStart": StartGameplayMusic(); break;
+            case "GameStart": CancelPendingRankAudio(); StartGameplayMusic(); break;
             case "Jump": Play(playerJump); break;
             case "LifeLost":
+                CancelPendingRankAudio();
                 Play(playerDeath);
                 HandleGameplayDeath();
                 break;
@@ -233,6 +239,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         announcerSource.volume = SfxVolume;
         if (!sfxOn)
         {
+            CancelPendingRankAudio();
             wheelLoopSource.Stop();
             foreach (var source in oneShots) source.Stop();
             foreach (var source in ruthlessTapSources) source.Stop();
@@ -526,8 +533,29 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
 
     void OnRuthlessCompleted(int finalCount)
     {
-        if (gameplayRunDead) return;
+        CancelPendingRankAudio();
+        if (gameplayRunDead || !isActiveAndEnabled) return;
         RequestGameplayEnding();
+        if (RuthlessTapModeController.RankForCount(finalCount) == RuthlessComboRank.None) return;
+        if (rankAudioDelaySeconds <= 0f) PlayRankAnnouncer(finalCount);
+        else pendingRankAudio = StartCoroutine(PlayRankAnnouncerAfterDelay(finalCount, rankAudioDelaySeconds));
+    }
+
+    IEnumerator PlayRankAnnouncerAfterDelay(int finalCount, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        pendingRankAudio = null;
+        if (!gameplayRunDead) PlayRankAnnouncer(finalCount);
+    }
+
+    void CancelPendingRankAudio()
+    {
+        if (pendingRankAudio != null) StopCoroutine(pendingRankAudio);
+        pendingRankAudio = null;
+    }
+
+    void PlayRankAnnouncer(int finalCount)
+    {
         switch (RuthlessTapModeController.RankForCount(finalCount))
         {
             case RuthlessComboRank.KillerAssassin: PlayAnnouncer(killerAssassinAnnouncer); break;
