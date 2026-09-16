@@ -26,6 +26,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         private const int SlamMax = 5;
         private int _slamKills;
 
+        [Header("Level Speed Difficulty")]
+        [Tooltip("Campaign speed limits and increases per level. First range uses its limits; later ranges grow from the previous limits and clamp to their own. Empty keeps the existing speed fields. Global SpeedAcceleration is unchanged.")]
+        [SerializeField] private List<LevelSpeedWindow> levelSpeedWindows = LevelSpeedProgression.CreateDefaults();
+
         [Header("Phase 1 / Phase 2 Timing")]
         [SerializeField] private int Phase1DurationSeconds = 60;
 
@@ -102,6 +106,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// </summary>
         protected override void Start()
         {
+            ApplyLevelSpeedProgression();
             Speed = InitialSpeed;
             DistanceTraveled = 0;
 
@@ -163,6 +168,23 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             PrepareStart();
             ResetSlam();
+        }
+
+        private void ApplyLevelSpeedProgression()
+        {
+            var game = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
+            if (game == null)
+            {
+                Debug.LogWarning("[SpeedDifficulty] GameManager unavailable at startup; keeping existing InitialSpeed and MaximumSpeed.", this);
+                return;
+            }
+            if (!LevelSpeedProgression.TryResolve(levelSpeedWindows, game.LevelNum,
+                    out float initial, out float maximum, out LevelSpeedWindow window, out int evaluatedLevel,
+                    message => Debug.LogWarning("[SpeedDifficulty] " + message, this))) return;
+
+            InitialSpeed = initial;
+            MaximumSpeed = maximum;
+            Debug.Log($"[SpeedDifficulty] Level {game.LevelNum} -> Window {window.StartLevel}-{window.EndLevel} ({window.Name}) | Initial={initial:0.00} | Max={maximum:0.00} | Evaluated level={evaluatedLevel}", this);
         }
 
         protected override void InstantiateCharacters()
