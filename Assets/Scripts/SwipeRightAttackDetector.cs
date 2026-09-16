@@ -36,9 +36,19 @@ public class SwipeRightAttackDetector : MonoBehaviour
     public float returnDuration = 0.12f;
     public bool useLocalX = false;
 
-    [Header("Attack Timing Gate")]
+    [Header("Dash Animation Synchronization")]
     [SerializeField] private string attackStateName = "DashAttack";
-    [SerializeField] private int AttackStartFrame = 15;     // gate frame
+    [Tooltip("Animation clip used by the DashAttack state. This lets frame-based timing use the clip's real length and frame rate.")]
+    [SerializeField] private AnimationClip dashAnimationClip;
+    [Tooltip("Frame where DashAttack begins when a swipe is accepted. The player movement still begins immediately.")]
+    [SerializeField, Min(0)] private int dashAnimationStartFrame = 7;
+    [Tooltip("Fixed-time blend from the current locomotion pose into DashAttack.")]
+    [SerializeField, Min(0f)] private float dashAnimationBlendDuration = 0.05f;
+
+    [Header("Legacy Attack Movement Gate (Fallback Only)")]
+    [Tooltip("Legacy movement gate used only if the direct DashAttack clip/state cannot be resolved.")]
+    [SerializeField] private int AttackStartFrame = 15;
+    [Tooltip("Optional movement delay after the animation gate. Keep at 0 for immediate dash response.")]
     [SerializeField] private float dashStartExtraDelay = 0f;
 
     [SerializeField] private float returnSpeed = 5f;
@@ -55,9 +65,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
     public bool IsReturningFromDashOnGround => _isReturningFromDash;
     private WeaponPowerEquipper _weaponPowerEquipper;
     private CharacterPowerEquipper _characterPowerEquipper;
-    // Assumption you already made: 36 frames total in the clip.
-
-    private float attackMoveStartNormalizedTime => AttackStartFrame / 36f;
+    private float attackMoveStartNormalizedTime => GetNormalizedClipTimeForFrame(AttackStartFrame);
 
     [Header("Air Dash Gravity Control")]
     [SerializeField] private bool suspendGravityDuringAirDash = true;
@@ -99,6 +107,8 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private bool attackInProgress;
     private Coroutine dashRoutine;
+    private int attackStateFullPathHash;
+    private bool dashAnimationResolutionWarningIssued;
 
     // Gravity suspend
     private Rigidbody rb3D;
@@ -121,7 +131,10 @@ public class SwipeRightAttackDetector : MonoBehaviour
             animator = GetComponentInChildren<Animator>();
 
         if (animator != null)
+        {
             katanaLayerIndex = animator.GetLayerIndex(katanaLayerName);
+            attackStateFullPathHash = Animator.StringToHash(animator.GetLayerName(0) + "." + attackStateName);
+        }
 
         jumper = GetComponent<Jumper>();
         rb3D = GetComponent<Rigidbody>();
@@ -225,13 +238,14 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
         ForceKatanaLayer(0f);
 
-        if (animator != null)
+        bool startedDashAnimationDirectly = TryStartDashAnimationAtConfiguredFrame();
+        if (!startedDashAnimationDirectly && animator != null)
         {
             animator.ResetTrigger(attackTriggerName);
             animator.SetTrigger(attackTriggerName);
         }
 
-        dashRoutine = StartCoroutine(DashRoutine());
+        dashRoutine = StartCoroutine(DashRoutine(startedDashAnimationDirectly));
     }
 
     private void AbortDashRoutine()
@@ -247,7 +261,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
             RestoreGravity();
     }
 
-    private IEnumerator DashRoutine()
+    private IEnumerator DashRoutine(bool startedDashAnimationDirectly)
     {
         attackInProgress = true;
         attackId++;
@@ -262,43 +276,48 @@ public class SwipeRightAttackDetector : MonoBehaviour
             if (suspendGravityDuringAirDash && startedInAir)
                 SuspendGravity();
 
-            float gateWaitStartTime = Time.time;
-            const float maxGateWaitSeconds = 1.0f;
-
-            IEnumerator freshStart = WaitForFreshAttackStateStart();
-            while (freshStart.MoveNext())
+            // The normal path starts coded movement in this same frame. The legacy
+            // trigger/gate path remains as a safe fallback if the clip/state reference breaks.
+            if (!startedDashAnimationDirectly)
             {
-                if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking && !swipeDownDetector.DownAttackDashWindowOpen)
+                float gateWaitStartTime = Time.time;
+                const float maxGateWaitSeconds = 1.0f;
+
+                IEnumerator freshStart = WaitForFreshAttackStateStart();
+                while (freshStart.MoveNext())
                 {
-                    AbortDashRoutine();
-                    yield break;
+                    if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking && !swipeDownDetector.DownAttackDashWindowOpen)
+                    {
+                        AbortDashRoutine();
+                        yield break;
+                    }
+
+                    if (Time.time - gateWaitStartTime > maxGateWaitSeconds)
+                    {
+                        AbortDashRoutine();
+                        yield break;
+                    }
+
+                    yield return freshStart.Current;
                 }
 
-                if (Time.time - gateWaitStartTime > maxGateWaitSeconds)
+                IEnumerator gateFrame = WaitForAttackGateFrame();
+                while (gateFrame.MoveNext())
                 {
-                    AbortDashRoutine();
-                    yield break;
+                    if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking && !swipeDownDetector.DownAttackDashWindowOpen)
+                    {
+                        AbortDashRoutine();
+                        yield break;
+                    }
+
+                    if (Time.time - gateWaitStartTime > maxGateWaitSeconds)
+                    {
+                        AbortDashRoutine();
+                        yield break;
+                    }
+
+                    yield return gateFrame.Current;
                 }
-
-                yield return freshStart.Current;
-            }
-
-            IEnumerator gateFrame = WaitForAttackGateFrame();
-            while (gateFrame.MoveNext())
-            {
-                if (swipeDownDetector != null && swipeDownDetector.IsDownAttacking && !swipeDownDetector.DownAttackDashWindowOpen)
-                {
-                    AbortDashRoutine();
-                    yield break;
-                }
-
-                if (Time.time - gateWaitStartTime > maxGateWaitSeconds)
-                {
-                    AbortDashRoutine();
-                    yield break;
-                }
-
-                yield return gateFrame.Current;
             }
 
             if (dashStartExtraDelay > 0f)
@@ -492,6 +511,56 @@ _weaponPowerEquipper?.SpawnSlashFx();
     {
         if (animator == null || katanaLayerIndex < 0) return;
         animator.SetLayerWeight(katanaLayerIndex, weight);
+    }
+
+    private bool TryStartDashAnimationAtConfiguredFrame()
+    {
+        if (animator == null || dashAnimationClip == null ||
+            dashAnimationClip.length <= 0f || dashAnimationClip.frameRate <= 0f ||
+            !animator.HasState(0, attackStateFullPathHash))
+        {
+            WarnDashAnimationResolutionOnce();
+            return false;
+        }
+
+        float normalizedStartTime = GetNormalizedClipTimeForFrame(dashAnimationStartFrame);
+        float fixedTimeOffset = normalizedStartTime * dashAnimationClip.length;
+
+        // Avoid leaving a trigger queued after bypassing the controller transition.
+        animator.ResetTrigger(attackTriggerName);
+        animator.CrossFadeInFixedTime(
+            attackStateFullPathHash,
+            Mathf.Max(0f, dashAnimationBlendDuration),
+            0,
+            fixedTimeOffset,
+            0f);
+
+        return true;
+    }
+
+    private float GetNormalizedClipTimeForFrame(int requestedFrame)
+    {
+        if (dashAnimationClip == null || dashAnimationClip.length <= 0f || dashAnimationClip.frameRate <= 0f)
+            return Mathf.Clamp01(requestedFrame / 36f);
+
+        int sampleFrameCount = Mathf.Max(1, Mathf.RoundToInt(dashAnimationClip.length * dashAnimationClip.frameRate));
+        int clampedFrame = Mathf.Clamp(requestedFrame, 0, sampleFrameCount - 1);
+        float frameTimeSeconds = clampedFrame / dashAnimationClip.frameRate;
+        return Mathf.Clamp01(frameTimeSeconds / dashAnimationClip.length);
+    }
+
+    private void WarnDashAnimationResolutionOnce()
+    {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        if (dashAnimationResolutionWarningIssued)
+            return;
+
+        dashAnimationResolutionWarningIssued = true;
+        Debug.LogWarning(
+            "[SwipeRightAttackDetector] DashAttack clip/state could not be resolved. " +
+            "Using the existing trigger and movement-gate fallback.",
+            this);
+#endif
     }
 
     private IEnumerator WaitForFreshAttackStateStart()
