@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
+using MoreMountains.InfiniteRunnerEngine;
 public class PowerMeter : MonoBehaviour
 {
     public enum ZoneResult
@@ -49,9 +50,11 @@ public class PowerMeter : MonoBehaviour
     private bool _running;
     private float _phase;          // 0..1 progress within a cycle
     private float _normalizedValue; // 0..1 current ticker position
+    private float _resolvedTickerSpeed;
 
     public bool IsRunning => _running;
     public float CurrentNormalizedValue => _normalizedValue;
+    public float ResolvedTickerSpeed => _resolvedTickerSpeed;
 
     private void Awake()
     {
@@ -64,7 +67,7 @@ public class PowerMeter : MonoBehaviour
         if (!_running || config == null) return;
 
         // Advance phase (cycles per second)
-        _phase += Time.deltaTime * config.speed;
+        _phase += Time.deltaTime * _resolvedTickerSpeed;
 
         // keep phase manageable
         if (_phase > 1000f) _phase -= Mathf.Floor(_phase);
@@ -99,6 +102,7 @@ public class PowerMeter : MonoBehaviour
         ValidateRefs();
         ApplyZoneVisualsFromConfig();
 
+        ResolveTickerSpeed();
         _running = true;
 
         if (config.randomizeStartPosition)
@@ -111,6 +115,32 @@ public class PowerMeter : MonoBehaviour
         }
 
         OnStarted?.Invoke();
+    }
+
+    private void ResolveTickerSpeed()
+    {
+        // Cache only on this meter instance; never write to the shared ScriptableObject.
+        _resolvedTickerSpeed = config.speed;
+        var game = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
+        if (game == null)
+        {
+            Debug.LogWarning("[PowerMeterDifficulty] GameManager unavailable; using config.speed.", this);
+            return;
+        }
+
+        if (!config.TryResolveTickerSpeed(game.LevelNum, out float speed,
+                out PowerMeterSpeedWindow window, out int evaluatedLevel,
+                message => Debug.LogWarning("[PowerMeterDifficulty] " + message, this))) return;
+
+        _resolvedTickerSpeed = speed;
+        LogResolvedTickerSpeed(game.LevelNum, window, evaluatedLevel);
+    }
+
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    [System.Diagnostics.Conditional("DEVELOPMENT_BUILD")]
+    private void LogResolvedTickerSpeed(int level, PowerMeterSpeedWindow window, int evaluatedLevel)
+    {
+        Debug.Log($"[PowerMeterDifficulty] Level {level} -> Window {window.StartLevel}-{window.EndLevel} ({window.Name}) | Speed={_resolvedTickerSpeed:0.000} | Evaluated level={evaluatedLevel}", this);
     }
 
     public void StopMeterAndEvaluate()

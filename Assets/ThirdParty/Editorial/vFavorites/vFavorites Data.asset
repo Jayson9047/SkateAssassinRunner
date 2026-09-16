@@ -181,6 +181,15 @@ MonoBehaviour:
       isFolder: 0
       isAsset: 1
       _id: 1059194557
+    - globalId:
+        globalObjectIdString: GlobalObjectId_V1-3-581e113b88e646143bd32ee11ca69883-11400000-0
+      _typeString: PowerMeterConfig, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      _obj: {fileID: 11400000, guid: 581e113b88e646143bd32ee11ca69883, type: 2}
+      isSceneGameObject: 0
+      isFolder: 0
+      isAsset: 1
+      _id: 1043079745
     name: Page 5
     _id: 1009020033
   - items: []

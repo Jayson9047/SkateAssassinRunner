@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SkateRunner/Power Meter Config", fileName = "PowerMeterConfig")]
@@ -13,6 +14,15 @@ public class PowerMeterConfig : ScriptableObject
 
     [Tooltip("If true, the ticker uses smooth easing at ends (sin wave). If false, linear ping-pong.")]
     public bool smoothMotion = true;
+
+    [Header("Ticker Difficulty Progression")]
+    [Tooltip("Per-level cycles/second with a cap in each range. Empty keeps the global speed above. Evaluated when StartMeter runs; never changes this asset at runtime.")]
+    [SerializeField] private List<PowerMeterSpeedWindow> tickerSpeedWindows = new List<PowerMeterSpeedWindow>();
+
+    public bool TryResolveTickerSpeed(int level, out float resolvedSpeed,
+        out PowerMeterSpeedWindow window, out int evaluatedLevel, Action<string> warn = null)
+        => PowerMeterSpeedProgression.TryResolve(tickerSpeedWindows, level,
+            out resolvedSpeed, out window, out evaluatedLevel, warn);
 
     [Header("Zones (Normalized 0..1)")]
     [Tooltip("Each zone is an inclusive range [min,max] in normalized meter space (0 bottom, 1 top).")]

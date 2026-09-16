@@ -15,6 +15,43 @@ MonoBehaviour:
   speed: 0.2
   randomizeStartPosition: 1
   smoothMotion: 1
+  tickerSpeedWindows:
+  - Name: Tutorial
+    StartLevel: 1
+    EndLevel: 5
+    StartingTickerSpeed: 0.2
+    TickerSpeedIncreasePerLevel: 0
+    MaximumTickerSpeed: 0.2
+  - Name: Early Game
+    StartLevel: 6
+    EndLevel: 20
+    StartingTickerSpeed: 0.2
+    TickerSpeedIncreasePerLevel: 0.005
+    MaximumTickerSpeed: 0.25
+  - Name: Developing
+    StartLevel: 21
+    EndLevel: 100
+    StartingTickerSpeed: 0.25
+    TickerSpeedIncreasePerLevel: 0.0025
+    MaximumTickerSpeed: 0.35
+  - Name: Mid Game
+    StartLevel: 101
+    EndLevel: 300
+    StartingTickerSpeed: 0.45
+    TickerSpeedIncreasePerLevel: 0.001
+    MaximumTickerSpeed: 0.45
+  - Name: Late Game
+    StartLevel: 301
+    EndLevel: 500
+    StartingTickerSpeed: 0.45
+    TickerSpeedIncreasePerLevel: 0.0005
+    MaximumTickerSpeed: 0.5
+  - Name: End Game
+    StartLevel: 501
+    EndLevel: 1000
+    StartingTickerSpeed: 0.5
+    TickerSpeedIncreasePerLevel: 0.0005
+    MaximumTickerSpeed: 0.75
   red:
     min: 0
     max: 1
