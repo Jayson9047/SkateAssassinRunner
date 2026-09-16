@@ -89,6 +89,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         private float _phaseElapsedSeconds;
         private bool _phase2Started;
         private bool _spawningDisabled;
+        private PhaseBannerController _phaseBanner;
 
         protected override void Awake()
         {
@@ -129,6 +130,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
 
             // Phase timer state (new game / restart only)
+            _phaseBanner = FindFirstObjectByType<PhaseBannerController>();
             _phaseElapsedSeconds = 0f;
             _phase2Started = false;
             _spawningDisabled = false;
@@ -525,7 +527,9 @@ namespace MoreMountains.InfiniteRunnerEngine
             // -----------------------------
             // PHASE TIMER LOGIC (NEW)
             // -----------------------------
-            if (!_phase2Started && GameManager.Instance.Status == GameManager.GameStatus.GameInProgress)
+            bool phase1IntroFinished = _phaseBanner == null || !_phaseBanner.isActiveAndEnabled ||
+                                      _phaseBanner.Phase1PresentationFinished;
+            if (phase1IntroFinished && !_phase2Started && GameManager.Instance.Status == GameManager.GameStatus.GameInProgress)
             {
                 _phaseElapsedSeconds += Time.deltaTime;
 

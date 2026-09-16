@@ -46,6 +46,10 @@ public sealed class PhaseBannerController : MonoBehaviour, MMEventListener<MMGam
     private bool phase1Shown;
     private bool warnedMissingReference;
 
+    // Only the real startup banner releases the Phase 1 gameplay clock.
+    // Inspector previews must not start or restart the countdown.
+    public bool Phase1PresentationFinished { get; private set; }
+
     private void Awake()
     {
         rectTransform = transform as RectTransform;
@@ -71,6 +75,7 @@ public sealed class PhaseBannerController : MonoBehaviour, MMEventListener<MMGam
         sequence?.Kill();
         sequence = null;
         HideImmediately();
+        Phase1PresentationFinished = true;
     }
 
     public void OnMMEvent(MMGameEvent eventType)
@@ -94,7 +99,8 @@ public sealed class PhaseBannerController : MonoBehaviour, MMEventListener<MMGam
         }
 
         phase1WaitRoutine = null;
-        Show(phase1Sprite, phase1Glow, SkateRunnerAudioManager.PlayPhase1BannerImpact, phase1InitialDelay);
+        Show(phase1Sprite, phase1Glow, SkateRunnerAudioManager.PlayPhase1BannerImpact, phase1InitialDelay,
+            () => Phase1PresentationFinished = true);
     }
 
     private void HandlePhase2ApproachStarted()
@@ -110,7 +116,7 @@ public sealed class PhaseBannerController : MonoBehaviour, MMEventListener<MMGam
     public void PreviewPhase1() => Show(phase1Sprite, phase1Glow, SkateRunnerAudioManager.PlayPhase1BannerImpact, 0f);
     public void PreviewPhase2() => Show(phase2Sprite, phase2Glow, SkateRunnerAudioManager.PlayPhase2BannerImpact, 0f);
 
-    private void Show(Sprite sprite, Color glowColor, System.Action playAudio, float delay)
+    private void Show(Sprite sprite, Color glowColor, System.Action playAudio, float delay, System.Action onHidden = null)
     {
         if (canvasGroup == null || bannerImage == null || rectTransform == null || sprite == null)
         {
@@ -119,6 +125,7 @@ public sealed class PhaseBannerController : MonoBehaviour, MMEventListener<MMGam
                 warnedMissingReference = true;
                 Debug.LogWarning("[PhaseBanner] Required UI references or phase sprite are missing; banner skipped safely.", this);
             }
+            onHidden?.Invoke(); // Missing optional presentation must not stall gameplay.
             return;
         }
 
@@ -146,6 +153,7 @@ public sealed class PhaseBannerController : MonoBehaviour, MMEventListener<MMGam
         {
             sequence = null;
             HideImmediately();
+            onHidden?.Invoke();
         });
     }
 
