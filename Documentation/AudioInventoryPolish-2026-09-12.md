@@ -1,5 +1,7 @@
 # Audio and Inventory polish
 
+Cash pickup follow-up: `Assets/Resources/SkateRunnerAudio.prefab` → `SkateRunnerAudioManager` → **Currency Pickups** now exposes **Enable Cash Pickup Sound Cooldown** (default checked) and **Cash Pickup Sound Cooldown Seconds** (default 0.2). The first audible pickup starts an unscaled cooldown; further pickups during it are silent, do not extend it, and do not queue sounds. Unchecking the option or using zero seconds allows every pickup, bypassing the cash cue's generic minimum-retrigger field. Rewards and other SFX are unchanged; new runs/single-scene loads reset the cooldown. Controlled verification passed a 100-call enabled burst (one cash source), 100 unchecked calls, unrelated SFX during cooldown, zero duration, missing clip, and real elapsed expiry at timeScale zero. Temporary verification code was removed after testing.
+
 > Gameplay death/retry, Outro transitions and result-screen timing below were superseded by [Audio / Arcade polish](AudioArcadePolish-2026-09-13.md). The older music-boundary/wait APIs described here have been removed. Other inventory/UI work remains unchanged.
 
 Project: Skate Assassin Runner / Skate Runner. Unity 6000.0.67f1.

@@ -65,6 +65,10 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [SerializeField] SkateRunnerAudioCue brutalAnnouncer = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue ruthlessAnnouncer = new SkateRunnerAudioCue();
     [Header("Currency Pickups")]
+    [Tooltip("Limit cash pickup sounds only. Uncheck to allow a sound for every pickup. Cash uses these controls instead of its cue's Minimum Retrigger Interval.")]
+    [SerializeField] bool enableCashPickupSoundCooldown = true;
+    [Tooltip("Real-time seconds after a cash sound before another may play. Skipped pickups do not extend the cooldown or queue sounds. Rewards and other SFX are unaffected.")]
+    [SerializeField, Min(0f)] float cashPickupSoundCooldownSeconds = 0.2f;
     [SerializeField] SkateRunnerAudioCue cashPickup = new SkateRunnerAudioCue();
     [Header("Phase Banners")]
     [SerializeField] SkateRunnerAudioCue phase1BannerImpact = new SkateRunnerAudioCue();
@@ -185,6 +189,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     {
         RegisterSceneButtons(scene);
         if (mode == LoadSceneMode.Additive) return;
+        ResetCashPickupSoundCooldown();
         CancelPendingRankAudio();
         StopCrystalRewardAudioInternal();
         gameplayStarted = false;
@@ -217,7 +222,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     {
         switch (e.EventName)
         {
-            case "GameStart": CancelPendingRankAudio(); StartGameplayMusic(); break;
+            case "GameStart": ResetCashPickupSoundCooldown(); CancelPendingRankAudio(); StartGameplayMusic(); break;
             case "Jump": Play(playerJump); break;
             case "LifeLost":
                 CancelPendingRankAudio();
@@ -282,7 +287,23 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     public static void StopCrystalRewardRevealAudio() => Instance?.StopCrystalRewardAudioInternal();
     public static void PlayDashAttack() => Instance?.Play(Instance.dashAttack);
     public static void PlayDownAttack() => Instance?.Play(Instance.downAttack);
-    public static void PlayCashPickup() => Instance?.Play(Instance.cashPickup);
+    public static void PlayCashPickup() => Instance?.PlayCashPickupInternal();
+
+    void PlayCashPickupInternal()
+    {
+        if (cashPickup == null) return;
+        if (enableCashPickupSoundCooldown &&
+            Time.unscaledTime - cashPickup.lastPlayedAt < Mathf.Max(0f, cashPickupSoundCooldownSeconds)) return;
+
+        // Play updates lastPlayedAt only when SFX is enabled and a clip exists.
+        // Bypass the generic cue gate so the checkbox is the sole cash limiter.
+        Play(cashPickup, true);
+    }
+
+    void ResetCashPickupSoundCooldown()
+    {
+        if (cashPickup != null) cashPickup.lastPlayedAt = float.NegativeInfinity;
+    }
     public static void PlayPhase1BannerImpact() => Instance?.Play(Instance.phase1BannerImpact);
     public static void PlayPhase2BannerImpact() => Instance?.Play(Instance.phase2BannerImpact);
     public static void PlayPhase2SlowMotionStart() => Instance?.Play(Instance.phase2SlowMotionStart);
