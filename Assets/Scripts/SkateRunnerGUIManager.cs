@@ -1094,30 +1094,25 @@ namespace MoreMountains.InfiniteRunnerEngine
             // Save/level progression should only be committed AFTER the ad returns.
 
             if (LevelEndTitleText != null)
-            {
                 LevelEndTitleText.text = SkateLocalization.Get("Gameplay", success ? "gameplay.level_completed" : "gameplay.level_failed");
 
-                if (success && gemsToAward > 0)
-                {
-                    // add to session gems; SaveAfterLevelEnd will bank it
-                    SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.AddGems(gemsToAward);
-                }
-                if (LevelEndCashEarnedText != null)
-                {
-                    LevelEndCashEarnedText.text =
-                        SkateLocalization.FormatNumber(Mathf.RoundToInt(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel()));
-                    int earnedCash = Mathf.RoundToInt(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetCashEarnedThisLevel());
-
-                    accuracyCashPreview?.UnlockPreview();
-                    accuracyCashPreview?.SetEarnedCash(earnedCash);
-                }
-
-                if (LevelEndGemsEarnedText != null)
-                {
-                    LevelEndGemsEarnedText.text =
-                        SkateLocalization.FormatNumber(Mathf.RoundToInt(SkateRunnerGameManager.SkateRunnerGameManagerAccessor.GetGemsEarnedThisLevel()));
-                }
+            var gameManager = SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
+            if (success && gemsToAward > 0)
+            {
+                // Add the base star reward to this level session. The multiplier
+                // controller grants only the bonus after rewarded-ad success.
+                gameManager?.AddGems(gemsToAward);
             }
+
+            int earnedCash = gameManager != null ? Mathf.RoundToInt(gameManager.GetCashEarnedThisLevel()) : 0;
+            int earnedGems = gameManager != null ? Mathf.RoundToInt(gameManager.GetGemsEarnedThisLevel()) : 0;
+
+            if (LevelEndCashEarnedText != null)
+                LevelEndCashEarnedText.text = SkateLocalization.FormatNumber(earnedCash);
+            if (LevelEndGemsEarnedText != null)
+                LevelEndGemsEarnedText.text = SkateLocalization.FormatNumber(earnedGems);
+
+            accuracyCashPreview?.SetRewardContext(earnedCash, earnedGems, stars, success);
         }
         private void SetStars(int stars)
         {

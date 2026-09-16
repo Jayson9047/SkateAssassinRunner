@@ -5,22 +5,26 @@ using UnityEngine.UI;
 namespace AccuracyMeter
 {
     /// <summary>
-    /// Example consumer:
-    /// - While hovering partitions, preview earnedCash * multiplier (index-aligned array)
-    /// - On stop, lock the preview at landed partition
-    ///
-    /// This is intentionally NOT inside the driver, because it's game/business logic.
+    /// Owns the complete level-end multiplier transaction: live preview, meter stop,
+    /// rewarded-ad request, successful bonus grant, save, and navigation.
     /// </summary>
     public class AccuracyMeterCashPreviewExample : MonoBehaviour
     {
         [Header("Refs")]
         [SerializeField] private AccuracyMeterArcDriver meter;
         [SerializeField] private Button stopButton;
+        [SerializeField] private Button continueButton;
         [SerializeField] private TMP_Text BonusCashText;
-        [SerializeField] private TMP_Text totalEarnedCashText; // drag LevelEndCashEarnedText here
+        [SerializeField] private TMP_Text BonusGemText;
+        [SerializeField] private GameObject bonusGemPreviewRoot;
+        [SerializeField] private TMP_Text totalEarnedCashText;
+        [SerializeField] private TMP_Text totalEarnedGemsText;
 
         [Header("Data")]
         private int earnedCash;
+        private int earnedGems;
+        private int earnedStars;
+        private bool levelSucceeded;
 
         [Tooltip("Index-aligned with partitions (P0..Pn). Example: [2,3,4,3,2]")]
         [SerializeField] private int[] multipliers = { 2, 3, 4, 3, 2 };
@@ -29,31 +33,32 @@ namespace AccuracyMeter
         [SerializeField] private bool lockOnStop = true;
 
         private bool _locked;
+        private bool _rewardRequestPending;
+        private bool _rewardClaimed;
+        private bool _destroyed;
+        private int _lastFocusedPartition = -1;
+        private int _selectedMultiplier = 1;
+
+        private bool GemsEligibleForMultiplier => levelSucceeded && earnedStars == 3;
 
         private void Awake()
         {
             if (meter != null)
             {
-                // global events (optional if you choose per-partition routing in inspector)
                 meter.onHoverChanged.AddListener(OnHoverChanged);
                 meter.onStopped.AddListener(OnStopped);
             }
 
             if (stopButton != null)
-            {
-                stopButton.onClick.AddListener(() =>
-                {
-                    if (lockOnStop && _locked) return;
-                    meter?.RequestStop();
-                });
-            }
+                stopButton.onClick.AddListener(OnStopButtonClicked);
 
-            // initial display
             PreviewIndex(0);
         }
 
         private void OnDestroy()
         {
+            _destroyed = true;
+
             if (meter != null)
             {
                 meter.onHoverChanged.RemoveListener(OnHoverChanged);
@@ -61,59 +66,119 @@ namespace AccuracyMeter
             }
 
             if (stopButton != null)
-                stopButton.onClick.RemoveAllListeners();
+                stopButton.onClick.RemoveListener(OnStopButtonClicked);
         }
 
-        // -------------------------
-        // Event handlers (global)
-        // -------------------------
+        private void OnStopButtonClicked()
+        {
+            if (_rewardRequestPending || _rewardClaimed || (lockOnStop && _locked))
+                return;
+
+            meter?.RequestStop();
+        }
 
         private void OnHoverChanged(int idx, string partitionName, float t01)
         {
-            if (lockOnStop && _locked) return;
+            if (_locked || _rewardRequestPending || _rewardClaimed)
+                return;
+
+            if (idx >= 0 && idx != _lastFocusedPartition)
+            {
+                _lastFocusedPartition = idx;
+                SkateRunnerAudioManager.PlayLevelEndMultiplierFocus();
+            }
+
             PreviewIndex(idx);
         }
 
         private void OnStopped(AccuracyMeterArcDriver.AccuracyStopResult result)
         {
-            if (!result.IsValid) return;
+            if (!result.IsValid || _rewardRequestPending || _rewardClaimed)
+                return;
 
-            if (lockOnStop)
-                _locked = true;
+            _locked = true;
+            _selectedMultiplier = GetMultiplier(result.PartitionIndex);
+            PreviewMultiplier(_selectedMultiplier);
 
-            int mult = GetMultiplier(result.PartitionIndex);
+            _rewardRequestPending = true;
+            SetTransactionControlsInteractable(false);
 
-            int baseCash = earnedCash;
-            int finalCash = baseCash * mult;
-            int bonusCash = finalCash - baseCash;
+            bool requestAccepted = RewardedAdBridge.ShowRewardedAd(
+                "level_end_multiplier",
+                CompleteRewardedMultiplier,
+                CancelRewardedMultiplier);
 
-            // lock UI preview to the landed partition result
-            SetText(finalCash);
+            if (!requestAccepted && _rewardRequestPending)
+                CancelRewardedMultiplier();
+        }
 
-            // TODO: show rewarded ad here.
-            // Only proceed to grant bonusCash if ad success.
+        private void CompleteRewardedMultiplier()
+        {
+            if (_destroyed || !_rewardRequestPending || _rewardClaimed)
+                return;
 
-            // update the "Total Earned Cash" text on the level end screen
+            _rewardRequestPending = false;
+            _rewardClaimed = true;
+
+            CalculateRewardAmounts(
+                _selectedMultiplier,
+                out int finalCash,
+                out int cashBonus,
+                out int finalGems,
+                out int gemBonus);
+
+            var gameManager = MoreMountains.InfiniteRunnerEngine.SkateRunnerGameManager.SkateRunnerGameManagerAccessor;
+            if (cashBonus > 0)
+                gameManager?.AddCash(cashBonus);
+            if (gemBonus > 0)
+                gameManager?.AddGems(gemBonus);
+
+            SetPreviewText(finalCash, finalGems);
             if (totalEarnedCashText != null)
-                totalEarnedCashText.text = finalCash.ToString("0");
+                totalEarnedCashText.text = SkateLocalization.FormatNumber(finalCash);
+            if (totalEarnedGemsText != null)
+                totalEarnedGemsText.text = SkateLocalization.FormatNumber(finalGems);
 
-            if (bonusCash > 0)
-                MoreMountains.InfiniteRunnerEngine.SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.AddCash(bonusCash);
-
-            bool success = MoreMountains.InfiniteRunnerEngine.SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
-                ? MoreMountains.InfiniteRunnerEngine.SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.LastLevelSuccess
-                : true;
-
-            MoreMountains.InfiniteRunnerEngine.SkateRunnerGameManager.SkateRunnerGameManagerAccessor?.SaveAfterLevelEnd(success);
-
-            // Go home (don’t use LevelSelector unless you want to; this keeps it self-contained)
+            gameManager?.SaveAfterLevelEnd(levelSucceeded);
             MoreMountains.InfiniteRunnerEngine.LevelManager.Instance?.GotoLevel("SkateRunnerStartScreen");
         }
 
-        // -------------------------
-        // Public methods for Inspector wiring
-        // (Use these with per-partition UnityEvents)
-        // -------------------------
+        private void CancelRewardedMultiplier()
+        {
+            if (_destroyed || !_rewardRequestPending || _rewardClaimed)
+                return;
+
+            _rewardRequestPending = false;
+            _locked = false;
+            SetTransactionControlsInteractable(true);
+            meter?.ResumeMeter();
+        }
+
+        private void SetTransactionControlsInteractable(bool interactable)
+        {
+            if (stopButton != null)
+                stopButton.interactable = interactable;
+            if (continueButton != null)
+                continueButton.interactable = interactable;
+        }
+
+        public void SetRewardContext(int cash, int gems, int stars, bool success)
+        {
+            earnedCash = Mathf.Max(0, cash);
+            earnedGems = Mathf.Max(0, gems);
+            earnedStars = Mathf.Max(0, stars);
+            levelSucceeded = success;
+
+            _locked = false;
+            _rewardRequestPending = false;
+            _rewardClaimed = false;
+            _lastFocusedPartition = -1;
+            _selectedMultiplier = 1;
+
+            SetTransactionControlsInteractable(true);
+            SetGemPreviewVisible(GemsEligibleForMultiplier);
+            PreviewIndex(0);
+        }
 
         public void Preview_P0() => PreviewIndex(0);
         public void Preview_P1() => PreviewIndex(1);
@@ -121,17 +186,40 @@ namespace AccuracyMeter
         public void Preview_P3() => PreviewIndex(3);
         public void Preview_P4() => PreviewIndex(4);
 
-        public void UnlockPreview() => _locked = false;
+        public void UnlockPreview()
+        {
+            if (_rewardRequestPending || _rewardClaimed)
+                return;
 
-        // -------------------------
-        // Core preview logic
-        // -------------------------
+            _locked = false;
+            SetTransactionControlsInteractable(true);
+            meter?.ResumeMeter();
+        }
 
         public void PreviewIndex(int idx)
         {
-            int mult = GetMultiplier(idx);
-            int preview = earnedCash * mult;
-            SetText(preview);
+            PreviewMultiplier(GetMultiplier(idx));
+        }
+
+        private void PreviewMultiplier(int multiplier)
+        {
+            CalculateRewardAmounts(multiplier, out int finalCash, out _, out int finalGems, out _);
+            SetPreviewText(finalCash, finalGems);
+        }
+
+        private void CalculateRewardAmounts(
+            int multiplier,
+            out int finalCash,
+            out int cashBonus,
+            out int finalGems,
+            out int gemBonus)
+        {
+            int safeMultiplier = Mathf.Max(1, multiplier);
+            finalCash = earnedCash * safeMultiplier;
+            cashBonus = Mathf.Max(0, finalCash - earnedCash);
+
+            finalGems = GemsEligibleForMultiplier ? earnedGems * safeMultiplier : earnedGems;
+            gemBonus = Mathf.Max(0, finalGems - earnedGems);
         }
 
         private int GetMultiplier(int idx)
@@ -141,19 +229,27 @@ namespace AccuracyMeter
             return Mathf.Max(1, multipliers[idx]);
         }
 
-        private void SetText(int value)
+        private void SetPreviewText(int cashValue, int gemValue)
         {
             if (BonusCashText != null)
-                BonusCashText.text = value.ToString();
+                BonusCashText.text = cashValue.ToString();
+            if (BonusGemText != null)
+                BonusGemText.text = gemValue.ToString();
+
+            SetGemPreviewVisible(GemsEligibleForMultiplier);
         }
 
-        // Optional: call this from your game when earned cash changes mid-run
+        private void SetGemPreviewVisible(bool visible)
+        {
+            if (bonusGemPreviewRoot != null && bonusGemPreviewRoot.activeSelf != visible)
+                bonusGemPreviewRoot.SetActive(visible);
+        }
+
+        // Preserved for existing external/Inspector compatibility.
         public void SetEarnedCash(int value)
         {
             earnedCash = Mathf.Max(0, value);
-
-            // refresh current preview if not locked
-            if (!lockOnStop || !_locked)
+            if (!_locked && !_rewardRequestPending && !_rewardClaimed)
                 PreviewIndex(0);
         }
     }

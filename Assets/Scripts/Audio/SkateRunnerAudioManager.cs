@@ -26,6 +26,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
 
     [Header("Global UI")]
     [SerializeField] SkateRunnerAudioCue uiButtonClick = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue levelEndMultiplierFocus = new SkateRunnerAudioCue();
     [Header("Spin Wheel")]
     [SerializeField] SkateRunnerAudioCue wheelSpinningLoop = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue wheelWinningLanding = new SkateRunnerAudioCue();
@@ -280,6 +281,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     }
 
     public static void PlayUIButtonClick() => Instance?.Play(Instance.uiButtonClick, true);
+    public static void PlayLevelEndMultiplierFocus() => Instance?.Play(Instance.levelEndMultiplierFocus);
     public static void PlayPurchaseSuccess() => Instance?.Play(Instance.purchaseSuccess);
     public static void StartCrystalRewardRevealAudio() => Instance?.StartCrystalRewardAudioInternal();
     public static void PlayCrystalChestBreak() => Instance?.Play(Instance.crystalChestBreak);
