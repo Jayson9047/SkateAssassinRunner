@@ -26,6 +26,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public static SkateRunnerGameManager SkateRunnerGameManagerAccessor { get; private set; }
         public static event System.Action<float> OnCashAdded;
+        public static event System.Action<int> OnLevelChanged;
 
         [Header("Profile Totals (Saved)")]
         public float TotalCash { get; private set; }
@@ -137,7 +138,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             if (success)
             {
-                LevelNum += 1;
+                SetLevelNumber(LevelNum + 1);
             }
 
             // Save using EasySave3
@@ -164,9 +165,17 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             TotalCash = 0;
             TotalGems = 0;
-            LevelNum = 1;
+            SetLevelNumber(1);
 
             Debug.Log("[DEV] Save reset");
+        }
+
+        private void SetLevelNumber(int value)
+        {
+            value = Mathf.Max(1, value);
+            if (LevelNum == value) return;
+            LevelNum = value;
+            OnLevelChanged?.Invoke(LevelNum);
         }
 
 

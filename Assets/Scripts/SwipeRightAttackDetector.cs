@@ -222,9 +222,9 @@ public class SwipeRightAttackDetector : MonoBehaviour
         }
     }
 
-    private void OnSwipeRight()
+    private void OnSwipeRight(bool ignoreGameplayInputLock = false)
     {
-        if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
+        if (!ignoreGameplayInputLock && LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
         {
             if (swipeDownDetector == null || !swipeDownDetector.DownAttackDashWindowOpen)
                 return;
@@ -246,6 +246,15 @@ public class SwipeRightAttackDetector : MonoBehaviour
         }
 
         dashRoutine = StartCoroutine(DashRoutine(startedDashAnimationDirectly));
+    }
+
+    /// <summary>
+    /// Executes one real dash after the ELROI Tutorial Framework has consumed the swipe.
+    /// Normal input remains locked through the release frame to prevent duplicate execution.
+    /// </summary>
+    public void TriggerTutorialDashAttack()
+    {
+        OnSwipeRight(true);
     }
 
     private void AbortDashRoutine()

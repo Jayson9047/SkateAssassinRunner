@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b306600f961de5479247ca08404b12f, type: 3}
+  m_Name: ELROI_MangaTheme
+  m_EditorClassIdentifier: 
+  OverlayOpacity: 0.78
+  SpotlightFeather: 12
+  SpotlightCornerRadius: 28
+  TransitionDuration: 0.2
+  Pulse: 1
+  PulseAmount: 8
+  PulseSpeed: 2
+  BubbleFill: {r: 1, g: 0.985, b: 0.94, a: 1}
+  BubbleBorder: {r: 0, g: 0, b: 0, a: 1}
+  TextColor: {r: 0, g: 0, b: 0, a: 1}
+  BorderThickness: 5
+  BubbleCornerRadius: 16
+  BubblePadding: 24
+  BubbleMinWidth: 260
+  BubblePreferredWidth: 520
+  BubbleMaxWidth: 720
+  IntroductionFontSize: 34
+  MinimumFontSize: 18
+  SafeMargin: 28
+  InstructionColor: {r: 1, g: 1, b: 1, a: 1}
+  InstructionFontSize: 38
+  GestureSize: 140
+  OkButtonFill: {r: 1, g: 0.78, b: 0.12, a: 1}
+  OkButtonText: {r: 0, g: 0, b: 0, a: 1}

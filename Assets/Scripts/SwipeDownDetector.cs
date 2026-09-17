@@ -226,9 +226,9 @@ public class SwipeDownDetector : MonoBehaviour
         StartCoroutine(DownAttackRoutine());
     }
 
-    private void OnSwipeDown()
+    private void OnSwipeDown(bool ignoreGameplayInputLock = false)
     {
-        if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
+        if (!ignoreGameplayInputLock && LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
             return;
 
         bool isGrounded = jumper != null && jumper.IsGrounded;
@@ -285,6 +285,14 @@ public class SwipeDownDetector : MonoBehaviour
 
             StartCoroutine(SlideRoutine());
         }
+    }
+
+    /// <summary>
+    /// Executes one real down action after the ELROI Tutorial Framework has consumed the swipe.
+    /// </summary>
+    public void TriggerTutorialDownAttack()
+    {
+        OnSwipeDown(true);
     }
 
     private void SpawnDownSlamShockwave(Vector3 hitPoint, float targetRadius)

@@ -320,4 +320,18 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
             InputManager.Instance.SendMessage("MainActionButtonUp");
         }
     }
+
+    /// <summary>
+    /// Executes the real production main action for an already-consumed tutorial tap.
+    /// The tutorial overlay owns the pointer release, so this bypasses pointer recognition
+    /// without bypassing the runner's actual InputManager action path.
+    /// </summary>
+    public void TriggerTutorialMainAction()
+    {
+        if (InputManager.Instance == null)
+            return;
+
+        InputManager.Instance.SendMessage("MainActionButtonDown");
+        InputManager.Instance.SendMessage("MainActionButtonUp");
+    }
 }
