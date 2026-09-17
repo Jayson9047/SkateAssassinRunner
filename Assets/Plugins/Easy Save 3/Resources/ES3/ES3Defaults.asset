@@ -45,6 +45,9 @@ MonoBehaviour:
     - CFXRDemo
     - CFXRRuntime
     - DamageNumbersPro
+    - Elroi.Tutorials.Demo
+    - Elroi.Tutorials.Runtime
+    - Elroi.Tutorials.Tests.PlayMode
     - FronkonGames.SpiceUp.Slash
     - Kamgam.MeshExtractor
     - KinoBloom.Runtime
