@@ -27,16 +27,19 @@ public class HomeUIBinder : MonoBehaviour
     {
         float totalCash = ES3.Load<float>(ES3_TOTAL_CASH, 0f);
         float totalGems = ES3.Load<float>(ES3_TOTAL_GEMS, 0f);
-        int levelNum = ES3.Load<int>(ES3_LEVEL_NUM, 1);
+        // LevelNum is advanced and saved when a level is completed, so it already
+        // represents the next level the player will enter from the home screen.
+        int nextLevel = Mathf.Max(1, ES3.Load<int>(ES3_LEVEL_NUM, 1));
+        int completedLevel = Mathf.Max(1, nextLevel - 1);
 
         if (CashText != null) CashText.text = LocalizedAmount(totalCash);
         if (GemsText != null) GemsText.text = LocalizedAmount(totalGems);
         displayedCash = totalCash;
         displayedGems = totalGems;
         if (LevelText != null)
-            LevelText.text = SkateLocalization.Get("Home", "home.level", SkateLocalization.FormatNumber(levelNum));
+            LevelText.text = SkateLocalization.Get("Home", "home.level", SkateLocalization.FormatNumber(completedLevel));
         if (PlayButtonLevelText != null)
-            PlayButtonLevelText.text = SkateLocalization.Get("Home", "home.level", SkateLocalization.FormatNumber(levelNum + 1));
+            PlayButtonLevelText.text = SkateLocalization.Get("Home", "home.level", SkateLocalization.FormatNumber(nextLevel));
     }
 
     public void AnimateBalances(float oldCash, float newCash, float oldGems, float newGems)
