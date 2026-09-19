@@ -1,0 +1,1 @@
+PASSED GATE; active cash remaining=0; state=running mode=slide time=9.927654 status=GameInProgress speed=20.00798 player=(-18.18, 0.20, -5.76) grounded=True invincible=False gate=(-25.22, 1.97, -5.64) result=; maxPlayerY=0.21347

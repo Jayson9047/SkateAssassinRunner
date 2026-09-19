@@ -1,0 +1,1 @@
+state=running mode=dash time=8.898864 status=GameInProgress speed=20.00083 player=(-18.17, 0.20, -5.76) grounded=True invincible=False gate=(-13.24, 1.97, -5.60) result= collider=Center: (-17.54, 1.13, -6.13), Extents: (0.39, 1.11, 0.39)

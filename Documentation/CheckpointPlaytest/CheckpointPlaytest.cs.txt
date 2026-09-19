@@ -1,0 +1,116 @@
+using UnityEngine;
+using UnityEditor;
+using MoreMountains.Tools;
+using MoreMountains.InfiniteRunnerEngine;
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
+[InitializeOnLoad]
+public static class CheckpointPlaytest
+{
+    const string Key="CheckpointPlaytest.";
+    public static string State="idle";
+    public static string Result="";
+    static GameObject encounter;
+    static Jumper player;
+    static string mode;
+    static bool fired, second, approach, actionShot;
+    static float firedAt, startTime, lastTime, maxY;
+    static int startCash;
+    static double finishAfter;
+    static double nextAfter;
+    static bool speedSet;
+    static bool fast;
+    static string fileLabel;
+    static CheckpointPlaytest(){EditorApplication.update+=Tick;EditorApplication.playModeStateChanged+=OnMode;}
+    static void OnMode(PlayModeStateChange s){
+        if(s==PlayModeStateChange.EnteredPlayMode && SessionState.GetBool(Key+"active",false)){
+            mode=SessionState.GetString(Key+"mode","none");fileLabel=SessionState.GetString(Key+"label",mode);
+            fast=mode.StartsWith("fast");if(fast)mode=mode.Substring(4);speedSet=false;
+            fired=second=approach=actionShot=false;encounter=null;player=null;startTime=Time.time;lastTime=-1;maxY=-999;
+            Result="";State="running";
+        }
+        if(s==PlayModeStateChange.EnteredEditMode && SessionState.GetBool(Key+"active",false)){
+            Restore();State="restored";
+            var q=SessionState.GetString(Key+"queue","");
+            if(q.Length>0){nextAfter=EditorApplication.timeSinceStartup+1.5;}
+            else SessionState.SetBool(Key+"suite",false);
+        }
+    }
+    public static string Begin(string action,string label){
+        if(EditorApplication.isPlaying)throw new Exception("Stop Play Mode before Begin.");
+        var go=GameObject.Find("ObstacleSpawner");
+        var pool=go.GetComponent<MMMultipleObjectPooler>();
+        var config=go.GetComponent<SkateRunnerObstacleSequenceConfigurator>();
+        SessionState.SetString(Key+"pool",EditorJsonUtility.ToJson(pool));
+        SessionState.SetString(Key+"config",EditorJsonUtility.ToJson(config));
+        SessionState.SetBool(Key+"active",true);SessionState.SetString(Key+"mode",action);SessionState.SetString(Key+"label",label);
+        var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(SessionState.GetString(Key+"prefab","Assets/Prefabs/MicroScenarios/Scenario_CheckpointCashSlot.prefab"));
+        foreach(var e in pool.Pool)e.Enabled=false;
+        pool.Pool.Add(new MMMultipleObjectPoolerObject{GameObjectToPool=prefab,PoolSize=3,PoolCanExpand=true,Enabled=true});
+        var so=new SerializedObject(config);var a=so.FindProperty("levelOverrides");
+        for(int i=0;i<a.arraySize;i++){var seq=a.GetArrayElementAtIndex(i).FindPropertyRelative("Sequence");seq.arraySize=1;seq.GetArrayElementAtIndex(0).objectReferenceValue=prefab;}
+        so.ApplyModifiedPropertiesWithoutUndo();
+        EditorUtility.SetDirty(pool);
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(go.scene);
+        Directory.CreateDirectory("Documentation/CheckpointPlaytest");
+        EditorApplication.isPlaying=true;return "Isolated "+action+" test; OriginalOrder retained; original settings stored for restoration.";
+    }
+    public static string Suite(string actions,string prefix){var a=actions.Split(',');SessionState.SetBool(Key+"suite",true);SessionState.SetString(Key+"prefix",prefix);SessionState.SetString(Key+"queue",string.Join(",",a.Skip(1)));return Begin(a[0],prefix+"-"+a[0]);}
+    public static void Restore(){
+        var go=GameObject.Find("ObstacleSpawner");if(go==null)return;
+        EditorJsonUtility.FromJsonOverwrite(SessionState.GetString(Key+"pool",""),go.GetComponent<MMMultipleObjectPooler>());
+        EditorJsonUtility.FromJsonOverwrite(SessionState.GetString(Key+"config",""),go.GetComponent<SkateRunnerObstacleSequenceConfigurator>());
+        SessionState.SetBool(Key+"active",false);
+    }
+    static void Shot(string suffix){ScreenCapture.CaptureScreenshot("Documentation/CheckpointPlaytest/"+fileLabel+"-"+suffix+".png");}
+    public static string Snapshot(){
+        var gm=GameManager.Instance;var lm=LevelManager.Instance;
+        return "state="+State+" mode="+mode+" time="+Time.time+" status="+(gm==null?"null":gm.Status.ToString())+
+        " speed="+(lm==null?0:lm.Speed)+" player="+(player==null?"null":player.transform.position.ToString())+
+        " grounded="+(player!=null&&player.IsGrounded)+" invincible="+(player!=null&&player.Invincible)+
+        " gate="+(encounter==null?"null":encounter.transform.Find("SlideThreshold").position.ToString())+" result="+Result;
+    }
+    static void Finish(string why){
+        Result=why+"; "+Snapshot()+"; maxPlayerY="+maxY;
+        File.WriteAllText("Documentation/CheckpointPlaytest/"+fileLabel+".txt",Result);
+        if(SessionState.GetBool(Key+"suite",false)){Shot("outcome");State="finishing";finishAfter=EditorApplication.timeSinceStartup+.6;}
+        else {State="done";EditorApplication.isPaused=true;}
+    }
+    static void Tick(){
+        if(!EditorApplication.isPlaying && !EditorApplication.isPlayingOrWillChangePlaymode && State=="restored" && SessionState.GetBool(Key+"suite",false) && EditorApplication.timeSinceStartup>nextAfter){
+            var q=SessionState.GetString(Key+"queue","");
+            if(q.Length>0){var a=q.Split(',');SessionState.SetString(Key+"queue",string.Join(",",a.Skip(1)));State="starting";Begin(a[0],SessionState.GetString(Key+"prefix","v2")+"-"+a[0]);return;}
+        }
+        if(State=="finishing"&&EditorApplication.timeSinceStartup>finishAfter){State="done";EditorApplication.isPlaying=false;return;}
+        if(!EditorApplication.isPlaying||EditorApplication.isPaused||State!="running")return;
+        if(Time.time==lastTime)return;lastTime=Time.time;
+        if(fast&&!speedSet&&Time.time>1&&LevelManager.Instance!=null){typeof(LevelManager).GetProperty("Speed").SetValue(LevelManager.Instance,40f);LevelManager.Instance.MaximumSpeed=40;speedSet=true;}
+        if(GameManager.Instance!=null && GameManager.Instance.Status.ToString().Contains("LifeLost")){Finish("PLAYER DIED");return;}
+        if(player==null)player=UnityEngine.Object.FindFirstObjectByType<Jumper>();
+        if(player==null){if(Time.time-startTime>30)Finish("No player after 30s");return;}
+        maxY=Mathf.Max(maxY,player.transform.position.y);
+        if(encounter==null)encounter=UnityEngine.Object.FindObjectsByType<MovingObject>(FindObjectsSortMode.None)
+            .Where(m=>m.name.StartsWith("Scenario_CheckpointCashSlot")&&m.gameObject.activeInHierarchy)
+            .OrderBy(m=>m.transform.position.x).Select(m=>m.gameObject).FirstOrDefault();
+        if(encounter==null){if(Time.time-startTime>35)Finish("No scenario after 35s");return;}
+        var threshold=encounter.transform.Find("SlideThreshold");
+        float gap=threshold.position.x-player.transform.position.x;
+        if(!approach&&gap<14&&gap>0){approach=true;Shot("approach");if(mode=="inspect"){State="inspection";EditorApplication.isPaused=true;return;}}
+        if(!player.gameObject.activeInHierarchy || (GameManager.Instance!=null && GameManager.Instance.Status.ToString().Contains("LifeLost"))){Finish("PLAYER DIED");return;}
+        float trigger=mode=="slideearly"?5f:mode=="earlydouble"?12f:mode=="jump"||mode=="double"?6f:mode=="dash"?5f:2.8f;
+        if(!fired&&gap<trigger&&gap>-.5f){
+            fired=true;firedAt=Time.time;
+            if(mode=="jump"||mode=="double"||mode=="earlydouble")player.Jump();
+            if(mode.StartsWith("slide"))typeof(SwipeDownDetector).GetMethod("OnSwipeDown",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(player.GetComponent<SwipeDownDetector>(),new object[]{false});
+            if(mode=="dash")typeof(SwipeRightAttackDetector).GetMethod("OnSwipeRight",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(player.GetComponent<SwipeRightAttackDetector>(),new object[]{false});
+            File.WriteAllText("Documentation/CheckpointPlaytest/"+fileLabel+"-action.txt",Snapshot()+" collider="+player.GetComponent<Collider>().bounds);
+        }
+        if(fired&&!second&&(mode=="double"||mode=="earlydouble")&&Time.time-firedAt>=.14f){second=true;player.Jump();}
+        if(fired&&!actionShot&&Time.time-firedAt>.14f){actionShot=true;Shot("action");}
+        if(gap<-7f){Shot("exit");Finish("PASSED GATE; active cash remaining="+encounter.GetComponentsInChildren<MoreMountains.InfiniteRunnerEngine.Coin>().Length);return;}
+        if(Time.time-startTime>40)Finish("TIMEOUT");
+    }
+}

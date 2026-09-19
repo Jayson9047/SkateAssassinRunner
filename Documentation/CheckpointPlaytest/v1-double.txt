@@ -1,0 +1,1 @@
+PLAYER DIED; state=running mode=double time=8.863624 status=LifeLost speed=0 player=null grounded=False invincible=False gate=(-17.31, 1.97, -5.60) result=; maxPlayerY=6.982971

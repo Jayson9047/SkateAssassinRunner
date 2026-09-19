@@ -1,0 +1,1 @@
+state=running mode=earlydouble time=7.760374 status=GameInProgress speed=20.00611 player=(-18.18, 0.20, -5.76) grounded=True invincible=False gate=(-7.67, 1.97, -5.60) result= collider=Center: (-17.55, 1.13, -6.13), Extents: (0.39, 1.11, 0.39)
