@@ -15,7 +15,12 @@ public class SkateRunnerGameFeel : MonoBehaviour
 
     [Header("FEEL - Hit Stop On Enemy Kill")]
     [SerializeField] private MMF_Player enemyKillHitStopFeel;
-    [SerializeField] private float hitStopMinIntervalRealtime = 0.10f; // safety: never spam hitstop faster than this
+    
+
+    [Header("FEEL - Camera Shake On Enemy Kill")]
+    [SerializeField] private MMF_Player enemyKillCameraShakeFeel;
+    [SerializeField, Range(0f, 1f)] private float enemyKillCameraShakeIntensity = 0.05f;
+[SerializeField] private float hitStopMinIntervalRealtime = 0.10f; // safety: never spam hitstop faster than this
 
     private int _lastHitStopAttackId = -1;
     private KillCause _lastHitStopCause = KillCause.Unknown;
@@ -68,7 +73,7 @@ public class SkateRunnerGameFeel : MonoBehaviour
         yield return new WaitForSecondsRealtime(seconds);
 
         float startScale = Time.timeScale;
-        float restoreDuration = 0.1f; // tweak: 0.08–0.12 sweet spot
+        float restoreDuration = 0.1f; // tweak: 0.08ï¿½0.12 sweet spot
         float t = 0f;
 
         while (t < restoreDuration)
@@ -117,6 +122,17 @@ public class SkateRunnerGameFeel : MonoBehaviour
 
         enemyKillHitStopFeel.PlayFeedbacks();
     }
+
+public static void TriggerEnemyKillCameraShakeStatic(Vector3 worldPosition)
+    {
+        Ensure();
+        if (_instance.enemyKillCameraShakeFeel == null) return;
+
+        _instance.enemyKillCameraShakeFeel.PlayFeedbacks(
+            worldPosition,
+            _instance.enemyKillCameraShakeIntensity);
+    }
+
 
     // --- Public API (static convenience) ---
     public static void TriggerSlowMoStatic(float slowMoScale, float slowMoDurationRealtime, bool affectsPhysicsOverride = true)

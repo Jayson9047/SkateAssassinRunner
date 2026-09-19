@@ -99,7 +99,11 @@ namespace IndieKit
                 }
 
                 // HAPTICS: enemy kill feedback (any attack)
-                SkateRunnerHaptics.PlayPreset(HapticPatterns.PresetType.MediumImpact);
+                
+
+                // FEEL: subtle camera impulse on every enemy kill
+                SkateRunnerGameFeel.TriggerEnemyKillCameraShakeStatic(hitPoint);
+SkateRunnerHaptics.PlayPreset(HapticPatterns.PresetType.MediumImpact);
 
                 LastKillCause = KillContext.Current;
 
