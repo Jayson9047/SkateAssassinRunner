@@ -175,10 +175,11 @@ public class SwipeDownDetector : MonoBehaviour
             bool dashMoveBusy = swipeRightAttackDetector != null && swipeRightAttackDetector.IsDashMovementInProgress;
             bool airborne = jumper != null && !jumper.IsGrounded;
 
-            if (!dashMoveBusy && airborne && !isDownAttacking)
+            if (!dashMoveBusy)
             {
                 pendingDownAttack = false;
-                TriggerDownAttackFromBuffer();
+                if (airborne && !isDownAttacking)
+                    TriggerDownAttackFromBuffer();
             }
         }
         if (Input.GetKeyDown(swipeDownKey))
@@ -384,6 +385,13 @@ public class SwipeDownDetector : MonoBehaviour
 
                 yield return null;
             }
+
+            // Landing may happen before the animation reaches its armed frame.
+            // In that case OnCollisionEnter already fired and won't fire again, so
+            // resolve the grounded impact explicitly once the slam is armed.
+            if (!impactTriggeredThisDownAttack && jumper != null && jumper.IsGrounded)
+                TryTriggerGroundImpactAfterMissedLanding();
+
             downAttackHasGroundedOnce = true;
 
             if (downAttackCancelledIntoSlide)
@@ -782,4 +790,48 @@ public class SwipeDownDetector : MonoBehaviour
         Gizmos.DrawWireSphere(center, groundImpactRadius);
     }
 #endif
+
+
+private bool TryTriggerGroundImpactAfterMissedLanding()
+    {
+        if (!isDownAttacking || !downAttackArmed || impactTriggeredThisDownAttack)
+            return false;
+
+        Collider body = GetComponent<Collider>();
+        if (body == null)
+            return false;
+
+        Bounds bounds = body.bounds;
+        Vector3 origin = bounds.center + Vector3.up * (bounds.extents.y + 0.25f);
+        float distance = bounds.size.y + 1.5f;
+        RaycastHit[] hits = Physics.RaycastAll(
+            origin,
+            Vector3.down,
+            distance,
+            ~0,
+            QueryTriggerInteraction.Ignore);
+
+        bool found = false;
+        RaycastHit closest = default;
+        float closestDistance = float.PositiveInfinity;
+        for (int i = 0; i < hits.Length; i++)
+        {
+            Collider hitCollider = hits[i].collider;
+            if (hitCollider == null || hitCollider.transform.IsChildOf(transform))
+                continue;
+
+            if (hits[i].distance < closestDistance)
+            {
+                found = true;
+                closest = hits[i];
+                closestDistance = hits[i].distance;
+            }
+        }
+
+        if (!found)
+            return false;
+
+        TryTriggerGroundImpactFromCollider(closest.collider, closest.point);
+        return impactTriggeredThisDownAttack;
+    }
 }
