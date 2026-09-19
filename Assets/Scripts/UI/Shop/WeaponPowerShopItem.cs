@@ -28,6 +28,7 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
     [SerializeField] private TMP_Text costText;
     [SerializeField] private GameObject gemIcon;
     [SerializeField] private CanvasGroup cardCanvasGroup;
+    [SerializeField] private WeaponPowerPreviewPlayer abilityPreview;
 
     [Header("Owned Presentation")]
     [SerializeField, Range(0.1f, 1f)] private float normalAlpha = 1f;
@@ -46,6 +47,7 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
     private void OnEnable()
     {
         SkateLocalization.LocaleChanged += OnLocaleChanged;
+        RefreshAbilityPreview();
         if (clickButton == null)
             return;
 
@@ -111,4 +113,19 @@ public sealed class WeaponPowerShopItem : MonoBehaviour
     }
 
     private void OnLocaleChanged(Locale locale) => RefreshOwnedState();
+
+    private void RefreshAbilityPreview()
+    {
+        if (abilityPreview == null)
+            abilityPreview = GetComponentInChildren<WeaponPowerPreviewPlayer>(true);
+
+        if (abilityPreview == null)
+            return;
+
+        AnimationClip clip = RewardRevealIconUtility.FindAbilityPreviewAnimation(powerId);
+        if (clip != null)
+            abilityPreview.Play(clip);
+        else
+            abilityPreview.Clear();
+    }
 }

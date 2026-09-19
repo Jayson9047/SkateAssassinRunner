@@ -347,6 +347,7 @@ public sealed class CrystalRewardRevealPopup : MonoBehaviour
 
     void CloseImmediate(bool clearQueue)
     {
+        bool showNext = !clearQueue && pending.Count > 0;
         KillTweens();
         StopRewardPulses();
         StopAndClearChestParticles();
@@ -359,7 +360,6 @@ public sealed class CrystalRewardRevealPopup : MonoBehaviour
             primaryAbilityPreview.enabled = false;
         }
         if (popupRoot) popupRoot.SetActive(false);
-        SkateRunnerAudioManager.StopCrystalRewardRevealAudio();
 
         RewardRevealRequest completed = current;
         current = null;
@@ -367,7 +367,12 @@ public sealed class CrystalRewardRevealPopup : MonoBehaviour
         completed?.onClosed?.Invoke();
 
         if (clearQueue) pending.Clear();
-        else if (pending.Count > 0) Show(pending.Dequeue());
+        else if (showNext) Show(pending.Dequeue());
+
+        // Keep the reveal state authoritative across queued or callback-chained
+        // rewards. Restore background music only when no reveal replaced this one.
+        if (current == null)
+            SkateRunnerAudioManager.StopCrystalRewardRevealAudio();
     }
 
     void EnsureChestRenderTexture()

@@ -79,10 +79,7 @@ public class SettingsPopupController : MonoBehaviour
 
     private void Awake()
     {
-        if (soundManager == null)
-        {
-            soundManager = SoundManager.Instance;
-        }
+        ResolveSoundManager();
 
         BindListeners();
         ShowMainPage();
@@ -106,6 +103,7 @@ public class SettingsPopupController : MonoBehaviour
 
     public void HandlePopupOpened()
     {
+        ResolveSoundManager();
         ShowMainPage();
         RefreshAllValues();
     }
@@ -201,6 +199,8 @@ public class SettingsPopupController : MonoBehaviour
 
     private void RefreshAudioValues()
     {
+        ResolveSoundManager();
+
         if (soundManager == null || soundManager.Settings == null)
         {
             if (!missingSoundManagerWarningShown)
@@ -220,15 +220,16 @@ public class SettingsPopupController : MonoBehaviour
 
     private void OnMusicChanged(bool enabled)
     {
-        if (soundManager != null)
+        SoundManager liveSoundManager = ResolveSoundManager();
+        if (liveSoundManager != null)
         {
             if (enabled)
             {
-                soundManager.MusicOn();
+                liveSoundManager.MusicOn();
             }
             else
             {
-                soundManager.MusicOff();
+                liveSoundManager.MusicOff();
             }
         }
 
@@ -237,15 +238,16 @@ public class SettingsPopupController : MonoBehaviour
 
     private void OnSoundEffectsChanged(bool enabled)
     {
-        if (soundManager != null)
+        SoundManager liveSoundManager = ResolveSoundManager();
+        if (liveSoundManager != null)
         {
             if (enabled)
             {
-                soundManager.SfxOn();
+                liveSoundManager.SfxOn();
             }
             else
             {
-                soundManager.SfxOff();
+                liveSoundManager.SfxOff();
             }
         }
 
@@ -256,6 +258,22 @@ public class SettingsPopupController : MonoBehaviour
     {
         GameSettingsSave.SetVibrationEnabled(enabled);
         RefreshSwitchVisual(vibrationToggle, vibrationSwitchTrack, vibrationSwitchKnob);
+    }
+
+    private SoundManager ResolveSoundManager()
+    {
+        SoundManager liveSoundManager = SoundManager.Instance;
+        if (soundManager != liveSoundManager)
+        {
+            soundManager = liveSoundManager;
+        }
+
+        if (soundManager != null)
+        {
+            missingSoundManagerWarningShown = false;
+        }
+
+        return soundManager;
     }
 
     private void SelectAutoQuality()

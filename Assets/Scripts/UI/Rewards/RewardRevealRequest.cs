@@ -129,6 +129,9 @@ public static class RewardRevealIconUtility
     public static Sprite FindProductSprite(Transform cardRoot)
     {
         Image image = FindProductImage(cardRoot);
+        WeaponPowerPreviewPlayer preview = image ? image.GetComponent<WeaponPowerPreviewPlayer>() : null;
+        if (preview && preview.StaticPreviewSprite)
+            return preview.StaticPreviewSprite;
         return image ? image.sprite : null;
     }
 

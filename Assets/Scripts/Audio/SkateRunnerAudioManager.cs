@@ -56,6 +56,12 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [SerializeField] SkateRunnerAudioCue enemyType3Death = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue flyingDroneEnemyDeath = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue unknownEnemyDeathFallback = new SkateRunnerAudioCue();
+    [Header("Enemy Death Supporting Audio (Optional)")]
+    [SerializeField] SkateRunnerAudioCue enemyType1DeathSupport = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue enemyType2DeathSupport = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue enemyType3DeathSupport = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue flyingDroneEnemyDeathSupport = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue unknownEnemyDeathFallbackSupport = new SkateRunnerAudioCue();
     [Header("Destruction")]
     [SerializeField] SkateRunnerAudioCue barrelDestruction = new SkateRunnerAudioCue();
     [Header("Optional Arcade Announcers (SFX)")]
@@ -89,6 +95,8 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [SerializeField, Min(0f)] float musicTransitionFade = 0.5f;
     [SerializeField, Min(0f)] float gameplayDeathFadeDuration = 0.25f;
     [SerializeField, Min(0f)] float gameplayOutroCrossfadeDuration = 0.4f;
+    [Tooltip("Unscaled seconds after Ruthless Tap succeeds before the existing Intro/Body-to-Outro crossfade begins.")]
+    [SerializeField, Min(0f)] float gameplayOutroDelayAfterRuthlessSeconds;
     // Preserve old prefab data without exposing obsolete audio-owned level timing.
     [SerializeField, HideInInspector] float gameplayMusicFadeOutDuration = 2f;
     [SerializeField, HideInInspector] float finalLandingWaitTimeout = 15f;
@@ -103,6 +111,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     AudioSource musicA, musicB, musicOutro, announcerSource, wheelLoopSource, rewardRevealMusicSource;
     Coroutine musicRoutine;
     Coroutine pendingRankAudio;
+    Coroutine pendingGameplayEnding;
     bool gameplayStarted;
     bool rewardRevealActive;
     int homepageIndex;
@@ -180,6 +189,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         RuthlessTapModeController.CompletedSuccessfully -= OnRuthlessCompleted;
         SoundManager.SettingsChanged -= OnSettingsChanged;
         CancelPendingRankAudio();
+        CancelPendingGameplayEnding();
         CancelMusicRoutine();
         StopMusicSources();
     }
@@ -192,6 +202,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         if (mode == LoadSceneMode.Additive) return;
         ResetCashPickupSoundCooldown();
         CancelPendingRankAudio();
+        CancelPendingGameplayEnding();
         StopCrystalRewardAudioInternal();
         gameplayStarted = false;
         gameplayPlaybackBegun = endingRequested = gameplayRunDead = false;
@@ -223,10 +234,11 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     {
         switch (e.EventName)
         {
-            case "GameStart": ResetCashPickupSoundCooldown(); CancelPendingRankAudio(); StartGameplayMusic(); break;
+            case "GameStart": ResetCashPickupSoundCooldown(); CancelPendingRankAudio(); CancelPendingGameplayEnding(); StartGameplayMusic(); break;
             case "Jump": Play(playerJump); break;
             case "LifeLost":
                 CancelPendingRankAudio();
+                CancelPendingGameplayEnding();
                 Play(playerDeath);
                 HandleGameplayDeath();
                 break;
@@ -343,7 +355,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     }
 
     float CurrentBackgroundMusicVolume => activeTrackVolume * MusicVolume * musicFade *
-        (rewardRevealActive && crystalRewardRevealMusic ? rewardRevealBackgroundMusicDuck : 1f);
+        (rewardRevealActive ? rewardRevealBackgroundMusicDuck : 1f);
 
     void ApplyMusicVolume()
     {
@@ -352,13 +364,14 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         if (musicOutro)
         {
             musicOutro.volume = activeTrackVolume * MusicVolume * outroFade *
-                (rewardRevealActive && crystalRewardRevealMusic ? rewardRevealBackgroundMusicDuck : 1f);
+                (rewardRevealActive ? rewardRevealBackgroundMusicDuck : 1f);
             musicOutro.mute = !MusicEnabled;
         }
     }
 
     void StartCrystalRewardAudioInternal()
     {
+        if (rewardRevealActive) return;
         rewardRevealActive = true;
         ApplyMusicVolume();
         PlayCrystalRewardMusic();
@@ -396,12 +409,18 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         if (!destroyed.CountsAsEnemyKill) return;
         switch (kind)
         {
-            case DestructibleAudioKind.FlyingDrone: Play(flyingDroneEnemyDeath, true); break;
-            case DestructibleAudioKind.EnemyType1: Play(enemyType1Death, true); break;
-            case DestructibleAudioKind.EnemyType2: Play(enemyType2Death, true); break;
-            case DestructibleAudioKind.EnemyType3: Play(enemyType3Death, true); break;
-            default: Play(unknownEnemyDeathFallback, true); break;
+            case DestructibleAudioKind.FlyingDrone: PlayEnemyDeath(flyingDroneEnemyDeath, flyingDroneEnemyDeathSupport); break;
+            case DestructibleAudioKind.EnemyType1: PlayEnemyDeath(enemyType1Death, enemyType1DeathSupport); break;
+            case DestructibleAudioKind.EnemyType2: PlayEnemyDeath(enemyType2Death, enemyType2DeathSupport); break;
+            case DestructibleAudioKind.EnemyType3: PlayEnemyDeath(enemyType3Death, enemyType3DeathSupport); break;
+            default: PlayEnemyDeath(unknownEnemyDeathFallback, unknownEnemyDeathFallbackSupport); break;
         }
+    }
+
+    void PlayEnemyDeath(SkateRunnerAudioCue mainCue, SkateRunnerAudioCue supportCue)
+    {
+        Play(mainCue, true);
+        Play(supportCue, true);
     }
 
     void StartHomepageMusic()
@@ -545,6 +564,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     void HandleGameplayDeath()
     {
         if (!gameplayStarted || gameplayRunDead) return;
+        CancelPendingGameplayEnding();
         gameplayRunDead = true;
         gameplayPlaybackBegun = false;
         endingRequested = false;
@@ -558,7 +578,7 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     {
         CancelPendingRankAudio();
         if (gameplayRunDead || !isActiveAndEnabled) return;
-        RequestGameplayEnding();
+        ScheduleGameplayEnding();
         if (RuthlessTapModeController.RankForCount(finalCount) == RuthlessComboRank.None) return;
         if (rankAudioDelaySeconds <= 0f) PlayRankAnnouncer(finalCount);
         else pendingRankAudio = StartCoroutine(PlayRankAnnouncerAfterDelay(finalCount, rankAudioDelaySeconds));
@@ -587,9 +607,37 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
         }
     }
 
+    void ScheduleGameplayEnding()
+    {
+        if (!gameplayStarted || gameplayRunDead || endingRequested || pendingGameplayEnding != null) return;
+
+        float delay = Mathf.Max(0f, gameplayOutroDelayAfterRuthlessSeconds);
+        if (delay <= 0f)
+        {
+            RequestGameplayEnding();
+            return;
+        }
+
+        pendingGameplayEnding = StartCoroutine(RequestGameplayEndingAfterDelay(delay));
+    }
+
+    IEnumerator RequestGameplayEndingAfterDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        pendingGameplayEnding = null;
+        RequestGameplayEnding();
+    }
+
+    void CancelPendingGameplayEnding()
+    {
+        if (pendingGameplayEnding != null) StopCoroutine(pendingGameplayEnding);
+        pendingGameplayEnding = null;
+    }
+
     void RequestGameplayEnding()
     {
         if (!gameplayStarted || gameplayRunDead || endingRequested) return;
+        pendingGameplayEnding = null;
         endingRequested = true;
         CancelMusicRoutine();
         // A scheduled Body must never wake up underneath the Outro.

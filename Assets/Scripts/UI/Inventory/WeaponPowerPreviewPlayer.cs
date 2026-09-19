@@ -16,6 +16,7 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
     [SerializeField] private RuntimeAnimatorController turntableController;
     [SerializeField] private AnimationClip turntableTemplate;
     [SerializeField] private string turntableStateName = "Turntable";
+    [SerializeField] private bool preserveStaticVisualWhenEmpty;
 
     private AnimationClip currentClip;
     private AnimatorOverrideController overrideController;
@@ -26,18 +27,17 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
     private string defaultStateName;
     private readonly List<KeyValuePair<AnimationClip, AnimationClip>> clipOverrides =
         new List<KeyValuePair<AnimationClip, AnimationClip>>(1);
+    private Sprite staticPreviewSprite;
 
     public AnimationClip CurrentClip => currentClip;
+    public Sprite StaticPreviewSprite => staticPreviewSprite != null
+        ? staticPreviewSprite
+        : (previewImage != null ? previewImage.sprite : GetComponent<Image>().sprite);
 
     private void Awake()
     {
+        ResolveReferencesAndStaticSprite();
         CacheDefaultPlayback();
-
-        if (previewImage == null)
-            previewImage = GetComponent<Image>();
-
-        if (previewAnimator == null)
-            previewAnimator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -160,15 +160,36 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
     public void Clear()
     {
         currentClip = null;
+        ResolveReferencesAndStaticSprite();
 
         if (previewAnimator != null)
             previewAnimator.enabled = false;
 
         if (previewImage != null)
         {
-            previewImage.sprite = null;
-            previewImage.enabled = false;
+            if (preserveStaticVisualWhenEmpty && staticPreviewSprite != null)
+            {
+                previewImage.sprite = staticPreviewSprite;
+                previewImage.enabled = true;
+            }
+            else
+            {
+                previewImage.sprite = null;
+                previewImage.enabled = false;
+            }
         }
+    }
+
+    private void ResolveReferencesAndStaticSprite()
+    {
+        if (previewImage == null)
+            previewImage = GetComponent<Image>();
+
+        if (previewAnimator == null)
+            previewAnimator = GetComponent<Animator>();
+
+        if (staticPreviewSprite == null && previewImage != null && previewImage.sprite != null)
+            staticPreviewSprite = previewImage.sprite;
     }
 
     private void CacheDefaultPlayback()
