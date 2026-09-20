@@ -167,7 +167,7 @@ public static class SettingsPopupSceneBuilder
     private static void BuildMainPage(Transform page, out MainPageReferences references)
     {
         references = new MainPageReferences();
-        CreateScrollView(page, "ScrollView", 1024f, out ScrollRect scrollRect, out RectTransform content);
+        CreateScrollView(page, "ScrollView", 820f, out ScrollRect scrollRect, out RectTransform content);
         references.scrollRect = scrollRect;
 
         Transform audio = CreateSection(content, "Section_Audio", -8f, 310f);
@@ -180,25 +180,13 @@ public static class SettingsPopupSceneBuilder
         CreateToggleRow(audio, "Row_Vibration", "Vibration", -230f,
             out references.vibrationToggle, out references.vibrationTrack, out references.vibrationKnob);
 
-        Transform display = CreateSection(content, "Section_Display", -332f, 178f);
-        CreateText(display, "Text_DisplayHeader", "DISPLAY", 34f, Gold, TextAlignmentOptions.MidlineLeft,
-            new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(28f, -60f), new Vector2(-28f, -15f));
-        GameObject qualityRow = CreateTopStretch("Row_GraphicsQuality", display, -68f, 86f, 18f);
-        AddImage(qualityRow, rowSprite, White);
-        CreateText(qualityRow.transform, "Text_Label", "Graphics Quality", 31f, White, TextAlignmentOptions.MidlineLeft,
-            new Vector2(0f, 0f), new Vector2(0.45f, 1f), new Vector2(26f, 5f), new Vector2(-6f, -5f));
-        GameObject qualitySelector = CreateRect("QualitySelector", qualityRow.transform, new Vector2(0.46f, 0.15f), new Vector2(0.98f, 0.85f), Vector2.zero, Vector2.zero);
-        CreateQualityButton(qualitySelector.transform, "Button_Auto", "AUTO", 0f, out references.autoButton, out references.autoVisual);
-        CreateQualityButton(qualitySelector.transform, "Button_Low", "LOW", 1f / 3f, out references.lowButton, out references.lowVisual);
-        CreateQualityButton(qualitySelector.transform, "Button_High", "HIGH", 2f / 3f, out references.highButton, out references.highVisual);
-
-        Transform general = CreateSection(content, "Section_General", -524f, 220f);
+        Transform general = CreateSection(content, "Section_General", -332f, 220f);
         CreateText(general, "Text_GeneralHeader", "GENERAL", 34f, Gold, TextAlignmentOptions.MidlineLeft,
             new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(28f, -60f), new Vector2(-28f, -15f));
         references.languageButton = CreateNavigationRow(general, "Button_Language", "Language", "English", -70f, out references.currentLanguageLabel);
         references.privacyButton = CreateNavigationRow(general, "Button_PrivacyLegal", "PRIVACY & LEGAL", string.Empty, -145f, out _);
 
-        Transform footer = CreateSection(content, "Footer", -758f, 250f);
+        Transform footer = CreateSection(content, "Footer", -566f, 250f);
         CreateText(footer, "Text_FollowUs", "FOLLOW US", 31f, Gold, TextAlignmentOptions.Center,
             new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(25f, -58f), new Vector2(-25f, -16f));
         GameObject socialButtons = CreateRect("SocialButtons", footer, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(-190f, -164f), new Vector2(190f, -68f));
@@ -297,14 +285,6 @@ public static class SettingsPopupSceneBuilder
         SetReference(serializedController, "vibrationSwitchKnob", main.vibrationKnob);
         SetReference(serializedController, "switchOnSprite", switchOnSprite);
         SetReference(serializedController, "switchOffSprite", switchOffSprite);
-        SetReference(serializedController, "autoQualityButton", main.autoButton);
-        SetReference(serializedController, "lowQualityButton", main.lowButton);
-        SetReference(serializedController, "highQualityButton", main.highButton);
-        SetReference(serializedController, "autoQualityVisual", main.autoVisual);
-        SetReference(serializedController, "lowQualityVisual", main.lowVisual);
-        SetReference(serializedController, "highQualityVisual", main.highVisual);
-        SetReference(serializedController, "qualitySelectedSprite", greenButtonSprite);
-        SetReference(serializedController, "qualityUnselectedSprite", grayButtonSprite);
         SetReference(serializedController, "languageButton", main.languageButton);
         SetReference(serializedController, "privacyLegalButton", main.privacyButton);
         SetReference(serializedController, "privacyBackButton", privacy.backButton);
@@ -368,19 +348,6 @@ public static class SettingsPopupSceneBuilder
         knobImage.raycastTarget = false;
         knob = knobObject.GetComponent<RectTransform>();
         knob.anchoredPosition = new Vector2(25f, 0f);
-    }
-
-    private static void CreateQualityButton(Transform parent, string name, string label, float anchorX, out Button button, out Image visual)
-    {
-        GameObject buttonObject = CreateRect(name, parent,
-            new Vector2(anchorX, 0f), new Vector2(anchorX + 1f / 3f, 1f),
-            new Vector2(4f, 0f), new Vector2(-4f, 0f));
-        visual = AddImage(buttonObject, grayButtonSprite, White);
-        button = buttonObject.AddComponent<Button>();
-        button.targetGraphic = visual;
-        ConfigureButton(button);
-        CreateText(buttonObject.transform, "Text", label, 25f, White, TextAlignmentOptions.Center,
-            Vector2.zero, Vector2.one, new Vector2(4f, 2f), new Vector2(-4f, -2f));
     }
 
     private static Button CreateNavigationRow(Transform parent, string name, string label, string value, float y, out TMP_Text valueText)
@@ -594,12 +561,6 @@ public static class SettingsPopupSceneBuilder
         public RectTransform musicKnob;
         public RectTransform sfxKnob;
         public RectTransform vibrationKnob;
-        public Button autoButton;
-        public Button lowButton;
-        public Button highButton;
-        public Image autoVisual;
-        public Image lowVisual;
-        public Image highVisual;
         public Button languageButton;
         public Button privacyButton;
         public TMP_Text currentLanguageLabel;

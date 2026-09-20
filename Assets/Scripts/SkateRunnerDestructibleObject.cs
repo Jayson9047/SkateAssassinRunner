@@ -45,6 +45,7 @@ namespace IndieKit
         private float _initialHealth;
         private bool _isDead;
         private Enemy1SlicePool _enemy1SlicePool;
+        private SkateRunnerDebrisPool _barrelDebrisPool;
 
         private void Awake()
         {
@@ -52,6 +53,8 @@ namespace IndieKit
             // Prewarm during enemy/spawner initialization, never during the lethal hit.
             if (GetComponent<EnemyType1>() != null)
                 _enemy1SlicePool = Enemy1SlicePool.Prepare(DebrisPrefab);
+            if (audioKind == DestructibleAudioKind.Barrel)
+                _barrelDebrisPool = SkateRunnerDebrisPool.Prepare(DebrisPrefab);
         }
 
         private void OnEnable()
@@ -75,6 +78,9 @@ namespace IndieKit
 
             bool presented = _enemy1SlicePool != null && _enemy1SlicePool.Play(
                 DebrisPrefab, transform.position, transform.rotation, transform.lossyScale, KillContext.Current);
+            if (!presented && _barrelDebrisPool != null)
+                presented = _barrelDebrisPool.Play(
+                    DebrisPrefab, transform.position, transform.rotation, transform.localScale, hitPoint);
             // Preserve the existing debris path for every other enemy, including Phase 2.
             if (!presented && DebrisPrefab != null)
             {

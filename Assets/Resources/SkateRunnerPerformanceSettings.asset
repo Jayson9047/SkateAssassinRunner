@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92af22c3d66e55e4f81af32ee483ea20, type: 3}
+  m_Name: SkateRunnerPerformanceSettings
+  m_EditorClassIdentifier: 
+  developerOverride: 0
+  lowQualityLevelName: Fast
+  highQualityLevelName: Fantastic
+  targetFrameRate: 60
+  lowTextureMipmapLimit: 1
+  lowSystemMemoryThresholdMb: 4096
+  lowGraphicsMemoryThresholdMb: 1024
+  lowProcessorCountThreshold: 6
+  lowShaderLevelThreshold: 40
+  lowEnableEnemy1BloodParticles: 0
+  lowBloomIntensity: 0.65
+  lowBloomMaxIterations: 3

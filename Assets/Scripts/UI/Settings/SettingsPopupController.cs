@@ -34,16 +34,6 @@ public class SettingsPopupController : MonoBehaviour
     [SerializeField] private Sprite switchOffSprite;
     [SerializeField] private float switchKnobOffset = 25f;
 
-    [Header("Graphics Quality")]
-    [SerializeField] private Button autoQualityButton;
-    [SerializeField] private Button lowQualityButton;
-    [SerializeField] private Button highQualityButton;
-    [SerializeField] private Image autoQualityVisual;
-    [SerializeField] private Image lowQualityVisual;
-    [SerializeField] private Image highQualityVisual;
-    [SerializeField] private Sprite qualitySelectedSprite;
-    [SerializeField] private Sprite qualityUnselectedSprite;
-
     [Header("Navigation")]
     [SerializeField] private Button languageButton;
     [SerializeField] private Button privacyLegalButton;
@@ -125,9 +115,6 @@ public class SettingsPopupController : MonoBehaviour
         AddToggleListener(soundEffectsToggle, OnSoundEffectsChanged);
         AddToggleListener(vibrationToggle, OnVibrationChanged);
 
-        AddButtonListener(autoQualityButton, SelectAutoQuality);
-        AddButtonListener(lowQualityButton, SelectLowQuality);
-        AddButtonListener(highQualityButton, SelectHighQuality);
         AddButtonListener(languageButton, ShowLanguagePage);
         AddButtonListener(privacyLegalButton, ShowPrivacyLegalPage);
         AddButtonListener(privacyBackButton, ShowMainPage);
@@ -158,9 +145,6 @@ public class SettingsPopupController : MonoBehaviour
         RemoveToggleListener(soundEffectsToggle, OnSoundEffectsChanged);
         RemoveToggleListener(vibrationToggle, OnVibrationChanged);
 
-        RemoveButtonListener(autoQualityButton, SelectAutoQuality);
-        RemoveButtonListener(lowQualityButton, SelectLowQuality);
-        RemoveButtonListener(highQualityButton, SelectHighQuality);
         RemoveButtonListener(languageButton, ShowLanguagePage);
         RemoveButtonListener(privacyLegalButton, ShowPrivacyLegalPage);
         RemoveButtonListener(privacyBackButton, ShowMainPage);
@@ -188,7 +172,6 @@ public class SettingsPopupController : MonoBehaviour
         SetToggleWithoutNotify(vibrationToggle, vibrationEnabled);
         RefreshSwitchVisual(vibrationToggle, vibrationSwitchTrack, vibrationSwitchKnob);
 
-        RefreshQualityVisual(GameSettingsSave.GetGraphicsQualityMode());
         RefreshLanguageVisual(GameSettingsSave.GetLanguageCode());
 
         if (versionText != null)
@@ -274,43 +257,6 @@ public class SettingsPopupController : MonoBehaviour
         }
 
         return soundManager;
-    }
-
-    private void SelectAutoQuality()
-    {
-        SelectQuality(GraphicsQualityMode.Auto);
-    }
-
-    private void SelectLowQuality()
-    {
-        SelectQuality(GraphicsQualityMode.Low);
-    }
-
-    private void SelectHighQuality()
-    {
-        SelectQuality(GraphicsQualityMode.High);
-    }
-
-    private void SelectQuality(GraphicsQualityMode mode)
-    {
-        GameSettingsSave.SetGraphicsQualityMode(mode);
-        RefreshQualityVisual(mode);
-    }
-
-    private void RefreshQualityVisual(GraphicsQualityMode mode)
-    {
-        SetQualityVisual(autoQualityVisual, mode == GraphicsQualityMode.Auto);
-        SetQualityVisual(lowQualityVisual, mode == GraphicsQualityMode.Low);
-        SetQualityVisual(highQualityVisual, mode == GraphicsQualityMode.High);
-    }
-
-    private void SetQualityVisual(Image visual, bool selected)
-    {
-        if (visual != null)
-        {
-            visual.sprite = selected ? qualitySelectedSprite : qualityUnselectedSprite;
-            visual.color = selected ? Color.white : new Color(0.82f, 0.88f, 0.95f, 1f);
-        }
     }
 
     public void ShowMainPage()

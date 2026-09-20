@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39546b28c2763e34e8c67ade63f1102e, type: 3}
   m_Name: Ruthless Tap Slash
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   m_Active: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 980a78cc4df543b29a2663be288cd2f5, type: 3}
   m_Name: UniversalBlurFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   iterations: 4
   downsample: 2
   enableMipMaps: 1

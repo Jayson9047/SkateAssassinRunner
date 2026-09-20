@@ -54,17 +54,33 @@ namespace IndieKit
 
         void Awake()
         {
-            _bodies = new Enemy1SlicePresentation[Mathf.Clamp(bodyCapacity, 1, 16)];
+            bool optionalBlood = SkateRunnerPerformanceManager.OptionalEnemy1BloodEnabled;
+            directionalBlood &= optionalBlood;
+            contactStreak &= optionalBlood;
+            groundBlood &= optionalBlood;
+
+            int bodyCount = SkateRunnerPerformanceManager.CurrentTier == SkateRunnerPerformanceTier.Low
+                ? Mathf.Min(bodyCapacity, 4)
+                : Mathf.Clamp(bodyCapacity, 1, 16);
+            _bodies = new Enemy1SlicePresentation[bodyCount];
             for (int i = 0; i < _bodies.Length; i++)
             {
                 _bodies[i] = Instantiate(bodyPrefab, transform);
                 _bodies[i].Cache();
-                _bodies[i].blood.Play(true);
-                _bodies[i].blood.Simulate(0.02f, true, false);
+                if (optionalBlood)
+                {
+                    _bodies[i].blood.Play(true);
+                    _bodies[i].blood.Simulate(0.02f, true, false);
+                }
                 _bodies[i].Release();
             }
-            _contacts = BuildEffects(contactPrefab, Mathf.Clamp(contactCapacity, 1, 16));
-            _grounds = BuildEffects(groundPrefab, Mathf.Clamp(groundCapacity, 1, 8));
+
+            _contacts = optionalBlood
+                ? BuildEffects(contactPrefab, Mathf.Clamp(contactCapacity, 1, 16))
+                : new Effect[0];
+            _grounds = optionalBlood
+                ? BuildEffects(groundPrefab, Mathf.Clamp(groundCapacity, 1, 8))
+                : new Effect[0];
             SkateAssassinRunnerLevelManager.OnPhase2Started += EnterPhase2;
         }
 
