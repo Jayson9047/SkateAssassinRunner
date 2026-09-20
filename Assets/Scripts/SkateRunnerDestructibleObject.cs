@@ -44,10 +44,14 @@ namespace IndieKit
 
         private float _initialHealth;
         private bool _isDead;
+        private Enemy1SlicePool _enemy1SlicePool;
 
         private void Awake()
         {
             _initialHealth = health;
+            // Prewarm during enemy/spawner initialization, never during the lethal hit.
+            if (GetComponent<EnemyType1>() != null)
+                _enemy1SlicePool = Enemy1SlicePool.Prepare(DebrisPrefab);
         }
 
         private void OnEnable()
@@ -69,8 +73,10 @@ namespace IndieKit
 
             _isDead = true;
 
-            // spawn debris (NOT pooled)
-            if (DebrisPrefab != null)
+            bool presented = _enemy1SlicePool != null && _enemy1SlicePool.Play(
+                DebrisPrefab, transform.position, transform.rotation, transform.lossyScale, KillContext.Current);
+            // Preserve the existing debris path for every other enemy, including Phase 2.
+            if (!presented && DebrisPrefab != null)
             {
                 GameObject debris = Instantiate(DebrisPrefab, transform.position, transform.rotation);
                 debris.transform.localScale = transform.localScale;

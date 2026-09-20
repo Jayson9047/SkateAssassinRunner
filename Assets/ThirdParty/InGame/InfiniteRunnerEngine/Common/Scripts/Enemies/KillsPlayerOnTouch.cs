@@ -20,7 +20,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             public BoxCollider Hazard;
             public BoxCollider Body;
-            public Vector3 PreviousCenter;
+            public SweptBoxIntersection.BoxPose PreviousHazardPose;
+            public SweptBoxIntersection.BoxPose PreviousBodyPose;
             public bool Valid;
         }
 
@@ -71,16 +72,14 @@ namespace MoreMountains.InfiniteRunnerEngine
                         sample.Valid = false;
                         continue;
                     }
-                    var relative = hazard.transform.worldToLocalMatrix * body.transform.localToWorldMatrix;
-                    Vector3 center = relative.MultiplyPoint3x4(body.center) - hazard.center;
-                    Vector3 half = body.size * 0.5f;
-                    Vector3 bx = relative.MultiplyVector(Vector3.right * half.x);
-                    Vector3 by = relative.MultiplyVector(Vector3.up * half.y);
-                    Vector3 bz = relative.MultiplyVector(Vector3.forward * half.z);
-                    Vector3 from = sample.Valid ? sample.PreviousCenter : center;
-                    sample.PreviousCenter = center;
+                    var hazardPose = SweptBoxIntersection.BoxPose.Capture(hazard);
+                    var bodyPose = SweptBoxIntersection.BoxPose.Capture(body);
+                    var previousHazard = sample.Valid ? sample.PreviousHazardPose : hazardPose;
+                    var previousBody = sample.Valid ? sample.PreviousBodyPose : bodyPose;
+                    sample.PreviousHazardPose = hazardPose;
+                    sample.PreviousBodyPose = bodyPose;
                     sample.Valid = true;
-                    if (SweptBoxIntersection.Intersects(from, center, hazard.size * 0.5f, bx, by, bz))
+                    if (SweptBoxIntersection.IntersectsMovingBoxes(previousHazard, hazardPose, previousBody, bodyPose))
                     {
                         // Virtual dispatch preserves slide/down-attack exceptions
                         // and the existing invincibility rules.
