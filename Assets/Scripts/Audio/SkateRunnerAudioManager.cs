@@ -86,7 +86,13 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     [SerializeField] SkateRunnerAudioCue ruthlessFinalCut = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue phase2CarExplosion = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue phase2CarGroundImpact = new SkateRunnerAudioCue();
-    [SerializeField] SkateRunnerAudioCue phase2CountdownTick = new SkateRunnerAudioCue();
+    
+
+    [Header("Scenario Obstacles")]
+    [SerializeField] SkateRunnerAudioCue compactorMove = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue compactorImpact = new SkateRunnerAudioCue();
+    [SerializeField] SkateRunnerAudioCue checkpointGateMove = new SkateRunnerAudioCue();
+[SerializeField] SkateRunnerAudioCue phase2CountdownTick = new SkateRunnerAudioCue();
     [Header("Projectile Audio")]
     [SerializeField] SkateRunnerAudioCue phase2SniperGunshot = new SkateRunnerAudioCue();
     [SerializeField] SkateRunnerAudioCue phase2SniperImpactOnPlayer = new SkateRunnerAudioCue();
@@ -325,7 +331,11 @@ public sealed class SkateRunnerAudioManager : MonoBehaviour, MMEventListener<MMG
     public static void PlayRuthlessFinalCut() => Instance?.Play(Instance.ruthlessFinalCut);
     public static void PlayPhase2CarExplosion() => Instance?.Play(Instance.phase2CarExplosion);
     public static void PlayPhase2CarGroundImpact() => Instance?.Play(Instance.phase2CarGroundImpact);
-    public static void PlayPhase2CountdownTick() => Instance?.Play(Instance.phase2CountdownTick);
+    
+    public static void PlayCompactorMove() => Instance?.Play(Instance.compactorMove);
+    public static void PlayCompactorImpact() => Instance?.Play(Instance.compactorImpact);
+    public static void PlayCheckpointGateMove() => Instance?.Play(Instance.checkpointGateMove);
+public static void PlayPhase2CountdownTick() => Instance?.Play(Instance.phase2CountdownTick);
     public static void PlayPhase2SniperGunshot() => Instance?.Play(Instance.phase2SniperGunshot);
     public static void PlayPhase2SniperImpact() => Instance?.Play(Instance.phase2SniperImpactOnPlayer);
     public static void PlayFlyingDroneShot() => Instance?.Play(Instance.flyingDroneShot);

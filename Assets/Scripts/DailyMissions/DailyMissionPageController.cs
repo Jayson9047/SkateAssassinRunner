@@ -20,7 +20,7 @@ namespace Elroi.DailyMissions.UI
         void OnDisable(){DailyMissionProgress.StateChanged-=Refresh;DailyMissionProgress.DayReset-=ResetPending;SkateLocalization.LocaleChanged-=LocaleChanged;if(resetRoutine!=null)StopCoroutine(resetRoutine);resetRoutine=null;processing=false;}
         void OnApplicationFocus(bool f){if(f&&isActiveAndEnabled){DailyMissionProgress.EnsureCurrentDay();loadedDay=DailyMissionProgress.CurrentDay;Refresh();if(resetRoutine!=null)StopCoroutine(resetRoutine);resetRoutine=StartCoroutine(WaitForUtcReset());}}
         IEnumerator WaitForUtcReset(){while(isActiveAndEnabled){double seconds=Math.Max(0.1,(DailyMissionProgress.NextResetUtc-DailyMissionProgress.UtcNow).TotalSeconds+0.1);yield return new WaitForSecondsRealtime((float)Math.Min(seconds,86401));DailyMissionProgress.EnsureCurrentDay();loadedDay=DailyMissionProgress.CurrentDay;Refresh();}}
-        public void Refresh(){if(rows==null)return;foreach(var row in rows){DailyMissionDefinition d;if(!row||!map.TryGetValue(row.MissionId,out d))continue;int p=DailyMissionProgress.GetProgress(d.id);bool c=DailyMissionProgress.IsClaimed(d.id);row.Bind(d,Title(d),Description(d),p,c,Timer(d,p,c));}}
+        public void Refresh(){if(rows==null)return;foreach(var row in rows){DailyMissionDefinition d;if(!row||!map.TryGetValue(row.MissionId,out d))continue;int p=DailyMissionProgress.GetProgress(d.id);bool c=DailyMissionProgress.IsClaimed(d.id);row.Bind(d,Title(d),Description(d),p,c,Timer(d,p,c),cashIcon,gemIcon);}}
         void LocaleChanged(Locale locale)=>Refresh();
         void Claim(DailyMissionId id)
         {

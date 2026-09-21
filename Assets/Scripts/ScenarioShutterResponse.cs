@@ -18,12 +18,14 @@ public sealed class ScenarioShutterResponse : MonoBehaviour
     public bool Reacted { get; private set; }
     public float Closure { get; private set; }
     private float reactionTime;
+    private bool movementSoundPlayed;
 
     private void OnEnable()
     {
         Reacted = false;
         Closure = 0f;
         reactionTime = 0f;
+        movementSoundPlayed = false;
         Apply(0f);
         SetLights(false);
     }
@@ -49,6 +51,11 @@ public sealed class ScenarioShutterResponse : MonoBehaviour
         if (Reacted)
         {
             Closure = Mathf.Clamp01((Time.time - reactionTime - warningSeconds) / Mathf.Max(.01f, closingSeconds));
+            if (!movementSoundPlayed && Closure > 0f)
+            {
+                movementSoundPlayed = true;
+                SkateRunnerAudioManager.PlayCheckpointGateMove();
+            }
             Apply(Mathf.SmoothStep(0f, 1f, Closure));
         }
     }

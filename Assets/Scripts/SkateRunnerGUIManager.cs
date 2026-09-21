@@ -64,7 +64,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         [SerializeField] private CanvasGroup ShardsGroup;            // CanvasGroup on Shards (auto-added if missing)
 
         [SerializeField] private RectTransform SlamButtonRect;       // RectTransform of SlamButton
-        [SerializeField] private Vector2 Phase2SlamButtonAnchoredPos = new Vector2(0f, -360f);
+        [SerializeField] private Vector2 Phase2SlamButtonAnchoredPos = new Vector2(720f, -330f);
+        [SerializeField, Min(1f)] private float Phase2SlamButtonScale = 1.3f;
         [SerializeField] private float Phase2TransitionDuration = 0.35f;
 
         [Header("Phase 2 Slam Button -> Simulated Combo")]
@@ -146,6 +147,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         private Jumper _jumperCached;
 
         private Vector2 _slamButtonOriginalAnchoredPos;
+        private Vector3 _slamButtonOriginalScale = Vector3.one;
         private bool _cachedOriginalPos;
         private Coroutine _phase2HudRoutine;
 
@@ -380,7 +382,9 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             if (!_cachedOriginalPos)
             {
-                _slamButtonOriginalAnchoredPos = SlamButtonRect.anchoredPosition;
+                
+                _slamButtonOriginalScale = SlamButtonRect.localScale;
+_slamButtonOriginalAnchoredPos = SlamButtonRect.anchoredPosition;
                 _cachedOriginalPos = true;
             }
 
@@ -390,7 +394,10 @@ namespace MoreMountains.InfiniteRunnerEngine
             float shardsA0 = ShardsGroup != null ? ShardsGroup.alpha : 1f;
 
             Vector2 pos0 = SlamButtonRect.anchoredPosition;
-            Vector2 pos1 = Phase2SlamButtonAnchoredPos;
+            
+            Vector3 scale0 = SlamButtonRect.localScale;
+            Vector3 scale1 = _slamButtonOriginalScale * Phase2SlamButtonScale;
+Vector2 pos1 = Phase2SlamButtonAnchoredPos;
 
             // Make sure button can receive clicks while fading
             SlamButtonGroup.interactable = true;
@@ -410,7 +417,9 @@ namespace MoreMountains.InfiniteRunnerEngine
 
                 // Button fades in + moves to bottom-middle
                 SlamButtonGroup.alpha = Mathf.Lerp(buttonA0, 1f, a);
-                SlamButtonRect.anchoredPosition = Vector2.Lerp(pos0, pos1, a);
+                
+                SlamButtonRect.localScale = Vector3.Lerp(scale0, scale1, a);
+SlamButtonRect.anchoredPosition = Vector2.Lerp(pos0, pos1, a);
 
                 // Platform + shards fade out
                 if (PlatformGroup != null) PlatformGroup.alpha = Mathf.Lerp(platA0, 0f, a);
@@ -421,7 +430,9 @@ namespace MoreMountains.InfiniteRunnerEngine
 
             // Snap end
             SlamButtonGroup.alpha = 1f;
-            SlamButtonRect.anchoredPosition = pos1;
+            
+            SlamButtonRect.localScale = scale1;
+SlamButtonRect.anchoredPosition = pos1;
 
             if (PlatformGroup != null)
             {

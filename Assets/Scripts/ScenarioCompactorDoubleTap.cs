@@ -27,6 +27,7 @@ public sealed class ScenarioCompactorDoubleTap : MonoBehaviour
     public int ImpactCount { get; private set; }
     public bool CrossingRegistered { get; private set; }
     bool started, sampled;
+    CycleStage lastAudioStage;
     float cycleTime, previousX;
     float approachPlayerX, releasedAt;
     MaterialPropertyBlock signalProperties;
@@ -39,6 +40,7 @@ public sealed class ScenarioCompactorDoubleTap : MonoBehaviour
         CrossingRegistered = false;
         releasedAt = -1;
         Stage = CycleStage.Waiting;
+        lastAudioStage = CycleStage.Waiting;
         ApplyHeight(1f);
         if (impactDust) impactDust.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         SetLight(false);
@@ -104,6 +106,7 @@ public sealed class ScenarioCompactorDoubleTap : MonoBehaviour
             if (releasedAt < 0)
             {
                 Stage = CycleStage.TransitHold;
+                PlayStageAudioIfNeeded();
                 ApplyHeight(1);
                 SetLight(false);
                 return;
@@ -118,6 +121,7 @@ public sealed class ScenarioCompactorDoubleTap : MonoBehaviour
         else if (t < secondDrop) { Stage = CycleStage.CrossingWindow; ApplyHeight(1); }
         else if (t < secondHit) { Stage = CycleStage.SecondImpact; ApplyHeight(1-Mathf.Pow((t-secondDrop)/dropDuration,2)); }
         else { Stage = CycleStage.Finished; ApplyHeight(0); }
+        PlayStageAudioIfNeeded();
         if (t >= firstHit && ImpactCount == 0) Impact();
         if (t >= secondHit && ImpactCount == 1) Impact();
         SetLight(Stage == CycleStage.Warning || Stage == CycleStage.SecondImpact || (Stage == CycleStage.CrossingWindow && t > secondDrop-.2f));
@@ -145,9 +149,19 @@ public sealed class ScenarioCompactorDoubleTap : MonoBehaviour
             signalLens.SetPropertyBlock(signalProperties);
         }
     }
-    void Impact()
+void Impact()
     {
         ImpactCount++;
+        SkateRunnerAudioManager.PlayCompactorImpact();
         if (impactDust) impactDust.Play();
+    }
+
+
+void PlayStageAudioIfNeeded()
+    {
+        if (Stage == lastAudioStage) return;
+        lastAudioStage = Stage;
+        if (Stage == CycleStage.FirstImpact || Stage == CycleStage.Rising || Stage == CycleStage.SecondImpact)
+            SkateRunnerAudioManager.PlayCompactorMove();
     }
 }
