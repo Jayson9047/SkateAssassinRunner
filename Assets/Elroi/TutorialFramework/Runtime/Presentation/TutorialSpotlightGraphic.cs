@@ -10,7 +10,8 @@ namespace Elroi.Tutorials
         private static readonly int ShapeId = Shader.PropertyToID("_Shape");
         private static readonly int CornerRadiusId = Shader.PropertyToID("_CornerRadius");
         private static readonly int FeatherId = Shader.PropertyToID("_Feather");
-        private Material runtimeMaterial;
+                [SerializeField] private Shader spotlightShader;
+private Material runtimeMaterial;
 
         protected override void Awake()
         {
@@ -28,9 +29,17 @@ namespace Elroi.Tutorials
             base.OnDestroy();
         }
 
-        public void Configure(Rect screenRect, TutorialSpotlightShape shape, float cornerRadiusPixels, float featherPixels, float opacity)
+public void Configure(Rect screenRect, TutorialSpotlightShape shape, float cornerRadiusPixels, float featherPixels, float opacity)
         {
             EnsureMaterial();
+            color = new Color(0f, 0f, 0f, Mathf.Clamp01(opacity));
+
+            if (runtimeMaterial == null)
+            {
+                SetMaterialDirty();
+                return;
+            }
+
             float width = Mathf.Max(1f, Screen.width);
             float height = Mathf.Max(1f, Screen.height);
             Vector4 normalized = new Vector4(screenRect.xMin / width, screenRect.yMin / height, screenRect.xMax / width, screenRect.yMax / height);
@@ -38,15 +47,22 @@ namespace Elroi.Tutorials
             runtimeMaterial.SetFloat(ShapeId, (float)shape);
             runtimeMaterial.SetFloat(CornerRadiusId, cornerRadiusPixels / Mathf.Min(width, height));
             runtimeMaterial.SetFloat(FeatherId, Mathf.Max(0.00001f, featherPixels / Mathf.Min(width, height)));
-            color = new Color(0f, 0f, 0f, Mathf.Clamp01(opacity));
             SetMaterialDirty();
         }
 
-        private void EnsureMaterial()
+private void EnsureMaterial()
         {
             if (runtimeMaterial != null) return;
-            Shader shader = Shader.Find("UI/ELROI Tutorial Spotlight");
-            if (shader == null) return;
+
+            Shader shader = spotlightShader != null
+                ? spotlightShader
+                : Shader.Find("UI/ELROI Tutorial Spotlight");
+            if (shader == null)
+            {
+                Debug.LogError("[Tutorial] Missing UI/ELROI Tutorial Spotlight shader reference.", this);
+                return;
+            }
+
             runtimeMaterial = new Material(shader) { name = "ELROI Tutorial Spotlight (Runtime)" };
             material = runtimeMaterial;
         }

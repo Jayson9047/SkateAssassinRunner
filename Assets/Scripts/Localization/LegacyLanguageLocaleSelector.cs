@@ -22,7 +22,9 @@ public sealed class LegacyLanguageLocaleSelector : IStartupLocaleSelector
         }
 
         PlayerPrefs.SetInt(MigrationCompleteKey, 1);
-        string legacyCode = ES3.Load<string>(GameSettingsSave.LanguageCodeKey, SkateLocalization.DefaultLocaleCode);
+        float saveLoadStartedAt = Time.realtimeSinceStartup;
+        string legacyCode = ES3.Load<string>(GameSettingsSave.LanguageCodeKey, defaultValue: SkateLocalization.DefaultLocaleCode);
+        Debug.Log($"[StartupTiming] legacy-language-save-load durationMs={(Time.realtimeSinceStartup - saveLoadStartedAt) * 1000f:0.0}");
         string normalizedCode = SkateLocalization.NormalizeLocaleCode(legacyCode);
         Locale locale = SkateLocalization.IsProductionLocaleCode(normalizedCode)
             ? availableLocales.GetLocale(new LocaleIdentifier(normalizedCode))

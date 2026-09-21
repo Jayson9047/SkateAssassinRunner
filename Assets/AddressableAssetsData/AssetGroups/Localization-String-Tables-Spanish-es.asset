@@ -10,87 +10,87 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: "Localization-String-Tables-Portugu\xEAs (Brasil) (pt-BR)"
+  m_Name: Localization-String-Tables-Spanish-es
   m_EditorClassIdentifier: 
-  m_GroupName: "Localization-String-Tables-Portugu\xEAs (Brasil) (pt-BR)"
-  m_GUID: 9ac04df6e2c86e2468534bad0012300d
+  m_GroupName: Localization-String-Tables-Spanish-es
+  m_GUID: b29032c1bd8b12940b3439198389d520
   m_SerializeEntries:
-  - m_GUID: 04c90644eceefea43a3726183d4967f5
-    m_Address: Inventory_pt-BR
+  - m_GUID: 0b4ed6cede6f0db43a69c8c6dfe87c8c
+    m_Address: Common_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 084b003078430a94fa23e33459c9993d
-    m_Address: Common_pt-BR
+  - m_GUID: 133d769b48dfdf346aec06f4fa5e427b
+    m_Address: Legal_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2e61c29900c3a9844887c9628e53f7c4
-    m_Address: Missions_pt-BR
+  - m_GUID: 14956c53114557043833245a2b1ec763
+    m_Address: Gameplay_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 398af035f9058c34ea89796f2f85f97b
-    m_Address: Settings_pt-BR
+  - m_GUID: 23800c80e41e86f4ba6610b2357634f9
+    m_Address: Missions_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4a4703254adfa8c4193904cf6ea57ebf
-    m_Address: Items_pt-BR
+  - m_GUID: 4a03c90d7a118f34ba2956109b6f8740
+    m_Address: Popups_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 569617b7397f19f4394f815e04ff015d
-    m_Address: Legal_pt-BR
+  - m_GUID: 526f947b77058524fa4f25c9c3472cc2
+    m_Address: Tutorial_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 66fd90fd18065914cac8c786c35d4064
-    m_Address: Rewards_pt-BR
+  - m_GUID: 570f34468f3dec94cba41d3eaa690c76
+    m_Address: Inventory_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 82b72651119fec34e89b7ac4c6140599
-    m_Address: Shop_pt-BR
+  - m_GUID: 5adaed77311228a44bcdc876225e3627
+    m_Address: Home_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 889a9ca490c783548a98e2473693a6b1
-    m_Address: Gameplay_pt-BR
+  - m_GUID: 654e23d4fd96d034e8c12ceb5e428d76
+    m_Address: Rewards_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aa2bd21c30570634596a81ae5172fde5
-    m_Address: Home_pt-BR
+  - m_GUID: ac662a0f181072945afd4d4271f6c731
+    m_Address: Items_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d0706e4ae552474458c6b77b071fb681
-    m_Address: Popups_pt-BR
+  - m_GUID: c9f99426ed8890c4e927b200bb32007e
+    m_Address: Shop_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e143c7b9f48c7c8498db373bd3ad1609
-    m_Address: Tutorial_pt-BR
+  - m_GUID: d509c19a471d4e04897c83d114562483
+    m_Address: Settings_es
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-pt-BR
+    - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: e7724842ce537534caa850908065a5cf, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: d46b831b7d0f1e44aad57e6195048a4c, type: 2}
-    - {fileID: 11400000, guid: dd895f296fcf1e8489514914ee9dc876, type: 2}
-    - {fileID: 11400000, guid: 07800d5c95a50ea4686fd2105fe61b53, type: 2}
+    - {fileID: 11400000, guid: d2bd2b1416ecadd4598643ba658ec29f, type: 2}
+    - {fileID: 11400000, guid: e01e338fe8274964985a501e4ffa46cc, type: 2}
+    - {fileID: 11400000, guid: 0bc54525c3eebf14c907f77ed8f8fc09, type: 2}

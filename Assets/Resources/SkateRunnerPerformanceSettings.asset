@@ -16,7 +16,7 @@ MonoBehaviour:
   lowQualityLevelName: Fast
   highQualityLevelName: Fantastic
   targetFrameRate: 60
-  lowTextureMipmapLimit: 1
+  lowTextureMipmapLimit: 0
   lowSystemMemoryThresholdMb: 4096
   lowGraphicsMemoryThresholdMb: 1024
   lowProcessorCountThreshold: 6

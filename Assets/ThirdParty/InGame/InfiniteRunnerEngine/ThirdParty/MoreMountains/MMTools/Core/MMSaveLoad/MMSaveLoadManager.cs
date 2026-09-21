@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -75,47 +75,118 @@ namespace MoreMountains.Tools
 		/// <param name="saveObject">Save object.</param>
 		/// <param name="fileName">File name.</param>
 		/// <param name="foldername">Foldername.</param>
-		public static void Save(object saveObject, string fileName, string foldername = _defaultFolderName)
-		{
-			string savePath = DetermineSavePath(foldername);
-			string saveFileName = DetermineSaveFileName(fileName);
-			// if the directory doesn't already exist, we create it
-			if (!Directory.Exists(savePath))
-			{
-				Directory.CreateDirectory(savePath);
-			}
-			// we serialize and write our object into a file on disk
+public static void Save(object saveObject, string fileName, string foldername = _defaultFolderName)
+        {
+            string savePath = DetermineSavePath(foldername);
+            string saveFileName = DetermineSaveFileName(fileName);
+            string finalPath = savePath + saveFileName;
+            string temporaryPath = finalPath + ".tmp";
 
-			FileStream saveFile = File.Create(savePath + saveFileName);
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
 
-			SaveLoadMethod.Save(saveObject, saveFile);
-			saveFile.Close();
-		}
+            if (File.Exists(temporaryPath))
+            {
+                QuarantineInvalidSave(temporaryPath, "stale-temp");
+            }
+
+            try
+            {
+                using (FileStream saveFile = File.Create(temporaryPath))
+                {
+                    SaveLoadMethod.Save(saveObject, saveFile);
+                }
+
+                if (!File.Exists(temporaryPath) || new FileInfo(temporaryPath).Length == 0)
+                {
+                    throw new IOException("Persistence serialization produced an empty temporary file.");
+                }
+
+                if (File.Exists(finalPath))
+                {
+                    string backupPath = GetRecoveryPath(finalPath, "previous", false);
+                    try
+                    {
+                        File.Replace(temporaryPath, finalPath, backupPath);
+                    }
+                    catch (System.PlatformNotSupportedException)
+                    {
+                        if (File.Exists(backupPath))
+                        {
+                            QuarantineInvalidSave(backupPath, "older-backup");
+                        }
+                        File.Move(finalPath, backupPath);
+                        File.Move(temporaryPath, finalPath);
+                    }
+                    catch (IOException)
+                    {
+                        if (File.Exists(backupPath))
+                        {
+                            QuarantineInvalidSave(backupPath, "older-backup");
+                        }
+                        File.Move(finalPath, backupPath);
+                        File.Move(temporaryPath, finalPath);
+                    }
+                }
+                else
+                {
+                    File.Move(temporaryPath, finalPath);
+                }
+            }
+            catch
+            {
+                if (File.Exists(temporaryPath))
+                {
+                    QuarantineInvalidSave(temporaryPath, "failed-write");
+                }
+                throw;
+            }
+        }
 
 		/// <summary>
 		/// Load the specified file based on a file name into a specified folder
 		/// </summary>
 		/// <param name="fileName">File name.</param>
 		/// <param name="foldername">Foldername.</param>
-		public static object Load(System.Type objectType, string fileName, string foldername = _defaultFolderName)
-		{
-			string savePath = DetermineSavePath(foldername);
-			string saveFileName = savePath + DetermineSaveFileName(fileName);
+public static object Load(System.Type objectType, string fileName, string foldername = _defaultFolderName)
+        {
+            string savePath = DetermineSavePath(foldername);
+            string saveFileName = savePath + DetermineSaveFileName(fileName);
 
-			object returnObject;
+            if (!Directory.Exists(savePath) || !File.Exists(saveFileName))
+            {
+                return null;
+            }
 
-			// if the MMSaves directory or the save file doesn't exist, there's nothing to load, we do nothing and exit
-			if (!Directory.Exists(savePath) || !File.Exists(saveFileName))
-			{
-				return null;
-			}
+            FileInfo fileInfo = new FileInfo(saveFileName);
+            if (fileInfo.Length == 0)
+            {
+                Debug.LogWarning("[Persistence] Empty save was quarantined and defaults will be used: " + saveFileName);
+                QuarantineInvalidSave(saveFileName, "empty");
+                return null;
+            }
 
-			FileStream saveFile = File.Open(saveFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-			returnObject = SaveLoadMethod.Load(objectType, saveFile);
-			saveFile.Close();
-
-			return returnObject;
-		}
+            try
+            {
+                using (FileStream saveFile = File.Open(saveFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    return SaveLoadMethod.Load(objectType, saveFile);
+                }
+            }
+            catch (System.Runtime.Serialization.SerializationException exception)
+            {
+                Debug.LogWarning("[Persistence] Corrupt or incompatible save was quarantined and defaults will be used. File '" + saveFileName + "': " + exception.Message);
+                QuarantineInvalidSave(saveFileName, "invalid");
+                return null;
+            }
+            catch (IOException exception)
+            {
+                Debug.LogWarning("[Persistence] Could not read save file '" + saveFileName + "': " + exception.Message);
+                return null;
+            }
+        }
 
 		/// <summary>
 		/// Removes a save from disk
@@ -195,5 +266,32 @@ namespace MoreMountains.Tools
 				File.Delete(target_dir + ".meta");
 			}
 		}
-	}
+	
+
+private static void QuarantineInvalidSave(string path, string reason)
+        {
+            if (!File.Exists(path))
+            {
+                return;
+            }
+
+            string quarantinePath = GetRecoveryPath(path, reason, true);
+            File.Move(path, quarantinePath);
+        }
+
+
+private static string GetRecoveryPath(string originalPath, string reason, bool unique)
+        {
+            string recoveryDirectory = Path.Combine(Application.temporaryCachePath, "MMSaveLoadRecovery");
+            if (!Directory.Exists(recoveryDirectory))
+            {
+                Directory.CreateDirectory(recoveryDirectory);
+            }
+
+            string safeFileName = Path.GetFileName(originalPath);
+            string pathId = originalPath.GetHashCode().ToString("X8");
+            string suffix = unique ? "." + System.DateTime.UtcNow.ToString("yyyyMMddHHmmssfff") : string.Empty;
+            return Path.Combine(recoveryDirectory, safeFileName + "." + pathId + "." + reason + suffix + ".bak");
+        }
+}
 }

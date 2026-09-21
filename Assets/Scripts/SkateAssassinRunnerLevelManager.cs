@@ -106,11 +106,15 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// </summary>
         protected override void Start()
         {
+            float levelInitializationStartedAt = Time.realtimeSinceStartup;
+
             ApplyLevelSpeedProgression();
             Speed = InitialSpeed;
             DistanceTraveled = 0;
 
+            float playerInstantiationStartedAt = Time.realtimeSinceStartup;
             InstantiateCharacters();
+            Debug.Log($"[StartupTiming] player-instantiation durationMs={(Time.realtimeSinceStartup - playerInstantiationStartedAt) * 1000f:0.0}", this);
 
             if (StartDriftMarkerGO != null) StartDriftMarkerGO.SetActive(false);
             if (Phase2CarSlotGO != null) Phase2CarSlotGO.SetActive(false);
@@ -165,9 +169,10 @@ namespace MoreMountains.InfiniteRunnerEngine
                     ObstacleSpawnerPooler = spawnerGo.GetComponent<MMMultipleObjectPooler>();
                 }
             }
-
+            float prepareStartStartedAt = Time.realtimeSinceStartup;
             PrepareStart();
             ResetSlam();
+            Debug.Log($"[StartupTiming] level-manager prepareStartMs={(Time.realtimeSinceStartup - prepareStartStartedAt) * 1000f:0.0} totalStartMs={(Time.realtimeSinceStartup - levelInitializationStartedAt) * 1000f:0.0}", this);
         }
 
         private void ApplyLevelSpeedProgression()

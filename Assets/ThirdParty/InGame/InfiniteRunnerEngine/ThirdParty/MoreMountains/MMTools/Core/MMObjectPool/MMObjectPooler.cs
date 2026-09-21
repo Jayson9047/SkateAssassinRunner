@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
@@ -63,12 +63,20 @@ namespace MoreMountains.Tools
 		/// <summary>
 		/// On awake we fill our object pool
 		/// </summary>
-		protected virtual void Awake()
-		{
-			Instance = this;
-			FillObjectPool();
-			
-		}
+protected virtual void Awake()
+        {
+            Instance = this;
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+            float startedAt = Time.realtimeSinceStartup;
+#endif
+            FillObjectPool();
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+            if (gameObject.scene.name == "SkateRunner")
+            {
+                Debug.Log($"[StartupTiming] pool={gameObject.name} type={GetType().Name} durationMs={(Time.realtimeSinceStartup - startedAt) * 1000f:0.0}", this);
+            }
+#endif
+        }
 
 		/// <summary>
 		/// Creates the waiting pool or tries to reuse one if there's already one available

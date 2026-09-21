@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: "Localization-String-Tables-Fran\xE7ais (fr)"
+  m_Name: Localization-String-Tables-French-fr
   m_EditorClassIdentifier: 
-  m_GroupName: "Localization-String-Tables-Fran\xE7ais (fr)"
+  m_GroupName: Localization-String-Tables-French-fr
   m_GUID: d6d07756bea66dc419ab31e31513046a
   m_SerializeEntries:
   - m_GUID: 088723cd0a1d97846ab59e0c4aa687c7
