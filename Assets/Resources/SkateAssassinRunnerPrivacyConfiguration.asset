@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5102f439b6189b047ac35beca502919e, type: 3}
+  m_Name: SkateAssassinRunnerPrivacyConfiguration
+  m_EditorClassIdentifier: 
+  privacyUrl: https://www.elroicreativestudios.com/games/skate-assassin-runner/privacy/
+  termsUrl: https://www.elroicreativestudios.com/games/skate-assassin-runner/terms/
+  dataRequestUrl: https://www.elroicreativestudios.com/games/skate-assassin-runner/data-request/
+  supportUrl: https://www.elroicreativestudios.com/games/skate-assassin-runner/support/
+  forceEEAForTesting: 0
+  testDeviceHashedIds: []
+  resetTestConsentOnNextLaunch: 0
+  testConsentResetRevision: 0

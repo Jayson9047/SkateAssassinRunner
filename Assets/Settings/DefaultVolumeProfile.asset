@@ -107,6 +107,131 @@ MonoBehaviour:
   clamp:
     m_OverrideState: 1
     m_Value: 0.05
+--- !u!114 &-7441682360587999459
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd921d8bcd172fc42a49db7bbdaa5bc2, type: 3}
+  m_Name: SlashVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 1
+  progress:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+    max: 1
+  angle:
+    m_OverrideState: 1
+    m_Value: 149
+    min: 0
+    max: 360
+  splitDist:
+    m_OverrideState: 1
+    m_Value: 0.1
+    min: 0
+    max: 1
+  distortPower:
+    m_OverrideState: 1
+    m_Value: 0.08
+    min: 0
+    max: 1
+  slashFade:
+    m_OverrideState: 1
+    m_Value: 0.8
+    min: 0
+    max: 1
+  coreWidth:
+    m_OverrideState: 1
+    m_Value: 0.015
+    min: 0
+    max: 0.1
+  glowSpread:
+    m_OverrideState: 1
+    m_Value: 40
+    min: 1
+    max: 100
+  glowColor:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  glowColorBlend:
+    m_OverrideState: 1
+    m_Value: 0
+  smokeFade:
+    m_OverrideState: 1
+    m_Value: 0.99
+    min: 0
+    max: 1
+  smokeExpand:
+    m_OverrideState: 1
+    m_Value: 0.3
+    min: 0
+    max: 1
+  smokeColor1:
+    m_OverrideState: 1
+    m_Value: {r: 0.9, g: 0.9, b: 0.95, a: 1}
+  smokeColor1Blend:
+    m_OverrideState: 1
+    m_Value: 0
+  smokeSize1:
+    m_OverrideState: 1
+    m_Value: 0.4
+    min: 0
+    max: 1
+  smokeColor2:
+    m_OverrideState: 1
+    m_Value: {r: 0.02, g: 0.02, b: 0.02, a: 1}
+  smokeSize2:
+    m_OverrideState: 1
+    m_Value: 0.6
+    min: 0
+    max: 1
+  smokeColor2Blend:
+    m_OverrideState: 1
+    m_Value: 3
+  backgroundColor:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+  brightness:
+    m_OverrideState: 1
+    m_Value: 0
+    min: -1
+    max: 1
+  contrast:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 10
+  gamma:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0.1
+    max: 10
+  hue:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+    max: 1
+  saturation:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 2
+  affectSceneView:
+    m_OverrideState: 1
+    m_Value: 0
+  useScaledTime:
+    m_OverrideState: 1
+    m_Value: 1
 --- !u!114 &-7274224791359825572
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -465,6 +590,7 @@ MonoBehaviour:
   - {fileID: -6288072647309666549}
   - {fileID: 7518938298396184218}
   - {fileID: -1410297666881709256}
+  - {fileID: -7441682360587999459}
 --- !u!114 &853819529557874667
 MonoBehaviour:
   m_ObjectHideFlags: 3

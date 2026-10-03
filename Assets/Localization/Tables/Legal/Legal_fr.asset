@@ -66,6 +66,39 @@ MonoBehaviour:
     m_Localized: "Le contact d\u2019assistance arrive bient\xF4t."
     m_Metadata:
       m_Items: []
+  - m_Id: 9565766687232000
+    m_Localized: "CONFIDENTIALIT\xC9 ET COOKIES"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786432
+    m_Localized: CONDITIONS ET CLUF
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786433
+    m_Localized: "DEMANDE DE DONN\xC9ES ET DE CONFIDENTIALIT\xC9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786434
+    m_Localized: Cette page est temporairement indisponible.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786435
+    m_Localized: "Les param\xE8tres de confidentialit\xE9 sont temporairement indisponibles.
+      R\xE9essayez plus tard."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786436
+    m_Localized: "Restauration des achats\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786437
+    m_Localized: "Restauration des achats termin\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786438
+    m_Localized: "Impossible de restaurer les achats. R\xE9essayez plus tard."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

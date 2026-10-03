@@ -66,6 +66,40 @@ MonoBehaviour:
     m_Localized: "Der Supportkontakt folgt in K\xFCrze."
     m_Metadata:
       m_Items: []
+  - m_Id: 9565766687232000
+    m_Localized: DATENSCHUTZ- & COOKIE-EINSTELLUNGEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786432
+    m_Localized: BEDINGUNGEN & EULA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786433
+    m_Localized: DATEN- & DATENSCHUTZANFRAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786434
+    m_Localized: "Diese Seite ist vor\xFCbergehend nicht verf\xFCgbar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786435
+    m_Localized: "Die Datenschutzeinstellungen sind vor\xFCbergehend nicht verf\xFCgbar.
+      Bitte versuche es sp\xE4ter erneut."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786436
+    m_Localized: "K\xE4ufe werden wiederhergestellt\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786437
+    m_Localized: "Wiederherstellung der K\xE4ufe abgeschlossen."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786438
+    m_Localized: "K\xE4ufe konnten nicht wiederhergestellt werden. Bitte versuche
+      es sp\xE4ter erneut."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

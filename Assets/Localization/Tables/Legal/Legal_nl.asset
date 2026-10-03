@@ -66,6 +66,39 @@ MonoBehaviour:
     m_Localized: Supportcontact komt binnenkort.
     m_Metadata:
       m_Items: []
+  - m_Id: 9565766687232000
+    m_Localized: PRIVACY- EN COOKIE-INSTELLINGEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786432
+    m_Localized: VOORWAARDEN & EULA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786433
+    m_Localized: GEGEVENS- EN PRIVACYVERZOEK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786434
+    m_Localized: Deze pagina is tijdelijk niet beschikbaar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786435
+    m_Localized: De privacy-instellingen zijn tijdelijk niet beschikbaar. Probeer
+      het later opnieuw.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786436
+    m_Localized: "Aankopen worden hersteld\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786437
+    m_Localized: Het herstellen van aankopen is voltooid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786438
+    m_Localized: Aankopen konden niet worden hersteld. Probeer het later opnieuw.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

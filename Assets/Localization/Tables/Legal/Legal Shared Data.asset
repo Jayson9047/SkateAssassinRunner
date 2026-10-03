@@ -63,6 +63,38 @@ MonoBehaviour:
     m_Key: legal.support_coming_soon
     m_Metadata:
       m_Items: []
+  - m_Id: 9565766687232000
+    m_Key: legal.privacy_cookie_settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786432
+    m_Key: legal.terms_eula
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786433
+    m_Key: legal.data_privacy_request
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786434
+    m_Key: legal.link_unavailable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786435
+    m_Key: legal.privacy_temporarily_unavailable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786436
+    m_Key: legal.restore_in_progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786437
+    m_Key: legal.restore_completed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786438
+    m_Key: legal.restore_failed
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

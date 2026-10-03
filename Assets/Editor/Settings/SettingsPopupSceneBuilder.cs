@@ -36,7 +36,7 @@ public static class SettingsPopupSceneBuilder
     private static Sprite cameraSprite;
     private static Sprite musicNoteSprite;
 
-    [MenuItem("Tools/Skate Runner/Rebuild Settings Popup")]
+    [MenuItem("Tools/Skate Assassin Runner/Rebuild Settings Popup")]
     public static void Rebuild()
     {
         SettingsPopup popup = Resources.FindObjectsOfTypeAll<SettingsPopup>()
@@ -225,9 +225,9 @@ public static class SettingsPopupSceneBuilder
         scrollRect.verticalNormalizedPosition = 1f;
 
         references.privacyPolicyButton = CreateLegalButton(content, "Button_PrivacyPolicy", "PRIVACY POLICY", -8f);
-        references.termsButton = CreateLegalButton(content, "Button_TermsOfUse", "TERMS OF USE", -96f);
-        references.eulaButton = CreateLegalButton(content, "Button_Eula", "END USER LICENCE AGREEMENT", -184f);
-        references.dataButton = CreateLegalButton(content, "Button_DataDeletion", "DATA & DELETION REQUEST", -272f);
+        references.termsButton = CreateLegalButton(content, "Button_PrivacyOptions", "PRIVACY & COOKIE SETTINGS", -96f);
+        references.eulaButton = CreateLegalButton(content, "Button_Terms", "TERMS & EULA", -184f);
+        references.dataButton = CreateLegalButton(content, "Button_DataRequest", "DATA & PRIVACY REQUEST", -272f);
         references.restoreButton = CreateLegalButton(content, "Button_RestorePurchases", "RESTORE PURCHASES", -360f);
         references.supportButton = CreateLegalButton(content, "Button_Support", "SUPPORT", -448f);
         references.statusText = CreateText(content, "Text_Status", string.Empty, 24f, Muted, TextAlignmentOptions.Center,
@@ -292,18 +292,35 @@ public static class SettingsPopupSceneBuilder
         SetReference(serializedController, "englishButton", language.englishButton);
         SetReference(serializedController, "currentLanguageLabel", main.currentLanguageLabel);
         SetReference(serializedController, "englishSelectedVisual", language.englishSelected);
-        SetReference(serializedController, "privacyPolicyButton", privacy.privacyPolicyButton);
-        SetReference(serializedController, "termsOfUseButton", privacy.termsButton);
-        SetReference(serializedController, "eulaButton", privacy.eulaButton);
-        SetReference(serializedController, "dataDeletionButton", privacy.dataButton);
-        SetReference(serializedController, "restorePurchasesButton", privacy.restoreButton);
-        SetReference(serializedController, "supportButton", privacy.supportButton);
         SetReference(serializedController, "legalStatusText", privacy.statusText);
         SetReference(serializedController, "youtubeButton", main.youtubeButton);
         SetReference(serializedController, "instagramButton", main.instagramButton);
         SetReference(serializedController, "tiktokButton", main.tiktokButton);
         SetReference(serializedController, "versionText", main.versionText);
         serializedController.ApplyModifiedPropertiesWithoutUndo();
+        var legal = privacyPage.AddComponent<SkateAssassinRunnerLegalPanelController>();
+        var serializedLegal = new SerializedObject(legal);
+        SetReference(serializedLegal, "configuration", Resources.Load<SkateAssassinRunnerPrivacyConfiguration>("SkateAssassinRunnerPrivacyConfiguration"));
+        SetReference(serializedLegal, "privacyPolicyButton", privacy.privacyPolicyButton);
+        SetReference(serializedLegal, "privacyOptionsButton", privacy.termsButton);
+        SetReference(serializedLegal, "termsButton", privacy.eulaButton);
+        SetReference(serializedLegal, "dataRequestButton", privacy.dataButton);
+        SetReference(serializedLegal, "restorePurchasesButton", privacy.restoreButton);
+        SetReference(serializedLegal, "supportButton", privacy.supportButton);
+        SetReference(serializedLegal, "statusText", privacy.statusText);
+        serializedLegal.ApplyModifiedPropertiesWithoutUndo();
+        var buttons = new[] { privacy.privacyPolicyButton, privacy.termsButton, privacy.eulaButton, privacy.dataButton, privacy.restoreButton, privacy.supportButton };
+        var keys = new[] { "legal.privacy_policy", "legal.privacy_cookie_settings", "legal.terms_eula", "legal.data_privacy_request", "legal.restore_purchases", "legal.support" };
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            var label = buttons[i].GetComponentInChildren<TMP_Text>(true);
+            var localized = label.GetComponent<UnityEngine.Localization.Components.LocalizeStringEvent>();
+            if (localized == null) localized = label.gameObject.AddComponent<UnityEngine.Localization.Components.LocalizeStringEvent>();
+            localized.StringReference = new UnityEngine.Localization.LocalizedString("Legal", keys[i]);
+            UnityEditor.Events.UnityEventTools.AddPersistentListener(localized.OnUpdateString, label.SetText);
+        }
+        privacy.termsButton.gameObject.SetActive(false);
+        privacy.restoreButton.interactable = false;
     }
 
     private static Transform CreateSection(RectTransform content, string name, float y, float height)

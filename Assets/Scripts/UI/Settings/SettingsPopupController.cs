@@ -43,13 +43,7 @@ public class SettingsPopupController : MonoBehaviour
     [SerializeField] private TMP_Text currentLanguageLabel;
     [SerializeField] private GameObject englishSelectedVisual;
 
-    [Header("Privacy and Legal Placeholders")]
-    [SerializeField] private Button privacyPolicyButton;
-    [SerializeField] private Button termsOfUseButton;
-    [SerializeField] private Button eulaButton;
-    [SerializeField] private Button dataDeletionButton;
-    [SerializeField] private Button restorePurchasesButton;
-    [SerializeField] private Button supportButton;
+    [Header("Privacy and Legal Status")]
     [SerializeField] private TMP_Text legalStatusText;
 
     [Header("Social Links")]
@@ -121,12 +115,6 @@ public class SettingsPopupController : MonoBehaviour
         AddButtonListener(languageBackButton, ShowMainPage);
         AddButtonListener(englishButton, SelectEnglish);
 
-        AddButtonListener(privacyPolicyButton, OnPrivacyPolicyPressed);
-        AddButtonListener(termsOfUseButton, OnTermsOfUsePressed);
-        AddButtonListener(eulaButton, OnEulaPressed);
-        AddButtonListener(dataDeletionButton, OnDataDeletionPressed);
-        AddButtonListener(restorePurchasesButton, OnRestorePurchasesPressed);
-        AddButtonListener(supportButton, OnSupportPressed);
 
         AddButtonListener(youtubeButton, OpenYouTube);
         AddButtonListener(instagramButton, OpenInstagram);
@@ -151,12 +139,6 @@ public class SettingsPopupController : MonoBehaviour
         RemoveButtonListener(languageBackButton, ShowMainPage);
         RemoveButtonListener(englishButton, SelectEnglish);
 
-        RemoveButtonListener(privacyPolicyButton, OnPrivacyPolicyPressed);
-        RemoveButtonListener(termsOfUseButton, OnTermsOfUsePressed);
-        RemoveButtonListener(eulaButton, OnEulaPressed);
-        RemoveButtonListener(dataDeletionButton, OnDataDeletionPressed);
-        RemoveButtonListener(restorePurchasesButton, OnRestorePurchasesPressed);
-        RemoveButtonListener(supportButton, OnSupportPressed);
 
         RemoveButtonListener(youtubeButton, OpenYouTube);
         RemoveButtonListener(instagramButton, OpenInstagram);
@@ -353,48 +335,6 @@ public class SettingsPopupController : MonoBehaviour
         {
             versionText.text = SkateLocalization.Get("Settings", "settings.version", Application.version);
         }
-    }
-
-    private void OnPrivacyPolicyPressed()
-    {
-        // TODO: Connect the final hosted Privacy Policy URL
-        // or Mobile Monetization Pro V2 legal-page integration here.
-        SetLegalStatus(SkateLocalization.Get("Legal", "legal.privacy_coming_soon"));
-    }
-
-    private void OnTermsOfUsePressed()
-    {
-        // TODO: Connect the final hosted Terms of Use URL
-        // or Mobile Monetization Pro V2 integration here.
-        SetLegalStatus(SkateLocalization.Get("Legal", "legal.terms_coming_soon"));
-    }
-
-    private void OnEulaPressed()
-    {
-        // TODO: Connect the final End User Licence Agreement URL
-        // or Mobile Monetization Pro V2 integration here.
-        SetLegalStatus(SkateLocalization.Get("Legal", "legal.eula_coming_soon"));
-    }
-
-    private void OnDataDeletionPressed()
-    {
-        // TODO: Connect the final data/deletion request page
-        // after the production analytics, advertising, account,
-        // and monetization data flows are finalized.
-        SetLegalStatus(SkateLocalization.Get("Legal", "legal.data_coming_soon"));
-    }
-
-    private void OnRestorePurchasesPressed()
-    {
-        // TODO: Connect Mobile Monetization Pro V2 / Google Play
-        // restore-purchase entitlement recovery here.
-        SetLegalStatus(SkateLocalization.Get("Legal", "legal.restore_unavailable"));
-    }
-
-    private void OnSupportPressed()
-    {
-        // TODO: Connect the final support email or support webpage here.
-        SetLegalStatus(SkateLocalization.Get("Legal", "legal.support_coming_soon"));
     }
 
     private void OpenYouTube()

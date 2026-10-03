@@ -136,6 +136,8 @@ private IEnumerator LoadSkateRunnerScene()
         Debug.Log($"[SkateRunnerLoading] stage=scene-activated elapsedMs={(Time.realtimeSinceStartup - startedAt) * 1000f:0} activationMs={(Time.realtimeSinceStartup - activationStartedAt) * 1000f:0}", this);
         LoadingSceneEvent.Trigger(_sceneToLoad, LoadingStatus.DestinationSceneActivation);
 
+        yield return WaitForStartupPrivacy(_sceneToLoad);
+
         float readinessStartedAt = Time.realtimeSinceStartup;
         yield return WaitForDestinationReady(_sceneToLoad);
 
@@ -229,6 +231,26 @@ private void PreparePersistentPresentation()
         AudioListener.pause = true;
 
         DontDestroyOnLoad(gameObject);
+    }
+
+
+    // Await the launch CMP flow before the first Home presentation, with a bounded fail-open wait.
+    // Native consent forms remain above the Unity loading canvas and can be answered normally.
+    private IEnumerator WaitForStartupPrivacy(string sceneName)
+    {
+        if (sceneName != "SkateRunnerStartScreen") yield break;
+        float deadline = Time.realtimeSinceStartup + 12f;
+        while (SkateAssassinRunnerPrivacyService.Instance != null
+            && !SkateAssassinRunnerPrivacyService.Instance.InitializationFinished
+            && !SkateRunnerConnectivityGate.IsBlocked)
+        {
+            if (Time.realtimeSinceStartup >= deadline)
+            {
+                Debug.LogWarning("[Skate Assassin Runner Privacy] Startup consent is still pending. Releasing the loading presentation; ad eligibility stays gated.", this);
+                yield break;
+            }
+            yield return null;
+        }
     }
 
     private IEnumerator WaitForDestinationReady(string sceneName)

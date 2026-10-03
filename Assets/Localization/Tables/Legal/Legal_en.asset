@@ -66,6 +66,38 @@ MonoBehaviour:
     m_Localized: Support contact is coming soon.
     m_Metadata:
       m_Items: []
+  - m_Id: 9565766687232000
+    m_Localized: PRIVACY & COOKIE SETTINGS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786432
+    m_Localized: TERMS & EULA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786433
+    m_Localized: DATA & PRIVACY REQUEST
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786434
+    m_Localized: This page is temporarily unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786435
+    m_Localized: Privacy settings are temporarily unavailable. Please try again later.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786436
+    m_Localized: "Restoring purchases\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786437
+    m_Localized: Purchase restoration completed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9565766720786438
+    m_Localized: Purchases could not be restored. Please try again later.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
