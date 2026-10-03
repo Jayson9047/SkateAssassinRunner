@@ -58,6 +58,11 @@ internal static class SkateLocalizationCatalog
 
     internal static readonly IReadOnlyList<Entry> Entries = new List<Entry>
     {
+        E("Popups", "popups.network_failed", "Network connection failed.", "Error de conexión a la red.", "Netwerkverbinding mislukt.", "La connexion réseau a échoué.", "Falha na conexão de rede.", "网络连接失败。"),
+        E("Popups", "popups.network_body", "Please check your cellular or Wi-Fi connection. We will reconnect automatically.", "Comprueba tu conexión móvil o Wi-Fi. Nos reconectaremos automáticamente.", "Controleer je mobiele of wifi-verbinding. We verbinden automatisch opnieuw.", "Vérifiez votre connexion mobile ou Wi-Fi. La reconnexion sera automatique.", "Verifique sua conexão móvel ou Wi-Fi. A reconexão será automática.", "请检查移动网络或 Wi-Fi 连接。连接恢复后将自动继续。"),
+        E("Popups", "popups.network_checking", "Checking connection...", "Comprobando conexión...", "Verbinding controleren...", "Vérification de la connexion...", "Verificando conexão...", "正在检查连接…"),
+        E("Popups", "popups.network_retry", "RETRY", "REINTENTAR", "OPNIEUW PROBEREN", "RÉESSAYER", "TENTAR NOVAMENTE", "重试"),
+        E("Popups", "popups.network_checking_button", "CHECKING...", "COMPROBANDO...", "CONTROLEREN...", "VÉRIFICATION...", "VERIFICANDO...", "正在检查…"),
         E("Common", "common.ok", "OK", "ACEPTAR", "OK", "OK", "OK", "确定"),
         E("Common", "common.yes", "YES", "SÍ", "JA", "OUI", "SIM", "是"),
         E("Common", "common.no", "NO", "NO", "NEE", "NON", "NÃO", "否"),

@@ -182,6 +182,11 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void Update()
     {
+        if (SkateRunnerConnectivityGate.IsBlocked)
+        {
+            tracking = false;
+            return;
+        }
         if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
         {
             // Allow dash input during downattack once grounded
@@ -224,6 +229,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void OnSwipeRight(bool ignoreGameplayInputLock = false)
     {
+        if (SkateRunnerConnectivityGate.IsBlocked) return;
         if (!ignoreGameplayInputLock && LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
         {
             if (swipeDownDetector == null || !swipeDownDetector.DownAttackDashWindowOpen)

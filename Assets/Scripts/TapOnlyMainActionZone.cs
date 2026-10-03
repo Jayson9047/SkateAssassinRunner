@@ -65,6 +65,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (SkateRunnerConnectivityGate.IsBlocked) { _isTapCandidate = false; return; }
         _downPos = eventData.position;
         _downTime = Time.unscaledTime;
         _isTapCandidate = true;
@@ -253,6 +254,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (SkateRunnerConnectivityGate.IsBlocked) { _isTapCandidate = false; return; }
         if (!_isTapCandidate) return;
         _isTapCandidate = false; // consume this press, including rejected releases
 
@@ -328,6 +330,7 @@ public class TapOnlyMainActionZone : MonoBehaviour, IPointerDownHandler, IPointe
     /// </summary>
     public void TriggerTutorialMainAction()
     {
+        if (SkateRunnerConnectivityGate.IsBlocked) return;
         if (InputManager.Instance == null)
             return;
 

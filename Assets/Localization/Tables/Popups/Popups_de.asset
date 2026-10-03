@@ -34,6 +34,27 @@ MonoBehaviour:
     m_Localized: BITTE WARTEN...
     m_Metadata:
       m_Items: []
+  - m_Id: 9522700798496768
+    m_Localized: Netzwerkverbindung fehlgeschlagen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522703558348800
+    m_Localized: "Pr\xFCfe deine Mobilfunk- oder WLAN-Verbindung. Die Verbindung
+      wird automatisch wiederhergestellt."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522705919741952
+    m_Localized: "Verbindung wird gepr\xFCft..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522708482461696
+    m_Localized: ERNEUT VERSUCHEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522711015821312
+    m_Localized: "PR\xDCFEN..."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -21,7 +21,19 @@ namespace MobileMonetizationPro
         [Tooltip("The name of the method to invoke from the scriptWithFunction when internet is restored.")]
         public string methodName;
 
+        // ELROI extension: allow verified connectivity and project-owned pause state.
+        public bool ManageTimeScale = true;
+        public Func<bool> ConnectionEvaluator { get; set; }
+        public event Action<bool> ConnectionStatusChanged;
+        public bool HasCheckedConnection { get; private set; }
+        public bool IsConnected { get; private set; }
+
         private bool previousConnectionStatus = true;
+
+        public void CheckNow()
+        {
+            CheckInternetConnection();
+        }
 
         private void Update()
         {
@@ -30,24 +42,31 @@ namespace MobileMonetizationPro
 
         private void CheckInternetConnection()
         {
-            bool isConnected = Application.internetReachability != NetworkReachability.NotReachable;
+            bool isConnected = ConnectionEvaluator != null
+                ? ConnectionEvaluator()
+                : Application.internetReachability != NetworkReachability.NotReachable;
+            bool wasChecked = HasCheckedConnection;
+            bool restored = wasChecked && !previousConnectionStatus && isConnected;
 
-            if (isConnected != previousConnectionStatus)
+            if (!wasChecked || isConnected != previousConnectionStatus)
             {
-                Time.timeScale = isConnected ? TimeScaleWhenInternet : TimeScaleWhenNoInternet;
-                NoInternetConnectionGameObject.SetActive(!isConnected);
-
-                if (isConnected && scriptWithFunction != null && !string.IsNullOrEmpty(methodName))
-                {
-                    Debug.Log("Connected To Internet");
-                    MethodInfo method = scriptWithFunction.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                    if (method != null && method.GetParameters().Length == 0)
-                    {
-                        method.Invoke(scriptWithFunction, null);
-                    }
-                }
+                if (ManageTimeScale)
+                    Time.timeScale = isConnected ? TimeScaleWhenInternet : TimeScaleWhenNoInternet;
+                if (NoInternetConnectionGameObject != null)
+                    NoInternetConnectionGameObject.SetActive(!isConnected);
 
                 previousConnectionStatus = isConnected;
+                HasCheckedConnection = true;
+                IsConnected = isConnected;
+                ConnectionStatusChanged?.Invoke(isConnected);
+
+                if (restored && scriptWithFunction != null && !string.IsNullOrEmpty(methodName))
+                {
+                    MethodInfo method = scriptWithFunction.GetType().GetMethod(methodName,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    if (method != null && method.GetParameters().Length == 0)
+                        method.Invoke(scriptWithFunction, null);
+                }
             }
         }
     }

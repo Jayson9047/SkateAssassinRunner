@@ -34,6 +34,27 @@ MonoBehaviour:
     m_Localized: WACHT...
     m_Metadata:
       m_Items: []
+  - m_Id: 9522700798496768
+    m_Localized: Netwerkverbinding mislukt.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522703558348800
+    m_Localized: Controleer je mobiele of wifi-verbinding. We verbinden automatisch
+      opnieuw.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522705919741952
+    m_Localized: Verbinding controleren...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522708482461696
+    m_Localized: OPNIEUW PROBEREN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522711015821312
+    m_Localized: CONTROLEREN...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

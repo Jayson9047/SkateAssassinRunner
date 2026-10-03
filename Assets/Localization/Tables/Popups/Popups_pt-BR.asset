@@ -34,6 +34,27 @@ MonoBehaviour:
     m_Localized: AGUARDE...
     m_Metadata:
       m_Items: []
+  - m_Id: 9522700798496768
+    m_Localized: "Falha na conex\xE3o de rede."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522703558348800
+    m_Localized: "Verifique sua conex\xE3o m\xF3vel ou Wi-Fi. A reconex\xE3o ser\xE1
+      autom\xE1tica."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522705919741952
+    m_Localized: "Verificando conex\xE3o..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522708482461696
+    m_Localized: TENTAR NOVAMENTE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522711015821312
+    m_Localized: VERIFICANDO...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

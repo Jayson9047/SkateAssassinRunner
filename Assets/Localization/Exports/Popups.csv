@@ -3,3 +3,8 @@
 "popups.later",505778176,"","Später","","Later","","Más tarde","","Plus tard","","Later","","Mais tarde",""
 "popups.daily_free_cash",505778177,"","TÄGLICHES GRATIS-CASH","","DAILY FREE CASH","","EFECTIVO DIARIO GRATIS","","ARGENT GRATUIT QUOTIDIEN","","DAGELIJKS GRATIS CASH","","DINHEIRO GRÁTIS DIÁRIO",""
 "popups.wait",505778178,"","BITTE WARTEN...","","WAIT...","","ESPERA...","","ATTENDEZ...","","WACHT...","","AGUARDE...",""
+"popups.network_failed",9522700798496768,"","Netzwerkverbindung fehlgeschlagen.","","Network connection failed.","","Error de conexión a la red.","","La connexion réseau a échoué.","","Netwerkverbinding mislukt.","","Falha na conexão de rede.",""
+"popups.network_body",9522703558348800,"","Prüfe deine Mobilfunk- oder WLAN-Verbindung. Die Verbindung wird automatisch wiederhergestellt.","","Please check your cellular or Wi-Fi connection. We will reconnect automatically.","","Comprueba tu conexión móvil o Wi-Fi. Nos reconectaremos automáticamente.","","Vérifiez votre connexion mobile ou Wi-Fi. La reconnexion sera automatique.","","Controleer je mobiele of wifi-verbinding. We verbinden automatisch opnieuw.","","Verifique sua conexão móvel ou Wi-Fi. A reconexão será automática.",""
+"popups.network_checking",9522705919741952,"","Verbindung wird geprüft...","","Checking connection...","","Comprobando conexión...","","Vérification de la connexion...","","Verbinding controleren...","","Verificando conexão...",""
+"popups.network_retry",9522708482461696,"","ERNEUT VERSUCHEN","","RETRY","","REINTENTAR","","RÉESSAYER","","OPNIEUW PROBEREN","","TENTAR NOVAMENTE",""
+"popups.network_checking_button",9522711015821312,"","PRÜFEN...","","CHECKING...","","COMPROBANDO...","","VÉRIFICATION...","","CONTROLEREN...","","VERIFICANDO...",""

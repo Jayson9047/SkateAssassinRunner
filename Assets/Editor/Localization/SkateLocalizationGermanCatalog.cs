@@ -12,6 +12,11 @@ internal static class SkateLocalizationGermanCatalog
     private static readonly IReadOnlyDictionary<string, string> Values =
         new Dictionary<string, string>(StringComparer.Ordinal)
         {
+            ["popups.network_failed"] = "Netzwerkverbindung fehlgeschlagen.",
+            ["popups.network_body"] = "Prüfe deine Mobilfunk- oder WLAN-Verbindung. Die Verbindung wird automatisch wiederhergestellt.",
+            ["popups.network_checking"] = "Verbindung wird geprüft...",
+            ["popups.network_retry"] = "ERNEUT VERSUCHEN",
+            ["popups.network_checking_button"] = "PRÜFEN...",
             ["common.ok"] = "OK",
             ["common.yes"] = "JA",
             ["common.no"] = "NEIN",

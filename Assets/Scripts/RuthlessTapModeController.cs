@@ -50,6 +50,11 @@ public class RuthlessTapModeController : MonoBehaviour, MMEventListener<MMGameEv
     private void Update()
     {
         if (!_active) return;
+        if (SkateRunnerConnectivityGate.IsBlocked)
+        {
+            _endAtUnscaledTime += Time.unscaledDeltaTime;
+            return;
+        }
 
         if (Time.unscaledTime >= _endAtUnscaledTime)
         {

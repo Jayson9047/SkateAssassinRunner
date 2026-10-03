@@ -34,6 +34,27 @@ MonoBehaviour:
     m_Localized: WAIT...
     m_Metadata:
       m_Items: []
+  - m_Id: 9522700798496768
+    m_Localized: Network connection failed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522703558348800
+    m_Localized: Please check your cellular or Wi-Fi connection. We will reconnect
+      automatically.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522705919741952
+    m_Localized: Checking connection...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522708482461696
+    m_Localized: RETRY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522711015821312
+    m_Localized: CHECKING...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

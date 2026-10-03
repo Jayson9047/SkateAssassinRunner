@@ -31,6 +31,26 @@ MonoBehaviour:
     m_Key: popups.wait
     m_Metadata:
       m_Items: []
+  - m_Id: 9522700798496768
+    m_Key: popups.network_failed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522703558348800
+    m_Key: popups.network_body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522705919741952
+    m_Key: popups.network_checking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522708482461696
+    m_Key: popups.network_retry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522711015821312
+    m_Key: popups.network_checking_button
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

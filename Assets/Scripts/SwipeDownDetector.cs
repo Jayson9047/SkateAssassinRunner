@@ -162,6 +162,11 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void Update()
     {
+        if (SkateRunnerConnectivityGate.IsBlocked)
+        {
+            tracking = false;
+            return;
+        }
         if (LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
             return;
 
@@ -229,6 +234,7 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void OnSwipeDown(bool ignoreGameplayInputLock = false)
     {
+        if (SkateRunnerConnectivityGate.IsBlocked) return;
         if (!ignoreGameplayInputLock && LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
             return;
 

@@ -34,6 +34,27 @@ MonoBehaviour:
     m_Localized: ATTENDEZ...
     m_Metadata:
       m_Items: []
+  - m_Id: 9522700798496768
+    m_Localized: "La connexion r\xE9seau a \xE9chou\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522703558348800
+    m_Localized: "V\xE9rifiez votre connexion mobile ou Wi-Fi. La reconnexion sera
+      automatique."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522705919741952
+    m_Localized: "V\xE9rification de la connexion..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522708482461696
+    m_Localized: "R\xC9ESSAYER"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9522711015821312
+    m_Localized: "V\xC9RIFICATION..."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

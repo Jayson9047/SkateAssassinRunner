@@ -216,7 +216,8 @@ private void PreparePersistentPresentation()
             }
 
             canvas.overrideSorting = true;
-            canvas.sortingOrder = short.MaxValue;
+            // Keep the persistent connectivity blocker above the loading presentation.
+            canvas.sortingOrder = short.MaxValue - 1;
             loadingCanvasGroup.alpha = 1f;
             loadingCanvasGroup.interactable = false;
             loadingCanvasGroup.blocksRaycasts = true;
