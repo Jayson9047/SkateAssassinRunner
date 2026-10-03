@@ -145,6 +145,7 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
         }
 
         selectedRollerbladeId = id;
+        RefreshPreviewHighlights();
 
         AnimationClip clip;
         if (previewPlayer != null && previewsById.TryGetValue(id, out clip))
@@ -169,6 +170,13 @@ public sealed class RollerbladeInventoryController : MonoBehaviour
         foreach (KeyValuePair<RollerbladeId, RollerbladeInventorySlot> pair in slotsById)
             pair.Value.SetEquipped(pair.Key == equippedRollerbladeId);
     }
+
+    private void RefreshPreviewHighlights()
+    {
+        foreach (KeyValuePair<RollerbladeId, RollerbladeInventorySlot> pair in slotsById)
+            pair.Value.SetPreviewed(pair.Key == selectedRollerbladeId);
+    }
+
 
     private void UpdateEquipButtonState()
     {

@@ -133,6 +133,16 @@ public static void TriggerEnemyKillCameraShakeStatic(Vector3 worldPosition)
             _instance.enemyKillCameraShakeIntensity);
     }
 
+    public static void TriggerCameraShakeStatic(Vector3 worldPosition, float intensity)
+    {
+        if (intensity <= 0f) return;
+        Ensure();
+        if (_instance.enemyKillCameraShakeFeel == null) return;
+
+        _instance.enemyKillCameraShakeFeel.PlayFeedbacks(worldPosition, Mathf.Clamp01(intensity));
+    }
+
+
 
     // --- Public API (static convenience) ---
     public static void TriggerSlowMoStatic(float slowMoScale, float slowMoDurationRealtime, bool affectsPhysicsOverride = true)

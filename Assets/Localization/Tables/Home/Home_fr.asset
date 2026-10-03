@@ -48,7 +48,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 514166790
-    m_Localized: ARGENT GRATUIT
+    m_Localized: 'GRATUIT
+
+      ARGENT'
     m_Metadata:
       m_Items: []
   - m_Id: 514166791

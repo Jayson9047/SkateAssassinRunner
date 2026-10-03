@@ -139,6 +139,7 @@ public sealed class SwordInventoryController : MonoBehaviour
         }
 
         selectedSwordId = id;
+        RefreshPreviewHighlights();
 
         AnimationClip clip;
         if (previewPlayer != null && previewsById.TryGetValue(id, out clip))
@@ -163,6 +164,13 @@ public sealed class SwordInventoryController : MonoBehaviour
         foreach (KeyValuePair<SwordId, SwordInventorySlot> pair in slotsById)
             pair.Value.SetEquipped(pair.Key == equippedSwordId);
     }
+
+    private void RefreshPreviewHighlights()
+    {
+        foreach (KeyValuePair<SwordId, SwordInventorySlot> pair in slotsById)
+            pair.Value.SetPreviewed(pair.Key == selectedSwordId);
+    }
+
 
     private void UpdateEquipButtonState()
     {

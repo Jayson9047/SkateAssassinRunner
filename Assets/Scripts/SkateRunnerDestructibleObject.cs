@@ -13,6 +13,8 @@ namespace IndieKit
 
         [SerializeField] private float health = 1f;
         [SerializeField] private GameObject DebrisPrefab;
+        [SerializeField, Min(0f), Tooltip("Explosion impulse applied to debris pieces. Tune per enemy prefab.")]
+        private float debrisExplosionForce = 4f;
 
         [Header("Gameplay")]
         [SerializeField] private bool countsAsEnemyKill = true;
@@ -92,7 +94,7 @@ namespace IndieKit
                     Transform child = debris.transform.GetChild(i);
                     if (child.TryGetComponent(out Rigidbody rb))
                     {
-                        rb.AddExplosionForce(4f, hitPoint, 1.5f, 0f, ForceMode.Impulse);
+                        rb.AddExplosionForce(debrisExplosionForce, hitPoint, 1.5f, 0f, ForceMode.Impulse);
                     }
                 }
             }

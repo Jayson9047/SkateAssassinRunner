@@ -35,4 +35,11 @@ public sealed class SwordInventorySlot : MonoBehaviour, IPointerClickHandler
         if (equippedVisual != null)
             equippedVisual.SetEquipped(equipped);
     }
+
+    public void SetPreviewed(bool previewed)
+    {
+        if (equippedVisual != null)
+            equippedVisual.SetPreviewed(previewed);
+    }
+
 }

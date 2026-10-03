@@ -36,6 +36,43 @@ public sealed class RollerbladeEquipper : MonoBehaviour
     public GameObject CurrentLeftRollerblade => currentLeftRollerblade;
     public GameObject CurrentRightRollerblade => currentRightRollerblade;
 
+    [Header("Ruthless Landing Recovery")]
+    [SerializeField, Min(0.01f)] private float rightRecoveryDuration = 0.5f;
+    [SerializeField] private Vector3 rightRecoveryPosition = new Vector3(0.0500000007f, 0.264999986f, 0.0469999984f);
+    [SerializeField] private Vector3 rightRecoveryEulerAngles = new Vector3(351.298126f, 304.738892f, 205.747803f);
+
+    private Transform recoveringRight;
+    private Vector3 rightRecoveryStartPosition;
+    private Quaternion rightRecoveryStartRotation;
+    private Quaternion rightRecoveryTargetRotation;
+    private float rightRecoveryElapsed;
+
+    /// <summary>Blend the equipped right blade back after the final Ruthless strike.</summary>
+    public void BeginRuthlessLandingRecovery()
+    {
+        recoveringRight = currentRightRollerblade != null
+            ? currentRightRollerblade.transform
+            : staticRightRollerblade != null ? staticRightRollerblade.transform : null;
+        if (recoveringRight == null) return;
+
+        rightRecoveryStartPosition = recoveringRight.localPosition;
+        rightRecoveryStartRotation = recoveringRight.localRotation;
+        rightRecoveryTargetRotation = Quaternion.Euler(rightRecoveryEulerAngles);
+        rightRecoveryElapsed = 0f;
+    }
+
+    private void LateUpdate()
+    {
+        if (recoveringRight == null) return;
+        rightRecoveryElapsed += Time.unscaledDeltaTime;
+        float progress = Mathf.Clamp01(rightRecoveryElapsed / Mathf.Max(0.01f, rightRecoveryDuration));
+        float blend = Mathf.SmoothStep(0f, 1f, progress);
+        // Apply after the Animator has evaluated the landing pose.
+        recoveringRight.localPosition = Vector3.LerpUnclamped(rightRecoveryStartPosition, rightRecoveryPosition, blend);
+        recoveringRight.localRotation = Quaternion.SlerpUnclamped(rightRecoveryStartRotation, rightRecoveryTargetRotation, blend);
+        if (progress >= 1f) recoveringRight = null;
+    }
+
     private void OnEnable()
     {
         BuildDefinitionMapping();
@@ -219,6 +256,7 @@ public sealed class RollerbladeEquipper : MonoBehaviour
 
     private void DestroyCurrentPair()
     {
+        recoveringRight = null;
         DestroySpawnedObject(currentLeftRollerblade);
         DestroySpawnedObject(currentRightRollerblade);
         currentLeftRollerblade = null;

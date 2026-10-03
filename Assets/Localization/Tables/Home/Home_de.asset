@@ -53,7 +53,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 514166790
-    m_Localized: GRATIS-CASH
+    m_Localized: 'GRATIS
+
+      CASH'
     m_Metadata:
       m_Items: []
   - m_Id: 514166791

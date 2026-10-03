@@ -33,3 +33,66 @@ MonoBehaviour:
     slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
     slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
     slashScale: {x: 1, y: 1, z: 1}
+  - weaponId: Emberguard
+    weaponPrefab: {fileID: 4214597693441333592, guid: f445c1dfc9170944d9f78a025b5725ad,
+      type: 3}
+    auraLocalPositionOffset: {x: 0, y: 0, z: 0}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0, y: 0, z: 0}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}
+  - weaponId: Bloodreaver
+    weaponPrefab: {fileID: 3689515951906905501, guid: b0dfdc1b913462c488649051b70db3af,
+      type: 3}
+    auraLocalPositionOffset: {x: 0, y: 0, z: 0}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0, y: 0, z: 0}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}
+  - weaponId: GlacierCipher
+    weaponPrefab: {fileID: 6013990982369288243, guid: 4324b9e1a7bde1840bf7d472ac2d0c26,
+      type: 3}
+    auraLocalPositionOffset: {x: 0, y: 0, z: 0}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0, y: 0, z: 0}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}
+  - weaponId: Gravebreaker
+    weaponPrefab: {fileID: 5651402458575486093, guid: e9fc6df58b7d1644b8ccdf4dd31ecfc9,
+      type: 3}
+    auraLocalPositionOffset: {x: 0, y: 0, z: 0}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0, y: 0, z: 0}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}
+  - weaponId: HellForge
+    weaponPrefab: {fileID: 8947079371753237599, guid: 11a4f2cad552d8343a3b9766683c98ae,
+      type: 3}
+    auraLocalPositionOffset: {x: 0, y: 0, z: 0}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0, y: 0, z: 0}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}
+  - weaponId: Sunspire
+    weaponPrefab: {fileID: 5953977592163608830, guid: 87e36a8b631f2b544984135e2b3ad7df,
+      type: 3}
+    auraLocalPositionOffset: {x: 0, y: 0, z: 0}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0, y: 0, z: 0}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}
+  - weaponId: Wyrmshade
+    weaponPrefab: {fileID: 1645786095522272344, guid: b2c4031d5abe6544191799d14fccfc11,
+      type: 3}
+    auraLocalPositionOffset: {x: 0, y: 0, z: 0}
+    auraLocalRotationOffset: {x: 0, y: 0, z: 0}
+    auraLocalScale: {x: 0, y: 0, z: 0}
+    slashPositionOffset: {x: 0.4, y: 0.95, z: 0.27}
+    slashRotationOffset: {x: -178.8, y: -21.5, z: -2.85}
+    slashScale: {x: 1, y: 1, z: 1}

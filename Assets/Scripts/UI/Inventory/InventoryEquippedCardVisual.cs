@@ -19,7 +19,6 @@ public sealed class InventoryEquippedCardVisual : MonoBehaviour
     public void SetEquipped(bool equipped)
     {
         CacheNormalSprite();
-        if (equippedFocus != null) equippedFocus.SetActive(equipped);
 
         if (cardBackground == null)
             return;
@@ -28,6 +27,13 @@ public sealed class InventoryEquippedCardVisual : MonoBehaviour
             ? equippedCardSprite
             : normalCardSprite;
     }
+
+    public void SetPreviewed(bool previewed)
+    {
+        if (equippedFocus != null)
+            equippedFocus.SetActive(previewed);
+    }
+
 
     private void CacheNormalSprite()
     {

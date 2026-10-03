@@ -17,6 +17,7 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
     [SerializeField] private AnimationClip turntableTemplate;
     [SerializeField] private string turntableStateName = "Turntable";
     [SerializeField] private bool preserveStaticVisualWhenEmpty;
+    [SerializeField] private InventoryPreviewBackdrop previewBackdrop;
 
     private AnimationClip currentClip;
     private AnimatorOverrideController overrideController;
@@ -55,6 +56,8 @@ public sealed class WeaponPowerPreviewPlayer : MonoBehaviour
     public void Play(AnimationClip clip)
     {
         currentClip = clip;
+        if (previewBackdrop != null)
+            previewBackdrop.Apply(clip);
 
         // InventoryPage's parent OnEnable can run before this child's Animator
         // has completed its first Awake/Start cycle. Keep the requested clip and

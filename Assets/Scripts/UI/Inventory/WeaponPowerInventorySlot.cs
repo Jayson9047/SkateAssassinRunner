@@ -39,4 +39,11 @@ public sealed class WeaponPowerInventorySlot : MonoBehaviour, IPointerClickHandl
         if (equippedVisual != null)
             equippedVisual.SetEquipped(equipped);
     }
+
+    public void SetPreviewed(bool previewed)
+    {
+        if (equippedVisual != null)
+            equippedVisual.SetPreviewed(previewed);
+    }
+
 }

@@ -497,6 +497,8 @@ _dashTween?.Kill();
             .OnComplete(() =>
             {
                 ResyncRootToBodyAndRestoreHierarchy();
+                var blades = GetComponentInParent<RollerbladeEquipper>();
+                if (blades != null) blades.BeginRuthlessLandingRecovery();
                 onArrive?.Invoke();
             });
     }

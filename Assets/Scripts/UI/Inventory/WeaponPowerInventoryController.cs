@@ -50,6 +50,9 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
     {
         SkateLocalization.LocaleChanged += OnLocaleChanged;
         BuildMaps();
+        WeaponPowerInventorySlot defaultSlot;
+        if (slotsById.TryGetValue(WeaponPowerId.None, out defaultSlot) && defaultSlot != null)
+            defaultSlot.transform.SetAsFirstSibling();
         RefreshAvailability();
 
         if (previewPlayer != null)
@@ -153,6 +156,7 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
         }
 
         selectedPowerId = id;
+        RefreshPreviewHighlights();
 
         AnimationClip clip;
         if (previewPlayer != null && previewsById.TryGetValue(id, out clip))
@@ -179,6 +183,13 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
         foreach (KeyValuePair<WeaponPowerId, WeaponPowerInventorySlot> pair in slotsById)
             pair.Value.SetEquipped(pair.Key == equippedPowerId);
     }
+
+    private void RefreshPreviewHighlights()
+    {
+        foreach (KeyValuePair<WeaponPowerId, WeaponPowerInventorySlot> pair in slotsById)
+            pair.Value.SetPreviewed(pair.Key == selectedPowerId);
+    }
+
 
     private void UpdateEquipButtonState()
     {
@@ -218,6 +229,9 @@ public sealed class WeaponPowerInventoryController : MonoBehaviour
     public void RefreshAfterExternalInventoryReset()
     {
         BuildMaps();
+        WeaponPowerInventorySlot defaultSlot;
+        if (slotsById.TryGetValue(WeaponPowerId.None, out defaultSlot) && defaultSlot != null)
+            defaultSlot.transform.SetAsFirstSibling();
         RefreshAvailability();
         equippedPowerId = WeaponPowerId.None;
         selectedPowerId = WeaponPowerId.None;
