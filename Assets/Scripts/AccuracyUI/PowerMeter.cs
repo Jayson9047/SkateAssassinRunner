@@ -160,6 +160,9 @@ public class PowerMeter : MonoBehaviour
         OnResult?.Invoke(result, _normalizedValue);
     }
 
+    /// <summary>Stop a failed attempt without evaluating a second result.</summary>
+    public void CancelMeter() => _running = false;
+
     public ZoneResult Evaluate(float normalizedValue)
     {
         if (config == null) return ZoneResult.Red;

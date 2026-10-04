@@ -127,7 +127,9 @@ namespace MoreMountains.InfiniteRunnerEngine
         public bool LastLevelSuccess { get; private set; }
 
         // Phase 2 Timeout Guards
-        private bool _phase2DownslamButtonPressed;   // latch: once true, never kill on timeout
+        public bool IsPhase2HudReady { get; private set; }
+        public bool HasPhase2RuthlessAward { get; private set; }
+
         private bool _phase2BossResolved;            // latch: once resolved, ignore further timeout/result triggers
 
         public DamageNumber CashPopupPrefab => cashPopupPrefab;
@@ -347,7 +349,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         // ------------------------------------------------------
         public void EnterPhase2BossHUD()
         {
-            _phase2DownslamButtonPressed = false;
+            IsPhase2HudReady = false;
+            HasPhase2RuthlessAward = false;
             _phase2BossResolved = false;
 
             CacheSlamHUDReferencesIfNeeded();
@@ -444,6 +447,7 @@ SlamButtonRect.anchoredPosition = pos1;
                 ShardsGroup.alpha = 0f;
                 ShardsGroup.gameObject.SetActive(false); // fully hide
             }
+            IsPhase2HudReady = true;
         }
 
         public void FadeOutPowerMeterWhenPlayerGrounded()
@@ -500,7 +504,7 @@ SlamButtonRect.anchoredPosition = pos1;
         {
             // IMPORTANT: reset Phase2 resolution latches for the retry
             _phase2BossResolved = false;
-            _phase2DownslamButtonPressed = false;
+            HasPhase2RuthlessAward = false;
             _phase2SimInProgress = false;
 
             if (powerMeter == null)
@@ -536,24 +540,15 @@ SlamButtonRect.anchoredPosition = pos1;
 
         private void OnPowerMeterResult(PowerMeter.ZoneResult result, float normalized)
         {
+            if (_phase2BossResolved) return;
+            SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.StopPhase2BossQTECountdown();
             // Once we have a result, phase2 is resolved; ignore timeout events.
             _phase2BossResolved = true;
             switch (result)
             {
                 case PowerMeter.ZoneResult.Red:
                 {
-                    DisableSlamButtonForPhase2Death();
-
-                    var player = FindFirstObjectByType<PlayerPhase2Controller>();
-                    if (player != null)
-                    {
-                        player.BeginPhase2ExecutionPending();
-                        FindFirstObjectByType<EnemyType3>()?.ShootKillShot();
-                    }
-                    else
-                    {
-                        Debug.LogError("[Phase2] PlayerPhase2Controller not found.");
-                    }
+                    BeginPhase2Failure();
 
                     break;
                 }
@@ -585,6 +580,7 @@ SlamButtonRect.anchoredPosition = pos1;
 
         public void Phase2ShowRuthlessTimeAward(float secondsAwarded)
         {
+            HasPhase2RuthlessAward = true;
             Phase2ShowRuthlessTimerEmpty(secondsAwarded);
 
             if (timePopupAnchor == null || flyTextPrefab == null || ruthlessTimerText == null)
@@ -659,11 +655,14 @@ SlamButtonRect.anchoredPosition = pos1;
 
             _phase2BossResolved = true;
 
-            // If player ever pressed the button, we NEVER kill on timeout (prevents mid-slam / post-slam kills).
-            if (_phase2DownslamButtonPressed)
-                return;
+            BeginPhase2Failure();
+        }
 
-            // Otherwise: same deterministic Phase2 fail as RED
+        private void BeginPhase2Failure()
+        {
+            HasPhase2RuthlessAward = false;
+            powerMeter?.CancelMeter();
+            DisableSlamButtonForPhase2Death();
             var player = FindFirstObjectByType<PlayerPhase2Controller>();
             if (player != null)
             {
@@ -755,13 +754,9 @@ SlamButtonRect.anchoredPosition = pos1;
 
         private void OnDownslamButtonClicked()
         {
-            if (_phase2SimInProgress) return;
-
-            // Latch immediately. From this point on, we NEVER allow timeout-death.
-            _phase2DownslamButtonPressed = true;
-
-            // Optional but matches what you said: timer stops the moment button is clicked.
-            SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.StopPhase2BossQTECountdown();
+            // Only a running, unresolved attempt accepts a click. The result
+            // callback owns resolution, so a late click cannot cancel failure.
+            if (_phase2BossResolved || _phase2SimInProgress || powerMeter == null || !powerMeter.IsRunning) return;
 
             powerMeter.StopMeterAndEvaluate();
         }

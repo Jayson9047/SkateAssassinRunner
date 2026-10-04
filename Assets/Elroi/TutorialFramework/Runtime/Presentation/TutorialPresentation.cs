@@ -61,6 +61,7 @@ namespace Elroi.Tutorials
             ApplyTheme();
 
             introductionText.text = tutorial.IntroductionText ?? string.Empty;
+            dialogueTail.gameObject.SetActive(tutorial.TargetType != TutorialTargetType.None);
             bottomInstructionText.text = tutorial.BottomInstructionText ?? string.Empty;
             bottomInstructionText.gameObject.SetActive(!string.IsNullOrWhiteSpace(tutorial.BottomInstructionText));
             okButton.gameObject.SetActive(tutorial.CompletionType == TutorialCompletionType.OkButton);
@@ -119,53 +120,62 @@ namespace Elroi.Tutorials
             float opacity = theme != null ? theme.OverlayOpacity : 0.78f;
             float radius = theme != null ? theme.SpotlightCornerRadius : 24f;
             float feather = theme != null ? theme.SpotlightFeather : 10f;
+            if (definition.TargetType == TutorialTargetType.None)
+                rect = new Rect(-Screen.width * 2f, -Screen.height * 2f, 1f, 1f);
             spotlight.Configure(rect, definition.SpotlightShape, radius, feather, opacity);
             PositionDialogue(rect);
         }
 
         private void PositionDialogue(Rect targetRect)
         {
+            // Target bounds are screen pixels; dialogue dimensions are Canvas units.
+            float scale = canvas != null ? Mathf.Max(0.01f, canvas.scaleFactor) : 1f;
             float margin = theme != null ? theme.SafeMargin : 28f;
             float width = Mathf.Clamp(theme != null ? theme.BubblePreferredWidth : 520f,
                 theme != null ? theme.BubbleMinWidth : 260f,
-                Mathf.Min(theme != null ? theme.BubbleMaxWidth : 720f, Screen.width - margin * 2f));
+                Mathf.Min(theme != null ? theme.BubbleMaxWidth : 720f, Screen.width / scale - margin * 2f));
             introductionText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width - (theme != null ? theme.BubblePadding * 2f : 48f));
             introductionText.ForceMeshUpdate();
-            float height = Mathf.Clamp(introductionText.preferredHeight + (theme != null ? theme.BubblePadding * 2f : 48f), 110f, Screen.height * 0.45f);
+            float height = Mathf.Clamp(introductionText.preferredHeight + (theme != null ? theme.BubblePadding * 2f : 48f), 110f, Screen.height / scale * 0.45f);
             dialogueBubble.sizeDelta = new Vector2(width, height);
 
+            if (definition.TargetType == TutorialTargetType.None)
+            {
+                dialogueBubble.anchoredPosition = Vector2.zero;
+                return;
+            }
+
             Vector2 targetCenter = targetRect.center;
-            Vector2 desired;
-            Vector2 tailDirection;
-            float gap = 34f;
-            float aboveSpace = Screen.height - targetRect.yMax;
-            float belowSpace = targetRect.yMin;
-            float rightSpace = Screen.width - targetRect.xMax;
-            float leftSpace = targetRect.xMin;
+            float pixelWidth = width * scale, pixelHeight = height * scale;
+            float pixelMargin = margin * scale, gap = 34f * scale;
+            float bottom = pixelMargin;
+            foreach (var control in new[] { okButton.gameObject, bottomInstructionText.gameObject })
+                if (control.activeInHierarchy && TutorialScreenUtility.TryGetScreenRect(control,
+                    TutorialTargetType.TwoDimensional, null, Vector2.zero, out Rect controlRect, out _))
+                    bottom = Mathf.Max(bottom, controlRect.yMax + pixelMargin);
 
-            if (aboveSpace >= height + gap || aboveSpace >= Mathf.Max(belowSpace, Mathf.Max(leftSpace, rightSpace)))
+            Vector2[] candidates = {
+                new Vector2(targetCenter.x, targetRect.yMax + gap + pixelHeight * 0.5f),
+                new Vector2(targetCenter.x, targetRect.yMin - gap - pixelHeight * 0.5f),
+                new Vector2(targetRect.xMax + gap + pixelWidth * 0.5f, targetCenter.y),
+                new Vector2(targetRect.xMin - gap - pixelWidth * 0.5f, targetCenter.y)
+            };
+            Vector2 desired = candidates[0];
+            float bestOverlap = float.PositiveInfinity;
+            foreach (Vector2 candidate in candidates)
             {
-                desired = new Vector2(targetCenter.x, targetRect.yMax + gap + height * 0.5f);
-                tailDirection = Vector2.down;
+                Vector2 clamped = new Vector2(
+                    Mathf.Clamp(candidate.x, pixelMargin + pixelWidth * 0.5f, Screen.width - pixelMargin - pixelWidth * 0.5f),
+                    Mathf.Clamp(candidate.y, bottom + pixelHeight * 0.5f, Screen.height - pixelMargin - pixelHeight * 0.5f));
+                Rect bubble = new Rect(clamped.x - pixelWidth * 0.5f, clamped.y - pixelHeight * 0.5f, pixelWidth, pixelHeight);
+                float overlap = Mathf.Max(0f, Mathf.Min(bubble.xMax, targetRect.xMax) - Mathf.Max(bubble.xMin, targetRect.xMin)) *
+                    Mathf.Max(0f, Mathf.Min(bubble.yMax, targetRect.yMax) - Mathf.Max(bubble.yMin, targetRect.yMin));
+                if (overlap >= bestOverlap) continue;
+                bestOverlap = overlap;
+                desired = clamped;
+                if (overlap == 0f) break;
             }
-            else if (belowSpace >= height + gap || belowSpace >= Mathf.Max(leftSpace, rightSpace))
-            {
-                desired = new Vector2(targetCenter.x, targetRect.yMin - gap - height * 0.5f);
-                tailDirection = Vector2.up;
-            }
-            else if (rightSpace >= leftSpace)
-            {
-                desired = new Vector2(targetRect.xMax + gap + width * 0.5f, targetCenter.y);
-                tailDirection = Vector2.left;
-            }
-            else
-            {
-                desired = new Vector2(targetRect.xMin - gap - width * 0.5f, targetCenter.y);
-                tailDirection = Vector2.right;
-            }
-
-            desired.x = Mathf.Clamp(desired.x, margin + width * 0.5f, Screen.width - margin - width * 0.5f);
-            desired.y = Mathf.Clamp(desired.y, margin + height * 0.5f, Screen.height - margin - height * 0.5f);
+            Vector2 tailDirection = targetCenter - desired;
             RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, desired, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera, out Vector2 local);
             dialogueBubble.anchoredPosition = local;
 

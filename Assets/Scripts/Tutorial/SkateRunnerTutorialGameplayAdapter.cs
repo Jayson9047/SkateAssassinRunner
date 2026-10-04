@@ -12,11 +12,70 @@ public sealed class SkateRunnerTutorialGameplayAdapter : MonoBehaviour, ITutoria
     [Header("Composite Actions")]
     [SerializeField, Min(0f)] private float tutorialDoubleTapReplayInterval = 0.10f;
 
+    [Header("Airborne Enemy Lesson Framing")]
+    [SerializeField] private CameraFollowTargetYOnly tutorialCameraFollow;
+    [SerializeField] private string airborneEnemyTargetId = "Tutorial.DownAttackTarget";
+    [SerializeField] private float airborneLessonCameraOffset = -8f;
+    private TutorialManager manager;
+    private bool cameraOffsetOwned;
+    private float savedCameraOffset;
+
+    private bool ownsInputBlock;
+    private bool inputWasAlreadyBlocked;
+
+    private void OnEnable()
+    {
+        manager = GetComponent<TutorialManager>();
+        if (manager == null) return;
+        manager.TutorialStarted += FrameAirborneEnemy;
+        manager.TutorialCompleted += RestoreLessonCamera;
+    }
+
+    private void OnDisable()
+    {
+        if (manager != null)
+        {
+            manager.TutorialStarted -= FrameAirborneEnemy;
+            manager.TutorialCompleted -= RestoreLessonCamera;
+        }
+        RestoreLessonCamera(null);
+    }
+
+    private void FrameAirborneEnemy(TutorialDefinition lesson)
+    {
+        if (tutorialCameraFollow == null || lesson.RuntimeTargetId != airborneEnemyTargetId ||
+            lesson.GameplayActionId != "DownAttack") return;
+        // Keep the grounded enemy visible while the player is paused at the apex.
+        savedCameraOffset = tutorialCameraFollow.yOffset;
+        cameraOffsetOwned = true;
+        tutorialCameraFollow.yOffset += airborneLessonCameraOffset;
+    }
+
+    private void RestoreLessonCamera(TutorialDefinition lesson)
+    {
+        if (!cameraOffsetOwned) return;
+        if (tutorialCameraFollow != null) tutorialCameraFollow.yOffset = savedCameraOffset;
+        cameraOffsetOwned = false;
+    }
+
     public void SetGameplayInputBlocked(bool blocked)
     {
         if (LevelManager.Instance == null) return;
-        if (blocked) LevelManager.Instance.LockGameplayInputs();
-        else LevelManager.Instance.UnlockGameplayInputs();
+        if (blocked)
+        {
+            if (!ownsInputBlock) inputWasAlreadyBlocked = LevelManager.Instance.GameplayInputsLocked;
+            ownsInputBlock = true;
+            LevelManager.Instance.LockGameplayInputs();
+        }
+        else if (ownsInputBlock)
+        {
+            RestoreLessonCamera(null);
+            ownsInputBlock = false;
+            // Dismissing a lesson must preserve Phase 2's own input lock.
+            var level = SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor;
+            if (!inputWasAlreadyBlocked && (level == null || !level.IsPhase2BossActive))
+                LevelManager.Instance.UnlockGameplayInputs();
+        }
     }
 
     public bool CanExecuteGameplayAction(string actionId, out string reason)

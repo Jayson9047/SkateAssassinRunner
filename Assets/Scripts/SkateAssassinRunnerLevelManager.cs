@@ -457,7 +457,9 @@ namespace MoreMountains.InfiniteRunnerEngine
                     }
                 }
 
-                yield return null;
+                // Resolve on the frame the deadline is reached; do not leave
+                // a one-frame window for a button click after the timer shows zero.
+                if (remaining > 0f) yield return null;
             }
 
             // Time's up - ask GUI to resolve timeout safely

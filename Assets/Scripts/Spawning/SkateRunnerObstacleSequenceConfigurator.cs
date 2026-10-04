@@ -28,6 +28,10 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Header("Debugging")]
         [SerializeField] private bool logResolvedSequence;
 
+        [Header("Authored Sequences Only")]
+        [Tooltip("Keep dedicated teaching/recovery chunks out of the shuffled pool on other levels.")]
+        [SerializeField] private List<GameObject> authoredOnlyScenarios = new List<GameObject>();
+
         private void Awake()
         {
             MMMultipleObjectPooler pooler = GetComponent<MMMultipleObjectPooler>();
@@ -90,6 +94,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             }
 
             List<MMMultipleObjectPoolerObject> shuffled = ClonePool(masterPool, false);
+            shuffled.RemoveAll(entry => authoredOnlyScenarios.Contains(entry.GameObjectToPool));
             try
             {
                 SecureFisherYatesShuffle(shuffled);

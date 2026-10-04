@@ -10,7 +10,7 @@ public class PlayerPhase2Controller : MonoBehaviour
     [SerializeField] private string phase2DeadTriggerName = "Phase2Dead";
 
     [Header("Phase 2 Execution (Bullet-driven)")]
-    [SerializeField] private float executionFailsafeSeconds = 0f; // set 0 to disable
+    [SerializeField, Min(0.1f)] private float executionFailsafeSeconds = 2.5f;
     public bool Phase2ExecutionPending { get; private set; }
     private Coroutine _executionFailsafeCo;
 
@@ -48,12 +48,10 @@ public class PlayerPhase2Controller : MonoBehaviour
 
         Phase2ExecutionPending = true;
 
-        // Optional failsafe to avoid soft-lock if bullet misses (0 disables)
-        if (executionFailsafeSeconds > 0f)
-        {
-            if (_executionFailsafeCo != null) StopCoroutine(_executionFailsafeCo);
-            _executionFailsafeCo = StartCoroutine(ExecutionFailsafeCo());
-        }
+        // Death is authoritative even if the projectile misses or cannot spawn.
+        // Old prefabs with a serialized zero still receive the fallback.
+        if (_executionFailsafeCo != null) StopCoroutine(_executionFailsafeCo);
+        _executionFailsafeCo = StartCoroutine(ExecutionFailsafeCo());
     }
 
     public void OnHitByPhase2ExecutionBullet()
@@ -73,7 +71,7 @@ public class PlayerPhase2Controller : MonoBehaviour
 
     private IEnumerator ExecutionFailsafeCo()
     {
-        yield return new WaitForSeconds(executionFailsafeSeconds);
+        yield return new WaitForSeconds(executionFailsafeSeconds > 0f ? executionFailsafeSeconds : 2.5f);
         _executionFailsafeCo = null;
 
         // If still pending, force the death to avoid hanging the run.
