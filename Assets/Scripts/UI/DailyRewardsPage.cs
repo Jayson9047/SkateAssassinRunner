@@ -385,6 +385,8 @@ public class DailyRewardsPage : MonoBehaviour
         ES3.Save(LastClaimedUtcSaveKey, string.Empty);
     }
 
+    public bool IsDayOneClaimed => IsClaimed(0);
+
     private bool IsClaimed(int dayIndex)
     {
         return ES3.Load(GetClaimedSaveKey(dayIndex), false);

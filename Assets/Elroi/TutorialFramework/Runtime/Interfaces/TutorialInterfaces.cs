@@ -3,6 +3,12 @@ using System.Collections;
 
 namespace Elroi.Tutorials
 {
+    /// <summary>Optional bridge to a project's text animation package.</summary>
+    public interface ITutorialTextPresenter
+    {
+        void SetTutorialText(string text);
+    }
+
     public interface ITutorialGameplayAdapter
     {
         void SetGameplayInputBlocked(bool blocked);

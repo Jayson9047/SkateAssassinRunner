@@ -77,3 +77,54 @@ Unity 6000.0.67f1 live Editor checks:
 - Missing-projectile timeout, Red result, late click and failed retry all reach life loss instead of a stuck state.
 
 Temporary QA traces and screenshots are under Temp/CodexTutorial and Temp/CodexTutorialRevision (ignored; no runtime dependency). Playtest save files are backed up and restored. These are Editor checks using production handlers, not device touch/performance tests.
+
+
+## Animated tutorial typography
+
+All 15 gameplay lessons and all 19 Home lessons use Text Animator for Unity 3.20.1. The project-specific `Assets/Prefabs/UI/SkateRunnerTutorialCanvas.prefab` uses `SkateRunnerTutorialTextAnimator` to feed full authored strings into `TextAnimator_TMP.SetText`. It uses unscaled LateUpdate animation, so reading a frozen tutorial does not freeze its words. The reusable framework has an optional `ITutorialTextPresenter` bridge and no Febucci dependency.
+
+Dialogue uses **Barlow Condensed SemiBold**; instruction lines, OK labels and animated buzzwords use **Bangers**. Fonts are baked as static 1024×1024 SDF16 atlases at 80pt / 8px padding, covering the current English copy and punctuation. Action words have gentle bounce, slide or wave effects; danger/slam/Ruthless words shake. The live Ruthless prompt retains bright red text and its fast pulse, with additional Text Animator shake/bounce and a dark outline.
+
+Font binaries, atlas assets, material preset, theme, download URLs and hashes are under `Assets/Fonts/Tutorial/`. Both fonts are licensed under SIL OFL 1.1; unchanged copyright/license texts are included in `Assets/StreamingAssets/ThirdPartyLicenses/` so they ship in the player. These are not fonts extracted from commercial examples. New translations require their glyphs to be baked or an appropriate fallback before shipping.
+
+Use `<bounce a=0.3>`, `<wave a=0.2>`, `<slideh a=0.25>` or `<shake a=0.2>` around selected words. Dialogue emphasis also uses `<font="SkateRunner Tutorial Action"><size=110%>`. The adapter holds an explicit reference and registers that font before parsing, so font tags do not depend on an Editor cache. Avoid applying motion to whole long paragraphs. Presentation measures text only when its content/width changes; forcing a TMP mesh rebuild every frame would interfere with animation.
+
+## First launch and future intro
+
+`ElroiBootSplash` is the build entry scene. Its controller calls `SkateRunnerFirstRunProgress.ResolveDestination`: a fresh profile loads `SkateRunner` directly; a played profile loads `SkateRunnerStartScreen`. A Level 1 result is considered played when `SkateRunnerGameManager.SaveAfterLevelEnd` banks it, whether the run succeeded or failed. Quitting before banking leaves first-run routing pending. Existing profiles with a saved `LevelNum` migrate to Home; an explicitly reset onboarding flag overrides migration.
+
+The existing result menu action banks the run and returns Home. Its rewards/multiplier presentation remains available before leaving. First-run state uses `SkateRunner.Onboarding.*.v1` ES3 keys, separate from gameplay lesson replay flags. The developer full-progress reset resets these keys too.
+
+The boot controller exposes **Enable First Run Intro** (off) and **First Run Intro** (unassigned PlayableDirector). To add the real cutscene, place its disabled root/director in the boot scene, assign a Timeline, disable its Play On Awake, assign the director and enable the hook. The controller activates and plays it with unscaled time before loading Level 1. Completion is saved only after the director finishes. No dummy cutscene or extra delay is installed.
+
+Startup privacy readiness now also applies to direct gameplay entry through the existing loader.
+
+## First Home tour
+
+`HomeTutorialManager` in `SkateRunnerStartScreen` contains 19 editable `TutorialDefinition` entries, using the same presentation as gameplay. `SkateRunnerHomeTutorial` advances them in this order:
+
+1. Rewards button → Day 1 → real reward popup OK → Rewards Back.
+2. Missions button → Collect 30 Gems claim → real reward popup OK → Missions Back.
+3. Gems balance → Cash balance.
+4. Inventory button → Swords → Abilities → Rollerblades → Inventory Back.
+5. Shop button → sword lineup explanation → Home → final encouragement.
+
+Day 1 is the real 50-Gem daily grant; it completes the real 30-Gem mission, whose claim awards 5 Gems. The tutorial calls no currency-grant shortcuts. It preserves both reward reveal animations and waits for their actual OK controls. It explains any-sword/any-ability compatibility, starter equipment, earning currencies, and paid Shop items without initiating purchases.
+
+The appended generic completion type **TargetClick** opens a pointer hole over the exact target RectTransform. The overlay still blocks its padded spotlight area and all other controls. A temporary click observer coexists with Button and UIClickToggle handlers. Keyboard navigation is suspended for the tour; a separate invisible input blocker protects transitions/reward reveals. World time remains paused throughout; UI animations use unscaled time. The tour waits for loading/connectivity readiness before taking its pause.
+
+The next Home stage is checkpointed after each completed step. Restarting reconstructs the needed page, skips already-granted rewards/absent popups, and never claims twice. If the daily mission resets before a resumed claim (including while its prompt is visible), an informational OK lesson explains collecting 30 Gems again instead of trapping the user at a disabled button. After the last OK, Home is restored, input/time are released and the tour is marked complete.
+
+### October 4 Home/typography verification
+
+- Edit Mode **30/30** passed (job `b2fdaaa9e0914c52aeb0ba83a5b8ca5d`); Play Mode **4/4** passed (job `8b11b6a044ec4e048456f9ef786366cd`). The new pointer test checks the actual EventSystem raycast, original button action, temporary observer removal and time restoration.
+- Fresh boot entered Level 1 with the first Jump lesson and no Home tour; the played flag remained false before banking. The production result exit banked the first run and loaded Home with its Rewards lesson. Returning-player boot reached Home with a completed tour, time 1 and no repeated tutorial.
+- All 19 Home steps accepted real raycasted pointer clicks; Day 1 granted 50 Gems and Collect Gems granted 5. Unrelated controls remained behind the input overlay, while Button and UIClickToggle targets both worked. Final time 1 and keyboard navigation were restored.
+- Interrupted after Day 1's grant, before its reward popup OK: restart resumed at Rewards Back with 50 Gems and completed at 55, with no second daily grant.
+- Reset daily mission progress while the real claim prompt was visible: it changed from TargetClick to the daily-reset OK explanation, with the 55-Gem balance unchanged.
+- Mixed-font mesh sampling confirmed animated vertices at time scale 0; package tags were removed from the displayed strings. Text Animator effects are also present on the gameplay and live Ruthless text. Final controls recap reports no text overflow at the tested landscape size.
+- Level 1 gesture regression retained three lives, collected all six air-dash bundles with six cash bursts, passed slide/slam and reached the recap with restored input. Gameplay theme/font assignments were checked again after cold scene loading.
+
+Evidence is under `Temp/CodexHomeOnboarding` (ignored, not a runtime dependency). These are Unity Editor checks; no device performance or new standalone-build claim is made.
+
+QA preservation note: the original ES3 save was restored byte-for-byte after these tests. The full developer reset also changed PlayerPrefs-based equipped items and high score; those pre-test values were not backed up. Future fresh-profile QA must separately snapshot those PlayerPrefs keys (or use an isolated test profile) before invoking ResetAllGameProgress.

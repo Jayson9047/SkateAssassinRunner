@@ -71,6 +71,8 @@ public static class SkateRunnerDebugResetService
         DeleteEs3Key("TotalCash");
         DeleteEs3Key("TotalGems");
         DeleteEs3Key("LevelNum");
+        SkateRunnerFirstRunProgress.Reset();
+        SkateRunnerTutorialPersistence.ResetAllProgress();
         DeleteEs3Key(SwordOwnershipSave.OwnedSwordIdsKey);
         DeleteEs3Key(WeaponPowerOwnershipSave.OwnedWeaponPowerIdsKey);
         DeleteEs3Key(RollerbladeOwnershipSave.OwnedRollerbladeIdsKey);

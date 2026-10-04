@@ -48,6 +48,10 @@ MonoBehaviour:
     - Elroi.Tutorials.Demo
     - Elroi.Tutorials.Runtime
     - Elroi.Tutorials.Tests.PlayMode
+    - Febucci.Attributes.Runtime
+    - Febucci.TextAnimatorForUnity.Input.Runtime
+    - Febucci.TextAnimatorForUnity.Runtime
+    - Febucci.TextAnimatorForUnity.TMP.Runtime
     - FronkonGames.SpiceUp.Slash
     - Kamgam.MeshExtractor
     - KinoBloom.Runtime

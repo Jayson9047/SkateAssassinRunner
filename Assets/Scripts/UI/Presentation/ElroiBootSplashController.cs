@@ -1,6 +1,7 @@
 using System.Collections;
 using MoreMountains.Tools;
 using UnityEngine;
+using UnityEngine.Playables;
 
 /// <summary>
 /// Shows the Elroi card before any loading work begins, then hands off to the
@@ -13,6 +14,11 @@ public sealed class ElroiBootSplashController : MonoBehaviour
     [SerializeField, Min(0f)] private float holdDuration = 1.5f;
     [SerializeField, Min(0f)] private float fadeDuration = 0.25f;
     [SerializeField] private string destinationScene = "SkateRunnerStartScreen";
+    [SerializeField] private string firstLevelScene = "SkateRunner";
+
+    [Header("Optional First-run Intro (disabled until a real cutscene is assigned)")]
+    [SerializeField] private bool enableFirstRunIntro;
+    [SerializeField] private PlayableDirector firstRunIntro;
 
     [Header("References")]
     [SerializeField] private CanvasGroup splashCanvasGroup;
@@ -50,7 +56,19 @@ public sealed class ElroiBootSplashController : MonoBehaviour
             yield break;
         }
 
-        MMSceneLoadingManager.LoadScene(destinationScene);
+        if (!SkateRunnerFirstRunProgress.HasPlayedFirstLevel && enableFirstRunIntro && firstRunIntro != null
+            && firstRunIntro.playableAsset != null && !ES3.Load(SkateRunnerFirstRunProgress.IntroSeenKey, false))
+        {
+            firstRunIntro.gameObject.SetActive(true);
+            firstRunIntro.timeUpdateMode = DirectorUpdateMode.UnscaledGameTime;
+            firstRunIntro.extrapolationMode = DirectorWrapMode.None;
+            firstRunIntro.Play();
+            yield return null;
+            while (firstRunIntro != null && firstRunIntro.state == PlayState.Playing) yield return null;
+            ES3.Save(SkateRunnerFirstRunProgress.IntroSeenKey, true);
+        }
+
+        MMSceneLoadingManager.LoadScene(SkateRunnerFirstRunProgress.ResolveDestination(destinationScene, firstLevelScene));
     }
 
     private static IEnumerator WaitRealtime(float duration)

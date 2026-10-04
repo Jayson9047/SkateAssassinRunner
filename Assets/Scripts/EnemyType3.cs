@@ -1,4 +1,5 @@
 using IndieKit;
+using MoreMountains.InfiniteRunnerEngine;
 using UnityEngine;
 
 public class EnemyType3 : MonoBehaviour
@@ -57,8 +58,10 @@ public class EnemyType3 : MonoBehaviour
 
     private void OnEnable()
     {
-        _killShotFired = false;
+        ResetKillShot();
     }
+
+    public void ResetKillShot() => _killShotFired = false;
 
     /// <summary>
     /// Called when Phase2 car begins diagonal merge.
@@ -84,7 +87,6 @@ public class EnemyType3 : MonoBehaviour
     public void ShootKillShot()
     {
         if (shootOnlyOncePerPhase2 && _killShotFired) return;
-        _killShotFired = true;
 
         if (firePoint == null || projectilePrefab == null)
         {
@@ -92,26 +94,38 @@ public class EnemyType3 : MonoBehaviour
             return;
         }
 
+        _killShotFired = true;
         Vector3 dir = firePoint.forward;
+        Collider targetCollider = null;
 
         if (aimAtPlayer)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
-                Vector3 target = player.transform.position + playerAimOffset;
+                // The runner's collider is offset from its root, including in depth.
+                // Aim through the actual hit volume rather than grazing its edge.
+                targetCollider = player.GetComponent<Collider>();
+                Vector3 target = targetCollider != null && targetCollider.enabled
+                    ? targetCollider.bounds.center
+                    : player.transform.position + playerAimOffset;
                 dir = (target - firePoint.position).normalized;
             }
         }
 
         
         SkateRunnerAudioManager.PlayPhase2SniperGunshot();
-var go = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(dir));
+        var go = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(dir));
 
         var projectile = go.GetComponent<SimpleProjectile>();
         if (projectile != null)
         {
-            projectile.Init(dir, transform.root, killShotProjectileSpeed);
+            // Pooled cars share transform.root. Use this car's mover so another
+            // pooled car cannot supply the shot's scroll direction or speed.
+            var carMover = GetComponentInParent<MovingObject>();
+            projectile.Init(dir, carMover != null ? carMover.transform : transform, killShotProjectileSpeed);
+            var execution = go.GetComponent<Phase2ExecutionBullet>();
+            if (execution != null) execution.Initialize(targetCollider, projectile);
         }
     }
 }

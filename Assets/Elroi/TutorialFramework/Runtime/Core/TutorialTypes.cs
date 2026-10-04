@@ -5,7 +5,7 @@ namespace Elroi.Tutorials
 {
     public enum TutorialTargetType { None, TwoDimensional, ThreeDimensional }
     public enum TutorialTargetSource { DirectObject, RuntimeTargetId, RuntimeContextTarget }
-    public enum TutorialCompletionType { OkButton, Gesture, Event, Manual }
+    public enum TutorialCompletionType { OkButton, Gesture, Event, Manual, TargetClick }
     public enum TutorialGesture { None, Tap, DoubleTap, SwipeLeft, SwipeRight, SwipeUp, SwipeDown }
     public enum TutorialSpotlightShape { Rectangle, RoundedRectangle, Circle }
     public enum TutorialRunPolicy { EveryTime, OncePerSceneLoad, OncePerSession, OnceEver }

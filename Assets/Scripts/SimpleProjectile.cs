@@ -23,6 +23,7 @@ public class SimpleProjectile : MonoBehaviour
     private GameObject _hit;          // Visuals/Hit1
 
     private bool _hasHit;
+    public bool HasHit => _hasHit;
 
     private void Awake()
     {
@@ -115,19 +116,39 @@ public class SimpleProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_hasHit) return;
+        TryHit(other, other.ClosestPoint(transform.position));
+    }
+
+    // Shared by ordinary trigger hits and the execution bullet's swept hit test.
+    public bool TryHit(Collider other, Vector3 hitPosition)
+    {
+        if (_hasHit || other == null) return false;
 
         // Ignore the shooter and its children (prevents instant self-hit)
-        if (_ownerRoot != null && other.transform.root == _ownerRoot)
-            return;
+        if (_ownerRoot != null && other.transform.IsChildOf(_ownerRoot))
+            return false;
 
         _hasHit = true;
 
+        // Stop the physics pose as well as scripted motion. Interpolation can
+        // otherwise restore an overshot pose after the execution sweep hits.
+        var body = GetComponent<Rigidbody>();
+        if (body != null)
+        {
+            if (!body.isKinematic)
+            {
+                body.linearVelocity = Vector3.zero;
+                body.angularVelocity = Vector3.zero;
+            }
+            body.position = hitPosition;
+            body.isKinematic = true;
+        }
+        transform.position = hitPosition;
+
         // Spawn hit FX at impact point
-        Vector3 hitPos = other.ClosestPoint(transform.position);
         Quaternion hitRot = transform.rotation;
 
-        PlayDetachedFX(_hit, hitPos, hitRot);
+        PlayDetachedFX(_hit, hitPosition, hitRot);
 
         // Hide travel visual immediately so it "impacts"
         if (_travelVisual != null) _travelVisual.SetActive(false);
@@ -140,6 +161,7 @@ public class SimpleProjectile : MonoBehaviour
 
         // Destroy after a short delay (lets hit FX finish nicely)
         Destroy(gameObject, destroyDelayAfterHit);
+        return true;
     }
 
     private void PlayDetachedFX(GameObject fxObj, Vector3 pos, Quaternion rot)
@@ -158,7 +180,10 @@ public class SimpleProjectile : MonoBehaviour
 
         foreach (var ps in pss)
         {
-            ps.Play(true);
+            // Clear particles emitted before the detached effect reached its
+            // final muzzle/impact pose, then play each system exactly once.
+            ps.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+            ps.Play(false);
             var main = ps.main;
 
             // duration + max lifetime (rough but good)

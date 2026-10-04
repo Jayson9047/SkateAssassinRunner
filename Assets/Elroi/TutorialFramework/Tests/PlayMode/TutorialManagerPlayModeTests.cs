@@ -139,6 +139,49 @@ namespace Elroi.Tutorials.Tests
             Assert.That(Time.timeScale, Is.EqualTo(1f));
         }
 
+        [UnityTest]
+        public IEnumerator TargetClickPassesOnlyTheHighlightedControlAndPreservesItsAction()
+        {
+            TutorialManager manager = CreateManager(null);
+            var system = new GameObject("ELROI_TEST_EventSystem", typeof(EventSystem));
+            var canvasObject = new GameObject("Target Canvas", typeof(RectTransform), typeof(Canvas), typeof(UnityEngine.UI.GraphicRaycaster));
+            canvasObject.transform.SetParent(root.transform, false);
+            canvasObject.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            var target = new GameObject("Real Button", typeof(RectTransform), typeof(UnityEngine.UI.Image), typeof(UnityEngine.UI.Button));
+            target.transform.SetParent(canvasObject.transform, false);
+            var targetRect = target.GetComponent<RectTransform>();
+            targetRect.sizeDelta = new Vector2(160, 80);
+            targetRect.anchoredPosition = new Vector2(-200, 0);
+            int actions = 0;
+            target.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => actions++);
+            var definition = MakeDefinition("Click Real Control", TutorialCompletionType.TargetClick, TutorialGesture.None, null);
+            definition.TargetType = TutorialTargetType.TwoDimensional;
+            definition.SpotlightTarget = target;
+            manager.MutableTutorialsForAuthoring.Add(definition);
+            root.SetActive(true);
+            yield return null;
+            Assert.That(manager.TryPlayTutorial(definition.TutorialName), Is.True);
+            Canvas.ForceUpdateCanvases();
+            yield return null;
+
+            var presentation = root.GetComponentInChildren<TutorialPresentation>();
+            Vector2 targetPoint = RectTransformUtility.WorldToScreenPoint(null, targetRect.position);
+            Assert.That(presentation.IsRaycastLocationValid(targetPoint, null), Is.False, "Target must pass through the overlay.");
+            Assert.That(presentation.IsRaycastLocationValid(targetPoint + new Vector2(200, 0), null), Is.True, "Other controls must remain blocked.");
+            var pointer = new PointerEventData(EventSystem.current) { position = targetPoint, button = PointerEventData.InputButton.Left };
+            var results = new System.Collections.Generic.List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointer, results);
+            Assert.That(results.Count, Is.GreaterThan(0));
+            Assert.That(ExecuteEvents.GetEventHandler<IPointerClickHandler>(results[0].gameObject), Is.EqualTo(target));
+            ExecuteEvents.Execute(target, pointer, ExecuteEvents.pointerClickHandler);
+            yield return null;
+            yield return null;
+            Assert.That(actions, Is.EqualTo(1));
+            Assert.That(manager.IsTutorialPlaying, Is.False);
+            Assert.That(Time.timeScale, Is.EqualTo(1));
+            Assert.That(target.GetComponent<TutorialTargetClickRelay>(), Is.Null, "Temporary click observer must be removed.");
+        }
+
         private TutorialManager CreateManager(System.Action<TutorialTestGameplayAdapter> adapterCallback)
         {
             return CreateManagerWithAdapter(adapterCallback);

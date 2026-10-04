@@ -24,6 +24,12 @@
       },
       "hash": "11836003a5e2ffcb7715ecec7e1fbb9d9cdb5bb8"
     },
+    "com.febucci.text-animator-unity": {
+      "version": "file:com.febucci.text-animator-unity",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.google.ads.mobile": {
       "version": "11.5.0",
       "depth": 0,

@@ -1,0 +1,30 @@
+[
+  {
+    "file": "Bangers-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/bangers/Bangers-Regular.ttf",
+    "retrieved": "2026-10-04",
+    "sha256": "4160a7311de9342674cce9160cde9fcbb30f48190397d86ff1b70b455af65824",
+    "bytes": 93148
+  },
+  {
+    "file": "Bangers-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/bangers/OFL.txt",
+    "retrieved": "2026-10-04",
+    "sha256": "630dd5a307c0657b094d324e069b390edf90182fe5003639e06c02a0e5769af7",
+    "bytes": 4479
+  },
+  {
+    "file": "BarlowCondensed-SemiBold.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/BarlowCondensed-SemiBold.ttf",
+    "retrieved": "2026-10-04",
+    "sha256": "7b619d14bc2327509a9ef32b0890f709626f7ecc9ff61191c2a4314c5499d2d9",
+    "bytes": 109428
+  },
+  {
+    "file": "BarlowCondensed-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/OFL.txt",
+    "retrieved": "2026-10-04",
+    "sha256": "186d750eb496a4c17a76385f82be6aea2ac1cf2de074a811d63786cf374ea73f",
+    "bytes": 4377
+  }
+]

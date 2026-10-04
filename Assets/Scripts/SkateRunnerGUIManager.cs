@@ -667,7 +667,7 @@ SlamButtonRect.anchoredPosition = pos1;
             if (player != null)
             {
                 player.BeginPhase2ExecutionPending();
-                FindFirstObjectByType<EnemyType3>()?.ShootKillShot();
+                SkateAssassinRunnerLevelManager.SkateRunnerLevelManagerAccessor?.Phase2Shooter?.ShootKillShot();
             }
             else
             {

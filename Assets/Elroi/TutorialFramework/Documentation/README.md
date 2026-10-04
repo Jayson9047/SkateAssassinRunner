@@ -67,7 +67,7 @@ Tutorial Definitions live in the manager's independent **Tutorials** list. They 
 - Target Type: None, 2D, or 3D.
 - Target Source: Direct Object, Runtime Target ID, or Runtime Context Target.
 - Introduction text, bottom instruction, optional gesture animation, spotlight shape and padding, and Freeze World.
-- Completion Type: OK Button, Gesture, Event, or Manual/API.
+- Completion Type: OK Button, Gesture, Event, Manual/API, or Target Click.
 - Required Gesture and generic Gameplay Action ID where applicable.
 
 Automatic trigger settings do not belong to a Tutorial Definition. Keeping them on Sequence Entries allows one definition to be used manually and reused in several automatic contexts.
@@ -185,7 +185,17 @@ The original manga-style bubble uses procedural Unity UI shapes, an outline, a t
 
 ### OK button
 
-OK Button completion works while `Time.timeScale == 0` because Unity UI events and the presentation use unscaled timing. It is hidden for Gesture, Event, and Manual/API completion modes.
+OK Button completion works while `Time.timeScale == 0` because Unity UI events and the presentation use unscaled timing. It is hidden for other completion modes.
+
+### Target Click
+
+Target Click completion observes a real left-pointer click on the highlighted UI control. Use a 2D target and assign the actual click-handler GameObject. A temporary `TutorialTargetClickRelay` coexists with the control's production handler and is removed when the presentation closes.
+
+Only the target's actual RectTransform passes pointer input through the overlay; the larger padded spotlight remains blocked. A project tour controller must separately suspend keyboard navigation, protect between-step transitions and verify any resulting reward transaction before saving a checkpoint. Target Click does not grant rewards or navigate pages itself.
+
+### Optional animated text
+
+A component on either tutorial TMP label can implement `ITutorialTextPresenter.SetTutorialText(string)` to receive each complete authored string. Otherwise presentation uses ordinary TMP text. Package-specific animators belong in project adapters; the framework has no Febucci dependency. Layout is measured only when content or available width changes, so target tracking does not overwrite animated glyph meshes every frame.
 
 ## Gestures and input handoff
 
@@ -198,7 +208,7 @@ For a Gesture tutorial with a Gameplay Action ID:
 1. The overlay consumes the completing pointer release.
 2. Presentation closes and the prior world timescale is restored.
 3. `ITutorialGameplayAdapter.ExecuteGameplayAction(actionId)` invokes the real game action once, or optional `ITutorialAsyncGameplayAdapter` completes a multi-frame composite action.
-4. Normal gameplay remains locked until the action routine finishes, then through end-of-frame and one following frame.
+4. Normal gameplay remains locked until the action routine finishes, then through the manager's two-frame handoff.
 5. The framework unlocks input, or keeps it locked when a sequencer still owns the between-step lock.
 
 This ordering prevents the underlying input scripts from processing the same release after the overlay disappears.
@@ -252,13 +262,13 @@ Open `Demo/ELROI_Tutorial_Demo.unity`. It contains only Unity primitives, Unity 
 
 - Add a new gameplay integration by implementing the interfaces, outside the package.
 - Add a new trigger by extending `TutorialTriggerType`, its conditional editor drawer, and the manager's watcher arming path.
-- Add a new completion mode beside OK/Gesture/Event/Manual without moving automatic trigger data into Tutorial Definitions.
+- Append new completion modes after existing enum values without moving automatic trigger data into Tutorial Definitions or shifting serialized values.
 - Replace presentation styling through `TutorialTheme` while retaining one shared Canvas.
 
 ## Known v1 limitations
 
 - Cross-scene sequencing is intentionally out of scope.
-- Clicking the highlighted target as a completion type is reserved for a later version.
+- Target Click supports pointer-driven UI; keyboard navigation and multi-step transaction recovery require a project controller.
 - The default persistence component cannot enumerate and delete an arbitrary PlayerPrefs prefix.
 - Only one sequencer actively presents entries at a time.
 - A World Space Canvas must provide a working Canvas camera for correct 2D projection.

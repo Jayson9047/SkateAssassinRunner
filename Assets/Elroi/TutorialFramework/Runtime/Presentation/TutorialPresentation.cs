@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace Elroi.Tutorials
 {
     [DisallowMultipleComponent]
-    public sealed class TutorialPresentation : MonoBehaviour
+    public sealed class TutorialPresentation : MonoBehaviour, ICanvasRaycastFilter
     {
         [SerializeField] private Canvas canvas;
         [SerializeField] private TutorialSpotlightGraphic spotlight;
@@ -29,6 +29,10 @@ namespace Elroi.Tutorials
         private Coroutine trackingRoutine;
         private Coroutine gestureRoutine;
         private Rect currentTargetRect;
+        private TutorialTargetClickRelay clickRelay;
+        private bool layoutDirty;
+        private float lastTextWidth = -1f;
+        private float measuredHeight;
 
         public bool IsVisible => gameObject.activeSelf;
 
@@ -60,15 +64,22 @@ namespace Elroi.Tutorials
             gameObject.SetActive(true);
             ApplyTheme();
 
-            introductionText.text = tutorial.IntroductionText ?? string.Empty;
+            SetText(introductionText, tutorial.IntroductionText);
+            layoutDirty = true;
             dialogueTail.gameObject.SetActive(tutorial.TargetType != TutorialTargetType.None);
-            bottomInstructionText.text = tutorial.BottomInstructionText ?? string.Empty;
+            SetText(bottomInstructionText, tutorial.BottomInstructionText);
             bottomInstructionText.gameObject.SetActive(!string.IsNullOrWhiteSpace(tutorial.BottomInstructionText));
             okButton.gameObject.SetActive(tutorial.CompletionType == TutorialCompletionType.OkButton);
             okButton.onClick.RemoveAllListeners();
             if (tutorial.CompletionType == TutorialCompletionType.OkButton) okButton.onClick.AddListener(() => onOk?.Invoke());
 
             gestureInput.End();
+            ReleaseTargetClick();
+            if (tutorial.CompletionType == TutorialCompletionType.TargetClick && target != null)
+            {
+                clickRelay = target.AddComponent<TutorialTargetClickRelay>();
+                clickRelay.Clicked = onOk;
+            }
             if (tutorial.CompletionType == TutorialCompletionType.Gesture)
                 gestureInput.Begin(tutorial.RequiredGesture, gestureSettings, onGesture);
 
@@ -80,6 +91,7 @@ namespace Elroi.Tutorials
 
         public void Hide()
         {
+            ReleaseTargetClick();
             gestureInput.End();
             okButton.onClick.RemoveAllListeners();
             if (trackingRoutine != null) StopCoroutine(trackingRoutine);
@@ -89,6 +101,40 @@ namespace Elroi.Tutorials
             definition = null;
             target = null;
             gameObject.SetActive(false);
+        }
+
+        private static void SetText(TMP_Text label, string text)
+        {
+            foreach (var component in label.GetComponents<MonoBehaviour>())
+                if (component is ITutorialTextPresenter presenter)
+                {
+                    presenter.SetTutorialText(text ?? string.Empty);
+                    return;
+                }
+            label.text = text ?? string.Empty;
+        }
+
+        private void ReleaseTargetClick()
+        {
+            if (clickRelay == null) return;
+            clickRelay.Clicked = null;
+            Destroy(clickRelay);
+            clickRelay = null;
+        }
+
+        private void OnDestroy() => ReleaseTargetClick();
+
+        public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
+        {
+            // The visual spotlight has generous padding. Only the actual target control
+            // receives clicks, never neighboring controls inside that padding.
+            if (definition == null || definition.CompletionType != TutorialCompletionType.TargetClick || target == null)
+                return true;
+            var rect = target.transform as RectTransform;
+            var targetCanvas = target.GetComponentInParent<Canvas>();
+            Camera camera = targetCanvas != null && targetCanvas.renderMode != RenderMode.ScreenSpaceOverlay
+                ? targetCanvas.worldCamera : null;
+            return rect == null || !RectTransformUtility.RectangleContainsScreenPoint(rect, screenPoint, camera);
         }
 
         private IEnumerator TrackTarget()
@@ -134,9 +180,16 @@ namespace Elroi.Tutorials
             float width = Mathf.Clamp(theme != null ? theme.BubblePreferredWidth : 520f,
                 theme != null ? theme.BubbleMinWidth : 260f,
                 Mathf.Min(theme != null ? theme.BubbleMaxWidth : 720f, Screen.width / scale - margin * 2f));
-            introductionText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width - (theme != null ? theme.BubblePadding * 2f : 48f));
-            introductionText.ForceMeshUpdate();
-            float height = Mathf.Clamp(introductionText.preferredHeight + (theme != null ? theme.BubblePadding * 2f : 48f), 110f, Screen.height / scale * 0.45f);
+            float textWidth = width - (theme != null ? theme.BubblePadding * 2f : 48f);
+            if (layoutDirty || !Mathf.Approximately(lastTextWidth, textWidth))
+            {
+                introductionText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, textWidth);
+                introductionText.ForceMeshUpdate();
+                measuredHeight = introductionText.preferredHeight;
+                lastTextWidth = textWidth;
+                layoutDirty = false;
+            }
+            float height = Mathf.Clamp(measuredHeight + (theme != null ? theme.BubblePadding * 2f : 48f), 110f, Screen.height / scale * 0.45f);
             dialogueBubble.sizeDelta = new Vector2(width, height);
 
             if (definition.TargetType == TutorialTargetType.None)

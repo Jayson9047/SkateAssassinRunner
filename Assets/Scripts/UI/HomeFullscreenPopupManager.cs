@@ -23,6 +23,7 @@ public class HomeFullscreenPopupManager : MonoBehaviour
     [SerializeField, Min(0.01f)] private float pageOpenSettleDuration = 0.11f;
 
     private GameObject _currentPage;
+    public GameObject CurrentPage => _currentPage;
     private Vector3 _currentPageBaseScale = Vector3.one;
     private Sequence _pageOpenPulse;
 

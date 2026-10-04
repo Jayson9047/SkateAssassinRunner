@@ -238,7 +238,7 @@ private void PreparePersistentPresentation()
     // Native consent forms remain above the Unity loading canvas and can be answered normally.
     private IEnumerator WaitForStartupPrivacy(string sceneName)
     {
-        if (sceneName != "SkateRunnerStartScreen") yield break;
+        if (sceneName != "SkateRunnerStartScreen" && sceneName != "SkateRunner") yield break;
         float deadline = Time.realtimeSinceStartup + 12f;
         while (SkateAssassinRunnerPrivacyService.Instance != null
             && !SkateAssassinRunnerPrivacyService.Instance.InitializationFinished

@@ -130,6 +130,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         {
             if (_levelEndSaved) return;
             _levelEndSaved = true;
+            int completedLevel = LevelNum;
             float bankedCash = Mathf.Max(0f, Cash);
             float bankedGems = Mathf.Max(0f, Gems);
             // Accumulate totals
@@ -145,6 +146,7 @@ namespace MoreMountains.InfiniteRunnerEngine
             ES3.Save(ES3_TOTAL_CASH, TotalCash);
             ES3.Save(ES3_TOTAL_GEMS, TotalGems);
             ES3.Save(ES3_LEVEL_NUM, LevelNum);
+            SkateRunnerFirstRunProgress.MarkLevelPlayed(completedLevel);
             DailyMissionProgress.ReportCashCollected(Mathf.RoundToInt(bankedCash));
             DailyMissionProgress.ReportGemsCollected(Mathf.RoundToInt(bankedGems));
             if (success) DailyMissionProgress.ReportLevelCompleted();

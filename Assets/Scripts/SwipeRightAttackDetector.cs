@@ -28,6 +28,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     [SerializeField] private float sweepRadius = 0.35f; // use ~player body width or katana reach
     private Vector3 _prevDashPos;
+    private Vector3 _previousAttackSweepPosition;
 
 
     [Header("Dash (X Axis)")]
@@ -363,6 +364,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
             }
 
             isDashMovementInProgress = true;
+            _previousAttackSweepPosition = start;
             ForceKatanaLayer(0f);
             // Spawn the equipped WeaponPower slash VFX at dash start
             
@@ -673,11 +675,23 @@ _weaponPowerEquipper?.SpawnSlashFx();
         rb3D.useGravity = savedUseGravity;
         gravitySuspended = false;
     }
+    private void LateUpdate()
+    {
+        if (!attackInProgress || !isDashMovementInProgress) return;
+
+        // MovingObject updates the world and the grounded return during Update.
+        // Keep testing contact through that return, after all transforms have moved.
+        Vector3 current = transform.position;
+        TryDamageBySweep(_previousAttackSweepPosition, current);
+        _previousAttackSweepPosition = current;
+    }
+
     private IEnumerator MoveOverTime_WithPassToDestroy(Vector3 from, Vector3 to, float duration, Vector3 dashDir)
     {
         if (duration <= 0f)
         {
             transform.position = to;
+            TryDamageBySweep(from, to);
             yield break;
         }
 
@@ -724,6 +738,9 @@ _weaponPowerEquipper?.SpawnSlashFx();
     {
         if (!attackInProgress) return;
 
+        // The dash and scrolling obstacles move through Transform, so queries must
+        // see their current poses even with autoSyncTransforms disabled.
+        Physics.SyncTransforms();
         // A capsule volume from last frame to this frame
         Collider[] cols = Physics.OverlapCapsule(
             fromPos,
@@ -765,14 +782,6 @@ _weaponPowerEquipper?.SpawnSlashFx();
                 continue;
             }
 
-            // Optional: prevent dash from getting blocked by the target collider
-            if (playerBodyCollider != null)
-            {
-
-                Physics.IgnoreCollision(playerBodyCollider, col, true);
-                ignoredCollidersThisAttack.Add(col);
-            }
-
             // Overhead rule (prevents "jump-over kills")
             // IMPORTANT tweak: use the player's Y, but allow a little leeway
             if (playerPos.y > col.bounds.max.y + overheadClearanceY)
@@ -783,6 +792,16 @@ _weaponPowerEquipper?.SpawnSlashFx();
             float zDelta = Mathf.Abs(closest.z - playerPos.z);
             if (zDelta > depthWindow)
                 continue;
+
+            Component target = damageable as Component;
+            if (target != null && !damagedThisAttack.Add(target)) continue;
+
+            // Only ignore a blocking collider after the hit passes every damage gate.
+            if (playerBodyCollider != null)
+            {
+                Physics.IgnoreCollision(playerBodyCollider, col, true);
+                ignoredCollidersThisAttack.Add(col);
+            }
 
             KillContext.Set(KillCause.DashAttack, attackId);
             try

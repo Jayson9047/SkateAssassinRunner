@@ -66,6 +66,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         private EnemyType3LaunchController _enemyLaunch;
         private CarImpulseTest _phase2CarImpulse;
+        private EnemyType3 _phase2Shooter;
 
         private Coroutine _phase2BossQTERoutine;
         private bool _phase2BossQTEActive;
@@ -74,6 +75,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         private Coroutine _phase2CarSpawnerRoutine;
         public bool IsPhase2BossActive => _phase2BossQTEActive;
         public CarImpulseTest Phase2CarImpulse => _phase2CarImpulse;
+        public EnemyType3 Phase2Shooter => _phase2Shooter;
         public static System.Action OnPhase2Started;
         public static System.Action OnPhase2LifeLost;
         public static System.Action OnLevelWon;
@@ -337,6 +339,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void RegisterPhase2Car(Transform pickupRoot)
         {
+            _phase2Shooter = pickupRoot.GetComponentInChildren<EnemyType3>(true);
+            _phase2Shooter?.ResetKillShot();
             _phase2CarImpulse =
                 pickupRoot.GetComponentInChildren<CarImpulseTest>(true);
             _enemyLaunch = pickupRoot.GetComponentInChildren<EnemyType3LaunchController>(true);
@@ -483,6 +487,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void RestartPhase2BossQTE()
         {
+            // The same pooled car remains active across a life-loss retry.
+            _phase2Shooter?.ResetKillShot();
             // Lock inputs again (Phase 2 rule)
             LockGameplayInputs();
 

@@ -10,6 +10,16 @@ public sealed class SkateRunnerTutorialPersistence : MonoBehaviour, ITutorialPer
     public bool IsSequencerComplete(string stableId) => Read("Sequencer.", stableId);
     public void MarkSequencerComplete(string stableId) => Write("Sequencer.", stableId);
 
+    /// <summary>Reset all gameplay lessons, including saved sequencers from older scene content.</summary>
+    public static void ResetAllProgress()
+    {
+        if (!ES3.FileExists()) return;
+        foreach (string key in ES3.GetKeys())
+        {
+            if (key.StartsWith(Prefix, System.StringComparison.Ordinal)) ES3.DeleteKey(key);
+        }
+    }
+
     private static bool Read(string kind, string stableId) => !string.IsNullOrWhiteSpace(stableId) && ES3.Load(Prefix + kind + stableId, false);
 
     private static void Write(string kind, string stableId)
