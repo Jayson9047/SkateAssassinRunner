@@ -57,6 +57,9 @@ public class SwipeDownDetector : MonoBehaviour
     [Header("VFX - Down Attack Power (Equippable + Pooled)")]
     [SerializeField] private DownAttackPowerEquipper downAttackPowerEquipper;
 
+    [Header("VFX - Powerslam Cone Trial (Charged Impact Only)")]
+    [SerializeField] private PowerslamConeFx powerSlamConeFx;
+
     [Header("VFX - Regular Slam Ground Impact (Always Used When NOT PowerSlam)")]
     [SerializeField] private GameObject regularSlamGroundImpactPrefab;
     [SerializeField] private float regularGroundImpactScaleMultiplier = 1f;
@@ -341,7 +344,10 @@ public class SwipeDownDetector : MonoBehaviour
         
         isDownAttacking = true;
         // Spawn equippable "air" down attack FX immediately when slam is triggered
-        downAttackPowerEquipper?.SpawnAirDownAttackFx();
+        bool chargedVisualsDisabled = powerSlamConeFx != null && !powerSlamConeFx.EffectsEnabled
+            && (debug_StartWithPowerSlam || (SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor != null
+                && SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor.IsSlamReady()));
+        if (!chargedVisualsDisabled) downAttackPowerEquipper?.SpawnAirDownAttackFx();
 
         downAttackArmed = false;
         downAttackFrozen = false;
@@ -511,9 +517,11 @@ public class SwipeDownDetector : MonoBehaviour
         RaycastHit groundHit;
         if (Physics.Raycast(transform.position, Vector3.down, out groundHit, 5f))
         {
-            SpawnDownSlamShockwave(groundHit.point, normalShockwaveRadius);
+            bool showPoweredEffects = powerSlamConeFx == null || powerSlamConeFx.EffectsEnabled;
+            if (!slamReady || showPoweredEffects)
+                SpawnDownSlamShockwave(groundHit.point, normalShockwaveRadius);
             // Kill flash window should be powerslam-only
-            DownSlamKillFlashManager.Instance?.ArmKillWindow(slamReady);
+            DownSlamKillFlashManager.Instance?.ArmKillWindow(slamReady && showPoweredEffects);
 
             downAttackPowerEquipper?.StopAirDownAttackFxImmediate();
             // Trigger slam on ANY collision (ground, wall, enemy, obstacle, etc.)
@@ -521,8 +529,11 @@ public class SwipeDownDetector : MonoBehaviour
 
             if (slamReady)
             {
-                // PowerSlam -> use equipped FX
-                downAttackPowerEquipper?.SpawnGroundImpactAoeFx(groundHit.point, aoeRadius, transform);
+                // One presentation switch controls the charged effect; never fall back when disabled.
+                if (powerSlamConeFx != null)
+                    powerSlamConeFx.TryPlayImpact(groundHit.point, aoeRadius, true, groundHit.collider.transform);
+                else
+                    downAttackPowerEquipper?.SpawnGroundImpactAoeFx(groundHit.point, aoeRadius, transform);
             }
             else
             {

@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6354835054645838308
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 13
-  hdPluginSubTargetMaterialVersions:
-    m_Keys: []
-    m_Values: 
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -23,25 +7,18 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fire_Explosion_cone_add_soft
-  m_Shader: {fileID: -6465566751694194690, guid: 7f11fe28133f1a74594785107b98f2fe,
-    type: 3}
+  m_Name: Poison_Fire_Explosion_cone_add_soft
+  m_Shader: {fileID: 4800000, guid: f5840a7c0e0064d4a84de00a1aeca427, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _SURFACE_TYPE_TRANSPARENT
-  - _USEALPHAOVERRIDE
-  - _USESOFTALPHA
-  - _USEUVOFFSET
-  m_InvalidKeywords:
-  - _DOUBLESIDED_ON
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap:
     MotionVector: User
-    RenderType: Transparent
   disabledShaderPasses:
   - TransparentBackface
   - MOTIONVECTORS
@@ -54,15 +31,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlphaOverride:
-        m_Texture: {fileID: 2800000, guid: 174d2425c37fb4c43877211cda3a6a1a, type: 3}
+        m_Texture: {fileID: 2800000, guid: f7f5857456a18e54d8144ab4bf3a023b, type: 3}
         m_Scale: {x: 5, y: 1}
         m_Offset: {x: 0, y: 1}
     - _DetailNoise:
-        m_Texture: {fileID: 2800000, guid: 2d84b19b62c84734fbbad50e354735d0, type: 3}
+        m_Texture: {fileID: 2800000, guid: e7c849a63440a6048acff406b0176fc1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: baf7dea8c52926141b73467c5f783134, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5bd929323c0250a44aa5c3384b9cd152, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: e7c849a63440a6048acff406b0176fc1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _diff:
@@ -70,7 +51,7 @@ Material:
         m_Scale: {x: 0.5, y: 1}
         m_Offset: {x: 0, y: 0}
     - _mask:
-        m_Texture: {fileID: 2800000, guid: 25fbfd66504d4108810eb716936aecc2, type: 3}
+        m_Texture: {fileID: 2800000, guid: f1f5ee33530ccfb47a6eb79a1ac2163b, type: 3}
         m_Scale: {x: -1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -140,6 +121,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Intensity: 3.2
     - _Invert_Fresnel: 0
     - _MaskValue: -0.6235294
     - _Metallic: 0
@@ -147,6 +129,7 @@ Material:
     - _MiddlePointPos1: -0.112
     - _Mode: 0
     - _MultiplyNoiseDesaturation: 0
+    - _NoiseStrength: 0.65
     - _OcclusionStrength: 1
     - _OpaqueCullMode: 2
     - _Parallax: 0.02
@@ -185,7 +168,7 @@ Material:
     - _USEALPHAOVERRIDE: 1
     - _USEPIXELATION: 0
     - _USERAMP: 0
-    - _USESOFTALPHA: 1
+    - _USESOFTALPHA: 0
     - _USEUVOFFSET: 1
     - _UVSec: 0
     - _UseAlphaOverride: 1
@@ -219,20 +202,23 @@ Material:
     - _DetailVertexOffsetChannel: {r: 0, g: 0, b: 0, a: 0}
     - _Disolve_Fade_Range: {r: -0.25, g: 1, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
+    - _ElementColor: {r: 0.12, g: 0.9, b: 0.035, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HotColor: {r: 0.79, g: 1, b: 0.48, a: 1}
     - _LastColor: {r: 0.7075472, g: 0, b: 0, a: 0}
     - _MainAlphaChannel: {r: 2, g: 0, b: 0, a: 0}
     - _MainTextureChannel: {r: 1, g: 1, b: 1, a: 0}
     - _MainTexturePanning: {r: 0, g: 0, b: 0, a: 0}
     - _MidColor: {r: 1.509434, g: 0.15844887, b: 0, a: 0}
+    - _Pan: {r: 0, g: 0, b: 0, a: 0}
     - _Resolution: {r: 64, g: 64, b: 0, a: 0}
     - _UnlitColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _WhiteColor: {r: 8, g: 0.47058824, b: 0, a: 0}
     - _diff_c: {r: 0.1541919, g: 0.4053115, b: 0.7264151, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &6365314594000955619
+--- !u!114 &6719157726178354896
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -245,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 0
---- !u!114 &6757375677478101868
+--- !u!114 &7970178741768884686
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
