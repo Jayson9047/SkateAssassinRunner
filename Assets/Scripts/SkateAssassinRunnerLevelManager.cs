@@ -477,6 +477,7 @@ namespace MoreMountains.InfiniteRunnerEngine
 
         public void StopPhase2BossQTECountdown()
         {
+            SkateRunnerGUIManager.SkateRunnerGUIManagerAccessor?.StopPhase2CountdownUrgency();
             if (_phase2BossQTERoutine != null)
             {
                 StopCoroutine(_phase2BossQTERoutine);

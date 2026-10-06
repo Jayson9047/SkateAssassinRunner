@@ -12,6 +12,14 @@ public class SkateRunnerGameFeel : MonoBehaviour
     private float _defaultFixedDeltaTime;
     private bool _slowMoActive;
     private Coroutine _restoreRoutine;
+    private float _activeSlowMoScale = 1f;
+
+    public static float GetGameplayTimeScale(float normalScale) =>
+        _instance != null && _instance._slowMoActive ? _instance._activeSlowMoScale : normalScale;
+
+    private static bool MenuPaused => MoreMountains.InfiniteRunnerEngine.GameManager.Instance != null
+        && MoreMountains.InfiniteRunnerEngine.GameManager.Instance.Status
+            == MoreMountains.InfiniteRunnerEngine.GameManager.GameStatus.Paused;
 
     [Header("FEEL - Hit Stop On Enemy Kill")]
     [SerializeField] private MMF_Player enemyKillHitStopFeel;
@@ -55,10 +63,11 @@ public class SkateRunnerGameFeel : MonoBehaviour
     // --- Public API (instance) ---
     private void TriggerSlowMo(float slowMoScale, float slowMoDurationRealtime, bool affectsPhysicsOverride = true)
     {
-        if (_slowMoActive) return;
+        if (_slowMoActive || MenuPaused) return;
         _slowMoActive = true;
+        _activeSlowMoScale = Mathf.Clamp(slowMoScale, 0.01f, 1f);
 
-        Time.timeScale = slowMoScale;
+        Time.timeScale = _activeSlowMoScale;
 
         bool affectsPhysics = affectsPhysicsOverride && slowMoAffectsPhysics;
         if (affectsPhysics)
@@ -70,18 +79,27 @@ public class SkateRunnerGameFeel : MonoBehaviour
 
     private IEnumerator RestoreSlowMoAfterRealtime(float seconds, bool affectsPhysics)
     {
-        yield return new WaitForSecondsRealtime(seconds);
+        // Real time for slow motion, but menu pause must preserve its remaining
+        // duration and must never let this coroutine unpause the game.
+        float remaining = Mathf.Max(0f, seconds);
+        while (remaining > 0f)
+        {
+            if (!MenuPaused) remaining -= Time.unscaledDeltaTime;
+            yield return null;
+        }
 
-        float startScale = Time.timeScale;
+        float startScale = _activeSlowMoScale;
         float restoreDuration = 0.1f; // tweak: 0.08�0.12 sweet spot
         float t = 0f;
 
         while (t < restoreDuration)
         {
+            if (MenuPaused) { yield return null; continue; }
             t += Time.unscaledDeltaTime;
             float alpha = Mathf.Clamp01(t / restoreDuration);
 
-            Time.timeScale = Mathf.Lerp(startScale, 1f, alpha);
+            _activeSlowMoScale = Mathf.Lerp(startScale, 1f, alpha);
+            Time.timeScale = _activeSlowMoScale;
 
             if (affectsPhysics)
                 Time.fixedDeltaTime = _defaultFixedDeltaTime * Time.timeScale;

@@ -27,6 +27,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         [Header("Phase Timer")]
         [Tooltip("Top-of-screen phase timer text (0..60).")]
         public TextMeshProUGUI PhaseTimerText;
+        private Phase2CountdownUrgency _phase2CountdownUrgency;
+        private bool _phaseTimerInPhase2;
 
         public static SkateRunnerGUIManager SkateRunnerGUIManagerAccessor { get; private set; }
 
@@ -660,6 +662,7 @@ SlamButtonRect.anchoredPosition = pos1;
 
         private void BeginPhase2Failure()
         {
+            StopPhase2CountdownUrgency();
             HasPhase2RuthlessAward = false;
             powerMeter?.CancelMeter();
             DisableSlamButtonForPhase2Death();
@@ -748,9 +751,21 @@ SlamButtonRect.anchoredPosition = pos1;
         public void RefreshPhase2Countdown(int secondsRemaining)
         {
             if (PhaseTimerText == null) return;
+            _phaseTimerInPhase2 = true;
             secondsRemaining = Mathf.Clamp(secondsRemaining, 0, 99);
-            PhaseTimerText.text = $"{secondsRemaining:00}";
+            var urgency = GetPhase2CountdownUrgency();
+            if (urgency != null && urgency.isActiveAndEnabled) urgency.ShowCountdown(secondsRemaining);
+            else PhaseTimerText.text = $"{secondsRemaining:00}";
         }
+
+        private Phase2CountdownUrgency GetPhase2CountdownUrgency()
+        {
+            if (_phase2CountdownUrgency == null && PhaseTimerText != null)
+                _phase2CountdownUrgency = PhaseTimerText.GetComponent<Phase2CountdownUrgency>();
+            return _phase2CountdownUrgency;
+        }
+
+        public void StopPhase2CountdownUrgency() => GetPhase2CountdownUrgency()?.StopUrgency();
 
         private void OnDownslamButtonClicked()
         {
@@ -837,12 +852,23 @@ SlamButtonRect.anchoredPosition = pos1;
 
             if (phase2Active)
             {
-                PhaseTimerText.text = "";
+                // LevelManager calls this every Update, including during the QTE.
+                // Clear the Phase 1 label only on entry; the QTE owns its text and
+                // continuous animation until it resolves.
+                if (_phaseTimerInPhase2) return;
+                _phaseTimerInPhase2 = true;
+                var urgency = GetPhase2CountdownUrgency();
+                if (urgency != null) urgency.ShowPlain("");
+                else PhaseTimerText.text = "";
                 return;
             }
 
+            _phaseTimerInPhase2 = false;
             elapsedSeconds = Mathf.Clamp(elapsedSeconds, 0, phase1DurationSeconds);
-            PhaseTimerText.text = $"{phase1DurationSeconds - elapsedSeconds:00}";
+            string countdown = $"{phase1DurationSeconds - elapsedSeconds:00}";
+            var phase1Presentation = GetPhase2CountdownUrgency();
+            if (phase1Presentation != null) phase1Presentation.ShowPlain(countdown);
+            else PhaseTimerText.text = countdown;
         }
 
 

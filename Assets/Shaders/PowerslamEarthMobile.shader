@@ -4,6 +4,7 @@ Shader "ELROI/VFX/Powerslam Earth Mobile"
     {
         _BaseMap ("Texture", 2D) = "white" {}
         _BaseColor ("Color", Color) = (1,1,1,1)
+        [Toggle] _MaskFromRed ("Use red channel as opacity", Float) = 0
         [Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend ("Source Blend", Float) = 1
         [Enum(UnityEngine.Rendering.BlendMode)] _DstBlend ("Destination Blend", Float) = 0
         [Toggle] _ZWrite ("Depth Write", Float) = 1
@@ -29,6 +30,7 @@ Shader "ELROI/VFX/Powerslam Earth Mobile"
             CBUFFER_START(UnityPerMaterial)
                 float4 _BaseMap_ST;
                 half4 _BaseColor;
+                half _MaskFromRed;
             CBUFFER_END
             Varyings Vert(Attributes input)
             {
@@ -40,7 +42,11 @@ Shader "ELROI/VFX/Powerslam Earth Mobile"
             }
             half4 Frag(Varyings input) : SV_Target
             {
-                return SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv) * input.color;
+                half4 sample = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
+                half4 color = sample * input.color;
+                color.rgb = lerp(color.rgb, input.color.rgb, _MaskFromRed);
+                color.a = lerp(color.a, sample.r * input.color.a, _MaskFromRed);
+                return color;
             }
             ENDHLSL
         }

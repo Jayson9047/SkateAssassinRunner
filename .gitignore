@@ -101,3 +101,24 @@ InitTestScene*.unity*
 Assets/_LocalAudioLibraries/
 /Assets/_LocalAudioLibraries.meta
 /Documentation
+
+/Captures/
+
+/Assets/AmplifyImpostors/
+/Assets/AmplifyImpostors.meta
+
+/Assets/Art/NeonCityTrial/
+/Assets/Art/NeonCityTrial.meta
+
+/Assets/Art/RealCityTrial/
+/Assets/Art/RealCityTrial.meta
+
+/Assets/Editor/Environment/
+/Assets/Editor/Environment.meta
+
+/Assets/Scripts/Environment/
+/Assets/Scripts/Environment.meta
+
+# Source import only; mobile EarthAOE and its dependencies are copied into ElementalPowerslam.
+/Assets/PixPlays/
+/Assets/PixPlays.meta

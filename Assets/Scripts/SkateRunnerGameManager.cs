@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MoreMountains.Tools;
 using Lofelt.NiceVibrations;
 using Elroi.DailyMissions;
+using MoreMountains.Feedbacks;
 
 namespace MoreMountains.InfiniteRunnerEngine
 {
@@ -23,6 +24,11 @@ namespace MoreMountains.InfiniteRunnerEngine
         private float _cashAtLevelStart;
         private float _gemsAtLevelStart;
         private bool _levelEndSaved;
+        private bool _menuPauseOwnsClock;
+        private float _normalFixedDeltaTime;
+        private float _normalMaximumDeltaTime;
+        private MMTimeManager _pausedFeedbackTimeManager;
+        private bool _feedbackTimeManagerWasEnabled;
 
         public static SkateRunnerGameManager SkateRunnerGameManagerAccessor { get; private set; }
         public static event System.Action<float> OnCashAdded;
@@ -40,6 +46,8 @@ namespace MoreMountains.InfiniteRunnerEngine
         protected override void Awake()
         {
             base.Awake(); // VERY important for MM
+            _normalFixedDeltaTime = Time.fixedDeltaTime;
+            _normalMaximumDeltaTime = Time.maximumDeltaTime;
 
             TotalCash = ES3.Load(ES3_TOTAL_CASH, 0f);
             TotalGems = ES3.Load(ES3_TOTAL_GEMS, 0f);
@@ -48,6 +56,56 @@ namespace MoreMountains.InfiniteRunnerEngine
             SkateRunnerGameManagerAccessor = this;
             // Make CurrentLives correct before any GUI init
             CurrentLives = TotalLives;
+        }
+
+        public override void Pause()
+        {
+            // A hit-stop can also set timescale to zero. Only game status says
+            // whether this button should pause or resume the menu.
+            if (_menuPauseOwnsClock || Status == GameStatus.Paused)
+            {
+                UnPause();
+                return;
+            }
+            _statusBeforePause = Status;
+            // Never cache a transient FEEL hit-stop as the permanent resume speed.
+            _savedTimeScale = SkateRunnerGameFeel.GetGameplayTimeScale(Mathf.Max(0.01f, TimeScale));
+            _pausedFeedbackTimeManager = MMTimeManager.Instance;
+            if (_pausedFeedbackTimeManager != null)
+            {
+                _feedbackTimeManagerWasEnabled = _pausedFeedbackTimeManager.enabled;
+                MMTimeScaleEvent.Reset();
+                _pausedFeedbackTimeManager.enabled = false;
+            }
+            _menuPauseOwnsClock = true;
+            SetStatus(GameStatus.Paused);
+            Time.timeScale = 0f;
+            MMGameEvent.Trigger("PauseOn");
+        }
+
+        public override void UnPause()
+        {
+            if (!_menuPauseOwnsClock) return;
+            if (_pausedFeedbackTimeManager != null)
+            {
+                _pausedFeedbackTimeManager.enabled = _feedbackTimeManagerWasEnabled;
+                if (_feedbackTimeManagerWasEnabled) MMTimeScaleEvent.Reset();
+            }
+            _pausedFeedbackTimeManager = null;
+            _menuPauseOwnsClock = false;
+            // Restore the clock and its physics step together. Jumper, grounded
+            // state, Rigidbody constraints and jump impulse remain untouched.
+            Time.timeScale = _savedTimeScale;
+            Time.fixedDeltaTime = _normalFixedDeltaTime * _savedTimeScale;
+            Time.maximumDeltaTime = _normalMaximumDeltaTime * _savedTimeScale;
+            SetStatus(_statusBeforePause);
+            MMGameEvent.Trigger("PauseOff");
+        }
+
+        private void LateUpdate()
+        {
+            // Pause owns the clock even if a cosmetic feedback writes it later.
+            if (_menuPauseOwnsClock) Time.timeScale = 0f;
         }
 
         /// <summary>
@@ -74,6 +132,7 @@ namespace MoreMountains.InfiniteRunnerEngine
         /// </summary>
         public override void Reset()
         {
+            if (_menuPauseOwnsClock) UnPause();
             Cash = 0;
             Gems = 0;
             base.Reset();

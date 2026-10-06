@@ -515,7 +515,11 @@ public class SwipeDownDetector : MonoBehaviour
 
         float shockwaveRadius = slamReady ? poweredShockwaveRadius : normalShockwaveRadius;
         RaycastHit groundHit;
-        if (Physics.Raycast(transform.position, Vector3.down, out groundHit, 5f))
+        // Charged world FX must anchor to the road, never an enemy or corpse
+        // that is about to be disabled by this same impact's damage pass.
+        int surfaceMask = slamReady ? LayerMask.GetMask("Ground") : Physics.DefaultRaycastLayers;
+        QueryTriggerInteraction triggerQuery = slamReady ? QueryTriggerInteraction.Ignore : QueryTriggerInteraction.UseGlobal;
+        if (Physics.Raycast(transform.position, Vector3.down, out groundHit, 5f, surfaceMask, triggerQuery))
         {
             bool showPoweredEffects = powerSlamConeFx == null || powerSlamConeFx.EffectsEnabled;
             if (!slamReady || showPoweredEffects)

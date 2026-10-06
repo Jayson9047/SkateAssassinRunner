@@ -27,6 +27,8 @@ public sealed class PowerslamConeFx : MonoBehaviour
     [SerializeField] private float scaleAtSevenUnitRadius = 0.6f;
     [SerializeField] private float groundLift = 0.035f;
     [SerializeField] private float returnAfterSeconds = 1.65f;
+    [Tooltip("Road scroll multiplier used if the impact surface has no mover or its pooled chunk disappears.")]
+    [SerializeField, Min(0f)] private float fallbackWorldScrollMultiplier = 0.5f;
 
     private const int PoolSize = 2;
     private sealed class Slot
@@ -37,6 +39,7 @@ public sealed class PowerslamConeFx : MonoBehaviour
         public Transform Ground;
         public MovingObject GroundMotion;
         public Vector3 LastGroundPosition;
+        public Vector3 ScrollPerLevelSecond;
         public PowerslamEarthBurst EarthBurst;
     }
 
@@ -119,6 +122,14 @@ public sealed class PowerslamConeFx : MonoBehaviour
         slot.GroundMotion = groundSurface != null ? groundSurface.GetComponentInParent<MovingObject>() : null;
         slot.Ground = slot.GroundMotion != null ? slot.GroundMotion.transform : groundSurface;
         slot.LastGroundPosition = slot.Ground != null ? slot.Ground.position : Vector3.zero;
+        slot.ScrollPerLevelSecond = Vector3.left * fallbackWorldScrollMultiplier;
+        if (slot.GroundMotion != null)
+        {
+            Vector3 direction = slot.GroundMotion.MovementSpace == Space.Self
+                ? slot.GroundMotion.transform.TransformDirection(slot.GroundMotion.Direction)
+                : slot.GroundMotion.Direction;
+            slot.ScrollPerLevelSecond = direction * (slot.GroundMotion.Speed / 10f);
+        }
         slot.Root.SetActive(true);
         if (slot.EarthBurst != null) slot.EarthBurst.Play();
         // Play each cached emitter once. Recursive Play per child can restart shared descendants.
@@ -134,18 +145,25 @@ public sealed class PowerslamConeFx : MonoBehaviour
         for (int i = 0; i < _slots.Length; i++)
         {
             Slot slot = _slots[i];
-            if (slot.Remaining <= 0f || slot.Ground == null) continue;
+            if (slot.Remaining <= 0f) continue;
+            // A static collider or a retired road chunk must not leave the effect
+            // beside the stationary runner. Continue the captured road's scroll.
+            if (slot.Ground == null || slot.GroundMotion == null || !slot.GroundMotion.isActiveAndEnabled)
+            {
+                float speed = LevelManager.Instance != null ? LevelManager.Instance.Speed : 1f;
+                slot.Root.transform.position += slot.ScrollPerLevelSecond * (speed * Time.deltaTime);
+                if (slot.Ground != null) slot.LastGroundPosition = slot.Ground.position;
+                continue;
+            }
             // Snapshot the real ground translation after its Update. This avoids a frame of
             // drift when level speed changes between different scripts' Update callbacks.
             Vector3 current = slot.Ground.position;
             Vector3 movement = current - slot.LastGroundPosition;
-            if (slot.GroundMotion != null)
-            {
-                Vector3 expected = slot.GroundMotion.isActiveAndEnabled
-                    ? slot.GroundMotion.Movement : Vector3.zero;
-                // Pooled road chunks can teleport when recycled; flames stay at the impact site.
-                if (movement.magnitude > Mathf.Max(1f, expected.magnitude * 2f)) movement = expected;
-            }
+            Vector3 expected = slot.GroundMotion.Movement;
+            if (slot.GroundMotion.MovementSpace == Space.Self)
+                expected = slot.GroundMotion.transform.TransformDirection(expected);
+            // Pooled road chunks can teleport when recycled; flames stay at the impact site.
+            if (movement.magnitude > Mathf.Max(1f, expected.magnitude * 2f)) movement = expected;
             slot.Root.transform.position += movement;
             slot.LastGroundPosition = current;
         }
@@ -170,11 +188,17 @@ public sealed class PowerslamConeFx : MonoBehaviour
 
     private void Clear(Slot slot)
     {
+        if (slot == null) return;
         if (slot.EarthBurst != null) slot.EarthBurst.Clear();
         for (int i = 0; i < slot.Particles.Length; i++)
-            slot.Particles[i].Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
-        slot.Root.SetActive(false);
-        slot.Root.transform.SetParent(transform, false);
+            if (slot.Particles[i] != null)
+                slot.Particles[i].Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+        // Scene teardown can destroy child emitters before the owner's OnDisable.
+        if (slot.Root != null)
+        {
+            slot.Root.SetActive(false);
+            slot.Root.transform.SetParent(transform, false);
+        }
         slot.Remaining = 0f;
         slot.Ground = null;
         slot.GroundMotion = null;
@@ -197,7 +221,7 @@ public sealed class PowerslamConeFx : MonoBehaviour
         if (_slots == null) return;
         // Detached instances must not survive a character or scene being destroyed.
         for (int i = 0; i < _slots.Length; i++)
-            if (_slots[i].Root != null)
+            if (_slots[i] != null && _slots[i].Root != null)
             {
                 _slots[i].Root.SetActive(false);
                 Destroy(_slots[i].Root);

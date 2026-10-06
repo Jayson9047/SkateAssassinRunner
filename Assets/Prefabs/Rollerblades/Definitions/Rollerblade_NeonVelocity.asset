@@ -17,6 +17,8 @@ MonoBehaviour:
     type: 3}
   rightPrefab: {fileID: 1023639558684736148, guid: 2322a9078cebf08439355da45f6ff4f3,
     type: 3}
+  movementFxPrefab: {fileID: 767993607186263031, guid: 544337a1efe3f934984bca4503163e4c,
+    type: 3}
   leftTransform:
     localPosition: {x: 0.043, y: 0.301, z: -0.189}
     localEulerAngles: {x: 191.803, y: 91.225, z: 37.53}

@@ -23,9 +23,17 @@ public static class ElementalPowerslamValidation
                     throw new InvalidOperationException("Broken shader: " + id + "/" + renderer.name);
         }
         var earth = AssetDatabase.LoadAssetAtPath<GameObject>(ElementalPowerslamBuilder.EarthPrefab);
-        if (earth.GetComponentsInChildren<Renderer>(true).Length != 5
+        if (earth.GetComponentsInChildren<Collider>(true).Length != 0
+            || earth.GetComponentsInChildren<Rigidbody>(true).Length != 0
+            || earth.GetComponentsInChildren<Joint>(true).Length != 0
+            || earth.GetComponentsInChildren<ParticleSystem>(true).Any(p => p.collision.enabled
+                || p.trigger.enabled || p.subEmitters.enabled || p.collision.colliderForce != 0f))
+            throw new InvalidOperationException("Earth presentation must have no collision, forces or secondary spawns. Combat is owned by SwipeDownDetector.");
+        if (earth.GetComponentsInChildren<Renderer>(true).Length != 6
             || earth.GetComponentsInChildren<Animator>(true).Length != 0
-            || earth.GetComponentsInChildren<ParticleSystem>(true).Sum(p => p.main.maxParticles) != 26
+            || earth.GetComponentsInChildren<ParticleSystem>(true).Sum(p => p.main.maxParticles) != 15
+            || earth.GetComponentsInChildren<MeshFilter>(true).Length != 2
+            || earth.GetComponentsInChildren<MeshFilter>(true).Sum(f => f.sharedMesh.triangles.Length / 3) > 18000
             || earth.GetComponentInChildren<MeshFilter>(true).sharedMesh.vertexCount == 0
             || earth.GetComponentInChildren<MeshFilter>(true).sharedMesh.triangles.Length == 0)
             throw new InvalidOperationException("Earth budget or animation regression.");
@@ -56,9 +64,9 @@ public static class ElementalPowerslamValidation
                 ps.Simulate(time, false, true, true);
             if (earth)
             {
-                root.transform.GetChild(0).gameObject.SetActive(true);
-                root.transform.GetChild(0).localPosition = Vector3.zero;
-                root.transform.GetChild(0).localScale = Vector3.one;
+                var burst = root.GetComponent<PowerslamEarthBurst>();
+                burst.Play();
+                burst.SetPose(time);
             }
             var go = new GameObject("Powerslam preview camera");
             SceneManager.MoveGameObjectToScene(go, scene);

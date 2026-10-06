@@ -35,6 +35,7 @@ public sealed class RollerbladeEquipper : MonoBehaviour
     public RollerbladeDefinition CurrentDefinition => currentDefinition;
     public GameObject CurrentLeftRollerblade => currentLeftRollerblade;
     public GameObject CurrentRightRollerblade => currentRightRollerblade;
+    public event System.Action PairChanged;
 
     [Header("Ruthless Landing Recovery")]
     [SerializeField, Min(0.01f)] private float rightRecoveryDuration = 0.5f;
@@ -131,6 +132,7 @@ public sealed class RollerbladeEquipper : MonoBehaviour
         currentRightRollerblade = newRight;
         currentRollerbladeId = resolvedId;
         currentDefinition = definition;
+        PairChanged?.Invoke();
 
         if (staticLeftRollerblade != null)
             staticLeftRollerblade.SetActive(false);

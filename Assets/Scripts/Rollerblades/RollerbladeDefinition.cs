@@ -42,6 +42,10 @@ public sealed class RollerbladeDefinition : ScriptableObject
     public GameObject leftPrefab;
     public GameObject rightPrefab;
 
+    [Header("Optional movement/contact FX")]
+    [Tooltip("A lightweight foot effect. Empty keeps this pair clean. Only Neon Velocity is configured for the first trial.")]
+    public GameObject movementFxPrefab;
+
     [Header("Socket Transforms")]
     public RollerbladeSideTransform leftTransform = new RollerbladeSideTransform
     {

@@ -69,6 +69,10 @@ public static class Enemy1SliceValidation
         Assert(parts.Length == 8, "8 bodies prewarmed");
         Assert(pool.GetComponentsInChildren<Rigidbody>(true).Length == 0, "no debris rigidbodies");
         Assert(pool.GetComponentsInChildren<Collider>(true).Length == 0, "no debris colliders");
+        int nonBlockingLayers = LayerMask.GetMask("Player", "PlayerInvincible", "Phase2Car");
+        Assert(pool.legacyDebrisPrefab != null && pool.legacyDebrisPrefab.GetComponentsInChildren<Collider>(true)
+            .All(c => (c.excludeLayers.value & nonBlockingLayers) == nonBlockingLayers),
+            "fallback debris excludes both player layers and the Phase 2 car");
         Assert(!pool.Play(pool.legacyDebrisPrefab, pos, rot, Vector3.one, KillCause.Phase2), "Phase 2 bypass");
         Assert(!pool.Play(null, pos, rot, Vector3.one, KillCause.DashAttack), "unrelated debris bypass");
         pool.directionalBlood = pool.contactStreak = pool.groundBlood = true;

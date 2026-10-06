@@ -105,6 +105,14 @@ public static class ElementalPowerslamBuilder
         BuildEarthGeometry();
     }
 
+    [MenuItem("ELROI/VFX/Rebuild Mobile Earth Powerslam")]
+    public static void RebuildEarth()
+    {
+        EnsureFolder(Folder + "/Earth/Textures");
+        BuildEarthGeometry();
+        ValidateDependencies();
+    }
+
     private static void BuildEarthGeometry()
     {
         GameObject source = PrefabUtility.LoadPrefabContents(EarthSource);
@@ -125,9 +133,10 @@ public static class ElementalPowerslamBuilder
             mesh.CombineMeshes(combine, true, true);
             mesh.RecalculateBounds();
             float radius = Mathf.Max(mesh.bounds.extents.x, mesh.bounds.extents.z);
-            float normalize = 5.5f / Mathf.Max(radius, 0.1f);
+            float normalize = 4.5f / Mathf.Max(radius, 0.1f);
             Vector3[] vertices = mesh.vertices;
-            Vector3 center = new Vector3(mesh.bounds.center.x, mesh.bounds.min.y, mesh.bounds.center.z);
+            // The source's zero-height plane is the road surface, not the bottom of its chunks.
+            Vector3 center = new Vector3(mesh.bounds.center.x, 0f, mesh.bounds.center.z);
             for (int i = 0; i < vertices.Length; i++) vertices[i] = (vertices[i] - center) * normalize;
             mesh.vertices = vertices;
             mesh.RecalculateBounds();
@@ -136,7 +145,7 @@ public static class ElementalPowerslamBuilder
             Color[] colors = new Color[vertices.Length];
             Vector3 lightDirection = new Vector3(-0.35f, 0.85f, -0.4f).normalized;
             for (int i = 0; i < colors.Length; i++)
-                colors[i] = new Color(0.24f, 0.205f, 0.18f, 1f) * (0.55f + 0.8f * Mathf.Max(0f, Vector3.Dot(normals[i], lightDirection)));
+                colors[i] = new Color(0.56f, 0.53f, 0.49f, 1f) * (0.55f + 0.8f * Mathf.Max(0f, Vector3.Dot(normals[i], lightDirection)));
             for (int i = 0; i < colors.Length; i++) colors[i].a = 1f;
             mesh.colors = colors;
             string meshPath = Folder + "/Earth/EarthAOE_CombinedGround.asset";
@@ -165,21 +174,31 @@ public static class ElementalPowerslamBuilder
             groundRenderer.sharedMaterial = EarthMaterial("EarthGround", null, Color.white, false);
             CheapRenderer(groundRenderer);
 
+            // All three source rings, sampled at their peak and reduced to 18 spikes.
+            // One opaque renderer replaces three continuously simulated mesh emitters.
+            Transform spikes = BuildSpikeRing(source, root.transform, center, normalize);
+
             // Concise source bursts; no vendor controller, Timeline, or per-piece renderers.
             foreach (var particle in source.GetComponentsInChildren<ParticleSystem>(true))
             {
-                int count = particle.name == "StoneBurst (1)" || particle.name == "Stones" ? 12
-                    : particle.name == "GroundFlashLines" ? 1 : particle.name == "Flash" ? 1 : 0;
+                int count = particle.name == "StoneBurst (1)" ? 12
+                    : particle.name == "Cracks" || particle.name == "GroundFlashLines" || particle.name == "Flash" ? 1 : 0;
                 if (count == 0) continue;
                 var child = UnityEngine.Object.Instantiate(particle.gameObject, root.transform);
                 child.name = particle.name;
+                child.transform.localPosition = (source.transform.InverseTransformPoint(particle.transform.position) - center) * normalize;
+                child.transform.localRotation = particle.transform.rotation;
+                child.transform.localScale = particle.transform.lossyScale * normalize;
                 foreach (var script in child.GetComponentsInChildren<MonoBehaviour>(true)) UnityEngine.Object.DestroyImmediate(script);
                 foreach (var animator in child.GetComponentsInChildren<Animator>(true)) UnityEngine.Object.DestroyImmediate(animator);
                 var ps = child.GetComponent<ParticleSystem>();
                 ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                 var main = ps.main;
                 main.loop = false; main.playOnAwake = false; main.duration = 0.05f;
-                main.startDelay = 0f; main.startLifetime = count == 12 ? 0.65f : 0.3f;
+                bool cracks = particle.name == "Cracks";
+                main.startDelay = 0f; main.startLifetime = count == 12 ? 0.65f : cracks ? 1.1f : 0.3f;
+                if (count == 12) main.startSpeed = new ParticleSystem.MinMaxCurve(0.75f, 1.5f);
+                main.startColor = Color.white;
                 main.maxParticles = count;
                 main.simulationSpace = ParticleSystemSimulationSpace.Local;
                 main.scalingMode = ParticleSystemScalingMode.Hierarchy;
@@ -200,25 +219,124 @@ public static class ElementalPowerslamBuilder
                 if (texture == null && material.HasProperty("_BaseMap")) texture = material.GetTexture("_BaseMap");
                 if (texture == null && material.HasProperty("_Mask_1")) texture = material.GetTexture("_Mask_1");
                 if (texture == null && material.HasProperty("_Mask_2")) texture = material.GetTexture("_Mask_2");
+                if (texture == null && material.HasProperty("_Disolve_Texture")) texture = material.GetTexture("_Disolve_Texture");
                 Texture copied = CopyEarthTexture(texture);
                 bool rock = count == 12;
                 renderer.sharedMaterials = new[] { EarthMaterial(child.name, copied,
-                    rock ? new Color(0.42f, 0.34f, 0.25f) : new Color(1f, 0.72f, 0.38f), !rock) };
+                    rock ? new Color(0.42f, 0.34f, 0.25f) : cracks ? new Color(0.025f, 0.02f, 0.015f, 1f)
+                        : new Color(1f, 0.72f, 0.38f), !rock) };
+                if (cracks)
+                {
+                    Material crackMaterial = renderer.sharedMaterial;
+                    crackMaterial.SetFloat("_MaskFromRed", 1f);
+                    crackMaterial.SetFloat("_DstBlend", (float)BlendMode.OneMinusSrcAlpha);
+                    EditorUtility.SetDirty(crackMaterial);
+                    AssetDatabase.SaveAssetIfDirty(crackMaterial);
+                    var fade = ps.colorOverLifetime;
+                    fade.enabled = true;
+                    var gradient = new Gradient();
+                    gradient.SetKeys(new[] { new GradientColorKey(Color.white, 0f), new GradientColorKey(Color.white, 1f) },
+                        new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 0.65f), new GradientAlphaKey(0f, 1f) });
+                    fade.color = gradient;
+                }
                 if (renderer.renderMode == ParticleSystemRenderMode.Mesh && renderer.mesh != null)
                     renderer.SetMeshes(new[] { CopyEarthMesh(renderer.mesh) });
                 renderer.SetActiveVertexStreams(new System.Collections.Generic.List<ParticleSystemVertexStream>
                     { ParticleSystemVertexStream.Position, ParticleSystemVertexStream.Color, ParticleSystemVertexStream.UV });
                 CheapRenderer(renderer);
             }
+            // This owned effect is presentation only. Imported child changes must
+            // never introduce a surface that can block or ground the player.
+            foreach (var joint in root.GetComponentsInChildren<Joint>(true)) UnityEngine.Object.DestroyImmediate(joint);
+            foreach (var collider in root.GetComponentsInChildren<Collider>(true)) UnityEngine.Object.DestroyImmediate(collider);
+            foreach (var body in root.GetComponentsInChildren<Rigidbody>(true)) UnityEngine.Object.DestroyImmediate(body);
+            foreach (var particle in root.GetComponentsInChildren<ParticleSystem>(true))
+            {
+                var collision = particle.collision;
+                collision.enabled = false;
+                collision.colliderForce = 0f;
+                var trigger = particle.trigger;
+                trigger.enabled = false;
+                var subEmitters = particle.subEmitters;
+                subEmitters.enabled = false;
+            }
             var burst = root.AddComponent<PowerslamEarthBurst>();
             var settings = new SerializedObject(burst);
             settings.FindProperty("shatteredGround").objectReferenceValue = ground.transform;
+            settings.FindProperty("spikeRing").objectReferenceValue = spikes;
             settings.ApplyModifiedPropertiesWithoutUndo();
             PrefabUtility.SaveAsPrefabAsset(root, EarthPrefab);
             Debug.Log("[EarthAOE Mobile] Combined " + pieces.Length + " source pieces into " + saved.triangles.Length / 3
-                + " triangles; 26 particle capacity; no vendor runtime dependencies.");
+                + " ground triangles; 18 combined spikes; 15 particle capacity; no vendor runtime dependencies.");
         }
         finally { PrefabUtility.UnloadPrefabContents(source); UnityEngine.Object.DestroyImmediate(root); }
+    }
+
+    private static Transform BuildSpikeRing(GameObject source, Transform parent, Vector3 center, float normalize)
+    {
+        var temporary = new List<Mesh>();
+        try
+        {
+            var combine = new List<CombineInstance>();
+            foreach (var particle in source.GetComponentsInChildren<ParticleSystem>(true).Where(p => p.name.StartsWith("Stones", StringComparison.Ordinal)))
+            {
+                particle.useAutoRandomSeed = false;
+                particle.randomSeed = 123;
+                particle.Simulate(0.4f, false, true, true);
+                var all = new ParticleSystem.Particle[particle.main.maxParticles];
+                int count = particle.GetParticles(all);
+                int keep = Mathf.Min(count, particle.name == "Stones" ? 4 : particle.name == "Stones (1)" ? 6 : 8);
+                if (keep == 0) throw new InvalidOperationException("Empty source spike ring: " + particle.name);
+                var selected = new ParticleSystem.Particle[keep];
+                for (int i = 0; i < keep; i++) selected[i] = all[i * count / keep];
+                particle.SetParticles(selected, keep);
+                var baked = new Mesh { indexFormat = IndexFormat.UInt32 };
+                temporary.Add(baked);
+                particle.GetComponent<ParticleSystemRenderer>().BakeMesh(baked, ParticleSystemBakeMeshOptions.Default);
+                combine.Add(new CombineInstance { mesh = baked,
+                    transform = source.transform.worldToLocalMatrix * particle.transform.localToWorldMatrix });
+            }
+            var mesh = new Mesh { name = "EarthAOE_CombinedSpikes", indexFormat = IndexFormat.UInt32 };
+            temporary.Add(mesh);
+            mesh.CombineMeshes(combine.ToArray(), true, true);
+            var vertices = mesh.vertices;
+            for (int i = 0; i < vertices.Length; i++) vertices[i] = (vertices[i] - center) * normalize;
+            mesh.vertices = vertices;
+            mesh.RecalculateBounds();
+            var colors = new Color[vertices.Length];
+            var normals = mesh.normals;
+            Vector3 light = new Vector3(-0.35f, 0.85f, -0.4f).normalized;
+            for (int i = 0; i < colors.Length; i++)
+            {
+                colors[i] = new Color(0.48f, 0.31f, 0.19f, 1f) * (0.55f + 0.8f * Mathf.Max(0f, Vector3.Dot(normals[i], light)));
+                colors[i].a = 1f;
+            }
+            mesh.colors = colors;
+            string path = Folder + "/Earth/EarthAOE_CombinedSpikes.asset";
+            var saved = AssetDatabase.LoadAssetAtPath<Mesh>(path);
+            if (saved == null)
+            {
+                saved = mesh;
+                AssetDatabase.CreateAsset(saved, path);
+                temporary.Remove(mesh);
+            }
+            else
+            {
+                saved.Clear(); saved.indexFormat = mesh.indexFormat;
+                saved.vertices = mesh.vertices; saved.normals = mesh.normals; saved.uv = mesh.uv;
+                saved.colors = mesh.colors; saved.triangles = mesh.triangles; saved.bounds = mesh.bounds;
+                EditorUtility.SetDirty(saved);
+            }
+            AssetDatabase.SaveAssetIfDirty(saved);
+            var go = new GameObject("Combined rising spike rings");
+            go.transform.SetParent(parent, false);
+            go.AddComponent<MeshFilter>().sharedMesh = saved;
+            var renderer = go.AddComponent<MeshRenderer>();
+            renderer.sharedMaterial = EarthMaterial("EarthSpikes", null, Color.white, false);
+            CheapRenderer(renderer);
+            return go.transform;
+        }
+        finally { foreach (var mesh in temporary) UnityEngine.Object.DestroyImmediate(mesh); }
     }
 
     private static void CheapRenderer(Renderer renderer)
@@ -239,6 +357,7 @@ public static class ElementalPowerslamBuilder
         material.shader = shader;
         material.SetTexture("_BaseMap", texture);
         material.SetColor("_BaseColor", color);
+        material.SetFloat("_MaskFromRed", 0f);
         material.SetFloat("_SrcBlend", transparent ? (float)BlendMode.SrcAlpha : (float)BlendMode.One);
         material.SetFloat("_DstBlend", transparent ? (float)BlendMode.One : (float)BlendMode.Zero);
         material.SetFloat("_ZWrite", transparent ? 0f : 1f);
