@@ -43,7 +43,7 @@ public sealed class RollerbladeDefinition : ScriptableObject
     public GameObject rightPrefab;
 
     [Header("Optional movement/contact FX")]
-    [Tooltip("A lightweight foot effect. Empty keeps this pair clean. Only Neon Velocity is configured for the first trial.")]
+    [Tooltip("A lightweight foot effect with this pair's ribbon and matching-spark palette. Empty keeps the default pair clean.")]
     public GameObject movementFxPrefab;
 
     [Header("Socket Transforms")]

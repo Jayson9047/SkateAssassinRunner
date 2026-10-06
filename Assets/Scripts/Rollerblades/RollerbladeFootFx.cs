@@ -5,57 +5,78 @@ using UnityEngine;
 public sealed class RollerbladeFootFx : MonoBehaviour
 {
     [SerializeField] private LineRenderer ribbonCore, ribbonHalo;
-    [SerializeField] private ParticleSystem frictionSparks, wheelGlow;
-    [SerializeField] private Color sparkColor = new Color(0.1f, 1.4f, 2f, 1f);
-    [SerializeField, Min(1f)] private float sparksPerSecond = 28f;
+    [SerializeField] private ParticleSystem directionalSparks, blueThruster;
+    [SerializeField, Tooltip("Option 4 palette. Option 1 retains the original fire colors on the same emitter.")]
+    private Gradient matchingSparkColors = new Gradient();
     [SerializeField, Min(0.01f)] private float pointSpacing = 0.07f;
     [SerializeField, Min(0.01f)] private float ribbonLifetime = 0.22f;
     private Vector3[] positions;
     private float[] ages;
     private int positionCount;
-    private float sparkRemainder;
-    private bool previousContact;
+    private ParticleSystem activeParticles;
+    private RollerbladeFxTrial trial;
+    private bool configured, ribbonEnabled, emitting;
+    private ParticleSystem.MinMaxGradient fireStartColor, fireLifetimeColor;
+    private bool fireColorBySpeed;
 
     private void Awake()
     {
         positions = new Vector3[128];
         ages = new float[128];
+        if (directionalSparks != null)
+        {
+            fireStartColor = directionalSparks.main.startColor;
+            fireLifetimeColor = directionalSparks.colorOverLifetime.color;
+            // Unity's returned Gradient wraps the module's native gradient.
+            // Snapshot its keys before replacing the module, or switching back
+            // would restore the matching palette instead of the original fire.
+            var snapshot = new Gradient();
+            var original = fireLifetimeColor.gradient;
+            snapshot.SetKeys(original.colorKeys, original.alphaKeys);
+            snapshot.mode = original.mode;
+            fireLifetimeColor = new ParticleSystem.MinMaxGradient(snapshot);
+            fireColorBySpeed = directionalSparks.colorBySpeed.enabled;
+        }
     }
 
-    public void Tick(Vector3 wheel, Vector3 contactPoint, bool contact, float scrollSpeed, float delta)
+    public void SetTrial(RollerbladeFxTrial value)
     {
-        transform.position = wheel;
+        if (configured && trial == value) return;
+        Clear();
+        trial = value;
+        configured = true;
+        bool matching = value == RollerbladeFxTrial.MatchingSparksAndTrail;
+        bool sparks = value == RollerbladeFxTrial.SparksAndTrail || matching;
+        if (directionalSparks != null && sparks)
+        {
+            // Change vertex colors on the same bounded emitter; no extra system
+            // or material instance is needed to compare fire with matching sparks.
+            var main = directionalSparks.main;
+            main.startColor = matching ? new ParticleSystem.MinMaxGradient(Color.white) : fireStartColor;
+            var colors = directionalSparks.colorOverLifetime;
+            colors.color = matching ? new ParticleSystem.MinMaxGradient(matchingSparkColors) : fireLifetimeColor;
+            // The CFXR source also has a separate orange/red speed gradient.
+            var speedColors = directionalSparks.colorBySpeed;
+            speedColors.enabled = !matching && fireColorBySpeed;
+        }
+        if (directionalSparks != null) directionalSparks.gameObject.SetActive(sparks);
+        if (blueThruster != null) blueThruster.gameObject.SetActive(!sparks);
+        activeParticles = sparks ? directionalSparks : blueThruster;
+        ribbonEnabled = value != RollerbladeFxTrial.ThrusterOnly;
+        if (ribbonCore != null) ribbonCore.enabled = ribbonEnabled;
+        if (ribbonHalo != null) ribbonHalo.enabled = ribbonEnabled;
+    }
+
+    public void Tick(Vector3 ribbonHead, Vector3 rearWheel, bool contact, float scrollSpeed, float delta)
+    {
+        transform.position = rearWheel;
         bool moving = scrollSpeed > 0.1f;
-        UpdateRibbon(wheel, scrollSpeed, moving, delta);
-        bool scraping = contact && moving;
-        if (scraping)
-        {
-            sparkRemainder += delta * sparksPerSecond;
-            int emitCount = Mathf.Min(6, Mathf.FloorToInt(sparkRemainder) + (previousContact ? 0 : 3));
-            sparkRemainder -= Mathf.Floor(sparkRemainder);
-            if (!frictionSparks.isPlaying) frictionSparks.Play(false);
-            var emit = new ParticleSystem.EmitParams();
-            for (int i = 0; i < emitCount; i++)
-            {
-                emit.position = contactPoint + new Vector3(Random.Range(-0.07f, 0.07f), 0f, Random.Range(-0.03f, 0.03f));
-                // These are wheel-contact sparks, not points in the road's history.
-                // Full scroll velocity sends them down the entire ribbon at high speed.
-                emit.velocity = new Vector3(-Random.Range(2f, 5f), Random.Range(0.4f, 1.8f), Random.Range(-0.65f, 0.65f));
-                emit.startColor = Random.value < 0.4f ? new Color(2f, 2f, 2f, 1f) : sparkColor;
-                emit.startSize = Random.Range(0.012f, 0.025f);
-                emit.startLifetime = Random.Range(0.06f, 0.10f);
-                frictionSparks.Emit(emit, 1);
-            }
-        }
-        else sparkRemainder = 0f;
-        // The zero-speed local glow belongs to the live contact, not old sparks.
-        if (scraping)
-        {
-            wheelGlow.transform.position = contactPoint;
-            if (!wheelGlow.isPlaying) wheelGlow.Play(false);
-        }
-        else if (wheelGlow.isPlaying) wheelGlow.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
-        previousContact = scraping;
+        if (ribbonEnabled) UpdateRibbon(ribbonHead, scrollSpeed, moving, delta);
+        bool scraping = contact && moving && activeParticles != null;
+        if (scraping == emitting) return;
+        emitting = scraping;
+        if (scraping) activeParticles.Play(true);
+        else if (activeParticles != null) activeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     private void UpdateRibbon(Vector3 point, float scrollSpeed, bool moving, float delta)
@@ -93,9 +114,9 @@ public sealed class RollerbladeFootFx : MonoBehaviour
         positionCount = 0;
         if (ribbonCore != null) ribbonCore.positionCount = 0;
         if (ribbonHalo != null) ribbonHalo.positionCount = 0;
-        if (frictionSparks != null) frictionSparks.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
-        if (wheelGlow != null) wheelGlow.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
-        sparkRemainder = 0f; previousContact = false;
+        if (directionalSparks != null) directionalSparks.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        if (blueThruster != null) blueThruster.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        emitting = false;
     }
     private void OnDisable() => Clear();
 }
