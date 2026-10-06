@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class WeaponPowerEquipper : MonoBehaviour
 {
+    public const float SlashFxLifetime = .4f;
     public static WeaponPowerEquipper ActiveInstance { get; private set; }
 
     [Header("Where to attach the Aura")]
@@ -243,7 +244,7 @@ public void BindActiveWeapon(WeaponIdentity weaponIdentity, Transform activeAura
                       $"pos={pos} rot={rot.eulerAngles} scale={slashScale}", this);
         }
 
-        StartCoroutine(ReturnSlashAfter(prefab, go, 0.4f));
+        StartCoroutine(ReturnSlashAfter(prefab, go, SlashFxLifetime));
     }
 
     // ---- Helpers ----

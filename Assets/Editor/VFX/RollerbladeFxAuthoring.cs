@@ -60,11 +60,9 @@ public static class RollerbladeFxAuthoring
             var coreGradient = core.colorGradient;
             coreGradient.colorKeys = new[] {new GradientColorKey(coreColor, 0f), new GradientColorKey(coreColor, 1f)};
             core.colorGradient = coreGradient;
-            var sparkGradient = new Gradient();
-            sparkGradient.SetKeys(new[] {new GradientColorKey(head, 0f), new GradientColorKey(middle, 0.4f),
-                new GradientColorKey(tail, 1f)}, sparks.colorOverLifetime.color.gradient.alphaKeys);
             var serialized = new SerializedObject(fx);
-            serialized.FindProperty("matchingSparkColors").gradientValue = sparkGradient;
+            serialized.FindProperty("matchingSparkColors").gradientValue = MatchingSparkGradient(id,
+                sparks.colorOverLifetime.color.gradient.alphaKeys);
             serialized.ApplyModifiedPropertiesWithoutUndo();
             var prefab = PrefabUtility.SaveAsPrefabAsset(root, Folder + "/" + id + "_FootFx.prefab");
             var definition = AssetDatabase.LoadAssetAtPath<RollerbladeDefinition>(
@@ -73,6 +71,57 @@ public static class RollerbladeFxAuthoring
             definition.movementFxPrefab = prefab; EditorUtility.SetDirty(definition);
         }
         finally { Object.DestroyImmediate(root); }
+    }
+
+    // Color-only refresh preserves the accepted ribbon, particle tuning and prefab references.
+    public static void RefreshMatchingSparkColors()
+    {
+        foreach (RollerbladeId id in System.Enum.GetValues(typeof(RollerbladeId)))
+        {
+            if (id == RollerbladeId.Default || id == RollerbladeId.NeonVelocity) continue;
+            string path = Folder + "/" + id + "_FootFx.prefab";
+            var root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var serialized = new SerializedObject(root.GetComponent<RollerbladeFootFx>());
+                var property = serialized.FindProperty("matchingSparkColors");
+                property.gradientValue = MatchingSparkGradient(id, property.gradientValue.alphaKeys);
+                serialized.ApplyModifiedPropertiesWithoutUndo();
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+    }
+
+    static Gradient MatchingSparkGradient(RollerbladeId id, GradientAlphaKey[] fade)
+    {
+        var gradient = new Gradient();
+        if (id == RollerbladeId.NeonVelocity)
+        {
+            // Preserve the blue-to-purple mix the player has already approved.
+            gradient.SetKeys(new[] {new GradientColorKey(new Color(0.30f, 0.75f, 1f), 0f),
+                new GradientColorKey(new Color(0.17f, 0.32f, 1f), 0.4f),
+                new GradientColorKey(new Color(0.70f, 0.06f, 1f), 1f)}, fade);
+            return gradient;
+        }
+        Color primary, secondary;
+        switch (id)
+        {
+            case RollerbladeId.UrbanRush:
+                primary = new Color(1f, 0.025f, 0.055f); secondary = new Color(0.95f, 0.025f, 0.5f); break;
+            case RollerbladeId.FrostbiteGlide:
+                primary = new Color(0.94f, 0.98f, 1f); secondary = new Color(0.13f, 0.66f, 1f); break;
+            case RollerbladeId.InfernoDrift:
+                primary = new Color(1f, 0.38f, 0.015f); secondary = new Color(0.95f, 0.025f, 0.10f); break;
+            case RollerbladeId.CelestialApex:
+                primary = new Color(1f, 0.55f, 0.02f); secondary = new Color(1f, 0.86f, 0.42f); break;
+            default: throw new System.ArgumentOutOfRangeException(nameof(id));
+        }
+        // Different-aged sparks display both colors together. Hold each hue long
+        // enough to read, with a short blend between them; no extra particles.
+        gradient.SetKeys(new[] {new GradientColorKey(primary, 0f), new GradientColorKey(primary, 0.35f),
+            new GradientColorKey(secondary, 0.65f), new GradientColorKey(secondary, 1f)}, fade);
+        return gradient;
     }
 
     static void GetPalette(RollerbladeId id, out Color core, out Color head, out Color middle, out Color tail)

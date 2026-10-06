@@ -22,6 +22,8 @@ public class SwipeDownDetector : MonoBehaviour
     [SerializeField] private float slideDuration = 0.8f;
 
     private SwipeRightAttackDetector swipeRightAttackDetector;
+    private PlayerBarrelStumble barrelStumble;
+    private Coroutine slideRoutine;
 
     [Header("DownAttack Gate")]
     [SerializeField] private bool requireDoubleJumpForDownAttack = true;
@@ -129,6 +131,7 @@ public class SwipeDownDetector : MonoBehaviour
     private void Awake()
     {
         swipeRightAttackDetector = GetComponent<SwipeRightAttackDetector>();
+        barrelStumble = GetComponent<PlayerBarrelStumble>();
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
@@ -165,6 +168,7 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void Update()
     {
+        if (barrelStumble != null && barrelStumble.IsStumbling) { tracking = false; return; }
         if (SkateRunnerConnectivityGate.IsBlocked)
         {
             tracking = false;
@@ -224,6 +228,7 @@ public class SwipeDownDetector : MonoBehaviour
 
     public void TriggerDownAttackFromBuffer()
     {
+        if (barrelStumble != null && barrelStumble.IsStumbling) return;
         if (isDownAttacking) return;
 
         if (animator != null && animator.speed == 0f)
@@ -237,6 +242,7 @@ public class SwipeDownDetector : MonoBehaviour
 
     private void OnSwipeDown(bool ignoreGameplayInputLock = false)
     {
+        if (barrelStumble != null && barrelStumble.IsStumbling) return;
         if (SkateRunnerConnectivityGate.IsBlocked) return;
         if (!ignoreGameplayInputLock && LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
             return;
@@ -293,7 +299,7 @@ public class SwipeDownDetector : MonoBehaviour
                 StartCoroutine(MoveXOverTime(startingPosition.position.x + slideForwardX, slideForwardDuration));
             }
 
-            StartCoroutine(SlideRoutine());
+            slideRoutine = StartCoroutine(SlideRoutine());
         }
     }
 
@@ -755,6 +761,18 @@ public class SwipeDownDetector : MonoBehaviour
             mainActionTouchZone.enabled = true;
 
         isSliding = false;
+        slideRoutine = null;
+    }
+
+    public void CancelSlideForStumble()
+    {
+        if (slideRoutine != null) StopCoroutine(slideRoutine);
+        slideRoutine = null;
+        isSliding = false;
+        pendingDownAttack = false;
+        tracking = false;
+        if (mainActionTouchZone != null) mainActionTouchZone.enabled = true;
+        if (animator != null && katanaLayerIndex >= 0) animator.SetLayerWeight(katanaLayerIndex, 1f);
     }
 
     private IEnumerator MoveXOverTime(float targetX, float duration)

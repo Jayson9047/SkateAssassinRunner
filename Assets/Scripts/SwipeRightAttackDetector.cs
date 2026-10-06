@@ -25,6 +25,14 @@ public class SwipeRightAttackDetector : MonoBehaviour
     [SerializeField] private Transform dashDistanceLimit;
 
     private SwipeDownDetector swipeDownDetector;
+    private PlayerBarrelStumble barrelStumble;
+    private int lastDamageSweepFrame = -1;
+    private float barrelSlashEndsAt = -1f;
+
+    [Header("Barrel Slash Reach")]
+    [SerializeField, Min(0f), Tooltip("Forward slash reach beyond the player origin, in world units. Body contact is not required to break a barrel.")]
+    private float barrelSlashReach = 3f;
+    [SerializeField, Min(.1f)] private float barrelSlashHeight = 1.5f;
 
     [SerializeField] private float sweepRadius = 0.35f; // use ~player body width or katana reach
     private Vector3 _prevDashPos;
@@ -127,6 +135,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
     private void Awake()
     {
         swipeDownDetector = GetComponent<SwipeDownDetector>();
+        barrelStumble = GetComponent<PlayerBarrelStumble>();
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
@@ -183,6 +192,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void Update()
     {
+        if (barrelStumble != null && barrelStumble.IsStumbling) { tracking = false; return; }
         if (SkateRunnerConnectivityGate.IsBlocked)
         {
             tracking = false;
@@ -230,6 +240,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
 
     private void OnSwipeRight(bool ignoreGameplayInputLock = false)
     {
+        if (barrelStumble != null && barrelStumble.IsStumbling) return;
         if (SkateRunnerConnectivityGate.IsBlocked) return;
         if (!ignoreGameplayInputLock && LevelManager.Instance != null && LevelManager.Instance.GameplayInputsLocked)
         {
@@ -370,6 +381,7 @@ public class SwipeRightAttackDetector : MonoBehaviour
             
             SkateRunnerAudioManager.PlayDashAttack();
 _weaponPowerEquipper?.SpawnSlashFx();
+            barrelSlashEndsAt = Time.time + WeaponPowerEquipper.SlashFxLifetime;
 
             if (dashAbortRequested)
             {
@@ -737,10 +749,12 @@ _weaponPowerEquipper?.SpawnSlashFx();
     private void TryDamageBySweep(Vector3 fromPos, Vector3 toPos)
     {
         if (!attackInProgress) return;
+        lastDamageSweepFrame = Time.frameCount;
 
         // The dash and scrolling obstacles move through Transform, so queries must
         // see their current poses even with autoSyncTransforms disabled.
         Physics.SyncTransforms();
+        BarrelContact.CheckDashSegment(this, fromPos, toPos);
         // A capsule volume from last frame to this frame
         Collider[] cols = Physics.OverlapCapsule(
             fromPos,
@@ -822,6 +836,62 @@ _weaponPowerEquipper?.SpawnSlashFx();
         dashAbortRequested = true;
     }
 
+    // Supplement the point/capsule attack query with the barrel's relative body sweep.
+    // Called after world movement, including the last frame of an instantaneous dash.
+    public bool TryDamageSweptBarrel(IndieKit.SkateRunnerDestructibleObject target, Collider barrel)
+    {
+        if ((!isDashMovementInProgress && lastDamageSweepFrame != Time.frameCount) ||
+            target == null || !target.isActiveAndEnabled || barrel == null ||
+            (damageableMask.value & (1 << barrel.gameObject.layer)) == 0) return false;
+        if (transform.position.y > barrel.bounds.max.y + overheadClearanceY) return false;
+        Vector3 hit = barrel.ClosestPoint(transform.position);
+        if (Mathf.Abs(hit.z - transform.position.z) > depthWindow) return false;
+        if (!damagedThisAttack.Add(target)) return true;
+        KillContext.Set(KillCause.DashAttack, attackId);
+        try { target.ApplyDamage(attackDamage, hit); }
+        finally { KillContext.Clear(); }
+        return true;
+    }
+
+    public bool SlashReachesBarrel(SweptBoxIntersection.BoxPose barrelFrom,
+        SweptBoxIntersection.BoxPose barrelTo, Vector3 playerFrom, Vector3 playerTo)
+    {
+        if (Time.time > barrelSlashEndsAt ||
+            (!isDashMovementInProgress && lastDamageSweepFrame != Time.frameCount)) return false;
+        var from = BarrelSlashPose(playerFrom);
+        var to = BarrelSlashPose(playerTo);
+        return SweptBoxIntersection.IntersectsMovingBoxes(barrelFrom, barrelTo, from, to);
+    }
+
+    private SweptBoxIntersection.BoxPose BarrelSlashPose(Vector3 position)
+    {
+        float direction = useLocalX && transform.right.x < 0f ? -1f : 1f;
+        float reach = Mathf.Max(0f, barrelSlashReach), height = Mathf.Max(.1f, barrelSlashHeight);
+        return new SweptBoxIntersection.BoxPose { Position = position, Rotation = Quaternion.identity,
+            CenterOffset = new Vector3(direction * reach * .5f, height * .5f, 0f),
+            HalfSize = new Vector3(reach * .5f + sweepRadius, height * .5f, sweepRadius) };
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        var pose = BarrelSlashPose(transform.position);
+        Gizmos.color = new Color(1f, .4f, .05f, .8f);
+        Gizmos.DrawWireCube(pose.Center, pose.HalfSize * 2f);
+    }
+#endif
+
+    public void CancelDashForStumble()
+    {
+        if (dashRoutine != null) StopCoroutine(dashRoutine);
+        AbortDashRoutine();
+        _isReturningFromDash = false;
+        lastDamageSweepFrame = -1;
+        barrelSlashEndsAt = -1f;
+        tracking = false;
+        if (_playerMovingObject != null) _playerMovingObject.Speed = 0f;
+    }
+
     private void RestoreIgnoredCollisions()
     {
         if (playerBodyCollider == null) { ignoredCollidersThisAttack.Clear(); return; }
@@ -871,6 +941,8 @@ _weaponPowerEquipper?.SpawnSlashFx();
 
     private void OnDisable()
     {
+        lastDamageSweepFrame = -1;
+        barrelSlashEndsAt = -1f;
         if (animator != null)
             animator.speed = 1f;
 

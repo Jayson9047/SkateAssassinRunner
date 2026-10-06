@@ -143,6 +143,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 
 		protected virtual bool EvaluateJumpConditions()
 		{
+            var stumble = GetComponent<PlayerBarrelStumble>();
+            if (stumble != null && stumble.IsStumbling) return false;
 			// if the character is not grounded and is only allowed to jump when grounded, we do not jump
 			if (JumpsAllowedWhenGroundedOnly && !_grounded)
 			{
@@ -169,6 +171,8 @@ namespace MoreMountains.InfiniteRunnerEngine
 		/// </summary>
 		public override void MainActionEnd()
 		{
+            var stumble = GetComponent<PlayerBarrelStumble>();
+            if (stumble != null && stumble.IsStumbling) return;
 			// we initiate the descent
 			if (JumpProportionalToPress)
 			{
